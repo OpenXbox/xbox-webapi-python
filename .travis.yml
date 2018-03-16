@@ -1,0 +1,20 @@
+language: python
+python:
+  - '3.5'
+  - '3.6'
+  - 'pypy3.5'
+install:
+  - pip install -U tox-travis
+  - pip install -r requirements_dev.txt
+  - python setup.py develop
+script: tox
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: OpenXbox
+  password:
+    secure: qxtkGD6+TupRae7K7AtpgDsAkPJbZyC8Vu/ZwAQN+rIDrdT3c9SUeMr8l7LVHnDfflxuDqmiudDetOyRTMTjx5IcyTJOAfhw3ZEhovPZDc1n3gyRxXxSi1Lv5sfNb3vZ/g4btE3wcsAVtpfeVQXDKG5gsRrRQiXtVbce8ZgI4hFSb2uABNgkQ6Ecod4gFEIAVO3X3nCkQB/qXbjXMVP0fpDe9UuIHk5pND8l6ZFKvd/4zuc6ELlCEVBQvpM2OEPB6eViVMCB5eyUcRVDF3n5gQsy0ieiHhXKoxniph8VjEAYhk5NsveGE9EY/DtFMJq9dUoKpZzFj6V+q6zHfsYaSFSreyS9MDU3x4jdRau3lYcDcC/sjxzqWOnVWINep2XMJju5BzFQRQ4lMsjTm+FQewcmlOs2Jwog8KkliXE9U7OTmbIT45sOLW9/BRVMIARmXWPOjzwpk3OjNYgwJmPNTmPSLBGcAzoiDDSR1YeDC2U8Q1I29aIgJX/GePQVuKJjDceGch+MeOK/I3Sw3jRm15XklqtD1XiqRAV42aWzzSoVjyfNLOAkFgffKi4aA3rKXeSYgmyStEMa1JmPj10TfDSy9eo2STGg6YMAxuoz/MihtxzyU12EnuTJ83qw07kADp/d0RoVi2Sdax254uUNg8ZxJRRXM0yeYjt6bYEnMvc=
+  on:
+    tags: true
+    branch: master
+    python: 3.6
