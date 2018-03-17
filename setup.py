@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name="xbox-webapi",
-    version="1.0.1",
+    version="1.0.2",
     author="OpenXbox",
     description="A library to authenticate with Windows Live/Xbox Live and use their API",
     long_description=readme + '\n\n' + history,
