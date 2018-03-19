@@ -68,7 +68,7 @@ Ready to contribute? Here's how to set up `xbox-webapi-python` for local develop
 
     $ mkvirtualenv xbox-webapi
     $ cd xbox-webapi-python
-    $ pip install -r requirements_dev.txt
+    $ pip install -e .[dev]
     $ python setup.py develop
 
 4. Create a branch for local development::

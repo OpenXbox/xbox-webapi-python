@@ -16,10 +16,22 @@ requirements = [
     'demjson'
 ]
 
-test_requirements = [
-    'pytest',
-    'tox',
-    'flake8'
+setup_requirements = ['pytest-runner']
+
+test_requirements = ['pytest']
+
+dev_requirements = [
+    'pip==9.0.1',
+    'bumpversion==0.5.3',
+    'wheel==0.30.0',
+    'watchdog==0.8.3',
+    'flake8==3.5.0',
+    'tox==2.9.1',
+    'coverage==4.5.1',
+    'Sphinx==1.7.1',
+    'twine==1.10.0',
+    'pytest==3.4.2',
+    'pytest-runner==2.11.1'
 ]
 
 setup(
@@ -43,16 +55,20 @@ setup(
     zip_safe=False,
     classifiers=[
         "Development Status :: 4 - Beta",
-	"Intended Audience :: Developers",
+        "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6"
     ],
-    install_requires=requirements,
-    tests_requires=test_requirements,
     test_suite="tests",
+    install_requires=requirements,
+    setup_requires=setup_requirements,
+    tests_require=test_requirements,
+    extras_require={
+        'dev': dev_requirements,
+    },
     entry_points={
         'console_scripts': [
             'xbox_authenticate=xbox.webapi.scripts.authenticate:main',
