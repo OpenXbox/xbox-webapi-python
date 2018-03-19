@@ -31,15 +31,15 @@ Install::
 
 Authentication::
 
-  xbox_authenticate --tokenfile tokens.json --email no@live.com --password abc123
+  xbox-authenticate --tokenfile tokens.json --email no@live.com --password abc123
 
 API usage::
 
   # Search Xbox One Catalog
-  xbox_searchlive --tokenfile tokens.json "Some game title"
+  xbox-searchlive --tokenfile tokens.json "Some game title"
 
   # Search Xbox 360 Catalog
-  xbox_searchlive --tokenfile tokens.json -l "Some game title"
+  xbox-searchlive --tokenfile tokens.json -l "Some game title"
 
 Known issues
 ------------
