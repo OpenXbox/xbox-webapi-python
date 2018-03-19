@@ -54,6 +54,8 @@ Contribute
 Credits
 -------
 This package uses parts of Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+The authentication code is based on `joealcorn/xbox`_
 
+.. _`joealcorn/xbox`: https://github.com/joealcorn/xbox
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
