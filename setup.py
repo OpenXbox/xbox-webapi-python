@@ -71,8 +71,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'xbox_authenticate=xbox.webapi.scripts.authenticate:main',
-            'xbox_searchlive=xbox.webapi.scripts.search:main'
+            'xbox-authenticate=xbox.webapi.scripts.authenticate:main',
+            'xbox-searchlive=xbox.webapi.scripts.search:main'
         ]
     }
 )
