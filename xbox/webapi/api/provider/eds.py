@@ -31,9 +31,9 @@ class EDSProvider(object):
         """
         self.client = client
 
-    def get_stump_tv_channel_list(self, lineup_id):
+    def get_appchannel_channel_list(self, lineup_id):
         """
-        Get Stump (Xbox One LiveTV) channel list
+        Get AppChannel channel list
 
         Args:
             lineup_id (str): Lineup ID
@@ -45,9 +45,9 @@ class EDSProvider(object):
         params = {"channelLineupId": lineup_id}
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_stump_tv_schedule(self, lineup_id, start_time, end_time, max_items, skip_items):
+    def get_appchannel_schedule(self, lineup_id, start_time, end_time, max_items, skip_items):
         """
-        Get Stump (Xbox One LiveTV) schedule / EPG
+        Get AppChannel schedule / EPG
 
         Args:
             lineup_id (str): Lineup ID

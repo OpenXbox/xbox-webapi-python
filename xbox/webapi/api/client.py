@@ -8,6 +8,7 @@ import logging
 import requests
 
 from xbox.webapi.api.provider.eds import EDSProvider
+from xbox.webapi.api.provider.cqs import CQSProvider
 from xbox.webapi.api.provider.lists import ListsProvider
 from xbox.webapi.api.provider.gamerpics import GamerpicsProvider
 from xbox.webapi.api.language import XboxLiveLanguage
@@ -41,6 +42,7 @@ class XboxLiveClient(object):
         self._lang = language
 
         self.eds = EDSProvider(self)
+        self.cqs = CQSProvider(self)
         self.lists = ListsProvider(self)
         self.gamerpics = GamerpicsProvider(self)
 
