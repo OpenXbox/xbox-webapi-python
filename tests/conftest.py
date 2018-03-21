@@ -1,5 +1,6 @@
 import io
 import os
+import json
 import pytest
 import betamax
 from datetime import datetime
@@ -38,15 +39,21 @@ def token_expired_timestring():
 
 @pytest.fixture(scope='session')
 def windows_live_authenticate_response():
-    filepath = os.path.join(os.path.dirname(__file__), 'data', 'test_regex.html')
+    filepath = os.path.join(current_dir, 'data', 'test_regex.html')
     with io.open(filepath, 'rt') as f:
-        html_body = f.read()
-    return html_body
+        return f.read()
 
 
 @pytest.fixture(scope='session')
-def auth_manager():
-    return AuthenticationManager()
+def tokens_filepath():
+    filepath = os.path.join(current_dir, 'data', 'tokens.json')
+    return filepath
+
+
+@pytest.fixture(scope='session')
+def tokens_json(tokens_filepath):
+    with io.open(tokens_filepath, 'rt') as f:
+        return json.load(f)
 
 
 @pytest.fixture(scope='session')
