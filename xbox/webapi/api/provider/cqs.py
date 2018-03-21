@@ -35,7 +35,7 @@ class CQSProvider(object):
         Get stump channel list
 
         Args:
-            locale_info (str): Locale string (from Stump Message)
+            locale_info (str): Locale string (format: "en-US")
             headend_id (str): Headend id
 
         Returns:
@@ -52,7 +52,7 @@ class CQSProvider(object):
         Get stump epg data
 
         Args:
-            locale_info (str): Locale string (from Stump Message)
+            locale_info (str): Locale string (format: "en-US")
             headend_id (str): Headend id
             start_date (str): Start date (format: 2016-07-11T21:50:00.000Z)
             duration_minutes (int): Schedule duration to download

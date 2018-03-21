@@ -1,9 +1,18 @@
 import io
 import os
 import pytest
+import betamax
 from datetime import datetime
 from dateutil.tz import tzutc
 from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.api.client import XboxLiveClient
+
+current_dir = os.path.dirname(__file__)
+
+with betamax.Betamax.configure() as config:
+    config.cassette_library_dir = os.path.join(current_dir,
+                                               'data/cassettes')
+    config.default_cassette_options['record_mode'] = 'none'
 
 
 @pytest.fixture(scope='session')
@@ -38,3 +47,12 @@ def windows_live_authenticate_response():
 @pytest.fixture(scope='session')
 def auth_manager():
     return AuthenticationManager()
+
+
+@pytest.fixture(scope='session')
+def xbl_client():
+    return XboxLiveClient(
+        userhash='012345679',
+        auth_token='eyToken==',
+        xuid='987654321'
+    )
