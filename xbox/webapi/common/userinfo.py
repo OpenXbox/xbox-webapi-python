@@ -9,8 +9,8 @@ class XboxLiveUserInfo(object):
         Initialize a new instance of :class:`XboxLiveUserInfo`
 
         Args:
-            xuid (int): Xbox User ID
-            userhash (int): Xbox Live Userhash
+            xuid (str): Xbox User ID
+            userhash (str): Xbox Live Userhash
             gamertag (str): Xbox Gamertag
             age_group (str): Xbox Live age-group
             privileges (str): Privileges
