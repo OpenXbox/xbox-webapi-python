@@ -1,0 +1,94 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-21T00:05:10",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Cache-Control": [
+            "no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Pragma": [
+            "no-cache"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-client-type": [
+            "Companion"
+          ],
+          "x-xbl-client-version": [
+            "2.0"
+          ],
+          "x-xbl-contract-version": [
+            "3.2"
+          ],
+          "x-xbl-device-type": [
+            "WindowsPhone"
+          ],
+          "x-xbl-isautomated-client": [
+            "true"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://eds.xboxlive.com/media/en-US/singleMediaGroupSearch?q=sea&maxItems=1&desiredMediaItemTypes=DGame"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"Items\":[{\"MediaGroup\":\"GameType\",\"MediaItemType\":\"DGame\",\"ID\":\"b9b1b506-de90-4e5c-8565-7fbda2d4e5d8\",\"Name\":\"Sea of Thieves Final Beta\",\"KValue\":\"4\",\"KValueNamespace\":\"bingbox\"}],\"Totals\":[{\"Name\":\"GameType\",\"Count\":192}],\"ImpressionGuid\":\"c058734e-c11c-490e-a79c-aa274b736093\"}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "private, max-age=1800"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "280"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 21 Mar 2018 00:05:10 GMT"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-XblCorrelationId": [
+            "c058734e-c11c-490e-a79c-aa274b736093"
+          ],
+          "x-server-name": [
+            "0222222"
+          ],
+          "x-xbl-traceid": [
+            "3423523524634635634563b"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://eds.xboxlive.com/media/en-US/singleMediaGroupSearch?q=sea&maxItems=1&desiredMediaItemTypes=DGame"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

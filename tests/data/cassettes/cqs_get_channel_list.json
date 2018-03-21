@@ -1,0 +1,100 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-21T00:05:09",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Cache-Control": [
+            "no-cache"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Pragma": [
+            "no-cache"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-client-type": [
+            "Companion"
+          ],
+          "x-xbl-client-version": [
+            "2.0"
+          ],
+          "x-xbl-contract-version": [
+            "1.b"
+          ],
+          "x-xbl-device-type": [
+            "WindowsPhone"
+          ],
+          "x-xbl-isautomated-client": [
+            "true"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://cqs.xboxlive.com/epg/de-DE/lineups/dbd2530a-fcd5-8ff0-b89d-20cd7e021502/channels?desired=vesper_mobile_lineup"
+      },
+      "response": {
+        "body": {
+          "base64_string": "H4sIAAAAAAAAAN2X7Y6iSBSG76V/TzlUFVDQyWaDgIKoiIhobzYEqMIvFJoPUSdzJ3s3e2NLT0/Pph13x78zScUfVed9EnhSx8OnB3UdHg4sLR8e//j0YNKHxwdIoRyKiQBEPsSAEIkBEeH2RxDjRJZ4mGA+cK2lqw91NcCEe/jwRrk7/xIJ09TdrA5t4g32L2hc7yNWtEeveLcKi0oLK9buIA4SwIkAcTOEHjmuXU9tiX6g3wpkGXCwXS8FgtyulwJzH67Y62NO6iLPypfaYbbK2rMpKzcX5hWbdmtdVfnjx4+bL+WA0bJzirJTujmyTpztX/d/r4v0t9hWJREeZk2jiQkNx+NnN18v12Y2oRV2c2XxdGT+cnyC2dm6ICevlqIydKhf1W7hO5QzCtfIOgbsSn0yiuKCLzaVqNKhtop0gQ97x+hEPC/ym8JS5mh2bGA4HtK1Lrqip9O+NFdN2Ln487pMVd2yROKJIVYAaJ+nlxVMzdLs5Q366037Wj7/+fnDV78oSiiOCQVYjAgQZSQDgiURMJ5nCCL2IimwTEsxtEAQ0JXde9Lv7b6ibrh9hZtle/hYFTX7RT1vA8fqcIKvzY86LRSjHqLJeiT3zPVg2R8990tjHNbxaI+T2pCMYafc+jp39vt1sT/baGevlhvCJr7nDtBTZznVaBmEl+bHnqMwkZNQFIHMeAGQhLY3khIe8ExOEl7mJZbAoNtVfUPTvYBw8pXpe/LvTb/Bbrh+xf+/awhg6xr/HK4vO7tJD/nQTnl0joN8e+mGpjDb6L1kbV7yZtUzx0SZrwbC3OpP7MEsDQru0i01Nt0+6dFhuWfD9IAt10L+06EaDIlSy0jZn0YSN2Wboz0ra2IsI3vBOXfcaVGOo4SHQEwYD0IOYhBFMQVxJIWIyhKlMHzp2WPdN5yA4OuefU/+u579BXbLNf4FevbJ5Dx/j9PLbqBJk4tM1wWPq0OARkFgdimr7VQVd/YJzrcz20Q+yotLALVOtHJkXEZl/ENnAicllKEEYIoIEDiCARSYDKBIQyTylJdDHPSmyljVEd86E66c3ZN/7+wNdtOZ8PM7u30n9UBomiaddZIF2pnzpLSOVdM3V3vD7gpk6M5y2Bs/9TSlYcrOy3lSbBfTMK+kVepHm1gbD3x7poxgNXl+pvTsK8Oi31n9+E7yIeOYJEuAJUIMeIlGgEUYgwRxCeV4KYqhHIy0KZwZf/81DST+WvA9gPeCv9FuGH7l/+SGz85cmF+OThk49iC0ur66n9uzgZbFm5iZHNYFpbNbHy8X5zKe7lSkxArq6OrGS4pO/Rw0iB9V2ZS6+3Q0DLTOypznsFAmJ35kRI0j1sbBOy+gNJ/utHv+YSHFAiYQENp2TcyLBOAkkkAEOZlJCMpMkIKR7hr2ZKwH8ndd9578leCvsBt+5V+h696eoA6sMBf5YEEXmr8gNvOabLv3+25lWlu10DNDyxpvv5stmMPV7smzwoPEHSJtuGBdDuN9fc51ZyBFC7706AZGE6fra3dMyrD9iiEQhQCJnAREQmXApAgCOYE8kcSQILGdlGfznj4du4FM8PWX0B35q1n5K+yW3y/4X9LvzQnZ2M5GRS5D5+m4SPsVP9whUmObExJo+fWAaybadlUpvalq/5fHPz//AyCSrQPgDgAA",
+          "encoding": null
+        },
+        "headers": {
+          "Cache-Control": [
+            "public, max-age=3600"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Length": [
+            "1248"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 21 Mar 2018 00:05:09 GMT"
+          ],
+          "Expires": [
+            "03/21/2018 00:59:59"
+          ],
+          "MS-CV": [
+            "kqpECQUzA0Cb+WJ0VrwzpA.0"
+          ],
+          "Vary": [
+            "Accept-Encoding"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "x-server-name": [
+            "CO1VM0500104166"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://cqs.xboxlive.com/epg/de-DE/lineups/dbd2530a-fcd5-8ff0-b89d-20cd7e021502/channels?desired=vesper_mobile_lineup"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
