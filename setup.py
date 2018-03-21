@@ -33,7 +33,7 @@ dev_requirements = [
     'coverage==4.5.1',
     'Sphinx==1.7.1',
     'twine==1.10.0',
-    'betamax=0.8.1',
+    'betamax==0.8.1',
     'pytest==3.4.2',
     'pytest-runner==2.11.1'
 ]
