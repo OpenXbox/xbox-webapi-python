@@ -1,5 +1,7 @@
 import pytest
-from xbox.webapi.common.userinfo import XboxLiveUserInfo
+from betamax import Betamax
+
+from xbox.webapi.common.exceptions import AuthenticationException
 from xbox.webapi.authentication.token import AccessToken, RefreshToken, UserToken, XSTSToken
 
 
@@ -11,26 +13,26 @@ def test_extract_js_node(auth_manager, windows_live_authenticate_response):
     assert js_node['urlPost'] == "https://login.live.com/ppsecure/post.srf?response_type=token"
 
 
-@pytest.mark.skip()
-def test_auth_with_credentials(auth_manager):
-    result_tuple = auth_manager.authenticate(email_address="", password="")
-    access, refresh, user, xsts, userinfo = result_tuple
+def test_auth_invalid_credentials(auth_manager):
+    auth_manager.email_address = "invalid@mail.com"
+    auth_manager.password = "abc123"
 
-    assert access.token is not None
-    assert access.is_valid is True
-    assert isinstance(access, AccessToken) is True
+    with Betamax(auth_manager.session).use_cassette('invalid_auth'):
+        with pytest.raises(AuthenticationException):
+            auth_manager.authenticate()
 
-    assert refresh.token is not None
-    assert refresh.is_valid is True
-    assert isinstance(refresh, RefreshToken) is True
 
-    assert user.token is not None
-    assert user.is_valid is True
-    assert isinstance(user, UserToken) is True
+def test_auth_valid_credentials(auth_manager):
+    auth_manager.email_address = "pyxb-testing@outlook.com"
+    auth_manager.password = "password"
 
-    assert xsts.token is not None
-    assert xsts.is_valid is True
-    assert isinstance(xsts, XSTSToken) is True
+    with Betamax(auth_manager.session).use_cassette('full_auth'):
+        auth_manager.authenticate(do_refresh=False)
 
-    assert userinfo is not None
-    assert isinstance(userinfo, XboxLiveUserInfo) is True
+    assert auth_manager.xsts_token.is_valid is True
+    assert auth_manager.access_token.is_valid is True
+    assert auth_manager.refresh_token.is_valid is True
+    assert auth_manager.user_token.is_valid is True
+    assert auth_manager.userinfo.userhash == '1674471606081042789'
+    assert auth_manager.userinfo.xuid == '2535428504476914'
+    assert auth_manager.userinfo.gamertag == 'xboxWebapiGamertag'
