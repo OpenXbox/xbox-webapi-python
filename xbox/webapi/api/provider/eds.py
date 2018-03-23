@@ -191,29 +191,22 @@ class EDSProvider(object):
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_crossmediagroup_search(self, search_query, max_items, media_item_types, target_devices, **kwargs):
+    def get_crossmediagroup_search(self, search_query, max_items, **kwargs):
         """
         Do a crossmedia-group search (search for content for multiple devices)
 
         Args:
             search_query (str): Query string
             max_items (int): Maximum itemcount
-            media_item_types (str/list): Desired Media Item Types, members of (:class:`MediaItemType`)
-            target_devices (str): List of target devices, members of (:class:`DeviceType`)
             **kwargs: Additional query parameters
 
         Returns:
             :class:`requests.Response`: HTTP Response
         """
-        if isinstance(media_item_types, list):
-            media_item_types = self.SEPERATOR.join(media_item_types)
         url = self.EDS_URL + "/media/%s/crossMediaGroupSearch?" % self.client.language.locale
         params = {
             "q": search_query,
-            "maxItems": max_items,
-            "desiredMediaItemTypes": media_item_types,
-            "targetDevices": target_devices
-
+            "maxItems": max_items
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)

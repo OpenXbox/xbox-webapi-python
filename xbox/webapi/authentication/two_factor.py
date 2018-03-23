@@ -318,3 +318,4 @@ class TwoFactorAuthMethods(Enum):
     RecoveryCode = 11
     StrongTicket = 13
     TOTPAuthenticatorV2 = 14
+    UniversalSecondFactor = 15
