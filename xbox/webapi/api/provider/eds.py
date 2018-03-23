@@ -79,14 +79,13 @@ class EDSProvider(object):
         }
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_browse_query(self, order_by, max_items, skip_items, **kwargs):
+    def get_browse_query(self, order_by, desired, **kwargs):
         """
         Get a browse query
 
         Args:
             order_by (str): Fieldname to use for sorting the result
-            max_items (int): Maximum itemcount
-            skip_items (int): Count of items to skip
+            desired (str/list): Desired Media Item Types, members of (:class:`MediaItemType`)
             **kwargs: Additional query parameters
 
         Returns:
@@ -94,9 +93,9 @@ class EDSProvider(object):
         """
         url = self.EDS_URL + "/media/%s/browse?" % self.client.language.locale
         params = {
+            "fields": "all",
             "orderBy": order_by,
-            "maxItems": max_items,
-            "skipItems": skip_items
+            "desiredMediaItemTypes": desired
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
@@ -122,14 +121,13 @@ class EDSProvider(object):
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_related(self, id, desired, media_item_type, **kwargs):
+    def get_related(self, id, desired, **kwargs):
         """
         Get related content for a specific Id
 
         Args:
             id (str): Id of original content to get related content for
             desired (str/list): Desired Media Item Types, members of (:class:`MediaItemType`)
-            media_item_type (str): Media item type of original id, member of (:class:`MediaItemType`)
             **kwargs: Additional query parameters
 
         Returns:
@@ -141,8 +139,7 @@ class EDSProvider(object):
         url = self.EDS_URL + "/media/%s/related?" % self.client.language.locale
         params = {
             "id": id,
-            "desiredMediaItemTypes": desired,
-            "MediaItemType": media_item_type
+            "desiredMediaItemTypes": desired
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
@@ -402,3 +399,24 @@ class DeviceType(Enum):
     WIN_PHONE = "WindowsPhone"
     SERVICE = "Service"
     WEB = "Web"
+
+
+class OrderBy(Enum):
+    """
+    The orderBy parameter determines how the items being returned should be sorted
+    """
+    PLAY_COUNT_DAILY = "PlayCountDaily"
+    FREE_AND_PAID_COUNT_DAILY = "FreeAndPaidCountDaily"
+    PAID_COUNT_ALL_TIME = "PaidCountAllTime"
+    PAID_COUNT_DAILY = "PaidCountDaily"
+    DIGITAL_RELEASE_DATE = "DigitalReleaseDate"
+    RELEASE_DATE = "ReleaseDate"
+    USER_RATINGS = "UserRatings"
+
+
+class SubscriptionLevel(Enum):
+    """
+    The subscriptionLevel parameter determines the type of subscription the user has
+    """
+    GOLD = "gold"
+    SILVER = "silver"

@@ -1,4 +1,19 @@
 from betamax import Betamax
+from xbox.webapi.api.provider import eds
+
+
+def test_get_details(xbl_client):
+    with Betamax(xbl_client.session).use_cassette('eds_get_details'):
+        ret = xbl_client.eds.get_details(
+            ids=["a3807603-9e22-48b2-8b75-c6bf36ddc511",
+                 "e0dec6f3-9e8f-4f0c-a93a-acfba29fd890"],
+            mediagroup=eds.MediaGroup.GAME_TYPE
+        )
+
+        assert ret.status_code == 200
+        data = ret.json()
+
+        assert len(data['Items']) == 2
 
 
 def test_singlemediagroup_search(xbl_client):
