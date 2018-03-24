@@ -31,18 +31,19 @@ class TwoFactorAuthentication(object):
         """
         self.session = session
 
-    def verify_authenticator_v2_gif(self, gif):
+    @staticmethod
+    def verify_authenticator_v2_gif(response):
         """
         Verify the AuthSessionState GIF-image, returned when polling the `Microsoft Authenticator v2`.
 
         At first, check if provided bytes really are a GIF image, then check image-dimensions to get Session State.
 
         Args:
-            gif (bytes): The GIF image describing current Authentication Session State.
-                Possible image dimensions:
-                - 2px x 2px - Rejected Authorization
-                - 1px x 1px - Pending Authorization (keep polling)
-                - 1px x 2px - Approved Authorization
+            response (requests.Response): The response holding the GIF image, describing current Authentication Session State.
+                              Possible image dimensions:
+                                - 2px x 2px - Rejected Authorization
+                                - 1px x 1px - Pending Authorization (keep polling)
+                                - 1px x 2px - Approved Authorization
 
         Returns:
             AuthSessionState: The current Authentication State. AuthSessionState.ERROR if provided bytes are not a GIF
@@ -53,6 +54,7 @@ class TwoFactorAuthentication(object):
         GIF_HEADER = b'GIF87a'
         MIN_GIF_SIZE = 35
 
+        gif = response.content
         if len(gif) < MIN_GIF_SIZE:
             log.error('Got GIF image smaller than expected! Got %d instead of min. %d' % (len(gif), MIN_GIF_SIZE))
             return AuthSessionState.ERROR
@@ -72,13 +74,13 @@ class TwoFactorAuthentication(object):
 
         return AuthSessionState.ERROR
 
-    def request_otc(self, email, server_data, auth_type, proof, auth_data):
+    def request_otc(self, email, flowtoken, auth_type, proof, auth_data):
         """
         Request OTC (One-Time-Code) if 2FA via Email, Mobile phone or MS Authenticator v2 is desired.
 
         Args:
             email (str): Email Address of the Windows Live Account
-            server_data (dict): Parsed javascript-object `serverData`, obtained from Windows Live Auth Request
+            flowtoken (str): Flowtoken, obtained from `serverData` (Windows Live Auth Request)
             auth_type (TwoFactorAuthMethods): Member of :class:`TwoFactorAuthMethods`
             proof (str): Proof Verification, used by mobile phone and email-method, for MS Authenticator provide `None`
             auth_data (str): Authentication data for this provided, specific authorization method
@@ -89,10 +91,8 @@ class TwoFactorAuthentication(object):
         Returns:
             requests.Response: Instance of :class:`requests.Response`
         """
-        post_url = 'https://login.live.com/pp1600/GetOneTimeCode.srf'
+        get_onetime_code_url = 'https://login.live.com/pp1600/GetOneTimeCode.srf'
 
-        channel = ''
-        post_field = ''
         if TwoFactorAuthMethods.Email == auth_type:
             channel = 'Email'
             post_field = 'AltEmailE'
@@ -105,14 +105,14 @@ class TwoFactorAuthentication(object):
         elif TwoFactorAuthMethods.TOTPAuthenticatorV2 == auth_type:
             channel = 'PushNotifications'
             post_field = 'SAPId'
-        elif TwoFactorAuthMethods.TOTPAuthenticator == auth_type:
-            log.warning('Requesting OTC not necessary for Authenticator v2!')
         else:
-            raise AuthenticationException('Unsupported TwoFactor Auth-Type: %d' % auth_type)
+            raise AuthenticationException(
+                'Unsupported TwoFactor Auth-Type: %s' % TwoFactorAuthentication[auth_type]
+            )
 
         post_data = {
             'login': email,
-            'flowtoken': server_data.get('sFT'),
+            'flowtoken': flowtoken,
             'purpose': 'eOTT_OneTimePassword',
             'UIMode': '11',
             'channel': channel,
@@ -122,15 +122,17 @@ class TwoFactorAuthentication(object):
         if proof:
             post_data.update(dict(ProofConfirmation=proof))
 
-        return self.session.post(post_url, data=post_data, allow_redirects=False)
+        return self.session.post(get_onetime_code_url, data=post_data, allow_redirects=False)
 
-    def finish_auth(self, email, server_data, auth_type, auth_data=None, otc=None, slk=None, proof_confirmation=None):
+    def finish_auth(self, email, flowtoken, post_url, auth_type,
+                    auth_data=None, otc=None, slk=None, proof_confirmation=None):
         """
         Finish the Two-Factor-Authentication. If it succeeds we are provided with Access and Refresh-Token.
 
         Args:
             email (str): Email Address of the Windows Live Account
-            server_data (dict): Parsed javascript-object `serverData`, obtained from Windows Live Auth Request
+            flowtoken (str): Flowtoken, obtained from `serverData` (Windows Live Auth Request)
+            post_url (str): Post URL, obtained from `serverData` (Windows Live Auth Request)
             auth_type (TwoFactorAuthMethods): Member of :class:`TwoFactorAuthMethods`
             auth_data (str): Authentication data for this provided, specific authorization method
             otc (str): One-Time-Code, required for every method except MS Authenticator v2
@@ -156,7 +158,7 @@ class TwoFactorAuthentication(object):
 
         post_data = {
             'login': email,
-            'PPFT': server_data.get('sFT'),
+            'PPFT': flowtoken,
             'SentProofIDE': auth_data,
             'sacxt': '1',
             'saav': '0',
@@ -173,9 +175,9 @@ class TwoFactorAuthentication(object):
         if proof_confirmation:
             post_data.update(dict(ProofConfirmation=proof_confirmation))
 
-        return self.session.post(server_data.get('urlPost'), data=post_data, allow_redirects=False)
+        return self.session.post(post_url, data=post_data, allow_redirects=False)
 
-    def poll_session_state(self, server_data, slk):
+    def poll_session_state(self, polling_url, slk):
         """
         Poll MS Authenticator v2 SessionState.
 
@@ -183,7 +185,7 @@ class TwoFactorAuthentication(object):
         It will return earlier if request gets approved/rejected.
 
         Args:
-            server_data (dict): Parsed javascript-object `serverData`, obtained from Windows Live Auth Request
+            polling_url (str): Polling url, obtained from `serverData` (Windows Live Auth Request)
             slk (str): Session-Lookup-Key
 
         Returns:
@@ -193,14 +195,13 @@ class TwoFactorAuthentication(object):
         time_now = time.time()
         time_end = time_now + max_time_seconds
 
-        polling_url = server_data.get('Ac')
-        params = {'slk': slk}
+        params = dict(slk=slk)
         log.info('Polling Authenticator v2 Verification for {} seconds'.format(max_time_seconds))
 
         session_state = AuthSessionState.PENDING
         while time_now < time_end:
-            gif = self.session.get(polling_url, params=params).content
-            session_state = self.verify_authenticator_v2_gif(gif)
+            gif_resp = self.session.get(polling_url, params=params)
+            session_state = self.verify_authenticator_v2_gif(gif_resp)
             time.sleep(1)
             time_now = time.time()
             if session_state != AuthSessionState.PENDING:
@@ -208,41 +209,45 @@ class TwoFactorAuthentication(object):
 
         return session_state
 
-    def authenticate(self, email, server_data):
+    def authenticate(self, server_data):
         """
         Perform chain of Two-Factor-Authentication (2FA) with the Windows Live Server.
 
         NOTE: This method prompts the user for text-input via stdin!
 
         Args:
-            email (str): Email Address of the Windows Live Account
             server_data (dict): Parsed javascript-object `serverData`, obtained from Windows Live Auth Request
 
         Returns:
             requests.Response: Instance of :class:`requests.Response`. Access / Refresh Tokens are contained in the
             Location-Header!
         """
-        auth_variants = server_data.get('D', [])
-        if not len(auth_variants):
-            log.error('No TwoFactor Auth Methods available?! That\'s weird!')
-            return
+        email = server_data.get('a')
+        polling_url = server_data.get('Ac')
+        flowtoken = server_data.get('sFT')
+        post_url = server_data.get('urlPost')
+        auth_variants = server_data.get('D')
 
-        print('Available 2FA methods:')
+        if not auth_variants:
+            raise AuthenticationException('No TwoFactor Auth Methods available?! That\'s weird!')
+
+        prompt = 'Available 2FA methods:\n'
         for num, variant in enumerate(auth_variants):
-            print('  Index: {}, Type: {}, Name: {}'.format(
-                num, TwoFactorAuthMethods[variant.get('type', 0)], variant.get('display'))
+            prompt += '  Index: {}, Type: {}, Name: {}\n'.format(
+                num, TwoFactorAuthMethods[variant.get('type', 0)], variant.get('display')
             )
+        prompt += 'Input desired auth method index: '
+        index = int(input(prompt))
 
-        try:
-            index = int(input("Input desired auth method index: "))
-            auth_type = auth_variants[index].get('type')
-            auth_data = auth_variants[index].get('data')
-            auth_display = auth_variants[index].get('display')
-            auth_method = TwoFactorAuthMethods[auth_type]
-            log.debug('Using Method: {}'.format(auth_method))
-        except Exception:
-            log.error('Invalid auth-method index chosen!')
-            return
+        if index < 0 or index >= len(auth_variants):
+            raise AuthenticationException('Invalid auth-method index chosen!')
+
+        auth_variant = auth_variants[index]
+        auth_type = auth_variant.get('type')
+        auth_data = auth_variant.get('data')
+        auth_display = auth_variant.get('display')
+        auth_method = TwoFactorAuthMethods[auth_type]
+        log.debug('Using Method: {}'.format(auth_method))
 
         proof = None
         slk = None
@@ -255,26 +260,37 @@ class TwoFactorAuthentication(object):
 
         if TwoFactorAuthMethods.TOTPAuthenticator != auth_type:
             # TOTPAuthenticator V1 works without requesting anything
-            req_response = self.request_otc(email, server_data, auth_type, proof, auth_data)
+            response = self.request_otc(email, flowtoken, auth_type, proof, auth_data)
+            if response.status_code != 200:
+                raise AuthenticationException(
+                    "Error requesting OTC, HTTP Code: %i" % response.status_code
+                )
+            state = response.json()
+            log.debug('State from Request OTC: %s' % state.get('State'))
 
         if TwoFactorAuthMethods.TOTPAuthenticatorV2 == auth_type:
-            slk = req_response.json().get('SessionLookupKey')
+            raise AuthenticationException("TOTP v2 is currently broken")
+            """
+            slk = response.json().get('SessionLookupKey')
             if not slk:
-                log.error('Did not receive SessionLookupKey from Authenticator V2 request!')
-                return
-            session_state = self.poll_session_state(server_data, slk)
+                raise AuthenticationException('Did not receive SessionLookupKey from Authenticator V2 request!')
+
+            session_state = self.poll_session_state(polling_url, slk)
             if session_state != AuthSessionState.APPROVED:
-                log.error('Request was not authenticated by Authenticator V2 App!')
-                return
-            # Do not send auth_data when submitting OTC
+                raise AuthenticationException('Authentication by Authenticator V2 failed!'
+                                              ' State: %s' % AuthSessionState[session_state])
+
+            # Do not send auth_data when finishing TOTPv2 authentication
             auth_data = None
+            """
         else:
-            otc = int(input("Input received OTC: "))
+            otc = input("Input received OTC: ")
 
-        return self.finish_auth(email, server_data, auth_type, auth_data, otc, slk, proof)
+        return self.finish_auth(email, flowtoken, post_url, auth_type,
+                                auth_data, otc, slk, proof)
 
 
-class AuthSessionState(object):
+class AuthSessionState(Enum):
     """
     Enumeration of possible Two-Factor-Authentication Session-States
     """
