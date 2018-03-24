@@ -223,7 +223,7 @@ class TwoFactorAuthentication(object):
             Location-Header!
         """
         email = server_data.get('a')
-        polling_url = server_data.get('Ac')
+        polling_url = server_data.get('Ac')  # NOQA
         flowtoken = server_data.get('sFT')
         post_url = server_data.get('urlPost')
         auth_variants = server_data.get('D')

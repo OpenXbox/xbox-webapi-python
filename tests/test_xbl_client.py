@@ -16,7 +16,7 @@ def test_xuid_from_string():
 
 def test_invalid_xuid_format():
     with pytest.raises(ValueError):
-        client = XboxLiveClient('userhash', 'token', b'1234567890')
+        XboxLiveClient('userhash', 'token', b'1234567890')
 
 
 def test_authorization_header():
