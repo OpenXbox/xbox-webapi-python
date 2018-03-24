@@ -36,7 +36,7 @@ class XboxLiveClient(object):
         elif isinstance(xuid, int):
             self._xuid = xuid
         else:
-            log.error("Xuid was passed in wrong format, neither int nor string")
+            raise ValueError("Xuid was passed in wrong format, neither int nor string")
 
         self._lang = language
 
