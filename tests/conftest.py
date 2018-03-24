@@ -5,7 +5,6 @@ import pytest
 import betamax
 from datetime import datetime
 from dateutil.tz import tzutc
-from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.api.client import XboxLiveClient
 
 current_dir = os.path.dirname(__file__)
