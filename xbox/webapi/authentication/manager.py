@@ -288,15 +288,17 @@ class AuthenticationManager(object):
 
             # XSTS Token
             if self.xsts_token and self.xsts_token.is_valid and self.userinfo:
-                self.authenticated = True
+                pass
             else:
                 self.xsts_token, self.userinfo = self._xbox_live_authorize(self.user_token)
-                self.authenticated = True
-        except AuthenticationException:
+            self.authenticated = True
+        except AuthenticationException as e:
+            log.warning('Token Auth failed: %s' % e)
             full_authentication_required = True
 
         # Authentication via credentials
         if full_authentication_required and self.email_address and self.password:
+            log.info('Attempting user credentials auth')
             self.access_token, self.refresh_token = self._windows_live_authenticate(self.email_address, self.password)
             self.user_token = self._xbox_live_authenticate(self.access_token)
             '''
@@ -311,20 +313,24 @@ class AuthenticationManager(object):
             raise AuthenticationException("AuthenticationManager was not able to authenticate "
                                           "with provided tokens or user credentials!")
 
-    def _extract_js_object(self, body, obj_name):
+    @staticmethod
+    def extract_js_object(body, obj_name):
         """
         Find a javascript object inside a html-page via regex.
 
         When it is found, convert it to a python-compatible dict.
 
         Args:
-            body (str): The raw HTTP body to parse
+            body (str/bytes): The raw HTTP body to parse
             obj_name (str): The name of the javascript-object to find
 
         Returns:
             dict: Parsed javascript-object on success, otherwise `None`
         """
-        server_data_re = r"%s(?:.*?)=(?:.*?)({(?:.*?)});" % (obj_name)
+        if isinstance(body, bytes):
+            body = body.decode("utf-8")
+
+        server_data_re = r"%s(?:.*?)=(?:.*?)({(?:.*?)});" % obj_name
         matches = re.findall(server_data_re, body, re.MULTILINE | re.IGNORECASE | re.DOTALL)
         if len(matches):
             return demjson.decode(matches[0])
@@ -349,12 +355,12 @@ class AuthenticationManager(object):
         """
         response = self.__window_live_authenticate_request(email_address, password)
 
-        proof_type = self._extract_js_object(response.content.decode("utf-8"), "PROOF.Type")
+        proof_type = self.extract_js_object(response.content, "PROOF.Type")
         if proof_type:
             log.info("Two Factor Authentication required!")
             twofactor = TwoFactorAuthentication(self.session)
-            server_data = self._extract_js_object(response.content.decode("utf-8"), "ServerData")
-            response = twofactor.authenticate(email_address, server_data)
+            server_data = self.extract_js_object(response.content, "ServerData")
+            response = twofactor.authenticate(server_data)
             if not response:
                 raise AuthenticationException("Two Factor Authentication failed!")
 
@@ -383,18 +389,18 @@ class AuthenticationManager(object):
         Returns:
             tuple: If authentication succeeds, `tuple` of (AccessToken, RefreshToken) is returned
         """
-        if refresh_token and refresh_token.is_valid:
-            resp = self.__window_live_token_refresh_request(refresh_token)
-            response = json.loads(resp.content.decode('utf-8'))
-
-            if 'access_token' not in response:
-                raise AuthenticationException("Could not refresh token via RefreshToken")
-
-            access_token = AccessToken(response['access_token'], response['expires_in'])
-            refresh_token = RefreshToken(response['refresh_token'])
-            return access_token, refresh_token
-        else:
+        if not refresh_token or not refresh_token.is_valid:
             raise AuthenticationException("No valid RefreshToken")
+
+        resp = self.__window_live_token_refresh_request(refresh_token)
+        response = json.loads(resp.content.decode('utf-8'))
+
+        if 'access_token' not in response:
+            raise AuthenticationException("Could not refresh token via RefreshToken")
+
+        access_token = AccessToken(response['access_token'], response['expires_in'])
+        refresh_token = RefreshToken(response['refresh_token'])
+        return access_token, refresh_token
 
     def _xbox_live_authenticate(self, access_token):
         """
@@ -409,11 +415,11 @@ class AuthenticationManager(object):
         Returns:
             object: If authentication succeeds, returns :class:`UserToken`
         """
-        if access_token and access_token.is_valid:
-            json_data = self.__xbox_live_authenticate_request(access_token).json()
-            return UserToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
-        else:
+        if not access_token or not access_token.is_valid:
             raise AuthenticationException("No valid AccessToken")
+
+        json_data = self.__xbox_live_authenticate_request(access_token).json()
+        return UserToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
 
     def _xbox_live_device_auth(self, access_token):
         """
@@ -428,15 +434,12 @@ class AuthenticationManager(object):
          Returns:
              object: If authentication succeeds, returns :class:`DeviceToken`
          """
-        if access_token and access_token.is_valid:
-            json_data = self.__device_authenticate_request(access_token)
-            print(json_data.status_code)
-            print(json_data.headers)
-            print(json_data.content)
-            json_data = json_data.json()
-            return DeviceToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
-        else:
+        if not access_token or not access_token.is_valid:
             raise AuthenticationException("No valid AccessToken")
+
+        json_data = self.__device_authenticate_request(access_token)
+        json_data = json_data.json()
+        return DeviceToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
 
     def _xbox_live_title_auth(self, device_token, access_token):
         """
@@ -452,11 +455,12 @@ class AuthenticationManager(object):
          Returns:
              object: If authentication succeeds, returns :class:`TitleToken`
          """
-        if access_token and access_token.is_valid and device_token and device_token.is_valid:
-            json_data = self.__title_authenticate_request(device_token, access_token).json()
-            return TitleToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
-        else:
+        if not access_token or not access_token.is_valid or \
+           not device_token or not device_token.is_valid:
             raise AuthenticationException("No valid AccessToken/DeviceToken")
+
+        json_data = self.__title_authenticate_request(device_token, access_token).json()
+        return TitleToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
 
     def _xbox_live_authorize(self, user_token, device_token=None, title_token=None):
         """
@@ -467,16 +471,21 @@ class AuthenticationManager(object):
             device_token (:class:`DeviceToken`): Optional Device token
             title_token (:class:`TitleToken`): Optional Title token
 
+         Raises:
+             AuthenticationException: When provided User-Token is invalid
+
         Returns:
             tuple: If authentication succeeds, returns tuple of (:class:`XSTSToken`, :class:`XboxLiveUserInfo`)
         """
-        if user_token and user_token.is_valid:
-            json_data = self.__xbox_live_authorize_request(user_token, device_token, title_token).json()
-            userinfo = json_data['DisplayClaims']['xui'][0]
-            userinfo = XboxLiveUserInfo.from_dict(userinfo)
+        if not user_token or not user_token.is_valid:
+            raise AuthenticationException("No valid UserToken")
 
-            xsts_token = XSTSToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
-            return xsts_token, userinfo
+        json_data = self.__xbox_live_authorize_request(user_token, device_token, title_token).json()
+        userinfo = json_data['DisplayClaims']['xui'][0]
+        userinfo = XboxLiveUserInfo.from_dict(userinfo)
+
+        xsts_token = XSTSToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
+        return xsts_token, userinfo
 
     def __window_live_authenticate_request(self, email, password):
         """
@@ -510,8 +519,8 @@ class AuthenticationManager(object):
         resp = self.session.get(base_url, params=params)
 
         # Extract ServerData javascript-object via regex, convert it to proper JSON
-        server_data = self._extract_js_object(resp.content.decode("utf-8"), "ServerData")
-        # Extract PPFT value
+        server_data = self.extract_js_object(resp.content, "ServerData")
+        # Extract PPFT value (flowtoken)
         ppft = server_data.get('sFTTag')
         ppft = minidom.parseString(ppft).getElementsByTagName("input")[0].getAttribute("value")
 

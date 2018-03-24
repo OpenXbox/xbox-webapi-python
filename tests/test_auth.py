@@ -10,7 +10,7 @@ from xbox.webapi.common.userinfo import XboxLiveUserInfo
 
 def test_extract_js_node(windows_live_authenticate_response):
     auth_manager = AuthenticationManager()
-    js_node = auth_manager._extract_js_object(windows_live_authenticate_response, 'ServerData')
+    js_node = auth_manager.extract_js_object(windows_live_authenticate_response, 'ServerData')
 
     assert js_node is not None
     assert js_node['sFTTag'] == "<input name=\"PPFT\" value=\"normally_base64_encoded_string_here+\"/>"
