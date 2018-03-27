@@ -33,7 +33,7 @@ Authentication::
 
   xbox-authenticate --tokenfile tokens.json --email no@live.com --password abc123
 
-  # If no credentials are provided via mail, they are requested from stdin
+  # If no credentials are provided via cmdline, they are requested from stdin
   xbox-authenticate --tokenfile tokens.json
   >> Input authentication credentials
   >> Email: <input>
