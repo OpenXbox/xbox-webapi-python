@@ -4,7 +4,7 @@ EDS (Entertainment Discovery Services)
 Used for searching the Xbox Live Marketplace
 """
 
-from xbox.webapi.common.enum import Enum
+from xbox.webapi.common.enum import StrEnum
 
 
 class EDSProvider(object):
@@ -84,18 +84,24 @@ class EDSProvider(object):
         Get a browse query
 
         Args:
-            order_by (str): Fieldname to use for sorting the result
+            order_by (str/:class:`OrderBy`): Fieldname to use for sorting the result
             desired (str/list): Desired Media Item Types, members of (:class:`MediaItemType`)
             **kwargs: Additional query parameters
 
         Returns:
 
         """
+        if isinstance(order_by, list):
+            order_by = self.SEPERATOR.join(str(o) for o in order_by)
+
+        if isinstance(desired, list):
+            desired = self.SEPERATOR.join(str(d) for d in desired)
+
         url = self.EDS_URL + "/media/%s/browse?" % self.client.language.locale
         params = {
             "fields": "all",
-            "orderBy": order_by,
-            "desiredMediaItemTypes": desired
+            "orderBy": str(order_by),
+            "desiredMediaItemTypes": str(desired)
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
@@ -112,11 +118,11 @@ class EDSProvider(object):
             :class:`requests.Response`: HTTP Response
         """
         if isinstance(desired, list):
-            desired = self.SEPERATOR.join(desired)
+            desired = self.SEPERATOR.join(str(d) for d in desired)
 
         url = self.EDS_URL + "/media/%s/recommendations?" % self.client.language.locale
         params = {
-            "desiredMediaItemTypes": desired
+            "desiredMediaItemTypes": str(desired)
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
@@ -134,12 +140,12 @@ class EDSProvider(object):
             :class:`requests.Response`: HTTP Response
         """
         if isinstance(desired, list):
-            desired = self.SEPERATOR.join(desired)
+            desired = self.SEPERATOR.join(str(d) for d in desired)
 
         url = self.EDS_URL + "/media/%s/related?" % self.client.language.locale
         params = {
             "id": id,
-            "desiredMediaItemTypes": desired
+            "desiredMediaItemTypes": str(desired)
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
@@ -183,7 +189,7 @@ class EDSProvider(object):
         url = self.EDS_URL + "/media/%s/details?" % self.client.language.locale
         params = {
             "ids": ids,
-            "MediaGroup": mediagroup
+            "MediaGroup": str(mediagroup)
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
@@ -222,18 +228,19 @@ class EDSProvider(object):
             :class:`requests.Response`: HTTP Response
         """
         if isinstance(media_item_types, list):
-            media_item_types = self.SEPERATOR.join(media_item_types)
+            media_item_types = self.SEPERATOR.join(str(t) for t in media_item_types)
+
         url = self.EDS_URL + "/media/%s/singleMediaGroupSearch?" % self.client.language.locale
         params = {
             "q": search_query,
             "maxItems": max_items,
-            "desiredMediaItemTypes": media_item_types
+            "desiredMediaItemTypes": str(media_item_types)
         }
         params.update(kwargs)
         return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
 
-class MediaItemType(Enum):
+class MediaItemType(StrEnum):
     """
     Media Item Type, used as parameter for EDS API
     """
@@ -295,7 +302,7 @@ class MediaItemType(Enum):
     SUBSCRIPTION = "Subscription"
 
 
-class MediaGroup(Enum):
+class MediaGroup(StrEnum):
     """
     Media Group, used as parameter for EDS API
 
@@ -325,7 +332,7 @@ class MediaGroup(Enum):
     SUBSCRIPTION_TYPE = "SubscriptionType"
 
 
-class ScheduleDetailsField(Enum):
+class ScheduleDetailsField(StrEnum):
     """
     Schedule Details Field, used as parameter for EDS API
     """
@@ -338,7 +345,7 @@ class ScheduleDetailsField(Enum):
     SCHEDULE_INFO = "ScheduleInformation"
 
 
-class Domain(Enum):
+class Domain(StrEnum):
     """
     Domain, used as parameter for EDS API
     """
@@ -346,7 +353,7 @@ class Domain(Enum):
     XBOX_ONE = "Modern"
 
 
-class IdType(Enum):
+class IdType(StrEnum):
     """
     ID Type, used as parameter for EDS API
     """
@@ -360,7 +367,7 @@ class IdType(Enum):
     PROVIDER_CONTENT_ID = "ProviderContentId"  # NETFLIX/HULU
 
 
-class ClientType(Enum):
+class ClientType(StrEnum):
     """
     Client Type, used as parameter for EDS API
     """
@@ -382,7 +389,7 @@ class ClientType(Enum):
     XBOX_COM = "XboxCom"
 
 
-class DeviceType(Enum):
+class DeviceType(StrEnum):
     """
     Device Type, used as parameter for EDS API
     """
@@ -401,7 +408,7 @@ class DeviceType(Enum):
     WEB = "Web"
 
 
-class OrderBy(Enum):
+class OrderBy(StrEnum):
     """
     The orderBy parameter determines how the items being returned should be sorted
     """
@@ -414,7 +421,7 @@ class OrderBy(Enum):
     USER_RATINGS = "UserRatings"
 
 
-class SubscriptionLevel(Enum):
+class SubscriptionLevel(StrEnum):
     """
     The subscriptionLevel parameter determines the type of subscription the user has
     """
