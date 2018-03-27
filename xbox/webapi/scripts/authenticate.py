@@ -18,19 +18,20 @@ def main():
 
     args = parser.parse_args()
 
-    if not args.tokenfile and not args.email and not args.password:
-        print('No data to authenticate with passed!')
-        print('Try the --help switch!')
-        sys.exit(1)
-
+    tokens_loaded = False
     auth_mgr = AuthenticationManager()
     if args.tokenfile:
         try:
             auth_mgr.load_tokens_from_file(args.tokenfile)
+            tokens_loaded = True
         except Exception as e:
             print('Failed to load tokens from %s, Error: %s' % (args.tokenfile, e))
 
-    if args.email and args.password:
+    if (not args.email or not args.password) and not tokens_loaded:
+        print("Input authentication credentials")
+        auth_mgr.email_address = input("Email: ")
+        auth_mgr.password = input("Password: ")
+    elif args.email and args.password:
         auth_mgr.email_address = args.email
         auth_mgr.password = args.password
 
