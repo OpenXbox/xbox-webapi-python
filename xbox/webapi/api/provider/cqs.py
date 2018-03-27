@@ -5,7 +5,7 @@ Used for download stump (TV Streaming) data
 (RemoteTVInput ServiceChannel on Smartglass)
 """
 
-from xbox.webapi.common.enum import Enum
+from xbox.webapi.common.enum import StrEnum
 
 
 class CQSProvider(object):
@@ -43,7 +43,7 @@ class CQSProvider(object):
         """
         url = self.CQS_URL + "/epg/%s/lineups/%s/channels?" % (locale_info, headend_id)
         params = {
-            "desired": VesperType.MOBILE_LINEUP
+            "desired": str(VesperType.MOBILE_LINEUP)
         }
         return self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
 
@@ -68,11 +68,11 @@ class CQSProvider(object):
             "durationMinutes": duration_minutes,
             "channelSkip": channel_skip,
             "channelCount": channel_count,
-            "desired": VesperType.MOBILE_SCHEDULE
+            "desired": str(VesperType.MOBILE_SCHEDULE)
         }
         return self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
 
 
-class VesperType(Enum):
+class VesperType(StrEnum):
     MOBILE_LINEUP = "vesper_mobile_lineup"
     MOBILE_SCHEDULE = "vesper_mobile_schedule"

@@ -5,7 +5,7 @@ import struct
 import logging
 import time
 
-from xbox.webapi.common.enum import Enum
+from xbox.webapi.common.enum import IntEnum
 from xbox.webapi.common.exceptions import AuthenticationException
 
 log = logging.getLogger('authentication-2factor')
@@ -107,7 +107,7 @@ class TwoFactorAuthentication(object):
             post_field = 'SAPId'
         else:
             raise AuthenticationException(
-                'Unsupported TwoFactor Auth-Type: %s' % TwoFactorAuthentication[auth_type]
+                'Unsupported TwoFactor Auth-Type: %s' % TwoFactorAuthentication(auth_type)
             )
 
         post_data = {
@@ -234,7 +234,7 @@ class TwoFactorAuthentication(object):
         prompt = 'Available 2FA methods:\n'
         for num, variant in enumerate(auth_variants):
             prompt += '  Index: {}, Type: {}, Name: {}\n'.format(
-                num, TwoFactorAuthMethods[variant.get('type', 0)], variant.get('display')
+                num, TwoFactorAuthMethods(variant.get('type', 0)), variant.get('display')
             )
         prompt += 'Input desired auth method index: '
         index = int(input(prompt))
@@ -246,7 +246,7 @@ class TwoFactorAuthentication(object):
         auth_type = auth_variant.get('type')
         auth_data = auth_variant.get('data')
         auth_display = auth_variant.get('display')
-        auth_method = TwoFactorAuthMethods[auth_type]
+        auth_method = TwoFactorAuthMethods(auth_type)
         log.debug('Using Method: {}'.format(auth_method))
 
         proof = None
@@ -290,7 +290,7 @@ class TwoFactorAuthentication(object):
                                 auth_data, otc, slk, proof)
 
 
-class AuthSessionState(Enum):
+class AuthSessionState(IntEnum):
     """
     Enumeration of possible Two-Factor-Authentication Session-States
     """
@@ -300,7 +300,7 @@ class AuthSessionState(Enum):
     APPROVED = 3  # GIF 1x2
 
 
-class TwoFactorAuthMethods(Enum):
+class TwoFactorAuthMethods(IntEnum):
     """
     Two Factor Authentication Methods
     """
