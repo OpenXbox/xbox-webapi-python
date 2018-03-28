@@ -11,6 +11,7 @@ Submodules
    xbox.webapi.api.provider.lists
    xbox.webapi.api.provider.profile
    xbox.webapi.api.provider.achievements
+   xbox.webapi.api.provider.usersearch
 
 Module contents
 ---------------
