@@ -1,0 +1,73 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T12:56:17",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://social.xboxlive.com/users/xuid(2669321029139235)/summary"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"targetFollowingCount\":0,\"targetFollowerCount\":20991,\"isCallerFollowingTarget\":false,\"isTargetFollowingCaller\":false,\"hasCallerMarkedTargetAsFavorite\":false,\"hasCallerMarkedTargetAsKnown\":false,\"legacyFriendStatus\":\"None\"}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "223"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 12:56:16 GMT"
+          ],
+          "MS-CV": [
+            "vuAFJGjjokqECoCj4eJE2Q.0"
+          ],
+          "Vary": [
+            "Origin"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "x-xbl-machine-hash": [
+            "F1B174D3405B8F672F541D981AECB966FE9C4D3F2BDE1BA779C6F62132B150F2"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://social.xboxlive.com/users/xuid(2669321029139235)/summary"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
