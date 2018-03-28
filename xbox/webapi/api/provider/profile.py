@@ -14,7 +14,7 @@ class ProfileProvider(object):
 
     def __init__(self, client):
         """
-        Initialize an instance of GamerpicsProvider
+        Initialize an instance of ProfileProvider
 
         Args:
             client (:class:`XboxLiveClient`): Instance of XboxLiveClient
