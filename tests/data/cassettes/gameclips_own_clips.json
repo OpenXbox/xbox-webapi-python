@@ -1,0 +1,68 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T11:49:02",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://gameclipsmetadata.xboxlive.com/users/me/clips?maxItems=25&skipItems=0"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"gameClips\":[],\"pagingInfo\":{\"continuationToken\":null}}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store,no-store, no-cache"
+          ],
+          "Content-Length": [
+            "56"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 11:49:02 GMT"
+          ],
+          "MS-CV": [
+            "ybAKxzwviUuO/KzP.0"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff",
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://gameclipsmetadata.xboxlive.com/users/me/clips?maxItems=25&skipItems=0"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
