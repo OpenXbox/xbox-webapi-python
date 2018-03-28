@@ -57,6 +57,7 @@ def test_totp_v2_auth(monkeypatch):
     with pytest.raises(AuthenticationException):
         _2fa_with_stdin_patch(monkeypatch, '2fa_totpv2_accept', input_data)
 
+
 def test_sms_all_correct(monkeypatch):
     input_data = ['1', '6842', '0135392']
     ret = _2fa_with_stdin_patch(monkeypatch, '2fa_sms_all_correct', input_data)
@@ -71,6 +72,7 @@ def test_sms_wrong_number(monkeypatch):
     input_data = ['1', '9942', '123456']
     with pytest.raises(AuthenticationException):
         _2fa_with_stdin_patch(monkeypatch, '2fa_sms_wrong_number', input_data)
+
 
 def test_no_auth_methods():
     auth_manager = AuthenticationManager()
