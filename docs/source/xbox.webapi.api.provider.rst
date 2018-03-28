@@ -15,6 +15,7 @@ Submodules
    xbox.webapi.api.provider.gameclips
    xbox.webapi.api.provider.people
    xbox.webapi.api.provider.presence
+   xbox.webapi.api.provider.message
 
 Module contents
 ---------------
