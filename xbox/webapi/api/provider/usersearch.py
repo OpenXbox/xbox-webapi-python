@@ -1,20 +1,12 @@
 """
 Usersearch - Search for gamertags / userprofiles
 """
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
-class UserSearchProvider(object):
+class UserSearchProvider(BaseProvider):
     USERSEARCH_URL = "https://usersearch.xboxlive.com"
     HEADERS_USER_SEARCH = {'x-xbl-contract-version': '1'}
-
-    def __init__(self, client):
-        """
-        Initialize an instance of UserSearchProvider
-
-        Args:
-            client (:class:`XboxLiveClient`): Instance of XboxLiveClient
-        """
-        self.client = client
 
     def get_live_search(self, query):
         """

@@ -4,11 +4,11 @@ CQS
 Used for download stump (TV Streaming) data
 (RemoteTVInput ServiceChannel on Smartglass)
 """
-
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.common.enum import StrEnum
 
 
-class CQSProvider(object):
+class CQSProvider(BaseProvider):
     CQS_URL = "https://cqs.xboxlive.com"
     HEADERS_CQS = {
         'Cache-Control': 'no-cache',
@@ -20,15 +20,6 @@ class CQSProvider(object):
         'x-xbl-device-type': 'WindowsPhone',
         'x-xbl-isautomated-client': 'true'
     }
-
-    def __init__(self, client):
-        """
-        Initialize an instance of CQSProvider
-
-        Args:
-            client (:class:`XboxLiveClient`): Instance of XboxLiveClient
-        """
-        self.client = client
 
     def get_channel_list(self, locale_info, headend_id):
         """
