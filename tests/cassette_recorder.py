@@ -37,27 +37,30 @@ def main():
             "<JWT>", mgr.xsts_token.jwt
         )
 
-    """
-    EDIT TO RECORD NEW API ENDPOINT
-    """
-    filename = 'usersearch_test'
-
     def dump_response(resp):
         print(resp.status_code)
         if resp.status_code != 200:
             print(resp.headers)
             print(resp.content)
-            os.remove(CASSETTE_LIBRARY_DIR + filename + ".json")
             sys.exit(1)
         print(json.dumps(resp.json(), indent=2))
         print('!!! SUCCESS !!!')
 
     recorder = betamax.Betamax(client.session)
-    with recorder.use_cassette(filename):
-        """
-        EDIT TO RECORD NEW API ENDPOINT
-        """
-        ret = client.usersearch.get_live_search('<>')
+
+    """
+    EDIT TO RECORD NEW API ENDPOINT
+    """
+    with recorder.use_cassette('gameclips_clips_xuid'):
+        ret = client.gameclips.get_clips_by_xuid('2669321029139235', skip_items=0, max_items=25)
+        dump_response(ret)
+
+    with recorder.use_cassette('gameclips_own_clips'):
+        ret = client.gameclips.get_own_clips(skip_items=0, max_items=25)
+        dump_response(ret)
+
+    with recorder.use_cassette('gameclips_community_title_id'):
+        ret = client.gameclips.get_recent_community_clips_by_title_id(219630713)
         dump_response(ret)
 
 
