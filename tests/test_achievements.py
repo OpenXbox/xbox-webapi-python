@@ -1,5 +1,4 @@
 from betamax import Betamax
-from xbox.webapi.api.client import XboxLiveClient
 
 
 def test_achievement_360_all(xbl_client):
@@ -10,6 +9,8 @@ def test_achievement_360_all(xbl_client):
         assert ret.status_code == 200
         data = ret.json()
 
+        assert len(data['achievements']) == 15
+
 
 def test_achievement_360_earned(xbl_client):
     with Betamax(xbl_client.session).use_cassette('achievements_360_earned'):
@@ -19,6 +20,8 @@ def test_achievement_360_earned(xbl_client):
         assert ret.status_code == 200
         data = ret.json()
 
+        assert len(data['achievements']) == 1
+
 
 def test_achievement_360_recent_progress(xbl_client):
     with Betamax(xbl_client.session).use_cassette('achievements_360_recent_progress'):
@@ -27,6 +30,8 @@ def test_achievement_360_recent_progress(xbl_client):
 
         assert ret.status_code == 200
         data = ret.json()
+
+        assert len(data['titles']) == 32
 
 
 def test_achievement_one_details(xbl_client):
@@ -39,6 +44,8 @@ def test_achievement_one_details(xbl_client):
         assert ret.status_code == 200
         data = ret.json()
 
+        assert len(data['achievements']) == 1
+
 
 def test_achievement_one_gameprogress(xbl_client):
     with Betamax(xbl_client.session).use_cassette('achievements_one_gameprogress'):
@@ -48,6 +55,8 @@ def test_achievement_one_gameprogress(xbl_client):
         assert ret.status_code == 200
         data = ret.json()
 
+        assert len(data['achievements']) == 32
+
 
 def test_achievement_one_recent_progress(xbl_client):
     with Betamax(xbl_client.session).use_cassette('achievements_one_recent_progress'):
@@ -56,3 +65,5 @@ def test_achievement_one_recent_progress(xbl_client):
 
         assert ret.status_code == 200
         data = ret.json()
+
+        assert len(data['titles']) == 32
