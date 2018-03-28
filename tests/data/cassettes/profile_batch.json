@@ -1,0 +1,94 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T01:02:21",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"userIds\": [2669321029139235, 2584878536129841], \"settings\": [\"GameDisplayName\", \"AppDisplayName\", \"AppDisplayPicRaw\", \"Gamerscore\", \"Gamertag\", \"GameDisplayPicRaw\", \"AccountTier\", \"TenureLevel\", \"XboxOneRep\", \"PreferredColor\", \"Location\", \"Bio\", \"Watermarks\", \"RealName\"]}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "274"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "2"
+          ]
+        },
+        "method": "POST",
+        "uri": "https://profile.xboxlive.com/users/batch/profile/settings"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"profileUsers\":[{\"id\":\"2669321029139235\",\"hostId\":\"2669321029139235\",\"settings\":[{\"id\":\"GameDisplayName\",\"value\":\"e\"},{\"id\":\"AppDisplayName\",\"value\":\"e\"},{\"id\":\"AppDisplayPicRaw\",\"value\":\"http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIl_5PaIHeJ592LG1L.uCOWneEDBhHctvuC06CzW38LKNYiVGTXqxcsQqYGIrr8hFz&format=png\"},{\"id\":\"Gamerscore\",\"value\":\"89410\"},{\"id\":\"Gamertag\",\"value\":\"e\"},{\"id\":\"GameDisplayPicRaw\",\"value\":\"http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIl_5PaIHeJ592LG1L.uCOWneEDBhHctvuC06CzW38LKNYiVGTXqxcsQqYGIrr8hFz&format=png\"},{\"id\":\"AccountTier\",\"value\":\"Gold\"},{\"id\":\"TenureLevel\",\"value\":\"15\"},{\"id\":\"XboxOneRep\",\"value\":\"GoodPlayer\"},{\"id\":\"PreferredColor\",\"value\":\"http://dlassets.xboxlive.com/public/content/ppl/colors/00000.json\"},{\"id\":\"Location\",\"value\":\"about.me/thevowel\"},{\"id\":\"Bio\",\"value\":\"ex-Xbox\"},{\"id\":\"Watermarks\",\"value\":\"XboxOriginalTeam|XboxLiveLaunchTeam|LaunchTeam|NxeTeam|KinectTeam|XboxOneTeam|XboxNxoeTeam\"},{\"id\":\"RealName\",\"value\":\"Eric Neustadter\"}],\"isSponsoredUser\":false},{\"id\":\"2584878536129841\",\"hostId\":\"2584878536129841\",\"settings\":[{\"id\":\"GameDisplayName\",\"value\":\"Major Nelson\"},{\"id\":\"AppDisplayName\",\"value\":\"Major Nelson\"},{\"id\":\"AppDisplayPicRaw\",\"value\":\"http://images-eds.xboxlive.com/image?url=wHwbXKif8cus8csoZ03RW8ke8ralOdP9BGd4wzwl0MJ9z6QzuGwZjtvbE7sSsMVWNThHpXPbN08tdHtf94O90LjBaRl_DcHCPJjJSXBQ6bb_7uLcmWGV.F9pXVfsV.X7xYOmZzjMNx5ZNCh.qY2LH8WKq._2vZ2sMXoX2PjlJDc-&format=png\"},{\"id\":\"Gamerscore\",\"value\":\"103635\"},{\"id\":\"Gamertag\",\"value\":\"Major Nelson\"},{\"id\":\"GameDisplayPicRaw\",\"value\":\"http://images-eds.xboxlive.com/image?url=wHwbXKif8cus8csoZ03RW8ke8ralOdP9BGd4wzwl0MJ9z6QzuGwZjtvbE7sSsMVWNThHpXPbN08tdHtf94O90LjBaRl_DcHCPJjJSXBQ6bb_7uLcmWGV.F9pXVfsV.X7xYOmZzjMNx5ZNCh.qY2LH8WKq._2vZ2sMXoX2PjlJDc-&format=png\"},{\"id\":\"AccountTier\",\"value\":\"Gold\"},{\"id\":\"TenureLevel\",\"value\":\"14\"},{\"id\":\"XboxOneRep\",\"value\":\"Superstar\"},{\"id\":\"PreferredColor\",\"value\":\"https://dlassets-ssl.xboxlive.com/public/content/ppl/colors/00002.json\"},{\"id\":\"Location\",\"value\":\"In your Xbox\"},{\"id\":\"Bio\",\"value\":\"Yes I work for Xbox. I get way too many messages here and may not see yours!  Hit me on Twitter @Majornelson - Have fun and play fair\"},{\"id\":\"Watermarks\",\"value\":\"LaunchTeam|NxeTeam|KinectTeam|XboxOneTeam|XboxNxoeTeam|XboxOneXTeam\"},{\"id\":\"RealName\",\"value\":\"Larry Hryb\"}],\"isSponsoredUser\":false}]}"
+        },
+        "headers": {
+          "Access-Control-Allow-Credentials": [
+            "true"
+          ],
+          "Access-Control-Allow-Headers": [
+            ""
+          ],
+          "Access-Control-Allow-Methods": [
+            "Post"
+          ],
+          "Access-Control-Allow-Origin": [
+            ""
+          ],
+          "Access-Control-Max-Age": [
+            "86400"
+          ],
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "2473"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 01:02:20 GMT"
+          ],
+          "Expires": [
+            "-1"
+          ],
+          "MS-CV": [
+            "Myabfi9Va0mmrko7Jo+thQ.0"
+          ],
+          "Pragma": [
+            "no-cache"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://profile.xboxlive.com/users/batch/profile/settings"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

@@ -1,0 +1,73 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T01:28:52",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "2"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://achievements.xboxlive.com/users/xuid(2669321029139235)/history/titles"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"titles\":[{\"lastUnlock\":\"2013-11-16T15:37:26.8018568Z\",\"titleId\":1331147,\"serviceConfigId\":\"054b0100-2668-415d-b546-f5f300144fcb\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"ESPN\",\"earnedAchievements\":1,\"currentGamerscore\":0,\"maxGamerscore\":0},{\"lastUnlock\":\"2015-04-15T00:22:27.0094276Z\",\"titleId\":16308048,\"serviceConfigId\":\"111f0100-b519-49cc-b26f-a92d00f8d750\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"TrueAchievements\",\"earnedAchievements\":6,\"currentGamerscore\":0,\"maxGamerscore\":0},{\"lastUnlock\":\"2015-07-16T16:30:26.5006136Z\",\"titleId\":16468936,\"serviceConfigId\":\"3e770100-834e-4b82-b82c-689a00fb4bc8\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"So Many Me\",\"earnedAchievements\":1,\"currentGamerscore\":10,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-08-16T16:21:16.2098394Z\",\"titleId\":19615130,\"serviceConfigId\":\"169f0100-035a-4cfb-9e87-4506012b4d9a\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Super Mega Baseball: Extra Innings\",\"earnedAchievements\":2,\"currentGamerscore\":10,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-11-10T23:49:22.7446488Z\",\"titleId\":28152906,\"serviceConfigId\":\"9cef0100-e20c-45e0-8cc0-a5cd01ad944a\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Lovers in a Dangerous Spacetime\",\"earnedAchievements\":1,\"currentGamerscore\":10,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-10-13T05:02:11.6861651Z\",\"titleId\":32924083,\"serviceConfigId\":\"36c10100-dd78-47ae-8604-45b801f661b3\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Teslapunk\",\"earnedAchievements\":2,\"currentGamerscore\":11,\"maxGamerscore\":1000},{\"lastUnlock\":\"2017-07-06T04:43:44.9050000Z\",\"titleId\":39069682,\"serviceConfigId\":\"83010100-b68c-4b7f-bad3-6be1025427f2\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"The Jackbox Party Pack 2\",\"earnedAchievements\":1,\"currentGamerscore\":50,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-06-19T22:10:54.4026184Z\",\"titleId\":58472989,\"serviceConfigId\":\"5af40b00-965f-4a28-aab5-cf69642bec88\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Killer Instinct\",\"earnedAchievements\":47,\"currentGamerscore\":460,\"maxGamerscore\":4935},{\"lastUnlock\":\"2016-03-12T09:35:16.6779085Z\",\"titleId\":74304278,\"serviceConfigId\":\"e2f10100-3928-4019-8789-5f12046dcb16\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Tom Clancy's The Division\",\"earnedAchievements\":8,\"currentGamerscore\":70,\"maxGamerscore\":1450},{\"lastUnlock\":\"2016-01-05T05:37:23.2342179Z\",\"titleId\":80579825,\"serviceConfigId\":\"f4ad0100-febf-441e-9f12-5f1204cd8cf1\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Call of Duty: Black Ops III\",\"earnedAchievements\":1,\"currentGamerscore\":20,\"maxGamerscore\":1950},{\"lastUnlock\":\"2015-07-28T16:45:49.4708867Z\",\"titleId\":85494077,\"serviceConfigId\":\"2eba0100-c9de-47f7-bfaa-6def0518893d\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Microsoft Solitaire Collection\",\"earnedAchievements\":3,\"currentGamerscore\":30,\"maxGamerscore\":1000},{\"lastUnlock\":\"2016-08-15T07:40:32.4850000Z\",\"titleId\":94618376,\"serviceConfigId\":\"f9d30100-7748-4d1a-b508-524805a3c308\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Overwatch: Origins Edition\",\"earnedAchievements\":19,\"currentGamerscore\":385,\"maxGamerscore\":1555},{\"lastUnlock\":\"2015-03-31T19:11:29.9985168Z\",\"titleId\":122001257,\"serviceConfigId\":\"64c10100-3d40-49d5-8f1c-c99807459769\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"YouTube\",\"earnedAchievements\":3,\"currentGamerscore\":0,\"maxGamerscore\":0},{\"lastUnlock\":\"2015-02-04T19:28:34.8746197Z\",\"titleId\":217831213,\"serviceConfigId\":\"f3530100-d12e-48ad-a4ea-37fc0cfbd72d\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"RISK\",\"earnedAchievements\":6,\"currentGamerscore\":225,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-11-11T06:22:21.9376390Z\",\"titleId\":219630713,\"serviceConfigId\":\"1370999b-fca2-4c53-8ec5-73493bcb67e5\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Halo 5: Guardians\",\"earnedAchievements\":24,\"currentGamerscore\":260,\"maxGamerscore\":1250},{\"lastUnlock\":\"2016-02-12T07:21:44.6050095Z\",\"titleId\":238373370,\"serviceConfigId\":\"45a30100-6c05-4b9d-8158-0e3b0e3549fa\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"FOX NOW\",\"earnedAchievements\":6,\"currentGamerscore\":0,\"maxGamerscore\":0},{\"lastUnlock\":\"2018-03-18T02:01:33.5903283Z\",\"titleId\":240091546,\"serviceConfigId\":\"f2220100-f81b-411c-8d12-4e7c0e4f819a\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"SUPERHOT\",\"earnedAchievements\":12,\"currentGamerscore\":230,\"maxGamerscore\":1000},{\"lastUnlock\":\"2014-09-20T05:12:07.3233127Z\",\"titleId\":247546985,\"serviceConfigId\":\"37770100-f9ae-4b80-9dad-7c1d0ec14469\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Destiny\",\"earnedAchievements\":13,\"currentGamerscore\":260,\"maxGamerscore\":1500},{\"lastUnlock\":\"2015-03-12T04:22:56.6820260Z\",\"titleId\":264259050,\"serviceConfigId\":\"96430100-71ae-4488-8791-79d50fc045ea\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Ori and the Blind Forest\",\"earnedAchievements\":3,\"currentGamerscore\":35,\"maxGamerscore\":1000},{\"lastUnlock\":\"2017-09-16T03:50:34.7590000Z\",\"titleId\":267695549,\"serviceConfigId\":\"93ac0100-efec-488c-af85-e5850ff4b5bd\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Fortnite Battle Royale\",\"earnedAchievements\":13,\"currentGamerscore\":150,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-04-22T04:31:10.1674048Z\",\"titleId\":301917535,\"serviceConfigId\":\"4dae0100-5f8f-4764-b3d6-85c811fee55f\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Battlefield\u2122 Hardline\",\"earnedAchievements\":29,\"currentGamerscore\":650,\"maxGamerscore\":1950},{\"lastUnlock\":\"2015-09-23T00:45:38.8390644Z\",\"titleId\":321779813,\"serviceConfigId\":\"671a0100-d83a-46fd-bc0a-3e90132df865\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Ultratron\",\"earnedAchievements\":11,\"currentGamerscore\":400,\"maxGamerscore\":1000},{\"lastUnlock\":\"2016-02-29T06:20:39.2157474Z\",\"titleId\":327370029,\"serviceConfigId\":\"595c0100-e535-40c1-93f6-a1b11383452d\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"Netflix\",\"earnedAchievements\":6,\"currentGamerscore\":0,\"maxGamerscore\":0},{\"lastUnlock\":\"2017-02-20T00:02:27.6620000Z\",\"titleId\":340920273,\"serviceConfigId\":\"bddf0100-1eee-4776-baa2-8123145207d1\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Overcooked\",\"earnedAchievements\":4,\"currentGamerscore\":171,\"maxGamerscore\":1000},{\"lastUnlock\":\"2014-10-10T00:03:14.9119312Z\",\"titleId\":345903534,\"serviceConfigId\":\"05c20100-6e60-45d5-878a-4903149e11ae\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Minecraft: Xbox One Edition\",\"earnedAchievements\":27,\"currentGamerscore\":405,\"maxGamerscore\":2025},{\"lastUnlock\":\"2014-10-30T00:38:01.7393653Z\",\"titleId\":369299403,\"serviceConfigId\":\"9a570100-866f-4e1c-8148-ebe116030fcb\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Volgarr the Viking\",\"earnedAchievements\":3,\"currentGamerscore\":150,\"maxGamerscore\":1000},{\"lastUnlock\":\"2014-06-25T23:01:32.2853305Z\",\"titleId\":370169912,\"serviceConfigId\":\"62c70100-ddf6-4a48-8aa0-aa0816105838\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Contrast\",\"earnedAchievements\":1,\"currentGamerscore\":25,\"maxGamerscore\":1000},{\"lastUnlock\":\"2014-06-03T22:13:15.7188751Z\",\"titleId\":379756733,\"serviceConfigId\":\"50290100-de34-4c53-b325-6a9316a2a0bd\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Nutjitsu\",\"earnedAchievements\":10,\"currentGamerscore\":1000,\"maxGamerscore\":1000},{\"lastUnlock\":\"2014-12-11T06:04:16.9816924Z\",\"titleId\":389597738,\"serviceConfigId\":\"f4f80100-7f03-4df9-8fbd-f0191738ca2a\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"Terraria\",\"earnedAchievements\":1,\"currentGamerscore\":5,\"maxGamerscore\":1000},{\"lastUnlock\":\"2014-12-20T01:13:35.1078394Z\",\"titleId\":398011207,\"serviceConfigId\":\"dca20100-15e7-41fb-b299-64fc17b92b47\",\"titleType\":\"DGame\",\"platform\":\"Durango\",\"name\":\"LIMBO\",\"earnedAchievements\":12,\"currentGamerscore\":900,\"maxGamerscore\":1000},{\"lastUnlock\":\"2015-04-30T22:18:39.4680453Z\",\"titleId\":417034865,\"serviceConfigId\":\"cc370100-2ce1-4b08-bd74-844818db7271\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"NFL on Xbox One\",\"earnedAchievements\":5,\"currentGamerscore\":0,\"maxGamerscore\":0},{\"lastUnlock\":\"2015-05-22T16:18:22.4785302Z\",\"titleId\":419416564,\"serviceConfigId\":\"2cecd28f-3e7f-4239-9047-20d1511b3e08\",\"titleType\":\"LiveApp\",\"platform\":\"Durango\",\"name\":\"Groove Music\",\"earnedAchievements\":5,\"currentGamerscore\":0,\"maxGamerscore\":0}],\"pagingInfo\":{\"continuationToken\":\"32\",\"totalRecords\":125}}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "8278"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 01:28:52 GMT"
+          ],
+          "Expires": [
+            "-1"
+          ],
+          "MS-CV": [
+            "Adjjn8xzbUGsHLS+KFA49w.0"
+          ],
+          "Pragma": [
+            "no-cache"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://achievements.xboxlive.com/users/xuid(2669321029139235)/history/titles"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
