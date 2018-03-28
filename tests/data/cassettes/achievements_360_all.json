@@ -1,0 +1,70 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T01:33:16",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://achievements.xboxlive.com/users/xuid(2669321029139235)/titleachievements?titleId=1297290392"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"achievements\":[{\"id\":1,\"titleId\":1297290392,\"name\":\"Booster-Bl\u00fcte\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":3,\"description\":\"Eine Gruppe aus Linienl\u00f6schern gemacht\",\"lockedDescription\":\"Mache eine Gruppe aus Linienl\u00f6schern\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":2,\"titleId\":1297290392,\"name\":\"Der Griff nach den Sternen\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":4,\"description\":\"Eine Blumenbombe gemacht\",\"lockedDescription\":\"Mache eine Blumenbombe\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":3,\"titleId\":1297290392,\"name\":\"Foto-Finish\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":5,\"description\":\"Einen Level beendet, indem beim letzten Zug ein Assist benutzt wurde\",\"lockedDescription\":\"Beende einen Level, indem du beim letzten Zug einen Assist benutzt\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":4,\"titleId\":1297290392,\"name\":\"Booster-Fachkraft\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":15,\"imageId\":6,\"description\":\"Jeden Booster und Assist im Spiel benutzt\",\"lockedDescription\":\"Benutze jeden Booster und Assist im Spiel\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":5,\"titleId\":1297290392,\"name\":\"Lass sie z\u00e4hlen\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":7,\"description\":\"+3 Z\u00fcge benutzt und einen Level in den letzten 3 Z\u00fcgen beendet\",\"lockedDescription\":\"Benutze +3 Z\u00fcge und beende einen Level in den letzten 3 Z\u00fcgen\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":6,\"titleId\":1297290392,\"name\":\"Die fantastischen F\u00fcnf\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":12,\"description\":\"Ein Farbl\u00f6scher-Hexa aus 5 Hexas erzeugt\",\"lockedDescription\":\"Erzeuge ein Farbl\u00f6scher-Hexa aus 5 Hexas\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":7,\"titleId\":1297290392,\"name\":\"Gel\u00f6schte Linien\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":10,\"description\":\"100 Linienl\u00f6scher-Hexas erzeugt\",\"lockedDescription\":\"Erzeuge 100 Linienl\u00f6scher-Hexas\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":8,\"titleId\":1297290392,\"name\":\"Gel\u00f6schte Farben\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":15,\"imageId\":13,\"description\":\"200 Farbl\u00f6scher-Hexas erzeugt\",\"lockedDescription\":\"Erzeuge 200 Farbl\u00f6scher-Hexas\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":9,\"titleId\":1297290392,\"name\":\"Schneller Verstand\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":14,\"description\":\"Das Spielanleitungs-Tutorial beendet\",\"lockedDescription\":\"Beende das Tutorial\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":10,\"titleId\":1297290392,\"name\":\"Hexamateur\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":15,\"description\":\"33 Level beendet\",\"lockedDescription\":\"Beende 33 Level\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":11,\"titleId\":1297290392,\"name\":\"Hexafiziert\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":10,\"imageId\":16,\"description\":\"66 Level beendet\",\"lockedDescription\":\"Beende 66 Level\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":12,\"titleId\":1297290392,\"name\":\"Hexaheld\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":25,\"imageId\":17,\"description\":\"100 Level beendet\",\"lockedDescription\":\"Beende 100 Level\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":13,\"titleId\":1297290392,\"name\":\"Die Zahl\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":15,\"imageId\":18,\"description\":\"In 42 Levels drei Sterne verdient\",\"lockedDescription\":\"Verdiene dir in 42 Levels drei Sterne\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":19,\"titleId\":1297290392,\"name\":\"Dunkle Zeiten\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":20,\"imageId\":24,\"description\":\"Alle Z\u00fcge in einem Level aufgebraucht, ohne ein Dunkles Fragment zu beseitigen\",\"lockedDescription\":\"Brauche alle Z\u00fcge in einem Level auf, ohne ein Dunkles Fragment zu beseitigen\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"},{\"id\":20,\"titleId\":1297290392,\"name\":\"Anomaliensammler\",\"sequence\":0,\"flags\":9,\"unlockedOnline\":false,\"unlocked\":false,\"isSecret\":false,\"platform\":255,\"gamerscore\":20,\"imageId\":25,\"description\":\"Einen Anomalie-Level beendet, ohne eine Anomalie auszulassen\",\"lockedDescription\":\"Beende einen Anomalie-Level, ohne eine Anomalie auszulassen\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2002-11-15T00:00:00.0000000Z\"}],\"pagingInfo\":{\"continuationToken\":null,\"totalRecords\":15},\"version\":\"0001-01-01T00:00:00.0000000Z\"}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "max-age=30"
+          ],
+          "Content-Length": [
+            "5665"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 01:33:16 GMT"
+          ],
+          "Expires": [
+            "30"
+          ],
+          "MS-CV": [
+            "ZtHaua1zyEicul6qmd68CQ.0"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://achievements.xboxlive.com/users/xuid(2669321029139235)/titleachievements?titleId=1297290392"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

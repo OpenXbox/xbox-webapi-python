@@ -1,0 +1,73 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T01:33:17",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://achievements.xboxlive.com/users/xuid(2669321029139235)/achievements?titleId=1297290392"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"achievements\":[{\"id\":6,\"titleId\":1297290392,\"name\":\"Die fantastischen F\u00fcnf\",\"sequence\":0,\"flags\":3342345,\"unlockedOnline\":true,\"unlocked\":true,\"isSecret\":false,\"platform\":15,\"gamerscore\":10,\"imageId\":12,\"description\":\"Ein Farbl\u00f6scher-Hexa aus 5 Hexas erzeugt\",\"lockedDescription\":\"Erzeuge ein Farbl\u00f6scher-Hexa aus 5 Hexas\",\"type\":1,\"isRevoked\":false,\"timeUnlocked\":\"2014-04-12T14:05:02.0000000Z\"}],\"pagingInfo\":{\"continuationToken\":null,\"totalRecords\":1},\"version\":\"0001-01-01T00:00:00.0000000Z\"}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "501"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 01:33:16 GMT"
+          ],
+          "Expires": [
+            "-1"
+          ],
+          "MS-CV": [
+            "ZVXm582qGUqbmpW47+3R3A.0"
+          ],
+          "Pragma": [
+            "no-cache"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://achievements.xboxlive.com/users/xuid(2669321029139235)/achievements?titleId=1297290392"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
