@@ -1,0 +1,73 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T13:04:08",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://social.xboxlive.com/users/me/summary"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"targetFollowingCount\":2,\"targetFollowerCount\":1,\"isCallerFollowingTarget\":false,\"isTargetFollowingCaller\":false,\"hasCallerMarkedTargetAsFavorite\":false,\"hasCallerMarkedTargetAsKnown\":false,\"legacyFriendStatus\":\"None\",\"availablePeopleSlots\":998,\"recentChangeCount\":1,\"watermark\":\"5248264408914225648\"}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "302"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 13:04:08 GMT"
+          ],
+          "MS-CV": [
+            "6EwtOKLgg0W3rjADe3l9nQ.0"
+          ],
+          "Vary": [
+            "Origin"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "x-xbl-machine-hash": [
+            "766AF621B4BD7B1E2DE8F6D7A5163697FCBF208CD2AAB61F3607C4D6B3BBF00A"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://social.xboxlive.com/users/me/summary"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

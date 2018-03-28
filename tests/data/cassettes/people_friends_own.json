@@ -1,0 +1,73 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T12:56:17",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://social.xboxlive.com/users/me/people"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"totalCount\":2,\"people\":[{\"xuid\":\"2669321029139235\",\"addedDateTimeUtc\":\"2018-03-28T00:21:05.4625422Z\",\"isFavorite\":false,\"isKnown\":false,\"socialNetworks\":[],\"isFollowedByCaller\":true,\"isFollowingCaller\":true,\"isUnfollowingFeed\":false},{\"xuid\":\"2584878536129841\",\"addedDateTimeUtc\":\"2018-03-28T00:20:35.8047047Z\",\"isFavorite\":false,\"isKnown\":false,\"socialNetworks\":[],\"isFollowedByCaller\":true,\"isFollowingCaller\":false,\"isUnfollowingFeed\":false}]}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "448"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 12:56:16 GMT"
+          ],
+          "MS-CV": [
+            "NH0bUGze8EmkWazGWfC4UA.0"
+          ],
+          "Vary": [
+            "Origin"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "x-xbl-machine-hash": [
+            "6DC898AAFF976F998C7D3A37C8860F769D48A7CE8F5C1DDEF67787F9CBFB3B19"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://social.xboxlive.com/users/me/people"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
