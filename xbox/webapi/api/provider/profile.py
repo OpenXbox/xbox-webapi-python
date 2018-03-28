@@ -3,23 +3,15 @@ Profile
 
 Get Userprofiles by XUID or Gamertag
 """
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
-class ProfileProvider(object):
+class ProfileProvider(BaseProvider):
     PROFILE_URL = "https://profile.xboxlive.com"
     HEADERS_PROFILE = {
         'x-xbl-contract-version': '2'
     }
     SEPARATOR = ","
-
-    def __init__(self, client):
-        """
-        Initialize an instance of ProfileProvider
-
-        Args:
-            client (:class:`XboxLiveClient`): Instance of XboxLiveClient
-        """
-        self.client = client
 
     def get_profiles(self, xuid_list):
         """

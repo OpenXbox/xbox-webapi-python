@@ -1,9 +1,10 @@
 """
 EPLists - Mainly used for XBL Pins
 """
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
-class ListsProvider(object):
+class ListsProvider(BaseProvider):
     LISTS_URL = "https://eplists.xboxlive.com"
     HEADERS_LISTS = {
         'Cache-Control': 'no-cache',
@@ -17,15 +18,6 @@ class ListsProvider(object):
     }
 
     SEPERATOR = "."
-
-    def __init__(self, client):
-        """
-        Initialize an instance of GamerpicsProvider
-
-        Args:
-            client (:class:`XboxLiveClient`): Instance of XboxLiveClient
-        """
-        self.client = client
 
     def remove_items(self, xuid, params, listname="XBLPins"):
         """

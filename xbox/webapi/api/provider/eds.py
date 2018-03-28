@@ -3,11 +3,11 @@ EDS (Entertainment Discovery Services)
 
 Used for searching the Xbox Live Marketplace
 """
-
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.common.enum import StrEnum
 
 
-class EDSProvider(object):
+class EDSProvider(BaseProvider):
     EDS_URL = "https://eds.xboxlive.com"
     HEADERS_EDS = {
         'Cache-Control': 'no-cache',
@@ -21,15 +21,6 @@ class EDSProvider(object):
     }
 
     SEPERATOR = "."
-
-    def __init__(self, client):
-        """
-        Initialize an instance of EDSProvider
-
-        Args:
-            client (:class:`XboxLiveClient`): Instance of XboxLiveClient
-        """
-        self.client = client
 
     def get_appchannel_channel_list(self, lineup_id):
         """

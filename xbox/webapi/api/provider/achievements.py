@@ -3,21 +3,13 @@ Achievements
 
 Get Xbox 360 and Xbox One Achievement data
 """
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
-class AchievementsProvider(object):
+class AchievementsProvider(BaseProvider):
     ACHIEVEMENTS_URL = "https://achievements.xboxlive.com"
     HEADERS_GAME_360_PROGRESS = {'x-xbl-contract-version': '1'}
     HEADERS_GAME_PROGRESS = {'x-xbl-contract-version': '2'}
-
-    def __init__(self, client):
-        """
-        Initialize an instance of AchievementsProvider
-
-        Args:
-            client (:class:`XboxLiveClient`): Instance of XboxLiveClient
-        """
-        self.client = client
 
     def get_achievements_detail_item(self, xuid, service_config_id, achievement_id):
         """
