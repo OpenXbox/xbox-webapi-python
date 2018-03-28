@@ -1,0 +1,70 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T14:41:30",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"messageText\": \"Test string\", \"header\": {\"recipients\": [{\"gamertag\": \"NoExist1\"}, {\"gamertag\": \"NoExist2\"}]}}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "109"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "POST",
+        "uri": "https://msg.xboxlive.com/users/xuid(987654321)/outbox"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 14:41:29 GMT"
+          ],
+          "MS-CV": [
+            "abAWpFMT0k65nuTmX2BgGQ.0"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://msg.xboxlive.com/users/xuid(987654321)/outbox"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

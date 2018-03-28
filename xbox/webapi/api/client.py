@@ -16,6 +16,7 @@ from xbox.webapi.api.provider.usersearch import UserSearchProvider
 from xbox.webapi.api.provider.gameclips import GameclipProvider
 from xbox.webapi.api.provider.people import PeopleProvider
 from xbox.webapi.api.provider.presence import PresenceProvider
+from xbox.webapi.api.provider.message import MessageProvider
 from xbox.webapi.api.language import XboxLiveLanguage
 
 log = logging.getLogger('xbox.api')
@@ -55,6 +56,7 @@ class XboxLiveClient(object):
         self.gameclips = GameclipProvider(self)
         self.people = PeopleProvider(self)
         self.presence = PresenceProvider(self)
+        self.message = MessageProvider(self)
 
     @property
     def xuid(self):

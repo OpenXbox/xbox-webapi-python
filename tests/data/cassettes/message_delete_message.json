@@ -1,0 +1,67 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-28T14:38:27",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "1"
+          ]
+        },
+        "method": "DELETE",
+        "uri": "https://msg.xboxlive.com/users/xuid(987654321)/inbox/1"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Date": [
+            "Wed, 28 Mar 2018 14:38:27 GMT"
+          ],
+          "MS-CV": [
+            "pLJTb9bkH0msyef592FBEw.0"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 204,
+          "message": "No Content"
+        },
+        "url": "https://msg.xboxlive.com/users/xuid(987654321)/inbox/1"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
