@@ -14,6 +14,7 @@ Submodules
    xbox.webapi.api.provider.usersearch
    xbox.webapi.api.provider.gameclips
    xbox.webapi.api.provider.people
+   xbox.webapi.api.provider.presence
 
 Module contents
 ---------------
