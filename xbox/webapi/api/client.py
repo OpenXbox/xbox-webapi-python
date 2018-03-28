@@ -11,6 +11,7 @@ from xbox.webapi.api.provider.eds import EDSProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
 from xbox.webapi.api.provider.lists import ListsProvider
 from xbox.webapi.api.provider.profile import ProfileProvider
+from xbox.webapi.api.provider.achievements import AchievementsProvider
 from xbox.webapi.api.language import XboxLiveLanguage
 
 log = logging.getLogger('xbox.api')
@@ -45,6 +46,7 @@ class XboxLiveClient(object):
         self.cqs = CQSProvider(self)
         self.lists = ListsProvider(self)
         self.profile = ProfileProvider(self)
+        self.achievements = AchievementsProvider(self)
 
     @property
     def xuid(self):
