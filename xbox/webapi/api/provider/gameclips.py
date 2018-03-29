@@ -24,9 +24,9 @@ class GameclipProvider(BaseProvider):
         }
         return self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
 
-    def get_own_clips(self, skip_items=0, max_items=25):
+    def get_recent_own_clips(self, skip_items=0, max_items=25):
         """
-        Get own clips
+        Get own recent clips
 
         Args:
             skip_items (int): Item count to skip
@@ -42,7 +42,7 @@ class GameclipProvider(BaseProvider):
         }
         return self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
 
-    def get_clips_by_xuid(self, xuid, skip_items=0, max_items=25):
+    def get_recent_clips_by_xuid(self, xuid, skip_items=0, max_items=25):
         """
         Get clips by XUID
 
