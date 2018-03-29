@@ -62,6 +62,18 @@ Credits
 This package uses parts of Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 The authentication code is based on `joealcorn/xbox`_
 
+Informations on endpoints gathered from:
+* `XboxLive REST Reference`_
+* `XboxLiveTraceAnalyzer APIMap`_
+* `Xbox Live Service API`_
+
 .. _`joealcorn/xbox`: https://github.com/joealcorn/xbox
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. _`XboxLive REST Reference`: https://docs.microsoft.com/en-us/windows/uwp/xbox-live/xbox-live-rest/atoc-xboxlivews-reference
+.. _`XboxLiveTraceAnalyzer APIMap`: https://github.com/Microsoft/xbox-live-trace-analyzer/blob/master/Source/XboxLiveTraceAnalyzer.APIMap.csv
+.. _`Xbox Live Service API`: https://github.com/Microsoft/xbox-live-api
+
+Disclaimer
+----------
+Xbox, Xbox One, Smartglass and Xbox Live are trademarks of Microsoft Corporation. Team OpenXbox is in no way endorsed by or affiliated with Microsoft Corporation, or any associated subsidiaries, logos or trademarks.
