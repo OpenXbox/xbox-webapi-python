@@ -1,0 +1,101 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-29T20:30:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"windowsPhoneProductIds\": [], \"pfns\": [\"Microsoft.SeaofThieves_8wekyb3d8bbwe\", \"Microsoft.XboxApp_8wekyb3d8bbwe\"]}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Accept-Language": [
+            "en-US"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "115"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-client-name": [
+            "XboxApp"
+          ],
+          "x-xbl-client-type": [
+            "UWA"
+          ],
+          "x-xbl-client-version": [
+            "39.39.22001.0"
+          ],
+          "x-xbl-contract-version": [
+            "2"
+          ]
+        },
+        "method": "POST",
+        "uri": "https://titlehub.xboxlive.com/titles/batch/decoration/achievement,detail,image,SCID"
+      },
+      "response": {
+        "body": {
+          "base64_string": "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",
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Length": [
+            "4825"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Thu, 29 Mar 2018 20:30:42 GMT"
+          ],
+          "Last-Modified": [
+            "2018-03-29T20:30:42.3475831Z"
+          ],
+          "MS-CV": [
+            "kqKGfPpTV0u1jRzIlWsamA.0"
+          ],
+          "Vary": [
+            "Accept-Encoding"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "x-xbl-machine-hash": [
+            "8609333D8BBE0CC68EA9A012AB91690BA76596BBAD381E550B1F62D2BEE618B0"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://titlehub.xboxlive.com/titles/batch/decoration/achievement,detail,image,SCID"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

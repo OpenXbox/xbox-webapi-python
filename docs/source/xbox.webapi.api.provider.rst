@@ -18,6 +18,7 @@ Submodules
    xbox.webapi.api.provider.message
    xbox.webapi.api.provider.userstats
    xbox.webapi.api.provider.screenshots
+   xbox.webapi.api.provider.titlehub
 
 Module contents
 ---------------
