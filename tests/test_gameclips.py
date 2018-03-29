@@ -3,7 +3,7 @@ from betamax import Betamax
 
 def test_gameclips_xuid(xbl_client):
     with Betamax(xbl_client.session).use_cassette('gameclips_clips_xuid'):
-        ret = xbl_client.gameclips.get_clips_by_xuid('2669321029139235', skip_items=0, max_items=25)
+        ret = xbl_client.gameclips.get_recent_clips_by_xuid('2669321029139235', skip_items=0, max_items=25)
 
         assert ret.status_code == 200
         data = ret.json()
@@ -13,7 +13,7 @@ def test_gameclips_xuid(xbl_client):
 
 def test_gameclips_own_clips(xbl_client):
     with Betamax(xbl_client.session).use_cassette('gameclips_own_clips'):
-        ret = xbl_client.gameclips.get_own_clips(skip_items=0, max_items=25)
+        ret = xbl_client.gameclips.get_recent_own_clips(skip_items=0, max_items=25)
 
         assert ret.status_code == 200
         data = ret.json()
