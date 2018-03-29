@@ -3,4 +3,4 @@
 """Top-level package for xbox-webapi-python."""
 
 __author__ = """OpenXbox"""
-__version__ = '1.0.7'
+__version__ = '1.0.8'
