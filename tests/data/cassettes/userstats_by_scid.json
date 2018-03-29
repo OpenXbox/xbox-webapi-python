@@ -1,0 +1,67 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-29T11:16:14",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-contract-version": [
+            "2"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://userstats.xboxlive.com/users/xuid(2669321029139235)/scids/1370999b-fca2-4c53-8ec5-73493bcb67e5/stats/MinutesPlayed"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"statlistscollection\":[{\"arrangebyfield\":\"xuid\",\"arrangebyfieldid\":\"2669321029139235\",\"stats\":[{\"xuid\":\"2669321029139235\",\"scid\":\"1370999b-fca2-4c53-8ec5-73493bcb67e5\",\"name\":\"MinutesPlayed\",\"type\":\"Integer\",\"value\":\"1220\",\"properties\":{}}]}]}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Content-Length": [
+            "244"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Thu, 29 Mar 2018 11:16:14 GMT"
+          ],
+          "MS-CV": [
+            "/7dUOMF5REGz6XOWSwbiPw.0"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://userstats.xboxlive.com/users/xuid(2669321029139235)/scids/1370999b-fca2-4c53-8ec5-73493bcb67e5/stats/MinutesPlayed"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
