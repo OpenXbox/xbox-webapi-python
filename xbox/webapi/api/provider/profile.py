@@ -99,6 +99,7 @@ class ProfileSettings(object):
     APP_DISPLAYPIC_RAW = "AppDisplayPicRaw"
     GAME_DISPLAYPIC_RAW = "GameDisplayPicRaw"
     PUBLIC_GAMERPIC = "PublicGamerpic"
+    SHOW_USER_AS_AVATAR = "ShowUserAsAvatar"
     GAMERSCORE = "Gamerscore"
     GAMERTAG = "Gamertag"
     ACCOUNT_TIER = "AccountTier"
@@ -109,3 +110,4 @@ class ProfileSettings(object):
     BIOGRAPHY = "Bio"
     WATERMARKS = "Watermarks"
     REAL_NAME = "RealName"
+    REAL_NAME_OVERRIDE = "RealNameOverride"
