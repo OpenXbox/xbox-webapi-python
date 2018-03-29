@@ -35,6 +35,9 @@ def main():
         config.define_cassette_placeholder(
             "<JWT>", mgr.xsts_token.jwt
         )
+        config.define_cassette_placeholder(
+            "<XUID>", str(mgr.userinfo.xuid)
+        )
 
     def dump_response(resp):
         print(resp.status_code)
