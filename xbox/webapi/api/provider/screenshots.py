@@ -26,7 +26,7 @@ class ScreenshotsProvider(BaseProvider):
 
     def get_recent_own_screenshots(self, title_id=None, skip_items=0, max_items=25):
         """
-        Get own recent screenshots, optionally filter for title Id an
+        Get own recent screenshots, optionally filter for title Id
 
         Args:
             title_id (int): Title ID to filter
