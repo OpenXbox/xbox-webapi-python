@@ -63,6 +63,7 @@ This package uses parts of Cookiecutter_ and the `audreyr/cookiecutter-pypackage
 The authentication code is based on `joealcorn/xbox`_
 
 Informations on endpoints gathered from:
+
 * `XboxLive REST Reference`_
 * `XboxLiveTraceAnalyzer APIMap`_
 * `Xbox Live Service API`_
