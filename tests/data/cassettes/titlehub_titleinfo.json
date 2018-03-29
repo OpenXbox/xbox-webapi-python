@@ -1,0 +1,95 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2018-03-29T20:30:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Accept-Language": [
+            "en-US"
+          ],
+          "Authorization": [
+            "XBL3.0 x=<UHS>;<JWT>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "x-xbl-client-name": [
+            "XboxApp"
+          ],
+          "x-xbl-client-type": [
+            "UWA"
+          ],
+          "x-xbl-client-version": [
+            "39.39.22001.0"
+          ],
+          "x-xbl-contract-version": [
+            "2"
+          ]
+        },
+        "method": "GET",
+        "uri": "https://titlehub.xboxlive.com/users/xuid(987654321)/titles/titleid(1717113201)/decoration/achievement,alternateTitleId,detail,image,SCID"
+      },
+      "response": {
+        "body": {
+          "base64_string": "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",
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache, no-store"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Encoding": [
+            "gzip"
+          ],
+          "Content-Length": [
+            "3006"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Thu, 29 Mar 2018 20:30:42 GMT"
+          ],
+          "Last-Modified": [
+            "2018-03-29T20:29:46.8872670Z"
+          ],
+          "MS-CV": [
+            "wywL8L+DEEqyZ+NOoXn5XA.0"
+          ],
+          "Vary": [
+            "Accept-Encoding"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "x-xbl-machine-hash": [
+            "0D692864CE487350273C3637440F2CDBDFD735E2E370F68E8CD43813F56E00D8"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://titlehub.xboxlive.com/users/xuid(987654321)/titles/titleid(1717113201)/decoration/achievement,alternateTitleId,detail,image,SCID"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
