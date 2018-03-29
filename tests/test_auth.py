@@ -78,7 +78,7 @@ def test_load_tokens_from_file(tokens_filepath):
     assert auth_manager.userinfo.xuid == '2535428504476914'
     assert auth_manager.userinfo.gamertag == 'xboxWebapiGamertag'
 
-    assert auth_manager.access_token is None
+    assert auth_manager.access_token.is_valid is False
     assert auth_manager.refresh_token.is_valid is True
     assert auth_manager.user_token.is_valid is True
     assert auth_manager.xsts_token is None
