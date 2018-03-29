@@ -16,6 +16,7 @@ Submodules
    xbox.webapi.api.provider.people
    xbox.webapi.api.provider.presence
    xbox.webapi.api.provider.message
+   xbox.webapi.api.provider.userstats
 
 Module contents
 ---------------
