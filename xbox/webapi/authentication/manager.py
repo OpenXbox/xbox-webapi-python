@@ -190,27 +190,26 @@ class AuthenticationManager(object):
         with io.open(filepath, 'rt') as f:
             json_file = json.load(f)
 
-        def should_replace(token_arg, token_file):
-            """Check if token from file is newer than from tokenstore"""
-            if (not token_arg or not token_arg.is_valid) and \
-                    token_file and token_file.is_valid:
+        def should_replace(token_arg):
+            """Check if stored token is non-existant or invalid"""
+            if not token_arg or not token_arg.is_valid:
                 return True
 
         file_tokens = json_file.get('tokens')
         for token in file_tokens:
             t = Token.from_dict(token)
             log.info('Loaded token %s from file' % type(t))
-            if isinstance(t, AccessToken) and should_replace(self.access_token, t):
+            if isinstance(t, AccessToken) and should_replace(self.access_token):
                 self.access_token = t
-            elif isinstance(t, RefreshToken) and should_replace(self.refresh_token, t):
+            elif isinstance(t, RefreshToken) and should_replace(self.refresh_token):
                 self.refresh_token = t
-            elif isinstance(t, UserToken) and should_replace(self.user_token, t):
+            elif isinstance(t, UserToken) and should_replace(self.user_token):
                 self.user_token = t
-            elif isinstance(t, DeviceToken) and should_replace(self.device_token, t):
+            elif isinstance(t, DeviceToken) and should_replace(self.device_token):
                 self.device_token = t
-            elif isinstance(t, TitleToken) and should_replace(self.title_token, t):
+            elif isinstance(t, TitleToken) and should_replace(self.title_token):
                 self.title_token = t
-            elif isinstance(t, XSTSToken) and should_replace(self.xsts_token, t):
+            elif isinstance(t, XSTSToken) and should_replace(self.xsts_token):
                 self.xsts_token = t
 
         file_userinfo = json_file.get('userinfo')
