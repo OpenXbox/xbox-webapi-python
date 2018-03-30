@@ -2,6 +2,13 @@
 History
 =======
 
+1.0.9 (2018-03-30)
+------------------
+
+* Extend **Gameclips** provider with title id filtering and saved clips
+* Add **Screenshots** provider
+* Add **Titlehub** provider
+
 1.0.8 (2018-03-29)
 ------------------
 
