@@ -10,26 +10,7 @@ class UserStatsProvider(BaseProvider):
     HEADERS_USERSTATS_WITH_METADATA = {'x-xbl-contract-version': '3'}
     SEPERATOR = ","
 
-    def get_stats(self, xuid, title_id, stats_fields=None):
-        """
-        Get userstats
-
-        Args:
-            xuid (str): Xbox User Id
-            title_id (str): Title Id of game
-            stats_fields (list): List of stats fields to acquire
-
-        Returns:
-            :class:`requests.Response`: HTTP Response
-        """
-        if not stats_fields:
-            stats_fields = [GeneralStatsField.MINUTES_PLAYED]
-        stats = self.SEPERATOR.join(stats_fields)
-
-        url = self.USERSTATS_URL + "/users/xuid(%s)/titles/%s/stats/%s" % (xuid, title_id, stats)
-        return self.client.session.get(url, headers=self.HEADERS_USERSTATS)
-
-    def get_stats_by_scid(self, xuid, service_config_id, stats_fields=None):
+    def get_stats(self, xuid, service_config_id, stats_fields=None):
         """
         Get userstats
 
@@ -48,29 +29,7 @@ class UserStatsProvider(BaseProvider):
         url = self.USERSTATS_URL + "/users/xuid(%s)/scids/%s/stats/%s" % (xuid, service_config_id, stats)
         return self.client.session.get(url, headers=self.HEADERS_USERSTATS)
 
-    def get_stats_with_metadata(self, xuid, title_id, stats_fields=None):
-        """
-        Get userstats including metadata for each stat (if available)
-
-        Args:
-            xuid (str): Xbox User Id
-            title_id (str): Title Id of game
-            stats_fields (list): List of stats fields to acquire
-
-        Returns:
-            :class:`requests.Response`: HTTP Response
-        """
-        if not stats_fields:
-            stats_fields = [GeneralStatsField.MINUTES_PLAYED]
-        stats = self.SEPERATOR.join(stats_fields)
-
-        url = self.USERSTATS_URL + "/users/xuid(%s)/titles/%s/stats/%s" % (xuid, title_id, stats)
-        params = {
-            'include': 'valuemetadata'
-        }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA)
-
-    def get_stats_with_metadata_by_scid(self, xuid, service_config_id, stats_fields=None):
+    def get_stats_with_metadata(self, xuid, service_config_id, stats_fields=None):
         """
         Get userstats including metadata for each stat (if available)
 
