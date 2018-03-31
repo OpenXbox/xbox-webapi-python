@@ -3,7 +3,7 @@ from betamax import Betamax
 
 def test_userstats_by_scid(xbl_client):
     with Betamax(xbl_client.session).use_cassette('userstats_by_scid'):
-        ret = xbl_client.userstats.get_stats_by_scid('2669321029139235', '1370999b-fca2-4c53-8ec5-73493bcb67e5')
+        ret = xbl_client.userstats.get_stats('2669321029139235', '1370999b-fca2-4c53-8ec5-73493bcb67e5')
 
         assert ret.status_code == 200
         data = ret.json()
@@ -20,8 +20,7 @@ def test_userstats_by_scid(xbl_client):
 
 def test_userstats_by_scid_with_metadata(xbl_client):
     with Betamax(xbl_client.session).use_cassette('userstats_by_scid_with_metadata'):
-        ret = xbl_client.userstats.get_stats_with_metadata_by_scid('2669321029139235',
-                                                                   '1370999b-fca2-4c53-8ec5-73493bcb67e5')
+        ret = xbl_client.userstats.get_stats_with_metadata('2669321029139235', '1370999b-fca2-4c53-8ec5-73493bcb67e5')
 
         assert ret.status_code == 200
         data = ret.json()
