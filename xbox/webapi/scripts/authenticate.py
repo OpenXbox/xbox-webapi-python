@@ -3,6 +3,7 @@ Example scripts that performs XBL authentication
 """
 import sys
 import argparse
+import getpass
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.exceptions import AuthenticationException
 
@@ -30,7 +31,7 @@ def main():
     if (not args.email or not args.password) and not tokens_loaded:
         print("Input authentication credentials")
         auth_mgr.email_address = input("Email: ")
-        auth_mgr.password = input("Password: ")
+        auth_mgr.password = getpass.getpass()
     elif args.email and args.password:
         auth_mgr.email_address = args.email
         auth_mgr.password = args.password
