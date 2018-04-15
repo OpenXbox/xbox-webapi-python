@@ -4,6 +4,7 @@ import argparse
 import betamax
 from betamax_serializers import pretty_json
 from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.scripts.constants import TOKENS_FILE
 from xbox.webapi.api.client import XboxLiveClient
 
 CASSETTE_LIBRARY_DIR = 'data/cassettes/'
@@ -13,7 +14,7 @@ betamax.Betamax.register_serializer(pretty_json.PrettyJSONSerializer)
 
 def main():
     parser = argparse.ArgumentParser(description="Search for Content on XBL")
-    parser.add_argument('--tokens', '-t', default='tokens.json',
+    parser.add_argument('--tokens', '-t', default=TOKENS_FILE,
                         help="Token file, if file doesnt exist it gets created")
     args = parser.parse_args()
 

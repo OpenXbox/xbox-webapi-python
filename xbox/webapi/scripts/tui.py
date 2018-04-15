@@ -3,6 +3,7 @@ import logging
 import argparse
 
 from xbox.webapi.authentication.manager import AuthenticationManager, AuthenticationException
+from xbox.webapi.scripts.constants import TOKENS_FILE
 
 
 class UrwidLogHandler(logging.Handler):
@@ -237,7 +238,7 @@ class WebAPIDisplay(object):
 
 def main():
     parser = argparse.ArgumentParser(description="Basic text user interface")
-    parser.add_argument('--tokens', '-t', default='tokens.json',
+    parser.add_argument('--tokens', '-t', default=TOKENS_FILE,
                         help="Token file, created by xbox-authenticate script")
     args = parser.parse_args()
 
