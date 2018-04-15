@@ -76,7 +76,7 @@ def test_sms_wrong_number(monkeypatch):
 
 def test_no_auth_methods():
     auth_manager = AuthenticationManager()
-    two_factor_auth = TwoFactorAuthentication(auth_manager.session)
+    two_factor_auth = TwoFactorAuthentication(auth_manager.session, input_prompt=None)
 
     with pytest.raises(AuthenticationException):
         two_factor_auth.authenticate(server_data=dict())
@@ -84,7 +84,7 @@ def test_no_auth_methods():
 
 def test_invalid_authmethod_choice(monkeypatch):
     auth_manager = AuthenticationManager()
-    two_factor_auth = TwoFactorAuthentication(auth_manager.session)
+    two_factor_auth = TwoFactorAuthentication(auth_manager.session, input_prompt=None)
 
     server_data = {
         'D': [
