@@ -248,8 +248,7 @@ class TwoFactorAuthentication(object):
         }]
         '''
         for k, v in server_data.items():
-            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and \
-                            'otcEnabled' in v[0] and 'data' in v[0]:
+            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and 'otcEnabled' in v[0] and 'data' in v[0]:
                 log.debug('Auth variants list found in serverData at \'{}\' node'.format(k))
                 auth_variants = v
 
