@@ -13,7 +13,8 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'requests',
     'python-dateutil',
-    'demjson'
+    'demjson',
+    'urwid'
 ]
 
 setup_requirements = ['pytest-runner']
