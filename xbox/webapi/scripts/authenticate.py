@@ -5,7 +5,59 @@ import sys
 import argparse
 import getpass
 from xbox.webapi.authentication.manager import AuthenticationManager
-from xbox.webapi.common.exceptions import AuthenticationException
+from xbox.webapi.authentication.two_factor import TwoFactorAuthentication, TwoFactorAuthMethods
+from xbox.webapi.common.exceptions import AuthenticationException, TwoFactorAuthRequired
+
+
+def __input_prompt(prompt, entries=None):
+    """
+    Args:
+        prompt (str): Prompt string
+        entries (list): optional, list of entries to choose from
+
+    Returns:
+        str: userinput
+    """
+    prepend = ''
+
+    if entries:
+        assert isinstance(entries, list)
+        prepend += 'Choose desired entry:\n'
+        for num, entry in enumerate(entries):
+            prepend += '  {}: {}\n'.format(num, entry)
+
+    return input(prepend + prompt + ' > ')
+
+
+def two_factor_auth(auth_mgr, server_data):
+    otc = None
+    proof = None
+
+    two_fa = TwoFactorAuthentication(auth_mgr.session, server_data)
+    strategies = two_fa.auth_strategies
+
+    entries = ['{!s}, Name: {}'.format(
+        TwoFactorAuthMethods(strategy.get('type', 0)), strategy.get('display'))
+        for strategy in strategies
+    ]
+
+    index = int(__input_prompt('Choose desired auth method', entries))
+
+    if index < 0 or index >= len(strategies):
+        raise AuthenticationException('Invalid auth strategy index chosen!')
+
+    verification_prompt = two_fa.get_method_verification_prompt(index)
+    if verification_prompt:
+        proof = __input_prompt(verification_prompt)
+
+    need_otc = two_fa.check_otc(index, proof)
+    if need_otc:
+        otc = __input_prompt('Enter One-Time-Code (OTC)')
+
+    access_token, refresh_token = two_fa.authenticate(index, proof, otc)
+    auth_mgr.access_token = access_token
+    auth_mgr.refresh_token = refresh_token
+    auth_mgr.authenticate()
 
 
 def main():
@@ -20,6 +72,9 @@ def main():
     args = parser.parse_args()
 
     tokens_loaded = False
+    two_factor_auth_required = False
+    server_data = None
+
     auth_mgr = AuthenticationManager()
     if args.tokenfile:
         try:
@@ -38,9 +93,20 @@ def main():
 
     try:
         auth_mgr.authenticate(do_refresh=True)
+    except TwoFactorAuthRequired as e:
+        print('2FA is required, message: %s' % e)
+        two_factor_auth_required = True
+        server_data = e.server_data
     except AuthenticationException as e:
         print('Email/Password authentication failed! Err: %s' % e)
         sys.exit(-1)
+
+    if two_factor_auth_required:
+        try:
+            two_factor_auth(auth_mgr, server_data)
+        except AuthenticationException as e:
+            print('2FA Authentication failed! Err: %s' % e)
+            sys.exit(-1)
 
     if args.tokenfile:
         auth_mgr.dump(args.tokenfile)
