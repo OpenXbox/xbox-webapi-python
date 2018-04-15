@@ -56,27 +56,27 @@ def main():
     title_id = '219630713'
     xuid = '2669321029139235'
 
-    req = [
+    # req = [
+    #     # client.screenshots.get_recent_own_screenshots(),
+    #     # client.screenshots.get_recent_own_screenshots(title_id),
+    #     # client.screenshots.get_recent_screenshots_by_xuid(xuid),
+    #     client.screenshots.get_recent_screenshots_by_xuid(xuid, title_id),
 
-        #client.screenshots.get_recent_own_screenshots(),
-        #client.screenshots.get_recent_own_screenshots(title_id),
-        #client.screenshots.get_recent_screenshots_by_xuid(xuid),
-        client.screenshots.get_recent_screenshots_by_xuid(xuid, title_id),
-
-        #client.screenshots.get_saved_community_screenshots_by_title_id(title_id),
-        #client.screenshots.get_saved_own_screenshots(),
-        #client.screenshots.get_saved_own_screenshots(title_id),
-        #client.screenshots.get_saved_screenshots_by_xuid(xuid),
-        #client.screenshots.get_saved_screenshots_by_xuid(xuid, title_id)
-    ]
+    #     # client.screenshots.get_saved_community_screenshots_by_title_id(title_id),
+    #     # client.screenshots.get_saved_own_screenshots(),
+    #     # client.screenshots.get_saved_own_screenshots(title_id),
+    #     # client.screenshots.get_saved_screenshots_by_xuid(xuid),
+    #     # client.screenshots.get_saved_screenshots_by_xuid(xuid, title_id)
+    # ]
 
     with recorder.use_cassette('screenshots_community'):
         client.screenshots.get_recent_community_screenshots_by_title_id(title_id)
     with recorder.use_cassette('screenshots_specific_user'):
         client.screenshots.get_recent_screenshots_by_xuid(xuid, title_id)
 
-    #for r in req:
-    #    dump_response(r)
+    # for r in req:
+    #     dump_response(r)
+
 
 if __name__ == '__main__':
     main()
