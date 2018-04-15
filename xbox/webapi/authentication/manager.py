@@ -10,7 +10,6 @@ import requests
 import re
 import demjson
 import logging
-import io
 
 import xml.dom.minidom as minidom
 
@@ -67,7 +66,7 @@ class AuthenticationManager(object):
             filepath (str): Filepath of json tokenfile
         """
 
-        with io.open(filepath, 'rt') as f:
+        with open(filepath, 'r') as f:
             json_file = json.load(f)
 
         def should_replace(token_arg):
@@ -118,7 +117,7 @@ class AuthenticationManager(object):
         if self.userinfo:
             json_file['userinfo'] = self.userinfo.to_dict()
 
-        with io.open(filepath, 'wt') as f:
+        with open(filepath, 'w') as f:
             json.dump(json_file, f, indent=2)
 
     def authenticate(self, do_refresh=True):
