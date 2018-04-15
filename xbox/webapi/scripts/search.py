@@ -27,8 +27,7 @@ def main():
         print('Please provide tokenfile with -t / --tokenfile switch')
         sys.exit(-1)
 
-    auth_mgr = AuthenticationManager()
-    auth_mgr.load_tokens_from_file(args.tokenfile)
+    auth_mgr = AuthenticationManager.from_file(args.tokenfile)
 
     try:
         auth_mgr.authenticate(do_refresh=True)

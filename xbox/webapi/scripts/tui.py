@@ -97,7 +97,7 @@ class WebAPIDisplay(object):
         self.view_stack = []
 
         try:
-            self.auth_mgr.load_tokens_from_file(self.tokenfile_path)
+            self.auth_mgr.load(self.tokenfile_path)
         except Exception as e:
             logging.debug('Tokens failed to load from file, Error: {}'.format(e))
 
@@ -243,6 +243,7 @@ def main():
 
     ui = WebAPIDisplay(args.tokens)
     ui.run()
+
 
 if __name__ == '__main__':
     main()
