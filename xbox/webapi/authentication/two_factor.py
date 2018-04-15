@@ -39,7 +39,7 @@ class TwoFactorAuthentication(object):
         """
         self.session = session
         if not input_prompt:
-            self.input_prompt = self._input
+            self.input_prompt = self.__input
         else:
             self.input_prompt = input_prompt
 
@@ -221,7 +221,7 @@ class TwoFactorAuthentication(object):
 
         return session_state
 
-    def _input(self, prompt, entries=None):
+    def __input(self, prompt, entries=None):
         """
         Internal input function. Used if no custom `input_prompt` function is passed.
         Asks user for input on stdin.
@@ -294,7 +294,7 @@ class TwoFactorAuthentication(object):
             for variant in auth_variants
         ]
 
-        index = int(self._input('Input desired auth method index: ', variants))
+        index = int(self.input_prompt('Input desired auth method index: ', variants))
 
         if index < 0 or index >= len(auth_variants):
             raise AuthenticationException('Invalid auth-method index chosen!')
@@ -311,9 +311,9 @@ class TwoFactorAuthentication(object):
         otc = None
 
         if TwoFactorAuthMethods.SMS == auth_type or TwoFactorAuthMethods.Voice == auth_type:
-            proof = self._input("Enter last four digits of following phone number '{}': ".format(auth_display))
+            proof = self.input_prompt("Enter last four digits of following phone number '{}': ".format(auth_display))
         elif TwoFactorAuthMethods.Email == auth_type:
-            proof = self._input("Enter the full mail address '{}': ".format(auth_display))
+            proof = self.input_prompt("Enter the full mail address '{}': ".format(auth_display))
 
         if TwoFactorAuthMethods.TOTPAuthenticator != auth_type:
             # TOTPAuthenticator V1 works without requesting anything
@@ -341,7 +341,7 @@ class TwoFactorAuthentication(object):
             auth_data = None
             """
         else:
-            otc = self._input("Input received OTC: ")
+            otc = self.input_prompt("Input received OTC: ")
 
         return self.finish_auth(email, flowtoken, post_url, auth_type,
                                 auth_data, otc, slk, proof)
