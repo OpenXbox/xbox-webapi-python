@@ -256,11 +256,14 @@ class TwoFactorAuthentication(object):
         if not auth_variants:
             raise AuthenticationException('No TwoFactor Auth Methods available?! That\'s weird!')
 
+        variants = ['Type: {!s}, Name: {}'.format(
+            TwoFactorAuthMethods(variant.get('type', 0)), variant.get('display'))
+            for variant in auth_variants
+        ]
         prompt = 'Available 2FA methods:\n'
-        for num, variant in enumerate(auth_variants):
-            prompt += '  Index: {}, Type: {}, Name: {}\n'.format(
-                num, TwoFactorAuthMethods(variant.get('type', 0)), variant.get('display')
-            )
+        for num, variant in enumerate(variants):
+            prompt += '  Index: {}, {}\n'.format(num, variant)
+
         prompt += 'Input desired auth method index: '
         index = int(input(prompt))
 
