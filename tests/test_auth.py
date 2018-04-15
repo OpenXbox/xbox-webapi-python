@@ -70,8 +70,7 @@ def test_auth_refresh_token():
 
 
 def test_load_tokens_from_file(tokens_filepath):
-    auth_manager = AuthenticationManager()
-    auth_manager.load_tokens_from_file(tokens_filepath)
+    auth_manager = AuthenticationManager.from_file(tokens_filepath)
 
     assert auth_manager.userinfo is not None
     assert auth_manager.userinfo.userhash == '1674471606081042789'
@@ -97,6 +96,6 @@ def test_save_tokens_to_file(tmpdir, jwt, token_timestring):
                                              privileges='123 321 432 654',
                                              user_privileges='123')
 
-    auth_manager.save_tokens_to_file(filepath)
+    auth_manager.dump(filepath)
 
     assert os.path.isfile(filepath) is True

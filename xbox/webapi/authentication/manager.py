@@ -44,148 +44,28 @@ class AuthenticationManager(object):
         self.session = requests.session()
         self.authenticated = False
 
-        self._email_address = None
-        self._password = None
+        self.email_address = None
+        self.password = None
 
-        self._userinfo = None
-        self._refresh_token = None
-        self._access_token = None
-        self._user_token = None
-        self._xsts_token = None
-        self._title_token = None
-        self._device_token = None
+        self.userinfo = None
+        self.refresh_token = None
+        self.access_token = None
+        self.user_token = None
+        self.xsts_token = None
+        self.title_token = None
+        self.device_token = None
 
     @property
     def is_authenticated(self):
         return self.authenticated
 
-    @property
-    def email_address(self):
-        """
-        Get or set Microsoft Account email address
+    @classmethod
+    def from_file(cls, filepath):
+        mgr = cls()
+        mgr.load(filepath)
+        return mgr
 
-        Returns:
-            str: `None` if not set
-        """
-        return self._email_address
-
-    @email_address.setter
-    def email_address(self, email_address):
-        self._email_address = email_address
-
-    @property
-    def password(self):
-        """
-        Get or set Microsoft Account password
-
-        Returns:
-            str: `None` if not set
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        self._password = password
-
-    @property
-    def userinfo(self):
-        """
-        Get or set Userinfo
-
-        Returns:
-            :class:`XboxLiveUserInfo`: `None` if not set
-        """
-        return self._userinfo
-
-    @userinfo.setter
-    def userinfo(self, userinfo):
-        self._userinfo = userinfo
-
-    @property
-    def refresh_token(self):
-        """
-        Get or set Refresh token
-
-        Returns:
-            :class:`RefreshToken`: `None` if not set
-        """
-        return self._refresh_token
-
-    @refresh_token.setter
-    def refresh_token(self, refresh_token):
-        self._refresh_token = refresh_token
-
-    @property
-    def access_token(self):
-        """
-        Get or set Access token
-
-        Returns:
-            :class:`AccessToken`: `None` if not set
-        """
-        return self._access_token
-
-    @access_token.setter
-    def access_token(self, access_token):
-        self._access_token = access_token
-
-    @property
-    def user_token(self):
-        """
-        Get or set User token
-
-        Returns:
-            :class:`UserToken`: `None` if not set
-        """
-        return self._user_token
-
-    @user_token.setter
-    def user_token(self, user_token):
-        self._user_token = user_token
-
-    @property
-    def xsts_token(self):
-        """
-        Get or set XSTS token
-
-        Returns:
-            :class:`XSTSToken`: `None` if not set
-        """
-        return self._xsts_token
-
-    @xsts_token.setter
-    def xsts_token(self, xsts_token):
-        self._xsts_token = xsts_token
-
-    @property
-    def title_token(self):
-        """
-        Get or set Title token
-
-        Returns:
-            :class:`TitleToken`: `None` if not set
-        """
-        return self._title_token
-
-    @title_token.setter
-    def title_token(self, title_token):
-        self._title_token = title_token
-
-    @property
-    def device_token(self):
-        """
-        Get or set Device token
-
-        Returns:
-            :class:`DeviceToken`: `None` if not set
-        """
-        return self._device_token
-
-    @device_token.setter
-    def device_token(self, device_token):
-        self._device_token = device_token
-
-    def load_tokens_from_file(self, filepath):
+    def load(self, filepath):
         """
         Load tokens and userinfo from file and replace old tokens IF NEEDED
 
@@ -222,7 +102,7 @@ class AuthenticationManager(object):
         if not self.userinfo and file_userinfo:
             self.userinfo = XboxLiveUserInfo.from_dict(file_userinfo)
 
-    def save_tokens_to_file(self, filepath):
+    def dump(self, filepath):
         """
         Save tokens and userinfo as json file
 
