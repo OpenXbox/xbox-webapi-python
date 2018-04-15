@@ -83,13 +83,15 @@ def main():
         except Exception as e:
             print('Failed to load tokens from %s, Error: %s' % (args.tokenfile, e))
 
-    if (not args.email or not args.password) and not tokens_loaded:
+    auth_mgr.email_address = args.email
+    auth_mgr.password = args.password
+
+    if (not args.email_address or not args.password) and not tokens_loaded:
         print("Input authentication credentials")
+    if not args.email and not tokens_loaded:
         auth_mgr.email_address = input("Email: ")
+    if not args.password and not tokens_loaded:
         auth_mgr.password = getpass.getpass()
-    elif args.email and args.password:
-        auth_mgr.email_address = args.email
-        auth_mgr.password = args.password
 
     try:
         auth_mgr.authenticate(do_refresh=True)
