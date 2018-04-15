@@ -241,7 +241,7 @@ class TwoFactorAuthentication(object):
             for num, entry in enumerate(entries):
                 prepend += '  {}: {}\n'.format(num, entry)
 
-        return input(prepend + prompt)
+        return input(prepend + prompt + ' :')
 
     def authenticate(self, server_data):
         """
@@ -294,7 +294,7 @@ class TwoFactorAuthentication(object):
             for variant in auth_variants
         ]
 
-        index = int(self.input_prompt('Input desired auth method index: ', variants))
+        index = int(self.input_prompt('Choose desired auth method', variants))
 
         if index < 0 or index >= len(auth_variants):
             raise AuthenticationException('Invalid auth-method index chosen!')
@@ -311,9 +311,9 @@ class TwoFactorAuthentication(object):
         otc = None
 
         if TwoFactorAuthMethods.SMS == auth_type or TwoFactorAuthMethods.Voice == auth_type:
-            proof = self.input_prompt("Enter last four digits of following phone number '{}': ".format(auth_display))
+            proof = self.input_prompt("Enter last four digits of following phone number '{}'".format(auth_display))
         elif TwoFactorAuthMethods.Email == auth_type:
-            proof = self.input_prompt("Enter the full mail address '{}': ".format(auth_display))
+            proof = self.input_prompt("Enter the full mail address '{}'".format(auth_display))
 
         if TwoFactorAuthMethods.TOTPAuthenticator != auth_type:
             # TOTPAuthenticator V1 works without requesting anything
