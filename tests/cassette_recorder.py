@@ -17,8 +17,7 @@ def main():
                         help="Token file, if file doesnt exist it gets created")
     args = parser.parse_args()
 
-    mgr = AuthenticationManager()
-    mgr.load_tokens_from_file(args.tokens)
+    mgr = AuthenticationManager.from_file(args.tokens)
 
     client = XboxLiveClient(mgr.userinfo.userhash,
                             mgr.xsts_token.jwt,

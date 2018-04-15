@@ -23,7 +23,7 @@ def main():
     auth_mgr = AuthenticationManager()
     if args.tokenfile:
         try:
-            auth_mgr.load_tokens_from_file(args.tokenfile)
+            auth_mgr.load(args.tokenfile)
             tokens_loaded = True
         except Exception as e:
             print('Failed to load tokens from %s, Error: %s' % (args.tokenfile, e))
@@ -43,7 +43,7 @@ def main():
         sys.exit(-1)
 
     if args.tokenfile:
-        auth_mgr.save_tokens_to_file(args.tokenfile)
+        auth_mgr.dump(args.tokenfile)
 
     print('Refresh Token: %s' % auth_mgr.refresh_token)
     print('XSTS Token: %s' % auth_mgr.xsts_token)
