@@ -90,7 +90,7 @@ class WebAPIDisplay(object):
     def __init__(self, tokenfile_path):
         self.tokenfile_path = tokenfile_path
 
-        self.auth_mgr = AuthenticationManager()
+        self.auth_mgr = AuthenticationManager(self._input_prompt)
 
         self.loop = None
         self.log = LogListBox(self)
@@ -124,6 +124,18 @@ class WebAPIDisplay(object):
             self.loop.draw_screen()
         else:
             self.do_quit()
+
+    def _input_prompt(self, prompt, entries):
+        if entries:
+            walker = urwid.SimpleFocusListWalker([urwid.Text(e) for e in entries])
+            listbox = urwid.ListBox(walker)
+            view = urwid.BoxAdapter(listbox, height=len(entries))
+        else:
+            view = urwid.Edit(align='left')
+
+        box = urwid.LineBox(view, title=prompt)
+        self._view_menu([box])
+        # TODO: Block until userinput is done
 
     def view_main(self):
         if self.need_full_auth:
