@@ -64,13 +64,17 @@ class LogButton(urwid.Button):
 
 
 class WebAPIDisplay(object):
+    focus_map = {
+        None: 'selected'
+    }
+
     palette = [
         ('bg', 'white', 'dark gray'),
         ('header', 'yellow', 'dark blue', 'standout'),
 
         # footer
         ('foot', 'dark cyan', 'dark blue', 'bold'),
-        ('key', 'light cyan', 'dark blue', 'underline'),
+        ('key', 'light cyan', 'dark blue', 'underline')
     ]
 
     header_text = ('header', [
@@ -129,11 +133,15 @@ class WebAPIDisplay(object):
 
     def _input_prompt(self, prompt, entries=None):
         if entries:
-            walker = urwid.SimpleFocusListWalker([urwid.Text(e) for e in entries])
+            list_entries = [
+                urwid.AttrWrap(urwid.SelectableIcon(e, cursor_position=0), None) for e in entries
+            ]
+            walker = urwid.SimpleFocusListWalker([urwid.AttrMap(e, None, self.focus_map) for e in list_entries])
             listbox = urwid.ListBox(walker)
             view = urwid.BoxAdapter(listbox, height=len(entries))
         else:
-            view = urwid.Edit(align='left')
+            view = urwid.AttrMap(urwid.Edit(align='left'), None, self.focus_map)
+
 
         # TODO: Some callback here?
         box = urwid.LineBox(view, title=prompt)
@@ -156,6 +164,7 @@ class WebAPIDisplay(object):
             for strategy in two_fa.auth_strategies
         ]
         self._input_prompt('Choose desired auth method', entries)
+        return
         index = 0
         # FIXME: ^ Dummy - need to get result from listbox
         verification_prompt = two_fa.get_method_verification_prompt(index)
@@ -219,18 +228,20 @@ class WebAPIDisplay(object):
             'Please authenticate with your Microsoft Account\n', align='center'
         )
         div = urwid.Divider()
-        email_text = urwid.Edit('Email Address: ', align='center')
-        password_text = urwid.Edit('Account Password: ', align='center', mask='*')
-        authenticate_button = urwid.Button('Authenticate')
-        cancel_button = urwid.Button('Cancel')
+        email_text = urwid.AttrMap(urwid.Edit('Email Address: '), None, self.focus_map)
+        password_text = urwid.AttrMap(urwid.Edit('Account Password: ', mask='*'), None, self.focus_map)
+        authenticate_button = urwid.AttrMap(urwid.Button('Authenticate'), None, self.focus_map)
+        cancel_button = urwid.AttrMap(urwid.Button('Cancel'), None, self.focus_map)
+        buttons = urwid.Padding(urwid.Pile([authenticate_button, cancel_button]),
+                                align='center', width=('relative', 23))
         pile = urwid.Pile(
-            [info_label, div, email_text, div, password_text, div, authenticate_button, cancel_button]
+            [info_label, div, email_text, div, password_text, div, buttons]
         )
         box = urwid.LineBox(pile, title='Authentication required')
 
-        urwid.connect_signal(authenticate_button, 'click', self._on_button_press,
-                             user_arg=[email_text, password_text])
-        urwid.connect_signal(cancel_button, 'click', self._on_button_press)
+        urwid.connect_signal(authenticate_button.base_widget, 'click', self._on_button_press,
+                             user_arg=[email_text.base_widget, password_text.base_widget])
+        urwid.connect_signal(cancel_button.base_widget, 'click', self._on_button_press)
 
         self._view_menu([box])
 
@@ -238,13 +249,13 @@ class WebAPIDisplay(object):
         text = urwid.Text(msg, align='center')
 
         if show_button:
-            button = urwid.Button('OK')
+            button = urwid.AttrMap(urwid.Button('OK'), None, self.focus_map)
             pad_button = urwid.Padding(button, 'center', ('relative', 10))
             pile = urwid.Pile([text, pad_button])
             box = urwid.LineBox(pile, title)
 
             # Clicking OK exits UI
-            urwid.connect_signal(button, 'click', self._on_button_press)
+            urwid.connect_signal(button.base_widget, 'click', self._on_button_press)
         else:
             box = urwid.LineBox(text, title)
 
@@ -277,7 +288,7 @@ class WebAPIDisplay(object):
 
     def unhandled_input(self, input):
         if input in ('q', 'Q'):
-            self.pop_view(self)
+            self.do_quit()
         elif input in ('l', 'L'):
             self.view_log()
 
