@@ -86,12 +86,12 @@ def main():
     auth_mgr.email_address = args.email
     auth_mgr.password = args.password
 
-    if (not args.email_address or not args.password) and not tokens_loaded:
-        print("Input authentication credentials")
+    if (not args.email or not args.password) and not tokens_loaded:
+        print("Please input authentication credentials")
     if not args.email and not tokens_loaded:
-        auth_mgr.email_address = input("Email: ")
+        auth_mgr.email_address = input("Microsoft Account Email: ")
     if not args.password and not tokens_loaded:
-        auth_mgr.password = getpass.getpass()
+        auth_mgr.password = getpass.getpass('Microsoft Account Password: ')
 
     try:
         auth_mgr.authenticate(do_refresh=True)
