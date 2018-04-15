@@ -12,15 +12,8 @@ import demjson
 import logging
 
 import xml.dom.minidom as minidom
+from urllib.parse import urlparse, parse_qs
 
-try:
-    # Python 3
-    from urllib.parse import urlparse, parse_qs
-except ImportError:
-    # Python 2
-    from urlparse import urlparse, parse_qs
-
-from xbox.webapi.authentication.two_factor import TwoFactorAuthentication
 from xbox.webapi.authentication.token import Token
 from xbox.webapi.authentication.token import AccessToken, RefreshToken, UserToken, DeviceToken, TitleToken, XSTSToken
 from xbox.webapi.common.exceptions import AuthenticationException, TwoFactorAuthRequired
