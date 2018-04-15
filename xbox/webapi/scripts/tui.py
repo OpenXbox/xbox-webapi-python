@@ -63,6 +63,22 @@ class LogButton(urwid.Button):
         self._w = urwid.AttrMap(self.textwidget, None, self.focus_map)
 
 
+class TabSwitchingPile(urwid.Pile):
+    def keypress(self, size, key):
+        if key == 'tab':
+            pos = self.focus_position + 1
+            while pos != self.focus_position:
+                if pos >= len(self.contents):
+                    pos = 0
+                widget, _ = self.contents[pos]
+                if widget.base_widget.selectable():
+                    self.focus_position = pos
+                    return
+                pos += 1
+        else:
+            return super(TabSwitchingPile, self).keypress(size, key)
+
+
 class WebAPIDisplay(object):
     focus_map = {
         None: 'selected'
@@ -234,7 +250,7 @@ class WebAPIDisplay(object):
         cancel_button = urwid.AttrMap(urwid.Button('Cancel'), None, self.focus_map)
         buttons = urwid.Padding(urwid.Pile([authenticate_button, cancel_button]),
                                 align='center', width=('relative', 23))
-        pile = urwid.Pile(
+        pile = TabSwitchingPile(
             [info_label, div, email_text, div, password_text, div, buttons]
         )
         box = urwid.LineBox(pile, title='Authentication required')
