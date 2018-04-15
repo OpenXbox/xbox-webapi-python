@@ -31,10 +31,16 @@ log = logging.getLogger('authentication')
 
 
 class AuthenticationManager(object):
-    def __init__(self):
+    def __init__(self, input_prompt=None):
         """
         Initialize an instance of :class:`AuthenticationManager`
+
+        Args:
+            input_prompt (function): Function with signature f(prompt => str, entries => list).
+                For more detailed explaination, see two_factor.TwoFactorAuthentication docstring.
         """
+        self.input_prompt = input_prompt
+
         self.session = requests.session()
         self.authenticated = False
 
@@ -357,7 +363,7 @@ class AuthenticationManager(object):
         proof_type = self.extract_js_object(response.content, "PROOF.Type")
         if proof_type:
             log.info("Two Factor Authentication required!")
-            twofactor = TwoFactorAuthentication(self.session)
+            twofactor = TwoFactorAuthentication(self.session, self.input_prompt)
             server_data = self.extract_js_object(response.content, "ServerData")
             response = twofactor.authenticate(server_data)
             if not response:

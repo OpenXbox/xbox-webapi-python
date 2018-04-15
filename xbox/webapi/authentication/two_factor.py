@@ -12,7 +12,7 @@ log = logging.getLogger('authentication-2factor')
 
 
 class TwoFactorAuthentication(object):
-    def __init__(self, session):
+    def __init__(self, session, input_prompt):
         """
         Handle Windows Live Two-Factor-Authentication (2FA).
 
@@ -26,10 +26,22 @@ class TwoFactorAuthentication(object):
         * MS Authenticator (Code)
         * MS Authenticator v2 (Push Message)
 
+        The `input_prompt` callback function is used whenever user input is required.
+        It works in two ways:
+        * If only `prompt` arg is passed, it simply asks for text input
+        * If `prompt` and `entries`-list is passed, a list of choices is assembled and user is asked to
+          select an item.
+
         Args:
             session (requests.session): Instance of :class:`requests.session`
+            input_prompt (function/NoneType): Function with signature f(prompt => str, entries => list).
+                If `None` is passed, the internal stdin input function is used.
         """
         self.session = session
+        if not input_prompt:
+            self.input_prompt = self._input
+        else:
+            self.input_prompt = input_prompt
 
     @staticmethod
     def verify_authenticator_v2_gif(response):
@@ -209,6 +221,28 @@ class TwoFactorAuthentication(object):
 
         return session_state
 
+    def _input(self, prompt, entries=None):
+        """
+        Internal input function. Used if no custom `input_prompt` function is passed.
+        Asks user for input on stdin.
+
+        Args:
+            prompt (str): Prompt string
+            entries (list): optional, list of entries to choose from
+
+        Returns:
+            str: userinput
+        """
+        prepend = ''
+
+        if entries:
+            assert isinstance(entries, list)
+            prepend += 'Choose desired entry:\n'
+            for num, entry in enumerate(entries):
+                prepend += '  {}: {}\n'.format(num, entry)
+
+        return input(prepend + prompt)
+
     def authenticate(self, server_data):
         """
         Perform chain of Two-Factor-Authentication (2FA) with the Windows Live Server.
@@ -256,16 +290,12 @@ class TwoFactorAuthentication(object):
         if not auth_variants:
             raise AuthenticationException('No TwoFactor Auth Methods available?! That\'s weird!')
 
-        variants = ['Type: {!s}, Name: {}'.format(
+        variants = ['{!s}, Name: {}'.format(
             TwoFactorAuthMethods(variant.get('type', 0)), variant.get('display'))
             for variant in auth_variants
         ]
-        prompt = 'Available 2FA methods:\n'
-        for num, variant in enumerate(variants):
-            prompt += '  Index: {}, {}\n'.format(num, variant)
 
-        prompt += 'Input desired auth method index: '
-        index = int(input(prompt))
+        index = int(self._input('Input desired auth method index: ', variants))
 
         if index < 0 or index >= len(auth_variants):
             raise AuthenticationException('Invalid auth-method index chosen!')
@@ -282,9 +312,9 @@ class TwoFactorAuthentication(object):
         otc = None
 
         if TwoFactorAuthMethods.SMS == auth_type or TwoFactorAuthMethods.Voice == auth_type:
-            proof = input("Enter last four digits of following phone number '{}': ".format(auth_display))
+            proof = self._input("Enter last four digits of following phone number '{}': ".format(auth_display))
         elif TwoFactorAuthMethods.Email == auth_type:
-            proof = input("Enter the full mail address '{}': ".format(auth_display))
+            proof = self._input("Enter the full mail address '{}': ".format(auth_display))
 
         if TwoFactorAuthMethods.TOTPAuthenticator != auth_type:
             # TOTPAuthenticator V1 works without requesting anything
@@ -312,7 +342,7 @@ class TwoFactorAuthentication(object):
             auth_data = None
             """
         else:
-            otc = input("Input received OTC: ")
+            otc = self._input("Input received OTC: ")
 
         return self.finish_auth(email, flowtoken, post_url, auth_type,
                                 auth_data, otc, slk, proof)
