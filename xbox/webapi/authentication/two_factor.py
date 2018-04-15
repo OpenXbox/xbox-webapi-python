@@ -226,7 +226,32 @@ class TwoFactorAuthentication(object):
         polling_url = server_data.get('Ac')  # NOQA
         flowtoken = server_data.get('sFT')
         post_url = server_data.get('urlPost')
-        auth_variants = server_data.get('Aw')
+        auth_variants = None
+
+        '''
+        15/04/2018
+        Auth variants node changes from time to time, changing to heuristic detection
+
+        Example node:
+        [{
+            data:'<some data>', type:1, display:'pyxb-testing@outlook.com', otcEnabled:true, otcSent:false,
+            isLost:false, isSleeping:false, isSADef:true, isVoiceDef:false, isVoiceOnly:false, pushEnabled:false
+          },
+          {
+            data:'<some data>', type:3, clearDigits:'69', ctryISO:'DE', display:'*********69', otcEnabled:true,
+            otcSent:false, voiceEnabled:true, isLost:false, isSleeping:false, isSADef:false, isVoiceDef:false,
+            isVoiceOnly:false, pushEnabled:false
+          },
+          {
+            data:'2342352452523414114', type:14, display:'2342352452523414114', otcEnabled:false, otcSent:false,
+            isLost:false, isSleeping:false, isSADef:false, isVoiceDef:false, isVoiceOnly:false, pushEnabled:true
+        }]
+        '''
+        for k, v in server_data.items():
+            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and \
+                            'otcEnabled' in v[0] and 'data' in v[0]:
+                log.debug('Auth variants list found in serverData at \'{}\' node'.format(k))
+                auth_variants = v
 
         if not auth_variants:
             raise AuthenticationException('No TwoFactor Auth Methods available?! That\'s weird!')
