@@ -2,7 +2,9 @@ import urwid
 import logging
 import argparse
 
-from xbox.webapi.authentication.manager import AuthenticationManager, AuthenticationException
+from xbox.webapi.common.exceptions import TwoFactorAuthRequired, AuthenticationException
+from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.authentication.two_factor import TwoFactorAuthentication, TwoFactorAuthMethods
 from xbox.webapi.scripts.constants import TOKENS_FILE
 
 
@@ -125,7 +127,7 @@ class WebAPIDisplay(object):
         else:
             self.do_quit()
 
-    def _input_prompt(self, prompt, entries):
+    def _input_prompt(self, prompt, entries=None):
         if entries:
             walker = urwid.SimpleFocusListWalker([urwid.Text(e) for e in entries])
             listbox = urwid.ListBox(walker)
@@ -133,9 +135,9 @@ class WebAPIDisplay(object):
         else:
             view = urwid.Edit(align='left')
 
+        # TODO: Some callback here?
         box = urwid.LineBox(view, title=prompt)
         self._view_menu([box])
-        # TODO: Block until userinput is done
 
     def view_main(self):
         if self.need_full_auth:
@@ -145,6 +147,35 @@ class WebAPIDisplay(object):
         else:
             self._authenticate()
 
+    def two_factor_auth(self, server_data):
+        proof = None
+        otc = None
+        two_fa = TwoFactorAuthentication(self.auth_mgr.session, server_data)
+        entries = ['{!s}, Name: {}'.format(
+            TwoFactorAuthMethods(strategy.get('type', 0)), strategy.get('display'))
+            for strategy in two_fa.auth_strategies
+        ]
+        self._input_prompt('Choose desired auth method', entries)
+        index = 0
+        # FIXME: ^ Dummy - need to get result from listbox
+        verification_prompt = two_fa.get_method_verification_prompt(index)
+        if verification_prompt:
+            self._input_prompt(verification_prompt)
+            proof = 'proof'
+            # FIXME: ^ Dummy - need to get result from Edit
+
+        need_otc = two_fa.check_otc(index, proof)
+        if need_otc:
+            self._input_prompt('Enter One-Time-Code (OTC)')
+            otc = '1234'
+            # FIXME: ^ Dummy - need to get result from Edit
+
+        self.view_msgbox('Waiting for 2FA to complete', 'Please wait', show_button=False)
+        access_token, refresh_token = two_fa.authenticate(index, proof, otc)
+        self.auth_mgr.access_token = access_token
+        self.auth_mgr.refresh_token = refresh_token
+        self._authenticate()
+
     def _authenticate(self, email=None, password=None, status_text='Authenticating...\n'):
         self.auth_mgr.email_address = email
         self.auth_mgr.password = password
@@ -153,11 +184,14 @@ class WebAPIDisplay(object):
             self.auth_mgr.authenticate(do_refresh=True)  # do_refresh=self.need_refresh
             self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success')
 
+        except TwoFactorAuthRequired as e:
+            try:
+                self.two_factor_auth(e.server_data)
+            except AuthenticationException as e:
+                raise e
         except AuthenticationException as e:
             logging.debug('Authentication failed, Error: {}'.format(e))
             self.view_msgbox('Authentication failed!\n{}\n'.format(e), 'Error')
-
-        return self.auth_mgr.is_authenticated
 
     def _on_button_press(self, button, user_arg=None):
         label = button.get_label()
