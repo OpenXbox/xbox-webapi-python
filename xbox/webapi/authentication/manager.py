@@ -23,16 +23,10 @@ log = logging.getLogger('authentication')
 
 
 class AuthenticationManager(object):
-    def __init__(self, input_prompt=None):
+    def __init__(self):
         """
         Initialize an instance of :class:`AuthenticationManager`
-
-        Args:
-            input_prompt (function): Function with signature f(prompt => str, entries => list).
-                For more detailed explaination, see two_factor.TwoFactorAuthentication docstring.
         """
-        self.input_prompt = input_prompt
-
         self.session = requests.session()
         self.authenticated = False
 

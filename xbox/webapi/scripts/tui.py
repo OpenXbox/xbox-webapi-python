@@ -90,7 +90,7 @@ class WebAPIDisplay(object):
     def __init__(self, tokenfile_path):
         self.tokenfile_path = tokenfile_path
 
-        self.auth_mgr = AuthenticationManager(self._input_prompt)
+        self.auth_mgr = AuthenticationManager()
 
         self.loop = None
         self.log = LogListBox(self)
