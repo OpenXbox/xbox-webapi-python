@@ -130,6 +130,7 @@ class AuthenticationManager(object):
 
         Raises:
             AuthenticationException: When neither token and credential authentication is successful
+            TwoFactorAuthRequired: If 2FA is required for this account
         """
 
         full_authentication_required = False
@@ -225,7 +226,7 @@ class AuthenticationManager(object):
 
         Raises:
             AuthenticationException: When returned headers do not contain Access-/Refresh-Tokens.
-            TwoFactorAuthRequired
+            TwoFactorAuthRequired: If 2FA is required for this account
 
         Returns:
             tuple: If authentication succeeds, `tuple` of (AccessToken, RefreshToken) is returned
