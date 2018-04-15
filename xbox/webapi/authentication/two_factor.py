@@ -226,7 +226,7 @@ class TwoFactorAuthentication(object):
         polling_url = server_data.get('Ac')  # NOQA
         flowtoken = server_data.get('sFT')
         post_url = server_data.get('urlPost')
-        auth_variants = server_data.get('D')
+        auth_variants = server_data.get('Aw')
 
         if not auth_variants:
             raise AuthenticationException('No TwoFactor Auth Methods available?! That\'s weird!')
