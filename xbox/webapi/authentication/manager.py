@@ -23,7 +23,7 @@ except ImportError:
 from xbox.webapi.authentication.two_factor import TwoFactorAuthentication
 from xbox.webapi.authentication.token import Token
 from xbox.webapi.authentication.token import AccessToken, RefreshToken, UserToken, DeviceToken, TitleToken, XSTSToken
-from xbox.webapi.common.exceptions import AuthenticationException
+from xbox.webapi.common.exceptions import AuthenticationException, TwoFactorAuthRequired
 from xbox.webapi.common.userinfo import XboxLiveUserInfo
 
 log = logging.getLogger('authentication')
@@ -177,7 +177,7 @@ class AuthenticationManager(object):
                 self.xsts_token, self.userinfo = self._xbox_live_authorize(self.user_token)
             self.authenticated = True
         except AuthenticationException as e:
-            log.warning('Token Auth failed: %s' % e)
+            log.warning('Token Auth failed: %s. Attempting auth via credentials' % e)
             full_authentication_required = True
 
         # Authentication via credentials
@@ -231,8 +231,8 @@ class AuthenticationManager(object):
             password (str):  Microsoft Account password
 
         Raises:
-            AuthenticationException: When two-factor-authentication fails or returned headers do not contain
-            Access-/Refresh-Tokens.
+            AuthenticationException: When returned headers do not contain Access-/Refresh-Tokens.
+            TwoFactorAuthRequired
 
         Returns:
             tuple: If authentication succeeds, `tuple` of (AccessToken, RefreshToken) is returned
@@ -241,12 +241,9 @@ class AuthenticationManager(object):
 
         proof_type = self.extract_js_object(response.content, "PROOF.Type")
         if proof_type:
-            log.info("Two Factor Authentication required!")
-            twofactor = TwoFactorAuthentication(self.session, self.input_prompt)
+            log.debug('Following 2fa proof-types gathered: {!s}'.format(proof_type))
             server_data = self.extract_js_object(response.content, "ServerData")
-            response = twofactor.authenticate(server_data)
-            if not response:
-                raise AuthenticationException("Two Factor Authentication failed!")
+            raise TwoFactorAuthRequired("Two Factor Authentication is required", server_data)
 
         if 'Location' not in response.headers:
             # we can only assume the login failed

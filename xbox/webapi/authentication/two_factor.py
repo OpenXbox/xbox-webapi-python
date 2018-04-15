@@ -12,7 +12,7 @@ log = logging.getLogger('authentication-2factor')
 
 
 class TwoFactorAuthentication(object):
-    def __init__(self, session, input_prompt):
+    def __init__(self, session, server_data):
         """
         Handle Windows Live Two-Factor-Authentication (2FA).
 
@@ -26,22 +26,60 @@ class TwoFactorAuthentication(object):
         * MS Authenticator (Code)
         * MS Authenticator v2 (Push Message)
 
-        The `input_prompt` callback function is used whenever user input is required.
-        It works in two ways:
-        * If only `prompt` arg is passed, it simply asks for text input
-        * If `prompt` and `entries`-list is passed, a list of choices is assembled and user is asked to
-          select an item.
-
         Args:
             session (requests.session): Instance of :class:`requests.session`
-            input_prompt (function/NoneType): Function with signature f(prompt => str, entries => list).
-                If `None` is passed, the internal stdin input function is used.
+            server_data (dict): Parsed js object from windows live auth request
         """
         self.session = session
-        if not input_prompt:
-            self.input_prompt = self.__input
-        else:
-            self.input_prompt = input_prompt
+        self.server_data = server_data
+        self.email = server_data.get('a')
+        self.polling_url = server_data.get('Ac')  # NOQA
+        self.flowtoken = server_data.get('sFT')
+        self.post_url = server_data.get('urlPost')
+        self.session_lookup_key = None
+        self._auth_strategies = self.parse_auth_strategies(server_data)
+
+    @property
+    def auth_strategies(self):
+        """
+        Get available authentication strategies
+
+        Returns: list
+        """
+        return self._auth_strategies
+
+    @staticmethod
+    def parse_auth_strategies(server_data):
+        """
+        Parses the list of supported authentication strategies
+
+        Auth variants position changes from time to time, so instead of accessing a fixed, named field,
+        heuristic detection is used
+
+        Example node:
+        [{
+            data:'<some data>', type:1, display:'pyxb-testing@outlook.com', otcEnabled:true, otcSent:false,
+            isLost:false, isSleeping:false, isSADef:true, isVoiceDef:false, isVoiceOnly:false, pushEnabled:false
+          },
+          {
+            data:'<some data>', type:3, clearDigits:'69', ctryISO:'DE', display:'*********69', otcEnabled:true,
+            otcSent:false, voiceEnabled:true, isLost:false, isSleeping:false, isSADef:false, isVoiceDef:false,
+            isVoiceOnly:false, pushEnabled:false
+          },
+          {
+            data:'2342352452523414114', type:14, display:'2342352452523414114', otcEnabled:false, otcSent:false,
+            isLost:false, isSleeping:false, isSADef:false, isVoiceDef:false, isVoiceOnly:false, pushEnabled:true
+        }]
+
+        Returns:
+            list: List of available auth strategies
+        """
+        for k, v in server_data.items():
+            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and \
+                            'otcEnabled' in v[0] and 'data' in v[0]:
+                return v
+
+        raise AuthenticationException('No 2fa auth strategies found!')
 
     @staticmethod
     def verify_authenticator_v2_gif(response):
@@ -86,15 +124,13 @@ class TwoFactorAuthentication(object):
 
         return AuthSessionState.ERROR
 
-    def request_otc(self, email, flowtoken, auth_type, proof, auth_data):
+    def _request_otc(self, auth_type, proof, auth_data):
         """
         Request OTC (One-Time-Code) if 2FA via Email, Mobile phone or MS Authenticator v2 is desired.
 
         Args:
-            email (str): Email Address of the Windows Live Account
-            flowtoken (str): Flowtoken, obtained from `serverData` (Windows Live Auth Request)
             auth_type (TwoFactorAuthMethods): Member of :class:`TwoFactorAuthMethods`
-            proof (str): Proof Verification, used by mobile phone and email-method, for MS Authenticator provide `None`
+            proof (str/NoneType): Proof Verification, used by mobile phone and email-method, for MS Authenticator provide `None`
             auth_data (str): Authentication data for this provided, specific authorization method
 
         Raises:
@@ -123,8 +159,8 @@ class TwoFactorAuthentication(object):
             )
 
         post_data = {
-            'login': email,
-            'flowtoken': flowtoken,
+            'login': self.email,
+            'flowtoken': self.flowtoken,
             'purpose': 'eOTT_OneTimePassword',
             'UIMode': '11',
             'channel': channel,
@@ -136,20 +172,15 @@ class TwoFactorAuthentication(object):
 
         return self.session.post(get_onetime_code_url, data=post_data, allow_redirects=False)
 
-    def finish_auth(self, email, flowtoken, post_url, auth_type,
-                    auth_data=None, otc=None, slk=None, proof_confirmation=None):
+    def _finish_auth(self, auth_type, auth_data, otc, proof_confirmation):
         """
         Finish the Two-Factor-Authentication. If it succeeds we are provided with Access and Refresh-Token.
 
         Args:
-            email (str): Email Address of the Windows Live Account
-            flowtoken (str): Flowtoken, obtained from `serverData` (Windows Live Auth Request)
-            post_url (str): Post URL, obtained from `serverData` (Windows Live Auth Request)
             auth_type (TwoFactorAuthMethods): Member of :class:`TwoFactorAuthMethods`
-            auth_data (str): Authentication data for this provided, specific authorization method
-            otc (str): One-Time-Code, required for every method except MS Authenticator v2
-            slk (str): Session-Lookup-Key, only needed for auth-method MS Authenticator v2
-            proof_confirmation (str): Confirmation of Email or mobile phone number, if that method was chosen
+            auth_data (str/NoneType): Authentication data for this provided, specific authorization method
+            otc (str/NoneType): One-Time-Code, required for every method except MS Authenticator v2
+            proof_confirmation (str/NoneType): Confirmation of Email or mobile phone number, if that method was chosen
 
         Returns:
             requests.Response: Instance of :class:`requests.Response`
@@ -169,8 +200,8 @@ class TwoFactorAuthentication(object):
             raise AuthenticationException('Unhandled case for submitting OTC')
 
         post_data = {
-            'login': email,
-            'PPFT': flowtoken,
+            'login': self.email,
+            'PPFT': self.flowtoken,
             'SentProofIDE': auth_data,
             'sacxt': '1',
             'saav': '0',
@@ -182,23 +213,19 @@ class TwoFactorAuthentication(object):
 
         if otc:
             post_data.update(dict(otc=otc))
-        if slk:
-            post_data.update(dict(slk=slk))
+        if self.session_lookup_key:
+            post_data.update(dict(slk=self.session_lookup_key))
         if proof_confirmation:
             post_data.update(dict(ProofConfirmation=proof_confirmation))
 
-        return self.session.post(post_url, data=post_data, allow_redirects=False)
+        return self.session.post(self.post_url, data=post_data, allow_redirects=False)
 
-    def poll_session_state(self, polling_url, slk):
+    def _poll_session_state(self):
         """
         Poll MS Authenticator v2 SessionState.
 
         Polling happens for maximum of 120 seconds if Authorization is not approved by the Authenticator App.
         It will return earlier if request gets approved/rejected.
-
-        Args:
-            polling_url (str): Polling url, obtained from `serverData` (Windows Live Auth Request)
-            slk (str): Session-Lookup-Key
 
         Returns:
             AuthSessionState: Current Session State
@@ -207,12 +234,12 @@ class TwoFactorAuthentication(object):
         time_now = time.time()
         time_end = time_now + max_time_seconds
 
-        params = dict(slk=slk)
+        params = dict(slk=self.session_lookup_key)
         log.info('Polling Authenticator v2 Verification for {} seconds'.format(max_time_seconds))
 
         session_state = AuthSessionState.PENDING
         while time_now < time_end:
-            gif_resp = self.session.get(polling_url, params=params)
+            gif_resp = self.session.get(self.polling_url, params=params)
             session_state = self.verify_authenticator_v2_gif(gif_resp)
             time.sleep(1)
             time_now = time.time()
@@ -221,103 +248,51 @@ class TwoFactorAuthentication(object):
 
         return session_state
 
-    def __input(self, prompt, entries=None):
+    def get_method_verification_prompt(self, strategy_index):
         """
-        Internal input function. Used if no custom `input_prompt` function is passed.
-        Asks user for input on stdin.
+        If auth strategy needs verification of method, get userprompt string
+
+        For example:
+        * Mobile phone verification (SMS, Voice) needs last 4 digits of mobile #
+        * Email verification needs whole address
 
         Args:
-            prompt (str): Prompt string
-            entries (list): optional, list of entries to choose from
+            strategy_index (int): Index of chosen auth strategy
 
         Returns:
-            str: userinput
+            str: Userinput prompt string if proof is needed, `None` otherwise
         """
-        prepend = ''
-
-        if entries:
-            assert isinstance(entries, list)
-            prepend += 'Choose desired entry:\n'
-            for num, entry in enumerate(entries):
-                prepend += '  {}: {}\n'.format(num, entry)
-
-        return input(prepend + prompt + ' :')
-
-    def authenticate(self, server_data):
-        """
-        Perform chain of Two-Factor-Authentication (2FA) with the Windows Live Server.
-
-        NOTE: This method prompts the user for text-input via stdin!
-
-        Args:
-            server_data (dict): Parsed javascript-object `serverData`, obtained from Windows Live Auth Request
-
-        Returns:
-            requests.Response: Instance of :class:`requests.Response`. Access / Refresh Tokens are contained in the
-            Location-Header!
-        """
-        email = server_data.get('a')
-        polling_url = server_data.get('Ac')  # NOQA
-        flowtoken = server_data.get('sFT')
-        post_url = server_data.get('urlPost')
-        auth_variants = None
-
-        '''
-        15/04/2018
-        Auth variants node changes from time to time, changing to heuristic detection
-
-        Example node:
-        [{
-            data:'<some data>', type:1, display:'pyxb-testing@outlook.com', otcEnabled:true, otcSent:false,
-            isLost:false, isSleeping:false, isSADef:true, isVoiceDef:false, isVoiceOnly:false, pushEnabled:false
-          },
-          {
-            data:'<some data>', type:3, clearDigits:'69', ctryISO:'DE', display:'*********69', otcEnabled:true,
-            otcSent:false, voiceEnabled:true, isLost:false, isSleeping:false, isSADef:false, isVoiceDef:false,
-            isVoiceOnly:false, pushEnabled:false
-          },
-          {
-            data:'2342352452523414114', type:14, display:'2342352452523414114', otcEnabled:false, otcSent:false,
-            isLost:false, isSleeping:false, isSADef:false, isVoiceDef:false, isVoiceOnly:false, pushEnabled:true
-        }]
-        '''
-        for k, v in server_data.items():
-            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and 'otcEnabled' in v[0] and 'data' in v[0]:
-                log.debug('Auth variants list found in serverData at \'{}\' node'.format(k))
-                auth_variants = v
-
-        if not auth_variants:
-            raise AuthenticationException('No TwoFactor Auth Methods available?! That\'s weird!')
-
-        variants = ['{!s}, Name: {}'.format(
-            TwoFactorAuthMethods(variant.get('type', 0)), variant.get('display'))
-            for variant in auth_variants
-        ]
-
-        index = int(self.input_prompt('Choose desired auth method', variants))
-
-        if index < 0 or index >= len(auth_variants):
-            raise AuthenticationException('Invalid auth-method index chosen!')
-
-        auth_variant = auth_variants[index]
-        auth_type = auth_variant.get('type')
-        auth_data = auth_variant.get('data')
-        auth_display = auth_variant.get('display')
-        auth_method = TwoFactorAuthMethods(auth_type)
-        log.debug('Using Method: {}'.format(auth_method))
-
-        proof = None
-        slk = None
-        otc = None
+        strategy = self.auth_strategies[strategy_index]
+        auth_type = strategy.get('type')
+        display_string = strategy.get('display')
 
         if TwoFactorAuthMethods.SMS == auth_type or TwoFactorAuthMethods.Voice == auth_type:
-            proof = self.input_prompt("Enter last four digits of following phone number '{}'".format(auth_display))
+            return "Enter last four digits of following phone number '{}'".format(display_string)
         elif TwoFactorAuthMethods.Email == auth_type:
-            proof = self.input_prompt("Enter the full mail address '{}'".format(auth_display))
+            return "Enter the full mail address '{}'".format(display_string)
 
-        if TwoFactorAuthMethods.TOTPAuthenticator != auth_type:
-            # TOTPAuthenticator V1 works without requesting anything
-            response = self.request_otc(email, flowtoken, auth_type, proof, auth_data)
+    def check_otc(self, strategy_index, proof):
+        """
+        Check if OneTimeCode is required. If it's required, request it.
+
+        Args:
+            strategy_index (int): Index of chosen auth strategy
+            proof (str/NoneType): Verification / proof of chosen auth strategy
+
+        Returns:
+            bool: `True` if OTC is required, `False` otherwise
+        """
+        strategy = self.auth_strategies[strategy_index]
+        auth_type = strategy.get('type')
+        auth_data = strategy.get('data')
+        response = None
+
+        if auth_type != TwoFactorAuthMethods.TOTPAuthenticator:
+            '''
+            TOTPAuthenticator V1 works without requesting anything (offline OTC generation)
+            TOTPAuthenticator V2 needs a cached `Session Lookup Key`, not OTC, we handle it here
+            '''
+            response = self._request_otc(auth_type, proof, auth_data)
             if response.status_code != 200:
                 raise AuthenticationException(
                     "Error requesting OTC, HTTP Code: %i" % response.status_code
@@ -325,26 +300,59 @@ class TwoFactorAuthentication(object):
             state = response.json()
             log.debug('State from Request OTC: %s' % state.get('State'))
 
+        if auth_type == TwoFactorAuthMethods.TOTPAuthenticatorV2:
+            # Smartphone push notification
+            self.session_lookup_key = response.json().get('SessionLookupKey')
+            return False
+        else:
+            return True
+
+    def authenticate(self, strategy_index, proof, otc):
+        """
+        Perform chain of Two-Factor-Authentication (2FA) with the Windows Live Server.
+
+        Args:
+            strategy_index (int): Index of chosen auth strategy
+            server_data (dict): Parsed javascript-object `serverData`, obtained from Windows Live Auth Request
+            otc (str): One Time Code
+
+        Returns:
+            tuple: If authentication succeeds, `tuple` of (AccessToken, RefreshToken) is returned
+        """
+        strategy = self.auth_strategies[strategy_index]
+        auth_type = strategy.get('type')
+        auth_data = strategy.get('data')
+        log.debug('Using Method: {!s}'.format(TwoFactorAuthMethods(auth_type)))
+
         if TwoFactorAuthMethods.TOTPAuthenticatorV2 == auth_type:
             raise AuthenticationException("TOTP v2 is currently broken")
-            """
-            slk = response.json().get('SessionLookupKey')
-            if not slk:
+            '''
+            if not self.session_lookup_key:
                 raise AuthenticationException('Did not receive SessionLookupKey from Authenticator V2 request!')
 
-            session_state = self.poll_session_state(polling_url, slk)
+            session_state = self.poll_session_state()
             if session_state != AuthSessionState.APPROVED:
                 raise AuthenticationException('Authentication by Authenticator V2 failed!'
                                               ' State: %s' % AuthSessionState[session_state])
 
             # Do not send auth_data when finishing TOTPv2 authentication
             auth_data = None
-            """
-        else:
-            otc = self.input_prompt("Input received OTC: ")
+            '''
+        response = self._finish_auth(auth_type, auth_data, otc, proof)
+        if 'Location' not in response.headers:
+            raise AuthenticationException("2FA: No \'Location\' header received!")
 
-        return self.finish_auth(email, flowtoken, post_url, auth_type,
-                                auth_data, otc, slk, proof)
+        # the access token is included in fragment of the location header
+        location = urlparse(response.headers['Location'])
+        fragment = parse_qs(location.fragment)
+
+        try:
+            access_token = AccessToken(fragment['access_token'][0], fragment['expires_in'][0])
+            refresh_token = RefreshToken(fragment['refresh_token'][0])
+        except NameError:
+            raise AuthenticationException("2FA: Location header does not hold access/refresh tokens!")
+
+        return access_token, refresh_token
 
 
 class AuthSessionState(IntEnum):
