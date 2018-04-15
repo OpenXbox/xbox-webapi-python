@@ -5,6 +5,8 @@ import struct
 import logging
 import time
 
+from urllib.parse import urlparse, parse_qs
+from xbox.webapi.authentication.token import AccessToken, RefreshToken
 from xbox.webapi.common.enum import IntEnum
 from xbox.webapi.common.exceptions import AuthenticationException
 
