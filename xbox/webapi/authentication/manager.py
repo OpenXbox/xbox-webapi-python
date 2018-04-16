@@ -393,6 +393,26 @@ class AuthenticationManager(object):
         ppft = server_data.get('sFTTag')
         ppft = minidom.parseString(ppft).getElementsByTagName("input")[0].getAttribute("value")
 
+        credential_type_url = None
+        for k, v in server_data.items():
+            if isinstance(v, str) and v.startswith('https://login.live.com/GetCredentialType.srf'):
+                credential_type_url = v
+        if not credential_type_url:
+            raise AuthenticationException('Did not find GetCredentialType URL')
+
+        post_data = {
+            'username': email,
+            'uaid': self.session.cookies['uaid'],
+            'isOtherIdpSupported': False,
+            'checkPhones': False,
+            'isRemoteNGCSupported': True,
+            'isCookieBannerShown': False,
+            'isFidoSupported': False,
+            'flowToken': ppft
+        }
+        resp = self.session.post(credential_type_url, json=post_data, headers=dict(Referer=resp.url))
+        credential_type = resp.json()
+
         post_data = {
             'login': email,
             'passwd': password,
@@ -403,6 +423,14 @@ class AuthenticationManager(object):
             'NewUser': '1',
             'LoginOptions': '1'
         }
+
+        if credential_type['Credentials']['HasRemoteNGC'] == 1:
+            ngc_params = credential_type['Credentials']['RemoteNgcParams']
+            post_data.update({
+                'ps': 2,
+                'psRNGCEntropy': ngc_params['SessionIdentifier'],
+                'psRNGCDefaultType': ngc_params['DefaultType']
+            })
 
         return self.session.post(server_data.get('urlPost'), data=post_data, allow_redirects=False)
 

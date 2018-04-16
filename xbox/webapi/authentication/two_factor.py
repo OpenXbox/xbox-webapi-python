@@ -36,7 +36,6 @@ class TwoFactorAuthentication(object):
         self.session = session
         self.server_data = server_data
         self.email = email
-        self.polling_url = server_data.get('Ac')  # NOQA
         self.flowtoken = server_data.get('sFT')
         self.post_url = server_data.get('urlPost')
         self.session_lookup_key = None
@@ -233,6 +232,13 @@ class TwoFactorAuthentication(object):
         Returns:
             AuthSessionState: Current Session State
         """
+        polling_url = None
+        for k, v in self.server_data.items():
+            if isinstance(v, str) and v.startswith('https://login.live.com/GetSessionState.srf'):
+                polling_url = v
+        if not polling_url:
+            raise AuthenticationException('Cannot find polling URL for TOTPv2 session state')
+
         max_time_seconds = 120.0
         time_now = time.time()
         time_end = time_now + max_time_seconds
@@ -242,7 +248,7 @@ class TwoFactorAuthentication(object):
 
         session_state = AuthSessionState.PENDING
         while time_now < time_end:
-            gif_resp = self.session.get(self.polling_url, params=params)
+            gif_resp = self.session.get(polling_url, params=params)
             session_state = self.verify_authenticator_v2_gif(gif_resp)
             time.sleep(1)
             time_now = time.time()
@@ -328,19 +334,16 @@ class TwoFactorAuthentication(object):
         log.debug('Using Method: {!s}'.format(TwoFactorAuthMethods(auth_type)))
 
         if TwoFactorAuthMethods.TOTPAuthenticatorV2 == auth_type:
-            raise AuthenticationException("TOTP v2 is currently broken")
-            '''
             if not self.session_lookup_key:
                 raise AuthenticationException('Did not receive SessionLookupKey from Authenticator V2 request!')
 
-            session_state = self.poll_session_state()
+            session_state = self._poll_session_state()
             if session_state != AuthSessionState.APPROVED:
                 raise AuthenticationException('Authentication by Authenticator V2 failed!'
                                               ' State: %s' % AuthSessionState[session_state])
 
             # Do not send auth_data when finishing TOTPv2 authentication
             auth_data = None
-            '''
         response = self._finish_auth(auth_type, auth_data, otc, proof)
         if 'Location' not in response.headers:
             raise AuthenticationException("2FA: No \'Location\' header received!")
