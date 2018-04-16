@@ -33,7 +33,7 @@ def two_factor_auth(auth_mgr, server_data):
     otc = None
     proof = None
 
-    two_fa = TwoFactorAuthentication(auth_mgr.session, server_data)
+    two_fa = TwoFactorAuthentication(auth_mgr.session, auth_mgr.email_address, server_data)
     strategies = two_fa.auth_strategies
 
     entries = ['{!s}, Name: {}'.format(
