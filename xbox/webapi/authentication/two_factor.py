@@ -14,7 +14,7 @@ log = logging.getLogger('authentication-2factor')
 
 
 class TwoFactorAuthentication(object):
-    def __init__(self, session, server_data):
+    def __init__(self, session, email, server_data):
         """
         Handle Windows Live Two-Factor-Authentication (2FA).
 
@@ -30,11 +30,12 @@ class TwoFactorAuthentication(object):
 
         Args:
             session (requests.session): Instance of :class:`requests.session`
+            email (str): Email address
             server_data (dict): Parsed js object from windows live auth request
         """
         self.session = session
         self.server_data = server_data
-        self.email = server_data.get('a')
+        self.email = email
         self.polling_url = server_data.get('Ac')  # NOQA
         self.flowtoken = server_data.get('sFT')
         self.post_url = server_data.get('urlPost')

@@ -15,7 +15,9 @@ def _do_2fa(cassette_name, strategy_index, proof=None, otc=None):
         with pytest.raises(TwoFactorAuthRequired) as excinfo:
             auth_manager.authenticate()
 
-        two_fa_auth = TwoFactorAuthentication(auth_manager.session, excinfo.value.server_data)
+        two_fa_auth = TwoFactorAuthentication(
+            auth_manager.session, auth_manager.email_address, excinfo.value.server_data
+        )
         two_fa_auth.check_otc(strategy_index, proof)
         access_token, refresh_token = two_fa_auth.authenticate(strategy_index, proof, otc)
         auth_manager.access_token = access_token
@@ -80,7 +82,7 @@ def test_sms_wrong_number():
 def test_no_auth_methods():
     auth_manager = AuthenticationManager()
     with pytest.raises(AuthenticationException):
-        TwoFactorAuthentication(auth_manager.session, server_data=dict())
+        TwoFactorAuthentication(auth_manager.session, 'fake@mail.com', server_data=dict())
 
 
 def test_invalid_authmethod_choice():
@@ -96,7 +98,7 @@ def test_invalid_authmethod_choice():
     }
 
     auth_manager = AuthenticationManager()
-    two_factor_auth = TwoFactorAuthentication(auth_manager.session, server_data)
+    two_factor_auth = TwoFactorAuthentication(auth_manager.session, 'fake@mail.com', server_data)
 
     with pytest.raises(IndexError):
         two_factor_auth.authenticate(strategy_index=99, proof=None, otc='')
