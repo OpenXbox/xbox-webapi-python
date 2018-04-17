@@ -326,7 +326,7 @@
       "response": {
         "body": {
           "encoding": null,
-          "string": "{\"IssueInstant\":\"2018-04-17T00:22:11.0660061Z\",\"NotAfter\":\"2018-05-01T00:22:11.0660061Z\",\"Token\":\"UserToken\",\"DisplayClaims\":{\"xui\":[{\"uhs\":\"1674471606081042789\"}]}}"
+          "string": "{\"IssueInstant\":\"2018-04-17T00:22:11.0660061Z\",\"NotAfter\":\"2099-05-01T00:22:11.0660061Z\",\"Token\":\"UserToken\",\"DisplayClaims\":{\"xui\":[{\"uhs\":\"1674471606081042789\"}]}}"
         },
         "headers": {
           "Cache-Control": [
@@ -397,7 +397,7 @@
       "response": {
         "body": {
           "encoding": null,
-          "string": "{\"IssueInstant\":\"2018-04-17T00:22:11.7851814Z\",\"NotAfter\":\"2018-04-17T16:22:11.7851814Z\",\"Token\":\"XSTSToken\",\"DisplayClaims\":{\"xui\":[{\"agg\":\"Adult\",\"gtg\":\"xboxWebapiGamertag\",\"prv\":\"186 187 188 191 193 196 198 199 200 201 204 205 206 208 211 217 220 224 227 228 235 238 245 247 249 252 254 255\",\"usr\":\"195\",\"utr\":\"190\",\"xid\":\"2535428504476914\",\"uhs\":\"1674471606081042789\"}]}}"
+          "string": "{\"IssueInstant\":\"2018-04-17T00:22:11.7851814Z\",\"NotAfter\":\"2099-04-17T16:22:11.7851814Z\",\"Token\":\"XSTSToken\",\"DisplayClaims\":{\"xui\":[{\"agg\":\"Adult\",\"gtg\":\"xboxWebapiGamertag\",\"prv\":\"186 187 188 191 193 196 198 199 200 201 204 205 206 208 211 217 220 224 227 228 235 238 245 247 249 252 254 255\",\"usr\":\"195\",\"utr\":\"190\",\"xid\":\"2535428504476914\",\"uhs\":\"1674471606081042789\"}]}}"
         },
         "headers": {
           "Cache-Control": [
