@@ -202,7 +202,7 @@ class WebAPIDisplay(object):
 
     def _two_factor_finish_auth(self, otc):
         self.otc = otc
-        self.view_msgbox('Waiting for 2FA to complete', 'Please wait', show_button=False)
+        self.view_msgbox('Waiting for 2FA to complete', 'Please wait')
 
         access_token, refresh_token = None, None
         try:
@@ -211,7 +211,8 @@ class WebAPIDisplay(object):
             )
         except AuthenticationException as e:
             logging.debug('2FA Authentication failed, Error: {}'.format(e))
-            self.view_msgbox('2FA Authentication failed!\n{}\n'.format(e), 'Error')
+            self.view_msgbox('2FA Authentication failed!\n{}\n'.format(e), 'Error',
+                             show_quit_button=True)
 
         self.auth_mgr.access_token = access_token
         self.auth_mgr.refresh_token = refresh_token
@@ -247,25 +248,29 @@ class WebAPIDisplay(object):
         self.auth_mgr.email_address = email
         self.auth_mgr.password = password
         try:
-            self.view_msgbox(status_text, 'Please wait', show_button=False)
+            self.view_msgbox(status_text, 'Please wait')
             self.auth_mgr.authenticate(do_refresh=True)  # do_refresh=self.need_refresh
             self.auth_mgr.dump(self.tokenfile_path)
-            self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success')
+            self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success',
+                             show_quit_button=True)
 
         except TwoFactorAuthRequired as e:
             self.view_two_factor_auth(e.server_data)
 
         except AuthenticationException as e:
             logging.debug('Authentication failed, Error: {}'.format(e))
-            self.view_msgbox('Authentication failed!\n{}\n'.format(e), 'Error')
+            self.view_msgbox('Authentication failed!\n{}\n'.format(e), 'Error',
+                             show_quit_button=True)
 
     def _on_button_press(self, button, user_arg=None):
         label = button.get_label()
         if 'Authenticate' == label:
             email, pwd = (t.get_edit_text() for t in user_arg)
             self._authenticate(email, pwd)
-        else:
+        elif 'Quit' == label:
             self.do_quit()
+        else:
+            raise ValueError('tui: Unexpected button pressed: {}'.format(label))
 
     def _view_menu(self, elements):
         header = urwid.AttrMap(urwid.Text(self.header_text), 'header')
@@ -302,11 +307,11 @@ class WebAPIDisplay(object):
 
         self._view_menu([box])
 
-    def view_msgbox(self, msg, title, show_button=True):
+    def view_msgbox(self, msg, title, show_quit_button=False):
         text = urwid.Text(msg, align='center')
 
-        if show_button:
-            button = urwid.AttrMap(urwid.Button('OK'), None, self.focus_map)
+        if show_quit_button:
+            button = urwid.AttrMap(urwid.Button('Quit'), None, self.focus_map)
             pad_button = urwid.Padding(button, 'center', ('relative', 10))
             pile = urwid.Pile([text, pad_button])
             box = urwid.LineBox(pile, title)
