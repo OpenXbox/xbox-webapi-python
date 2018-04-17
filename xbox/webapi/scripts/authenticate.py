@@ -7,6 +7,7 @@ import getpass
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.two_factor import TwoFactorAuthentication, TwoFactorAuthMethods
 from xbox.webapi.common.exceptions import AuthenticationException, TwoFactorAuthRequired
+from xbox.webapi.scripts.constants import TOKENS_FILE
 
 
 def __input_prompt(prompt, entries=None):
@@ -62,8 +63,9 @@ def two_factor_auth(auth_mgr, server_data):
 
 def main():
     parser = argparse.ArgumentParser(description="Authenticate with xbox live")
-    parser.add_argument('--tokenfile', '-t',
-                        help="Token file, if file doesnt exist it gets created")
+    parser.add_argument('--tokens', '-t', default=TOKENS_FILE,
+                        help="Token filepath, file gets created if nonexistent and auth is successful."
+                             " Default: {}".format(TOKENS_FILE))
     parser.add_argument('--email', '-e',
                         help="Microsoft Account Email address")
     parser.add_argument('--password', '-p',
@@ -76,12 +78,12 @@ def main():
     server_data = None
 
     auth_mgr = AuthenticationManager()
-    if args.tokenfile:
+    if args.tokens:
         try:
-            auth_mgr.load(args.tokenfile)
+            auth_mgr.load(args.tokens)
             tokens_loaded = True
-        except Exception as e:
-            print('Failed to load tokens from %s, Error: %s' % (args.tokenfile, e))
+        except FileNotFoundError as e:
+            print('Failed to load tokens from \'{}\'. Error: {}'.format(e.filename, e.strerror))
 
     auth_mgr.email_address = args.email
     auth_mgr.password = args.password
@@ -110,8 +112,8 @@ def main():
             print('2FA Authentication failed! Err: %s' % e)
             sys.exit(-1)
 
-    if args.tokenfile:
-        auth_mgr.dump(args.tokenfile)
+    if args.tokens:
+        auth_mgr.dump(args.tokens)
 
     print('Refresh Token: %s' % auth_mgr.refresh_token)
     print('XSTS Token: %s' % auth_mgr.xsts_token)
