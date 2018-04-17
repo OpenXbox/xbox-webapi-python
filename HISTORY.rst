@@ -2,6 +2,15 @@
 History
 =======
 
+1.1.0 (2018-04-17)
+------------------
+
+* Auth: Updated 2FA authentication to meet current windows live auth flow
+* Auth: Redesigned 2FA authentication procedure
+* Auth: Implemented xbox-auth-ui script (xbox.webapi.scripts.tui: urwid terminal ui)
+* Auth: For password masking, getpass instead or raw input() is used
+* Scripts: Default to appdirs.user_data_dir if no tokenfile provided via cmdline argument (see README)
+
 1.0.9 (2018-03-30)
 ------------------
 
