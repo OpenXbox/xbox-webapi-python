@@ -87,7 +87,96 @@
         }
       }, 
       "recorded_at": "2018-03-23T16:23:22"
-    }, 
+    },
+    {
+      "recorded_at": "2018-04-17T00:22:09",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"checkPhones\": false, \"flowToken\": \"Db3RZvVZqakFqj1nJFzQ5Sim5nuebhI04ONeRhkk0vmHWRxoDyL2BAyDLQRX3xI2PmFjBIcPpqzemzqZoeQo50j6Aj!7DLVxltw1aAz9ubCrGOMRxIn5R1LrqSbsR8EcXsq9GT8pFXPUXdYK*ylvTBFVujjwEmXNTroRR85TvR!4weg39tmHfi6tDbgOh8FmnKyXaMmIhVFrovSgW0m7F60$\", \"isOtherIdpSupported\": false, \"username\": \"pyxb-testing@outlook.com\", \"isCookieBannerShown\": false, \"isFidoSupported\": false, \"uaid\": \"c8124c1f3238423fa0caddbbcda2bd4e\", \"isRemoteNGCSupported\": true}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "454"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Cookie": [
+            "MSPRequ=lt=1523924527&co=1&id=N; MSPOK=$uuid-1b9159b0-4be8-4254-b0e4-8f3f85cd90f4; uaid=c8124c1f3238423fa0caddbbcda2bd4e"
+          ],
+          "Referer": [
+            "https://login.live.com/oauth20_authorize.srf?redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&client_id=0000000048093EE3&response_type=token&display=touch&locale=en"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ]
+        },
+        "method": "POST",
+        "uri": "https://login.live.com/GetCredentialType.srf?redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&client_id=0000000048093EE3&response_type=token&display=touch&locale=en&vv=1600&mkt=EN-US&lc=1033"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"Username\":\"pyxb-testing@outlook.com\",\"Display\":\"pyxb-testing@outlook.com\",\"Location\":\"\",\"IfExistsResult\":0,\"Credentials\":{\"PrefCredential\":1,\"HasPassword\":1,\"HasRemoteNGC\":0,\"HasFido\":0,\"HasPhone\":0}}"
+        },
+        "headers": {
+          "Cache-Control": [
+            "no-cache"
+          ],
+          "Connection": [
+            "close"
+          ],
+          "Content-Length": [
+            "200"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 17 Apr 2018 00:22:08 GMT"
+          ],
+          "Expires": [
+            "Tue, 17 Apr 2018 00:21:09 GMT"
+          ],
+          "P3P": [
+            "CP=\"DSP CUR OTPi IND OTRi ONL FIN\""
+          ],
+          "PPServer": [
+            "PPV: 30 H: BAYIDSLGN3A056 V: 0"
+          ],
+          "Pragma": [
+            "no-cache"
+          ],
+          "Server": [
+            "Microsoft-IIS/8.5"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ],
+          "X-Content-Type-Options": [
+            "nosniff"
+          ],
+          "X-XSS-Protection": [
+            "1; mode=block"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "https://login.live.com/GetCredentialType.srf?redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&client_id=0000000048093EE3&response_type=token&display=touch&locale=en&vv=1600&mkt=EN-US&lc=1033"
+      }
+    },
     {
       "request": {
         "body": {

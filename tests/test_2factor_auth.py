@@ -58,9 +58,18 @@ def test_totp_wrong_code():
                 strategy_index=2, otc='123456')
 
 
-def test_totp_v2_auth():
+def test_totp_v2_auth_accept():
+    ret = _do_2fa('2fa_totpv2_accept', strategy_index=2)
+
+    assert ret.access_token.jwt == 'AccessToken'
+    assert ret.refresh_token.jwt == 'RefreshToken'
+    assert ret.user_token.jwt == 'UserToken'
+    assert ret.xsts_token.jwt == 'XSTSToken'
+
+
+def test_totp_v2_auth_reject():
     with pytest.raises(AuthenticationException):
-        _do_2fa('2fa_totpv2_accept', strategy_index=2)
+        _do_2fa('2fa_totpv2_reject', strategy_index=3)
 
 
 def test_sms_all_correct():
