@@ -249,6 +249,7 @@ class WebAPIDisplay(object):
         try:
             self.view_msgbox(status_text, 'Please wait', show_button=False)
             self.auth_mgr.authenticate(do_refresh=True)  # do_refresh=self.need_refresh
+            self.auth_mgr.dump(self.tokenfile_path)
             self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success')
 
         except TwoFactorAuthRequired as e:
