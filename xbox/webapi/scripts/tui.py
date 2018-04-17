@@ -248,10 +248,10 @@ class WebAPIDisplay(object):
         password_text = urwid.AttrMap(urwid.Edit('Account Password: ', mask='*'), None, self.focus_map)
         authenticate_button = urwid.AttrMap(urwid.Button('Authenticate'), None, self.focus_map)
         cancel_button = urwid.AttrMap(urwid.Button('Cancel'), None, self.focus_map)
-        buttons = urwid.Padding(urwid.Pile([authenticate_button, cancel_button]),
-                                align='center', width=('relative', 23))
+        authenticate_button = urwid.Padding(authenticate_button, align='center', width=('relative', 30))
+        cancel_button = urwid.Padding(cancel_button, align='center', width=('relative', 23))
         pile = TabSwitchingPile(
-            [info_label, div, email_text, div, password_text, div, buttons]
+            [info_label, div, email_text, div, password_text, div, authenticate_button, cancel_button]
         )
         box = urwid.LineBox(pile, title='Authentication required')
 
