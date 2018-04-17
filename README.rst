@@ -49,6 +49,17 @@ Authentication::
   # If you have a shell compatible with ncurses, you can use the Terminal UI app
   xbox-auth-ui --tokens tokens.json
 
+Fallback Authentication::
+
+  # In case this authentication flow breaks or you do not trust the code with your credentials..
+  # Execute:
+  xbox-auth-via-browser
+
+  # Copy the returned URL into your web-browser and authenticate
+  # Once you finished auth and reached a blank page, copy the redirect url from your browser address-field
+  # Execute the script again, this time with supplied redirect url
+  xbox-auth-via-browser 'https://login.live.com/oauth20_desktop.srf?...access_token=...&refresh_token=...'
+
 API usage::
 
   # Search Xbox One Catalog
