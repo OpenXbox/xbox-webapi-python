@@ -264,7 +264,7 @@ class WebAPIDisplay(object):
             email, pwd = (t.get_edit_text() for t in user_arg)
             self._authenticate(email, pwd)
         else:
-            raise urwid.ExitMainLoop()
+            self.do_quit()
 
     def _view_menu(self, elements):
         header = urwid.AttrMap(urwid.Text(self.header_text), 'header')
