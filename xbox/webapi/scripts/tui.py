@@ -79,6 +79,30 @@ class TabSwitchingPile(urwid.Pile):
             return super(TabSwitchingPile, self).keypress(size, key)
 
 
+class SelectableListBox(urwid.ListBox):
+    def __init__(self, body, callback):
+        super(SelectableListBox, self).__init__(body)
+        self.callback = callback
+
+    def keypress(self, size, key):
+        if key == 'enter':
+            self.callback(self.focus_position)
+        else:
+            return super(SelectableListBox, self).keypress(size, key)
+
+
+class QuestionBox(urwid.Edit):
+    def __init__(self, callback, **kwargs):
+        super(QuestionBox, self).__init__(**kwargs)
+        self.callback = callback
+
+    def keypress(self, size, key):
+        if key != 'enter':
+            return super(QuestionBox, self).keypress(size, key)
+        else:
+            self.callback(self.edit_text)
+
+
 class WebAPIDisplay(object):
     focus_map = {
         None: 'selected'
@@ -113,6 +137,12 @@ class WebAPIDisplay(object):
         self.tokenfile_path = tokenfile_path
 
         self.auth_mgr = AuthenticationManager()
+        self.two_factor_auth = None
+
+        # 2FA cache
+        self.index = None
+        self.proof = None
+        self.otc = None
 
         self.loop = None
         self.log = LogListBox(self)
@@ -147,19 +177,18 @@ class WebAPIDisplay(object):
         else:
             self.do_quit()
 
-    def _input_prompt(self, prompt, entries=None):
+    def _input_prompt(self, prompt, callback, entries=None):
         if entries:
             list_entries = [
                 urwid.AttrWrap(urwid.SelectableIcon(e, cursor_position=0), None) for e in entries
             ]
             walker = urwid.SimpleFocusListWalker([urwid.AttrMap(e, None, self.focus_map) for e in list_entries])
-            listbox = urwid.ListBox(walker)
+            listbox = SelectableListBox(walker, callback)
             view = urwid.BoxAdapter(listbox, height=len(entries))
         else:
-            view = urwid.AttrMap(urwid.Edit(align='left'), None, self.focus_map)
+            edit_text = QuestionBox(callback, align='left')
+            view = urwid.AttrMap(edit_text, None, self.focus_map)
 
-
-        # TODO: Some callback here?
         box = urwid.LineBox(view, title=prompt)
         self._view_menu([box])
 
@@ -171,35 +200,48 @@ class WebAPIDisplay(object):
         else:
             self._authenticate()
 
-    def two_factor_auth(self, server_data):
-        proof = None
-        otc = None
-        two_fa = TwoFactorAuthentication(self.auth_mgr.session, server_data)
-        entries = ['{!s}, Name: {}'.format(
-            TwoFactorAuthMethods(strategy.get('type', 0)), strategy.get('display'))
-            for strategy in two_fa.auth_strategies
-        ]
-        self._input_prompt('Choose desired auth method', entries)
-        return
-        index = 0
-        # FIXME: ^ Dummy - need to get result from listbox
-        verification_prompt = two_fa.get_method_verification_prompt(index)
-        if verification_prompt:
-            self._input_prompt(verification_prompt)
-            proof = 'proof'
-            # FIXME: ^ Dummy - need to get result from Edit
-
-        need_otc = two_fa.check_otc(index, proof)
-        if need_otc:
-            self._input_prompt('Enter One-Time-Code (OTC)')
-            otc = '1234'
-            # FIXME: ^ Dummy - need to get result from Edit
-
+    def _two_factor_finish_auth(self, otc):
+        self.otc = otc
         self.view_msgbox('Waiting for 2FA to complete', 'Please wait', show_button=False)
-        access_token, refresh_token = two_fa.authenticate(index, proof, otc)
+
+        access_token, refresh_token = None, None
+        try:
+            access_token, refresh_token = self.two_factor_auth.authenticate(
+                self.index, self.proof, self.otc
+            )
+        except AuthenticationException as e:
+            logging.debug('2FA Authentication failed, Error: {}'.format(e))
+            self.view_msgbox('2FA Authentication failed!\n{}\n'.format(e), 'Error')
+
         self.auth_mgr.access_token = access_token
         self.auth_mgr.refresh_token = refresh_token
         self._authenticate()
+
+    def _two_factor_auth_ask_otc(self, proof):
+        self.proof = proof
+        need_otc = self.two_factor_auth.check_otc(self.index, proof)
+        if need_otc:
+            self._input_prompt('Enter One-Time-Code (OTC)', self._two_factor_finish_auth)
+        else:
+            self._two_factor_finish_auth(None)
+
+    def _two_factor_auth_verify_proof(self, index):
+        self.index = index
+        verification_prompt = self.two_factor_auth.get_method_verification_prompt(index)
+        if verification_prompt:
+            self._input_prompt(verification_prompt, self._two_factor_auth_ask_otc)
+        else:
+            self._two_factor_auth_ask_otc(None)
+
+    def view_two_factor_auth(self, server_data):
+        self.two_factor_auth = TwoFactorAuthentication(
+            self.auth_mgr.session, self.auth_mgr.email_address, server_data
+        )
+        entries = ['{!s}, Name: {}'.format(
+            TwoFactorAuthMethods(strategy.get('type', 0)), strategy.get('display'))
+            for strategy in self.two_factor_auth.auth_strategies
+        ]
+        self._input_prompt('Choose desired auth method', self._two_factor_auth_verify_proof, entries)
 
     def _authenticate(self, email=None, password=None, status_text='Authenticating...\n'):
         self.auth_mgr.email_address = email
@@ -210,10 +252,8 @@ class WebAPIDisplay(object):
             self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success')
 
         except TwoFactorAuthRequired as e:
-            try:
-                self.two_factor_auth(e.server_data)
-            except AuthenticationException as e:
-                raise e
+            self.view_two_factor_auth(e.server_data)
+
         except AuthenticationException as e:
             logging.debug('Authentication failed, Error: {}'.format(e))
             self.view_msgbox('Authentication failed!\n{}\n'.format(e), 'Error')
