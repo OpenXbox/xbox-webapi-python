@@ -16,12 +16,12 @@ Xbox-WebAPI
 
 Xbox-WebAPI is a python library to authenticate with Xbox Live via your Microsoft Account and provides Xbox related Web-API.
 
-Authentication via credentials or tokens is supported, Two-Factor-Authentication is also possible.
+Authentication via credentials or tokens is supported, Two-Factor-Authentication ( 2FA ) is also possible.
 
 Dependencies
 ------------
 * Python >= 3.5
-* Libraries: requests, python-dateutil, demjson
+* Libraries: requests, python-dateutil, demjson, appdirs, urwid
 
 How to use
 ----------
@@ -31,21 +31,31 @@ Install::
 
 Authentication::
 
-  xbox-authenticate --tokenfile tokens.json --email no@live.com --password abc123
+  # Token save location: If tokenfile is not provided via cmdline, fallback
+  # of <appdirs.user_data_dir>/tokens.json is used as save-location
+  #
+  # Specifically:
+  # Windows: C:\\Users\\<username>\\AppData\\Local\\OpenXbox\\xbox
+  # Mac OSX: /Users/<username>/Library/Application Support/xbox/tokens.json
+  # Linux: /home/<username>/.local/share/xbox
+  #
+  # For more information, see: https://pypi.org/project/appdirs and module: xbox.webapi.scripts.constants
 
-  # If no credentials are provided via cmdline, they are requested from stdin
-  xbox-authenticate --tokenfile tokens.json
-  >> Input authentication credentials
-  >> Email: <input>
-  >> Password: <input>
+  xbox-authenticate --tokens tokens.json --email no@live.com --password abc123
+
+  # NOTE: If no credentials are provided via cmdline, they are requested from stdin
+  xbox-authenticate --tokens tokens.json
+
+  # If you have a shell compatible with ncurses, you can use the Terminal UI app
+  xbox-auth-ui --tokens tokens.json
 
 API usage::
 
   # Search Xbox One Catalog
-  xbox-searchlive --tokenfile tokens.json "Some game title"
+  xbox-searchlive --tokens tokens.json "Some game title"
 
   # Search Xbox 360 Catalog
-  xbox-searchlive --tokenfile tokens.json -l "Some game title"
+  xbox-searchlive --tokens tokens.json -l "Some game title"
 
 Known issues
 ------------
