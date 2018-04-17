@@ -251,8 +251,13 @@ class WebAPIDisplay(object):
             self.view_msgbox(status_text, 'Please wait')
             self.auth_mgr.authenticate(do_refresh=True)  # do_refresh=self.need_refresh
             self.auth_mgr.dump(self.tokenfile_path)
+            do_show_quit_button = True
+            if not self.need_full_auth:
+                # If authentication was done from tokens, auto close on success
+                do_show_quit_button = False
+                self.loop.set_alarm_in(2.0, lambda *args: self.do_quit())
             self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success',
-                             show_quit_button=True)
+                             show_quit_button=do_show_quit_button)
 
         except TwoFactorAuthRequired as e:
             self.view_two_factor_auth(e.server_data)
