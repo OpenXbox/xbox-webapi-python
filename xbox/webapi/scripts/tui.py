@@ -363,7 +363,8 @@ class WebAPIDisplay(object):
 def main():
     parser = argparse.ArgumentParser(description="Basic text user interface")
     parser.add_argument('--tokens', '-t', default=TOKENS_FILE,
-                        help="Token file, created by xbox-authenticate script")
+                        help="Token filepath, file gets created if nonexistent and auth is successful."
+                             " Default: {}".format(TOKENS_FILE))
     args = parser.parse_args()
 
     ui = WebAPIDisplay(args.tokens)

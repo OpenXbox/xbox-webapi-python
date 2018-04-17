@@ -7,12 +7,13 @@ import argparse
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.exceptions import AuthenticationException
 from xbox.webapi.api.client import XboxLiveClient
+from xbox.webapi.scripts.constants import TOKENS_FILE
 
 
 def main():
     parser = argparse.ArgumentParser(description="Search for Content on XBL")
-    parser.add_argument('--tokenfile', '-t',
-                        help="Token file, if file doesnt exist it gets created")
+    parser.add_argument('--tokens', '-t', default=TOKENS_FILE,
+                        help="Token filepath. Default: \'{}\'".format(TOKENS_FILE))
     parser.add_argument('--legacy', '-l', action='store_true',
                         help="Search for Xbox 360 content")
     parser.add_argument("--keys", action='append',
@@ -22,12 +23,15 @@ def main():
 
     args = parser.parse_args()
 
-    if not args.tokenfile:
-        print('Cannot use XboxLiveClient without tokens!')
-        print('Please provide tokenfile with -t / --tokenfile switch')
-        sys.exit(-1)
+    try:
+        auth_mgr = AuthenticationManager.from_file(args.tokens)
+    except FileNotFoundError as e:
 
-    auth_mgr = AuthenticationManager.from_file(args.tokenfile)
+        print(
+            'Failed to load tokens from \'{}\'.\n'
+            'ERROR: {}'.format(e.filename, e.strerror)
+        )
+        sys.exit(-1)
 
     try:
         auth_mgr.authenticate(do_refresh=True)
