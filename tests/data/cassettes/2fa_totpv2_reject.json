@@ -1,0 +1,464 @@
+{
+  "recorded_with": "betamax/0.8.1", 
+  "http_interactions": [
+    {
+      "response": {
+        "headers": {
+          "X-XSS-Protection": [
+            "1; mode=block"
+          ], 
+          "Content-Length": [
+            "5618"
+          ], 
+          "Connection": [
+            "close"
+          ], 
+          "Date": [
+            "Tue, 17 Apr 2018 00:44:02 GMT"
+          ], 
+          "Content-Encoding": [
+            "gzip"
+          ], 
+          "Cache-Control": [
+            "no-cache"
+          ], 
+          "Server": [
+            "Microsoft-IIS/8.5"
+          ], 
+          "Expires": [
+            "Tue, 17 Apr 2018 00:43:03 GMT"
+          ], 
+          "PPServer": [
+            "PPV: 30 H: BAYIDSLGN3A085 V: 0"
+          ], 
+          "Vary": [
+            "Accept-Encoding"
+          ], 
+          "P3P": [
+            "CP=\"DSP CUR OTPi IND OTRi ONL FIN\""
+          ], 
+          "X-Frame-Options": [
+            "deny"
+          ], 
+          "Content-Type": [
+            "text/html; charset=utf-8"
+          ], 
+          "Set-Cookie": [
+            "MSPRequ=lt=1523925843&co=1&id=N; secure= ;path=/;HTTPOnly=;version=1", 
+            "uaid=9db9540902764a6c92854568e839ff25; domain=login.live.com;secure= ;path=/;HTTPOnly= ;version=1", 
+            "MSPOK=$uuid-10d6ddcb-e3d3-478c-8978-7930d87013b1; domain=login.live.com;secure= ;path=/;HTTPOnly= ;version=1"
+          ], 
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ], 
+          "Pragma": [
+            "no-cache"
+          ], 
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        }, 
+        "body": {
+          "string": "", 
+          "encoding": "utf-8", 
+          "base64_string": "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\n"
+        }, 
+        "url": "https://login.live.com/oauth20_authorize.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en", 
+        "status": {
+          "message": "OK", 
+          "code": 200
+        }
+      }, 
+      "recorded_at": "2018-04-17T00:44:04", 
+      "request": {
+        "uri": "https://login.live.com/oauth20_authorize.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en", 
+        "body": {
+          "string": "", 
+          "encoding": "utf-8"
+        }, 
+        "headers": {
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ], 
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ], 
+          "Accept": [
+            "*/*"
+          ], 
+          "Connection": [
+            "keep-alive"
+          ]
+        }, 
+        "method": "GET"
+      }
+    }, 
+    {
+      "response": {
+        "headers": {
+          "X-XSS-Protection": [
+            "1; mode=block"
+          ], 
+          "Content-Length": [
+            "516"
+          ], 
+          "PPServer": [
+            "PPV: 30 H: BAYIDSLGN3A011 V: 0"
+          ], 
+          "Date": [
+            "Tue, 17 Apr 2018 00:44:04 GMT"
+          ], 
+          "Cache-Control": [
+            "no-cache"
+          ], 
+          "Expires": [
+            "Tue, 17 Apr 2018 00:43:05 GMT"
+          ], 
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ], 
+          "P3P": [
+            "CP=\"DSP CUR OTPi IND OTRi ONL FIN\""
+          ], 
+          "X-Content-Type-Options": [
+            "nosniff"
+          ], 
+          "Content-Type": [
+            "application/json"
+          ], 
+          "Server": [
+            "Microsoft-IIS/8.5"
+          ], 
+          "Pragma": [
+            "no-cache"
+          ], 
+          "Connection": [
+            "close"
+          ]
+        }, 
+        "body": {
+          "string": "{\"Username\":\"pyxb-testing@outlook.com\",\"Display\":\"pyxb-testing@outlook.com\",\"Location\":\"\",\"IfExistsResult\":0,\"Credentials\":{\"PrefCredential\":1,\"HasPassword\":1,\"HasRemoteNGC\":1,\"HasFido\":0,\"HasPhone\":0,\"RemoteNgcParams\":{\"SessionIdentifier\":\"DXA5SfS!QfKktCrDYNQGNB*cuoVXUwfW7B!TRHiHRlPIjjOoC1muZgfrnAQGzCQyJVC4iJHx9gRE5LONyJ8vXqOwMPU1m9OHQaQPHvQCRUYciBfXf7AcA6Ehx!J7gw1wnfYhb18PRilpqKI8bjyu*PplUwHAy3Vvt7OtzohCTb*J6Dp0Ce5rkeOoDKek5XlxPtGc1CfUNScQHtcPitbfuAiYKbBGCSGy9cj2PBEx3!bMUZhlzepjEl0FGSogiNY!Zw$$\",\"Entropy\":\"\",\"DefaultType\":1}}}", 
+          "encoding": null
+        }, 
+        "url": "https://login.live.com/GetCredentialType.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en&vv=1600&mkt=EN-US&lc=1033", 
+        "status": {
+          "message": "OK", 
+          "code": 200
+        }
+      }, 
+      "recorded_at": "2018-04-17T00:44:05", 
+      "request": {
+        "uri": "https://login.live.com/GetCredentialType.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en&vv=1600&mkt=EN-US&lc=1033", 
+        "body": {
+          "string": "{\"isRemoteNGCSupported\": true, \"isFidoSupported\": false, \"flowToken\": \"DVJeK5fM!*pGIIHbuNqPl*LPyS5b1VgYcg60TH41iWnIRSIZb6yqrgtAPx2JIUWxFzrOEqSVoeQkErfEBOV5S*hhDW0qzuvUeoDTLRA!NRdmoMxe0NctxsNahmMvZIKzbbqvhXzE3AmUP*V6*j5BKhTn4qKjSLdNGWqHPnPgh7AzFYxkdBSpAXIN7YnoNq9n0miGy64WNEJolLq9FFilIzY$\", \"uaid\": \"9db9540902764a6c92854568e839ff25\", \"isOtherIdpSupported\": false, \"checkPhones\": false, \"isCookieBannerShown\": false, \"username\": \"pyxb-testing@outlook.com\"}", 
+          "encoding": "utf-8"
+        }, 
+        "headers": {
+          "Content-Length": [
+            "446"
+          ], 
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ], 
+          "Connection": [
+            "keep-alive"
+          ], 
+          "Content-Type": [
+            "application/json"
+          ], 
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ], 
+          "Cookie": [
+            "MSPRequ=lt=1523925843&co=1&id=N; MSPOK=$uuid-10d6ddcb-e3d3-478c-8978-7930d87013b1; uaid=9db9540902764a6c92854568e839ff25"
+          ], 
+          "Accept": [
+            "*/*"
+          ], 
+          "Referer": [
+            "https://login.live.com/oauth20_authorize.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en"
+          ]
+        }, 
+        "method": "POST"
+      }
+    }, 
+    {
+      "response": {
+        "headers": {
+          "X-XSS-Protection": [
+            "1; mode=block"
+          ], 
+          "Content-Length": [
+            "3937"
+          ], 
+          "Connection": [
+            "close"
+          ], 
+          "Date": [
+            "Tue, 17 Apr 2018 00:44:05 GMT"
+          ], 
+          "Content-Encoding": [
+            "gzip"
+          ], 
+          "Cache-Control": [
+            "no-cache"
+          ], 
+          "Server": [
+            "Microsoft-IIS/8.5"
+          ], 
+          "Expires": [
+            "Tue, 17 Apr 2018 00:43:05 GMT"
+          ], 
+          "PPServer": [
+            "PPV: 30 H: BAYIDSLGN3A071 V: 0"
+          ], 
+          "Vary": [
+            "Accept-Encoding"
+          ], 
+          "P3P": [
+            "CP=\"DSP CUR OTPi IND OTRi ONL FIN\""
+          ], 
+          "X-Frame-Options": [
+            "deny"
+          ], 
+          "Content-Type": [
+            "text/html; charset=utf-8"
+          ], 
+          "Set-Cookie": [
+            "uaid=9db9540902764a6c92854568e839ff25; domain=login.live.com;secure= ;path=/;HTTPOnly= ;version=1", 
+            "MSPOK= ; expires=Thu, 30-Oct-1980 16:00:00 GMT;domain=login.live.com;path=/;HTTPOnly= ;version=1", 
+            "PPAuth=CdK*QnyBvcSdZAoI!AJnKaRBVzyEjq15sUoPf*KLuSYsrnbcq6n!E*fervyoE8dqJPp29TvHt3qXintrkCtEuLHIDUQMgEntzB4rVGu1ymq!zT!idSPAP*1DSdkKJC6bORHoN5y5fYPIICP2b4NUew3GDdbNTUBTgFGJSPYNRmVSRdQs1VKhBucHvKCO5cffBB0mfFN1jZp8D9h9t5H9A5HHWhP3nkjWjEMVbJrXvbvFLCI6JD1Mh4LaTBhlb*E9yCl6oGGxGfQi7DQBxsWRBPC0q7ECHy!OJn0aDH!URyfCK2Y*SrkL9FiWzH!lEje1LA$$; expires=Wed, 30-Dec-2037 16:00:00 GMT;domain=login.live.com;secure= ;path=/;HTTPOnly= ;version=1", 
+            "PPLState=1; expires=Wed, 30-Dec-2037 16:00:00 GMT;domain=.live.com;path=/;version=1", 
+            "MSPShared= ; HTTPOnly= ; domain=login.live.com;path=/;Expires=Thu, 30-Oct-1980 16:00:00 GMT", 
+            "MSPPre=pyxb-testing@outlook.com|1005283eaccf208b||;domain=login.live.com;path=/;Expires=Wed, 30-Dec-2037 16:00:00 GMT;secure=", 
+            "MSPCID=1005283eaccf208b; HTTPOnly= ; domain=login.live.com;path=/;Expires=Wed, 30-Dec-2037 16:00:00 GMT;secure=", 
+            "WLOpt=credtype=1&act=[1];domain=login.live.com;path=/;Expires=Wed, 30-Dec-2037 16:00:00 GMT;secure=", 
+            "pres=; expires=Thu, 30-Oct-1980 16:00:00 GMT;domain=.live.com;path=/;version=1", 
+            "LOpt=3; domain=login.live.com;path=/;version=1", 
+            "MSPOK=$uuid-10d6ddcb-e3d3-478c-8978-7930d87013b1$uuid-22cc1bf1-2499-4ff2-b5e6-82bc95e00ea1; domain=login.live.com;secure= ;path=/;HTTPOnly= ;version=1"
+          ], 
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ], 
+          "Pragma": [
+            "no-cache"
+          ], 
+          "X-Content-Type-Options": [
+            "nosniff"
+          ]
+        }, 
+        "body": {
+          "string": "", 
+          "encoding": "utf-8", 
+          "base64_string": "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\nmaxKpygAAA==\n"
+        }, 
+        "url": "https://login.live.com/ppsecure/post.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en&contextid=6E8F7CF4E147B16A&bk=1523925843&uaid=9db9540902764a6c92854568e839ff25&pid=15216", 
+        "status": {
+          "message": "OK", 
+          "code": 200
+        }
+      }, 
+      "recorded_at": "2018-04-17T00:44:06", 
+      "request": {
+        "uri": "https://login.live.com/ppsecure/post.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en&contextid=6E8F7CF4E147B16A&bk=1523925843&uaid=9db9540902764a6c92854568e839ff25&pid=15216", 
+        "body": {
+          "string": "ps=2&NewUser=1&psRNGCEntropy=DXA5SfS%21QfKktCrDYNQGNB%2AcuoVXUwfW7B%21TRHiHRlPIjjOoC1muZgfrnAQGzCQyJVC4iJHx9gRE5LONyJ8vXqOwMPU1m9OHQaQPHvQCRUYciBfXf7AcA6Ehx%21J7gw1wnfYhb18PRilpqKI8bjyu%2APplUwHAy3Vvt7OtzohCTb%2AJ6Dp0Ce5rkeOoDKek5XlxPtGc1CfUNScQHtcPitbfuAiYKbBGCSGy9cj2PBEx3%21bMUZhlzepjEl0FGSogiNY%21Zw%24%24&type=11&LoginOptions=1&PPFT=DVJeK5fM%21%2ApGIIHbuNqPl%2ALPyS5b1VgYcg60TH41iWnIRSIZb6yqrgtAPx2JIUWxFzrOEqSVoeQkErfEBOV5S%2AhhDW0qzuvUeoDTLRA%21NRdmoMxe0NctxsNahmMvZIKzbbqvhXzE3AmUP%2AV6%2Aj5BKhTn4qKjSLdNGWqHPnPgh7AzFYxkdBSpAXIN7YnoNq9n0miGy64WNEJolLq9FFilIzY%24&PPSX=Passpor&passwd=password&login=pyxb-testing%40outlook.com&psRNGCDefaultType=1&SI=Sign+in", 
+          "encoding": "utf-8"
+        }, 
+        "headers": {
+          "Content-Length": [
+            "656"
+          ], 
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ], 
+          "Connection": [
+            "keep-alive"
+          ], 
+          "Content-Type": [
+            "application/x-www-form-urlencoded"
+          ], 
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ], 
+          "Cookie": [
+            "MSPRequ=lt=1523925843&co=1&id=N; MSPOK=$uuid-10d6ddcb-e3d3-478c-8978-7930d87013b1; uaid=9db9540902764a6c92854568e839ff25"
+          ], 
+          "Accept": [
+            "*/*"
+          ]
+        }, 
+        "method": "POST"
+      }
+    }, 
+    {
+      "response": {
+        "headers": {
+          "X-XSS-Protection": [
+            "1; mode=block"
+          ], 
+          "Content-Length": [
+            "231"
+          ], 
+          "PPServer": [
+            "PPV: 30 H: BAYIDSLGN3A057 V: 0"
+          ], 
+          "Date": [
+            "Tue, 17 Apr 2018 00:44:12 GMT"
+          ], 
+          "Cache-Control": [
+            "no-cache"
+          ], 
+          "Expires": [
+            "Tue, 17 Apr 2018 00:43:13 GMT"
+          ], 
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ], 
+          "P3P": [
+            "CP=\"DSP CUR OTPi IND OTRi ONL FIN\""
+          ], 
+          "X-Content-Type-Options": [
+            "nosniff"
+          ], 
+          "Content-Type": [
+            "application/jsonrequest"
+          ], 
+          "Server": [
+            "Microsoft-IIS/8.5"
+          ], 
+          "Pragma": [
+            "no-cache"
+          ], 
+          "Connection": [
+            "close"
+          ]
+        }, 
+        "body": {
+          "string": "{\"State\":201,\"SessionLookupKey\":\"Dawgc9mEUQolxELvXMYIkvJAOhYYNE4fslNgpvsjJZt51ohatzeX9P1OB8Lm0bcMCXBW9SweXBf!1csQSHoIgCAgvfjRaoghBN2g64HlBhtgMEu2Mmw0ymk75!W51SkgSxAHvwdPzJ3KMjtvLjY8FpktTPKgI6vJK4*p!4SBmiFpcryxji47mVsd9IhI*FGrYQ$$\"}", 
+          "encoding": null
+        }, 
+        "url": "https://login.live.com/pp1600/GetOneTimeCode.srf", 
+        "status": {
+          "message": "OK", 
+          "code": 200
+        }
+      },
+      "recorded_at": "2018-04-17T00:44:13",
+      "request": {
+        "uri": "https://login.live.com/pp1600/GetOneTimeCode.srf",
+        "body": {
+          "string": "purpose=eOTT_OneTimePassword&channel=PushNotifications&SAPId=7392085746362901033&login=pyxb-testing%40outlook.com&UIMode=11&flowtoken=DSvXAerNbsMFyjoQ3ZW803MGjh759QbzJCH2FX2nMizuDV8BzhbKQiMHixvMN9LYLjafTBxG5xK1vtCFLsvwtRGnqTNl%21HB32mKkwBIa6iNx1WgcQ4KkB1UqgbeAX97ACBf%2AfVKbyxYGFuqeTTOMO6H%2ARVN4zvGt5K7KRwo8YU9B3LJsB%216jlI5cW%218rW1nopw1uKwPsgozZjfBGl1qvJDFZvvUDWyLxHA6RPsv5hZb1Qa5ljwFV%21i2IToipIDz%21AzyPvAWEvPablKV42t%21EzPKjsVmtm%2AOmYvUHgfrAmd4d",
+          "encoding": "utf-8"
+        },
+        "headers": {
+          "Content-Length": [
+            "444"
+          ],
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Type": [
+            "application/x-www-form-urlencoded"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Cookie": [
+            "MSPRequ=lt=1523925843&co=1&id=N; MSPOK=$uuid-10d6ddcb-e3d3-478c-8978-7930d87013b1$uuid-22cc1bf1-2499-4ff2-b5e6-82bc95e00ea1; WLOpt=credtype=1&act=[1]; LOpt=3; uaid=9db9540902764a6c92854568e839ff25; PPAuth=CdK*QnyBvcSdZAoI!AJnKaRBVzyEjq15sUoPf*KLuSYsrnbcq6n!E*fervyoE8dqJPp29TvHt3qXintrkCtEuLHIDUQMgEntzB4rVGu1ymq!zT!idSPAP*1DSdkKJC6bORHoN5y5fYPIICP2b4NUew3GDdbNTUBTgFGJSPYNRmVSRdQs1VKhBucHvKCO5cffBB0mfFN1jZp8D9h9t5H9A5HHWhP3nkjWjEMVbJrXvbvFLCI6JD1Mh4LaTBhlb*E9yCl6oGGxGfQi7DQBxsWRBPC0q7ECHy!OJn0aDH!URyfCK2Y*SrkL9FiWzH!lEje1LA$$; MSPCID=1005283eaccf208b; MSPPre=pyxb-testing@outlook.com|1005283eaccf208b||; PPLState=1"
+          ],
+          "Accept": [
+            "*/*"
+          ]
+        },
+        "method": "POST"
+      }
+    },
+    {
+      "response": {
+        "headers": {
+          "X-XSS-Protection": [
+            "1; mode=block"
+          ], 
+          "Content-Length": [
+            "35"
+          ], 
+          "PPServer": [
+            "PPV: 30 H: BAYIDSLGN3A016 V: 0"
+          ], 
+          "Server": [
+            "Microsoft-IIS/8.5"
+          ], 
+          "Cache-Control": [
+            "no-cache"
+          ], 
+          "Expires": [
+            "Tue, 17 Apr 2018 00:43:23 GMT"
+          ], 
+          "Date": [
+            "Tue, 17 Apr 2018 00:44:23 GMT"
+          ], 
+          "P3P": [
+            "CP=\"DSP CUR OTPi IND OTRi ONL FIN\""
+          ], 
+          "X-Content-Type-Options": [
+            "nosniff"
+          ], 
+          "Content-Type": [
+            "image/gif"
+          ], 
+          "Set-Cookie": [
+            "uaid=9db9540902764a6c92854568e839ff25; domain=login.live.com;secure= ;path=/;HTTPOnly= ;version=1"
+          ], 
+          "Strict-Transport-Security": [
+            "max-age=31536000"
+          ], 
+          "Pragma": [
+            "no-cache"
+          ], 
+          "Connection": [
+            "close"
+          ]
+        }, 
+        "body": {
+          "string": "GIF87a\u0002\u0000\u0002\u0000\ufffd\u0000\u0000\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd,\u0000\u0000\u0000\u0000\u0002\u0000\u0002\u0000\u0000\u0002\u0002\ufffdQ\u0000;", 
+          "encoding": null
+        }, 
+        "url": "https://login.live.com/GetSessionState.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en&contextid=6E8F7CF4E147B16A&bk=1523925843&uaid=9db9540902764a6c92854568e839ff25&pid=15216&vv=1600&mkt=EN-US&lc=1033&slk=Dawgc9mEUQolxELvXMYIkvJAOhYYNE4fslNgpvsjJZt51ohatzeX9P1OB8Lm0bcMCXBW9SweXBf%211csQSHoIgCAgvfjRaoghBN2g64HlBhtgMEu2Mmw0ymk75%21W51SkgSxAHvwdPzJ3KMjtvLjY8FpktTPKgI6vJK4%2Ap%214SBmiFpcryxji47mVsd9IhI%2AFGrYQ%24%24", 
+        "status": {
+          "message": "OK", 
+          "code": 200
+        }
+      }, 
+      "recorded_at": "2018-04-17T00:44:24", 
+      "request": {
+        "uri": "https://login.live.com/GetSessionState.srf?client_id=0000000048093EE3&response_type=token&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&locale=en&contextid=6E8F7CF4E147B16A&bk=1523925843&uaid=9db9540902764a6c92854568e839ff25&pid=15216&vv=1600&mkt=EN-US&lc=1033&slk=Dawgc9mEUQolxELvXMYIkvJAOhYYNE4fslNgpvsjJZt51ohatzeX9P1OB8Lm0bcMCXBW9SweXBf%211csQSHoIgCAgvfjRaoghBN2g64HlBhtgMEu2Mmw0ymk75%21W51SkgSxAHvwdPzJ3KMjtvLjY8FpktTPKgI6vJK4%2Ap%214SBmiFpcryxji47mVsd9IhI%2AFGrYQ%24%24", 
+        "body": {
+          "string": "", 
+          "encoding": "utf-8"
+        }, 
+        "headers": {
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ], 
+          "Cookie": [
+            "MSPRequ=lt=1523925843&co=1&id=N; MSPOK=$uuid-10d6ddcb-e3d3-478c-8978-7930d87013b1$uuid-22cc1bf1-2499-4ff2-b5e6-82bc95e00ea1; WLOpt=credtype=1&act=[1]; LOpt=3; uaid=9db9540902764a6c92854568e839ff25; PPAuth=CdK*QnyBvcSdZAoI!AJnKaRBVzyEjq15sUoPf*KLuSYsrnbcq6n!E*fervyoE8dqJPp29TvHt3qXintrkCtEuLHIDUQMgEntzB4rVGu1ymq!zT!idSPAP*1DSdkKJC6bORHoN5y5fYPIICP2b4NUew3GDdbNTUBTgFGJSPYNRmVSRdQs1VKhBucHvKCO5cffBB0mfFN1jZp8D9h9t5H9A5HHWhP3nkjWjEMVbJrXvbvFLCI6JD1Mh4LaTBhlb*E9yCl6oGGxGfQi7DQBxsWRBPC0q7ECHy!OJn0aDH!URyfCK2Y*SrkL9FiWzH!lEje1LA$$; MSPCID=1005283eaccf208b; MSPPre=pyxb-testing@outlook.com|1005283eaccf208b||; PPLState=1"
+          ], 
+          "User-Agent": [
+            "python-requests/2.18.4"
+          ], 
+          "Accept": [
+            "*/*"
+          ], 
+          "Connection": [
+            "keep-alive"
+          ]
+        }, 
+        "method": "GET"
+      }
+    }
+  ]
+}
