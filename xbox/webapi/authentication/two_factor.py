@@ -340,7 +340,7 @@ class TwoFactorAuthentication(object):
             session_state = self._poll_session_state()
             if session_state != AuthSessionState.APPROVED:
                 raise AuthenticationException('Authentication by Authenticator V2 failed!'
-                                              ' State: %s' % AuthSessionState[session_state])
+                                              ' State: %s' % AuthSessionState(session_state))
 
             # Do not send auth_data when finishing TOTPv2 authentication
             auth_data = None
