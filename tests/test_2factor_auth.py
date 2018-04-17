@@ -59,7 +59,7 @@ def test_totp_wrong_code():
 
 
 def test_totp_v2_auth_accept():
-    ret = _do_2fa('2fa_totpv2_accept', strategy_index=2)
+    ret = _do_2fa('2fa_totpv2_accept', strategy_index=3)
 
     assert ret.access_token.jwt == 'AccessToken'
     assert ret.refresh_token.jwt == 'RefreshToken'
