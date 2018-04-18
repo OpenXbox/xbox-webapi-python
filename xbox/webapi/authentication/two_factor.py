@@ -77,8 +77,7 @@ class TwoFactorAuthentication(object):
             list: List of available auth strategies
         """
         for k, v in server_data.items():
-            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and \
-                            'otcEnabled' in v[0] and 'data' in v[0]:
+            if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict) and 'otcEnabled' in v[0] and 'data' in v[0]:
                 return v
 
         raise AuthenticationException('No 2fa auth strategies found!')
