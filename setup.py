@@ -47,18 +47,18 @@ setup(
     ],
     extras_require={
         'dev': [
-            'pip==9.0.1',
-            'bumpversion==0.5.3',
-            'wheel==0.30.0',
-            'watchdog==0.8.3',
-            'flake8==3.5.0',
-            'tox==2.9.1',
-            'coverage==4.5.1',
-            'Sphinx==1.7.1',
-            'twine==1.10.0',
-            'betamax==0.8.1',
-            'pytest==3.4.2',
-            'pytest-runner==2.11.1'
+            'pip',
+            'bumpversion',
+            'wheel',
+            'watchdog',
+            'flake8',
+            'tox',
+            'coverage',
+            'Sphinx',
+            'twine',
+            'betamax',
+            'pytest',
+            'pytest-runner'
         ],
     },
     entry_points={
