@@ -81,5 +81,6 @@ def main():
     auth_mgr.dump(args.tokens)
     print('Success, tokens are stored at \'{}\''.format(args.tokens))
 
+
 if __name__ == '__main__':
     main()
