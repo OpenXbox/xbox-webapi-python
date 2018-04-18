@@ -52,12 +52,11 @@ Authentication::
 Fallback Authentication::
 
   # In case this authentication flow breaks or you do not trust the code with your credentials..
-  # Execute:
-  xbox-auth-via-browser
+  # Open the following URL in your web-browser and authenticate
+  https://login.live.com/oauth20_authorize.srf?display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&locale=en&response_type=token&client_id=0000000048093EE3
 
-  # Copy the returned URL into your web-browser and authenticate
   # Once you finished auth and reached a blank page, copy the redirect url from your browser address-field
-  # Execute the script again, this time with supplied redirect url
+  # Execute the script with supplied redirect url
   xbox-auth-via-browser 'https://login.live.com/oauth20_desktop.srf?...access_token=...&refresh_token=...'
 
 API usage::
