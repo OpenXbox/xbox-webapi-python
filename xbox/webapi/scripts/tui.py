@@ -256,7 +256,7 @@ class WebAPIDisplay(object):
                 # If authentication was done from tokens, auto close on success
                 do_show_quit_button = False
                 self.loop.set_alarm_in(2.0, lambda *args: self.do_quit())
-            self.view_msgbox('Authentication was successful, tokens saved!\n', 'Success',
+            self.view_msgbox('Authentication was successful!\n', 'Success',
                              show_quit_button=do_show_quit_button)
 
         except TwoFactorAuthRequired as e:
