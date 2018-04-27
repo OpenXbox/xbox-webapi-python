@@ -1,13 +1,12 @@
 import pytest
 
 from datetime import datetime, timedelta
-from dateutil.tz import tzutc
 
 from xbox.webapi.authentication.token import Token, AccessToken, RefreshToken, XSTSToken, UserToken
 
 
 def test_token_validity(jwt):
-    time_now = datetime.now(tzutc())
+    time_now = datetime.utcnow()
     time_minus_1day = time_now - timedelta(days=1)
     time_minus_14days = time_now - timedelta(days=14)
     time_plus_14days = time_now + timedelta(days=14)

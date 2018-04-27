@@ -3,7 +3,6 @@ import json
 import pytest
 import betamax
 from datetime import datetime
-from dateutil.tz import tzutc
 from xbox.webapi.api.client import XboxLiveClient
 
 current_dir = os.path.dirname(__file__)
@@ -22,7 +21,7 @@ def jwt():
 
 @pytest.fixture(scope='session')
 def token_datetime():
-    return datetime(year=2099, month=10, day=11, hour=1, tzinfo=tzutc())
+    return datetime(year=2099, month=10, day=11, hour=1)
 
 
 @pytest.fixture(scope='session')
