@@ -1,9 +1,6 @@
 """
 Token containers
 """
-from six import string_types
-from dateutil.parser import parse
-from dateutil.tz import tzutc
 from datetime import datetime, timedelta
 
 
@@ -23,12 +20,12 @@ class Token(object):
         """
         self.jwt = jwt
 
-        if isinstance(date_issued, string_types):
-            date_issued = parse(date_issued)
+        if isinstance(date_issued, str):
+            date_issued = _parse_ts(date_issued)
         self.date_issued = date_issued
 
-        if isinstance(date_valid, string_types):
-            date_valid = parse(date_valid)
+        if isinstance(date_valid, str):
+            date_valid = _parse_ts(date_valid)
         self.date_valid = date_valid
 
     @classmethod
@@ -86,7 +83,7 @@ class Token(object):
             bool: True on success, False otherwise
 
         """
-        return self.date_valid > datetime.now(tzutc())
+        return self.date_valid > datetime.utcnow()
 
     def __str__(self):
         return "<%s, is_valid=%s, jwt=%s, issued=%s, expires=%s>" % (
@@ -107,7 +104,7 @@ class AccessToken(Token):
             token (str): The JWT Access-Token
             expires_sec (int): The expiry-time in seconds
         """
-        date_issued = datetime.now(tzutc())
+        date_issued = datetime.utcnow()
         date_valid = date_issued + timedelta(seconds=int(expires_sec))
         super(AccessToken, self).__init__(jwt, date_issued, date_valid)
 
@@ -126,7 +123,7 @@ class RefreshToken(Token):
         Args:
             token (str): The JWT Refresh-Token
         """
-        date_issued = datetime.now(tzutc())
+        date_issued = datetime.utcnow()
         date_valid = date_issued + timedelta(days=14)
         super(RefreshToken, self).__init__(jwt, date_issued, date_valid)
 
@@ -177,3 +174,14 @@ class XSTSToken(Token):
     Don't use to convert saved token into object
     """
     pass
+
+
+def _parse_ts(s):
+    if '.' in s:
+        idx = s.index('.') - 2
+        parts = s[:idx], s[idx:-1]
+        if len(parts[1]) > 6:
+            micro = float(parts[1])
+            s = '{:s}{:f}Z'.format(parts[0], micro)
+
+    return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ")
