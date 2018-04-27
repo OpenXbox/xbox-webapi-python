@@ -297,10 +297,18 @@ class WebAPIDisplay(object):
         div = urwid.Divider()
         email_text = urwid.AttrMap(urwid.Edit('Email Address: '), None, self.focus_map)
         password_text = urwid.AttrMap(urwid.Edit('Account Password: ', mask='*'), None, self.focus_map)
-        authenticate_button = urwid.AttrMap(urwid.Button('Authenticate'), None, self.focus_map)
-        cancel_button = urwid.AttrMap(urwid.Button('Cancel'), None, self.focus_map)
+
+        authenticate_button = urwid.Button('Authenticate')
+        authenticate_button._label.align = 'center'
+        authenticate_button = urwid.AttrMap(authenticate_button, None, self.focus_map)
+
+        cancel_button = urwid.Button('Cancel')
+        cancel_button._label.align = 'center'
+        cancel_button = urwid.AttrMap(cancel_button, None, self.focus_map)
+
         authenticate_button = urwid.Padding(authenticate_button, align='center', width=('relative', 30))
         cancel_button = urwid.Padding(cancel_button, align='center', width=('relative', 23))
+
         pile = TabSwitchingPile(
             [info_label, div, email_text, div, password_text, div, authenticate_button, cancel_button]
         )
@@ -316,7 +324,9 @@ class WebAPIDisplay(object):
         text = urwid.Text(msg, align='center')
 
         if show_quit_button:
-            button = urwid.AttrMap(urwid.Button('Quit'), None, self.focus_map)
+            button = urwid.Button('Quit')
+            button._label.align = 'center'
+            button = urwid.AttrMap(button, None, self.focus_map)
             pad_button = urwid.Padding(button, 'center', ('relative', 10))
             pile = urwid.Pile([text, pad_button])
             box = urwid.LineBox(pile, title)
