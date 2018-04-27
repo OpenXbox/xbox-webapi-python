@@ -27,7 +27,7 @@ def __input_prompt(prompt, entries=None):
         for num, entry in enumerate(entries):
             prepend += '  {}: {}\n'.format(num, entry)
 
-    return input(prepend + prompt + ' > ')
+    return input(prepend + prompt + ': ')
 
 
 def two_factor_auth(auth_mgr, server_data):

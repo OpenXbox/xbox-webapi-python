@@ -5,13 +5,13 @@ Authenticate with Windows Live Server and Xbox Live.
 In case Two-Factor authentication is requested from provided account,
 the user is asked for input via standard-input.
 """
-import json
-import requests
 import re
-import demjson
+import json
 import logging
-
+import demjson
+import requests
 import xml.dom.minidom as minidom
+
 from urllib.parse import urlparse, parse_qs
 
 from xbox.webapi.authentication.token import Token
