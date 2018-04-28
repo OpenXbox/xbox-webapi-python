@@ -17,7 +17,7 @@ from urllib.parse import urlparse, parse_qs
 from xbox.webapi.authentication.token import AccessToken, RefreshToken
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.exceptions import AuthenticationException
-from xbox.webapi.scripts.constants import TOKENS_FILE
+from xbox.webapi.scripts import TOKENS_FILE
 
 
 def get_authorization_url():
