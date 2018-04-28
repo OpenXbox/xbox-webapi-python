@@ -4,7 +4,7 @@ import argparse
 import betamax
 from betamax_serializers import pretty_json
 from xbox.webapi.authentication.manager import AuthenticationManager
-from xbox.webapi.scripts.constants import TOKENS_FILE
+from xbox.webapi.scripts import TOKENS_FILE
 from xbox.webapi.api.client import XboxLiveClient
 
 CASSETTE_LIBRARY_DIR = 'data/cassettes/'
