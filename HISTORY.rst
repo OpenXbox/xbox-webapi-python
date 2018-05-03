@@ -2,6 +2,13 @@
 History
 =======
 
+1.1.1 (2018-05-03)
+------------------
+
+* Removed python-dateutil dependency
+* Add auth-via-browser fallback script
+* Small changes
+
 1.1.0 (2018-04-17)
 ------------------
 
