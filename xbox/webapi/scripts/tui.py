@@ -2,10 +2,10 @@ import urwid
 import logging
 import argparse
 
-from xbox.webapi.common.exceptions import TwoFactorAuthRequired, AuthenticationException
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.two_factor import TwoFactorAuthentication, TwoFactorAuthMethods
-from xbox.webapi.scripts.constants import TOKENS_FILE
+from xbox.webapi.common.exceptions import TwoFactorAuthRequired, AuthenticationException
+from xbox.webapi.scripts import TOKENS_FILE
 
 
 class UrwidLogHandler(logging.Handler):

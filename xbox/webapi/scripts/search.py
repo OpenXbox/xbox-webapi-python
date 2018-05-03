@@ -4,10 +4,11 @@ Example script that utilizes EDSProvider to search XBL marketplace
 import sys
 import json
 import argparse
+
+from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.exceptions import AuthenticationException
-from xbox.webapi.api.client import XboxLiveClient
-from xbox.webapi.scripts.constants import TOKENS_FILE
+from xbox.webapi.scripts import TOKENS_FILE
 
 
 def main():
