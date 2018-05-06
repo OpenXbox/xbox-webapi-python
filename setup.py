@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name="xbox-webapi",
-    version="1.1.1",
+    version="1.1.2",
     author="OpenXbox",
     description="A library to authenticate with Windows Live/Xbox Live and use their API",
     long_description=open('README.rst').read() + '\n\n' + open('HISTORY.rst').read(),
