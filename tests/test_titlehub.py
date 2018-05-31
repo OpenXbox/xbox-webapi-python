@@ -3,7 +3,7 @@ from betamax import Betamax
 
 def test_titlehub_titlehistory(xbl_client):
     with Betamax(xbl_client.session).use_cassette('titlehub_titlehistory'):
-        ret = xbl_client.titlehub.get_title_history()
+        ret = xbl_client.titlehub.get_title_history(987654321)
 
         assert ret.status_code == 200
         data = ret.json()
