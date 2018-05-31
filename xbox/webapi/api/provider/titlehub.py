@@ -34,11 +34,12 @@ class TitlehubProvider(BaseProvider):
         super(TitlehubProvider, self).__init__(client)
         self.HEADERS_TITLEHUB.update({'Accept-Language': self.client.language.locale})
 
-    def get_title_history(self, fields=None, max_items=5):
+    def get_title_history(self, xuid, fields=None, max_items=5):
         """
         Get recently played titles
 
         Args:
+            xuid (int/str): Xuid
             fields (list): Members of :class:`TitleFields`
             max_items (int): Maximum items
 
@@ -49,7 +50,7 @@ class TitlehubProvider(BaseProvider):
             fields = [TitleFields.ACHIEVEMENT, TitleFields.IMAGE, TitleFields.SERVICE_CONFIG_ID]
         fields = self.SEPARATOR.join(fields)
 
-        url = self.TITLEHUB_URL + "/users/xuid(%s)/titles/titlehistory/decoration/%s" % (self.client.xuid, fields)
+        url = self.TITLEHUB_URL + "/users/xuid(%s)/titles/titlehistory/decoration/%s" % (xuid, fields)
         params = {
             'maxItems': max_items
         }
