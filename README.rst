@@ -13,6 +13,9 @@ Xbox-WebAPI
 .. image:: https://travis-ci.org/OpenXbox/xbox-webapi-python.svg?branch=master
     :target: https://travis-ci.org/OpenXbox/xbox-webapi-python
 
+.. image:: https://img.shields.io/badge/discord-OpenXbox-blue.svg
+    :target: https://discord.gg/uzbC73m
+    :alt: Discord chat channel
 
 Xbox-WebAPI is a python library to authenticate with Xbox Live via your Microsoft Account and provides Xbox related Web-API.
 
