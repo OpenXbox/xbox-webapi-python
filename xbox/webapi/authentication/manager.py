@@ -424,7 +424,9 @@ class AuthenticationManager(object):
             'LoginOptions': '1'
         }
 
-        if credential_type['Credentials']['HasRemoteNGC'] == 1:
+        if 'Credentials' not in credential_type:
+            raise AuthenticationException('Did not find Credentials in CredentialType respose, auth likely failed!')
+        elif credential_type['Credentials']['HasRemoteNGC'] == 1:
             ngc_params = credential_type['Credentials']['RemoteNgcParams']
             post_data.update({
                 'ps': 2,
