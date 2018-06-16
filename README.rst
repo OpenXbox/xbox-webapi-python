@@ -67,6 +67,14 @@ API usage::
   # Search Xbox 360 Catalog
   xbox-searchlive --tokens tokens.json -l "Some game title"
 
+Screenshots
+-----------
+Here you can see the Auth TUI (Text user interface):
+
+.. image:: https://raw.githubusercontent.com/OpenXbox/xbox-webapi-python/master/assets/xbox_auth_tui_main.png
+
+.. image:: https://raw.githubusercontent.com/OpenXbox/xbox-webapi-python/master/assets/xbox_auth_tui_2fa.png
+
 Known issues
 ------------
 * There are a lot of missing XBL endpoints
