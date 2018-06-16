@@ -2,6 +2,19 @@
 History
 =======
 
+1.1.3 (2018-06-16)
+------------------
+
+* Gracefully fail on wrong account password
+* Fix "ValueError: tui: Unexpected button pressed: Cancel"
+* provider.lists: Correct headers, GET list works
+* Titlehub: Support getting title history by xuid
+
+1.1.2 (2018-05-06)
+------------------
+
+* Fixing appdir (aka. token save location) creation on windows
+
 1.1.1 (2018-05-03)
 ------------------
 
