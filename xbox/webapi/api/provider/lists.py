@@ -7,14 +7,8 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 class ListsProvider(BaseProvider):
     LISTS_URL = "https://eplists.xboxlive.com"
     HEADERS_LISTS = {
-        'Cache-Control': 'no-cache',
-        'Accept': 'application/json',
-        'Pragma': 'no-cache',
-        'x-xbl-client-type': 'Companion',
-        'x-xbl-client-version': '2.0',
-        'x-xbl-contract-version': '3.2',
-        'x-xbl-device-type': 'WindowsPhone',
-        'x-xbl-isautomated-client': 'true'
+        'Content-Type': 'application/json',
+        'x-xbl-contract-version': '2'
     }
 
     SEPERATOR = "."
