@@ -272,7 +272,7 @@ class WebAPIDisplay(object):
         if 'Authenticate' == label:
             email, pwd = (t.get_edit_text() for t in user_arg)
             self._authenticate(email, pwd)
-        elif 'Quit' == label:
+        elif 'Quit' == label or 'Cancel' == label:
             self.do_quit()
         else:
             raise ValueError('tui: Unexpected button pressed: {}'.format(label))
