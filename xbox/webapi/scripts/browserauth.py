@@ -11,26 +11,12 @@ Authentication Flow:
 
 import sys
 import argparse
-import requests
 from urllib.parse import urlparse, parse_qs
 
 from xbox.webapi.authentication.token import AccessToken, RefreshToken
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.exceptions import AuthenticationException
 from xbox.webapi.scripts import TOKENS_FILE
-
-
-def get_authorization_url():
-    base_url = 'https://login.live.com/oauth20_authorize.srf'
-    params = {
-        'client_id': '0000000048093EE3',
-        'redirect_uri': 'https://login.live.com/oauth20_desktop.srf',
-        'response_type': 'token',
-        'display': 'touch',
-        'scope': 'service::user.auth.xboxlive.com::MBI_SSL',
-        'locale': 'en',
-    }
-    return requests.Request('GET', base_url, params=params).prepare().url
 
 
 def get_tokens_from_url(url):
@@ -55,7 +41,7 @@ def main():
     if not args.url:
         print('Visit following URL in your webbrowser and authenticate yourself, then restart'
               ' this script with \'<redirect url>\' argument\n\n'
-              '{}'.format(get_authorization_url()))
+              '{}'.format(AuthenticationManager.generate_authorization_url()))
         sys.exit(0)
 
     url_begin = 'https://login.live.com/oauth20_desktop.srf?'

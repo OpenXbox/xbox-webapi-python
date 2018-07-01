@@ -113,6 +113,43 @@ class AuthenticationManager(object):
         with open(filepath, 'w') as f:
             json.dump(json_file, f, indent=2)
 
+    @staticmethod
+    def generate_authorization_url(response_type='token', client_id='0000000048093EE3',
+                                   scope='service::user.auth.xboxlive.com::MBI_SSL',
+                                   redirect_uri='https://login.live.com/oauth20_desktop.srf',
+                                   state=None):
+        """
+        Generate Windows Live Authorization URL.
+
+        Either standard values can be used, to authentication to XBL and get a XToken, or use custom
+        parameters to authenticate with a specific service (Halo, Forza ... you name it)
+
+        Args:
+            response_type (str): Required authorization response, either 'code' or 'token'
+            client_id (str): Client ID of service to authenticate with
+            scope (str): Authorization scope
+            redirect_uri (str): URL to redirect to when authentication succeeds
+            state (str): Optional, OAuth2 state url
+
+        Returns:
+            str: Assembled URL, including query parameters
+        """
+
+        base_url = 'https://login.live.com/oauth20_authorize.srf'
+        params = {
+            'client_id': client_id,
+            'redirect_uri': redirect_uri,
+            'response_type': response_type,
+            'display': 'touch',
+            'scope': scope,
+            'locale': 'en',
+        }
+
+        if state:
+            params.update(state=state)
+
+        return requests.Request('GET', base_url, params=params).prepare().url
+
     def authenticate(self, do_refresh=True):
         """
         Authenticate with Xbox Live using either tokens or user credentials.
@@ -184,6 +221,29 @@ class AuthenticationManager(object):
         if not self.authenticated:
             raise AuthenticationException("AuthenticationManager was not able to authenticate "
                                           "with provided tokens or user credentials!")
+
+    def authenticate_with_service(self, authorization_url):
+        """
+        Authenticate with partnered service, requires a successful Windows Live Authentication.
+
+        It works because stored cookies from the Windows Live Auth are used, entering the credentials
+        again is unnecessary.
+
+        Args:
+            authorization_url (str): Authorization URL
+
+        Returns:
+            requests.Response: Response of the final request
+        """
+        if not self.authenticated:
+            raise AuthenticationException("Not authenticated with Windows Live, please do that first, "
+                                          "before attempting a service authentication")
+
+        response = self.session.get(authorization_url, allow_redirects=False)
+        if response.status_code != 302:
+            raise AuthenticationException("Failed to authenticate with partner service")
+
+        return self.session.get(response.headers['Location'])
 
     @staticmethod
     def extract_js_object(body, obj_name):
@@ -375,17 +435,8 @@ class AuthenticationManager(object):
             requests.Response: Response of the final POST-Request
         """
 
-        base_url = 'https://login.live.com/oauth20_authorize.srf?'
-
-        params = {
-            'client_id': '0000000048093EE3',
-            'redirect_uri': 'https://login.live.com/oauth20_desktop.srf',
-            'response_type': 'token',
-            'display': 'touch',
-            'scope': 'service::user.auth.xboxlive.com::MBI_SSL',
-            'locale': 'en',
-        }
-        resp = self.session.get(base_url, params=params)
+        authorization_url = AuthenticationManager.generate_authorization_url()
+        resp = self.session.get(authorization_url)
 
         # Extract ServerData javascript-object via regex, convert it to proper JSON
         server_data = self.extract_js_object(resp.content, "ServerData")
