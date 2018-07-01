@@ -2,6 +2,10 @@
 History
 =======
 
+1.1.4 (2018-07-01)
+------------------
+* Implement convenience functions for Partner Service Authentication
+
 1.1.3 (2018-06-16)
 ------------------
 
