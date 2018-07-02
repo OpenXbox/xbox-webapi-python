@@ -436,7 +436,12 @@ class AuthenticationManager(object):
         """
 
         authorization_url = AuthenticationManager.generate_authorization_url()
-        resp = self.session.get(authorization_url)
+        resp = self.session.get(authorization_url, allow_redirects=False)
+
+        if resp.status_code == 302 and \
+           resp.headers['Location'].startswith('https://login.live.com/oauth20_desktop.srf'):
+            # We are already authenticated by cached cookies
+            return resp
 
         # Extract ServerData javascript-object via regex, convert it to proper JSON
         server_data = self.extract_js_object(resp.content, "ServerData")
