@@ -5,8 +5,7 @@ import struct
 import logging
 import time
 
-from urllib.parse import urlparse, parse_qs
-from xbox.webapi.authentication.token import AccessToken, RefreshToken
+from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.enum import IntEnum
 from xbox.webapi.common.exceptions import AuthenticationException
 
@@ -344,20 +343,12 @@ class TwoFactorAuthentication(object):
             # Do not send auth_data when finishing TOTPv2 authentication
             auth_data = None
         response = self._finish_auth(auth_type, auth_data, otc, proof)
-        if 'Location' not in response.headers:
-            raise AuthenticationException("2FA: No \'Location\' header received!")
-
-        # the access token is included in fragment of the location header
-        location = urlparse(response.headers['Location'])
-        fragment = parse_qs(location.fragment)
 
         try:
-            access_token = AccessToken(fragment['access_token'][0], fragment['expires_in'][0])
-            refresh_token = RefreshToken(fragment['refresh_token'][0])
-        except NameError:
+            return AuthenticationManager.parse_redirect_url(response.headers.get('Location'))
+        except Exception as e:
+            log.debug('Parsing redirection url failed, error: {0}'.format(str(e)))
             raise AuthenticationException("2FA: Location header does not hold access/refresh tokens!")
-
-        return access_token, refresh_token
 
 
 class AuthSessionState(IntEnum):

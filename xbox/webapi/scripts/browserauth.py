@@ -11,21 +11,10 @@ Authentication Flow:
 
 import sys
 import argparse
-from urllib.parse import urlparse, parse_qs
 
-from xbox.webapi.authentication.token import AccessToken, RefreshToken
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.common.exceptions import AuthenticationException
 from xbox.webapi.scripts import TOKENS_FILE
-
-
-def get_tokens_from_url(url):
-    location = urlparse(url)
-    fragment = parse_qs(location.fragment)
-
-    access_token = AccessToken(fragment['access_token'][0], fragment['expires_in'][0])
-    refresh_token = RefreshToken(fragment['refresh_token'][0])
-    return access_token, refresh_token
 
 
 def main():
@@ -49,10 +38,9 @@ def main():
         print('Wrong redirect url, expected url like: \'{}...\''.format(url_begin))
         sys.exit(1)
 
-    auth_mgr = AuthenticationManager()
     try:
         print('Extracting tokens from URL')
-        auth_mgr.access_token, auth_mgr.refresh_token = get_tokens_from_url(args.url)
+        auth_mgr = AuthenticationManager.from_redirect_url(args.url)
     except Exception as e:
         print('Failed to get tokens from supplied redirect URL, err: {}'.format(e))
         sys.exit(2)

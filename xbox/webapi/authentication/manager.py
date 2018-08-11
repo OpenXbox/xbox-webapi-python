@@ -51,6 +51,12 @@ class AuthenticationManager(object):
         mgr.load(filepath)
         return mgr
 
+    @classmethod
+    def from_redirect_url(cls, redirect_url):
+        mgr = cls()
+        mgr.access_token, mgr.refresh_token = mgr.parse_redirect_url(redirect_url)
+        return mgr
+
     def load(self, filepath):
         """
         Load tokens and userinfo from file and replace old tokens IF NEEDED
@@ -267,6 +273,27 @@ class AuthenticationManager(object):
         if len(matches):
             return demjson.decode(matches[0])
 
+    @staticmethod
+    def parse_redirect_url(redirect_url):
+        """
+        Parse url query from redirection url to extract AccessToken and RefreshToken
+
+        Args:
+            redirect_url (str): Redirect URL returned from OAUTH
+
+        Raises:
+            Exception: When extraction of tokens fails
+
+        Returns:
+            On success `tuple` of (AccessToken, RefreshToken) is returned
+        """
+        location = urlparse(redirect_url)
+        fragment = parse_qs(location.fragment)
+
+        access_token = AccessToken(fragment['access_token'][0], fragment['expires_in'][0])
+        refresh_token = RefreshToken(fragment['refresh_token'][0])
+        return access_token, refresh_token
+
     def _windows_live_authenticate(self, email_address, password):
         """
         Internal method to authenticate with Windows Live, called by `self.authenticate`
@@ -293,17 +320,12 @@ class AuthenticationManager(object):
             server_data = self.extract_js_object(response.content, "ServerData")
             raise TwoFactorAuthRequired("Two Factor Authentication is required", server_data)
 
-        if 'Location' not in response.headers:
-            # we can only assume the login failed
+        try:
+            # the access token is included in fragment of the location header
+            return self.parse_redirect_url(response.headers.get('Location'))
+        except Exception as e:
+            log.debug('Parsing redirection url failed, error: {0}'.format(str(e)))
             raise AuthenticationException("Could not log in with supplied credentials")
-
-        # the access token is included in fragment of the location header
-        location = urlparse(response.headers['Location'])
-        fragment = parse_qs(location.fragment)
-
-        access_token = AccessToken(fragment['access_token'][0], fragment['expires_in'][0])
-        refresh_token = RefreshToken(fragment['refresh_token'][0])
-        return access_token, refresh_token
 
     def _windows_live_token_refresh(self, refresh_token):
         """

@@ -14,6 +14,13 @@ with betamax.Betamax.configure() as config:
 
 
 @pytest.fixture(scope='session')
+def redirect_url():
+    return "https://login.live.com/oauth20_desktop.srf?lc=1033#access_token=AccessToken&token_type=bearer&" \
+           "expires_in=86400&scope=service::user.auth.xboxlive.com::MBI_SSL&refresh_token=RefreshToken&" \
+           "user_id=1005283eaccf208b"
+
+
+@pytest.fixture(scope='session')
 def jwt():
     return "eyJlSGVsbG9JYW1BVGVzdFRva2VuSnVzdEZvclRoZXNlVW5pdFRlc3Rz" \
            "X0hvcGVmdWxseUFsbFRoZVRlc3RzVHVybk91dEdvb2RfR29vZEx1Y2s="

@@ -99,3 +99,24 @@ def test_save_tokens_to_file(tmpdir, jwt, token_timestring):
     auth_manager.dump(filepath)
 
     assert os.path.isfile(filepath) is True
+
+
+def test_parsing_redirect_url_success(redirect_url):
+    access, refresh = AuthenticationManager().parse_redirect_url(redirect_url)
+
+    assert access.is_valid
+    assert refresh.is_valid
+    assert len(refresh.jwt) == 12
+    assert len(access.jwt) == 11
+
+
+def test_parsing_redirect_url_fail():
+    with pytest.raises(Exception):
+        AuthenticationManager().parse_redirect_url('http://testdomain.com/oauth.srf?lc=1033#no_token')
+
+
+def test_initialize_from_redirect_url(redirect_url):
+    mgr = AuthenticationManager.from_redirect_url(redirect_url)
+
+    with Betamax(mgr.session).use_cassette('full_auth'):
+        mgr.authenticate(do_refresh=False)
