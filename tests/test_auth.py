@@ -26,7 +26,7 @@ def test_auth_invalid_credentials():
         with pytest.raises(AuthenticationException):
             auth_manager.authenticate()
 
-    assert auth_manager.is_authenticated is False
+    assert not auth_manager.authenticated
 
 
 def test_auth_valid_credentials():
@@ -37,7 +37,7 @@ def test_auth_valid_credentials():
     with Betamax(auth_manager.session).use_cassette('full_auth'):
         auth_manager.authenticate(do_refresh=False)
 
-    assert auth_manager.is_authenticated is True
+    assert auth_manager.authenticated is True
     assert auth_manager.xsts_token.is_valid is True
     assert auth_manager.access_token.is_valid is True
     assert auth_manager.refresh_token.is_valid is True
@@ -59,7 +59,7 @@ def test_auth_refresh_token():
     with Betamax(auth_manager.session).use_cassette('token_refresh'):
         auth_manager.authenticate(do_refresh=True)
 
-    assert auth_manager.is_authenticated is True
+    assert auth_manager.authenticated is True
     assert auth_manager.xsts_token.is_valid is True
     assert auth_manager.access_token.is_valid is True
     assert auth_manager.refresh_token.is_valid is True

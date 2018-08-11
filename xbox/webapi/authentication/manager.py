@@ -28,7 +28,6 @@ class AuthenticationManager(object):
         Initialize an instance of :class:`AuthenticationManager`
         """
         self.session = requests.session()
-        self.authenticated = False
 
         self.email_address = None
         self.password = None
@@ -41,6 +40,12 @@ class AuthenticationManager(object):
         self.title_token = None
         self.device_token = None
 
+    @property
+    def authenticated(self):
+        return self.xsts_token and self.xsts_token.is_valid and \
+                self.refresh_token and self.refresh_token.is_valid
+
+    # Backward compatibility
     @property
     def is_authenticated(self):
         return self.authenticated
@@ -160,8 +165,6 @@ class AuthenticationManager(object):
         """
         Authenticate with Xbox Live using either tokens or user credentials.
 
-        After being called, its property `is_authenticated` should be checked for success.
-
         Args:
             do_refresh (bool): Refresh Access- and Refresh Token even if still valid, default: True
 
@@ -206,7 +209,6 @@ class AuthenticationManager(object):
                 pass
             else:
                 self.xsts_token, self.userinfo = self._xbox_live_authorize(self.user_token)
-            self.authenticated = True
         except AuthenticationException as e:
             log.warning('Token Auth failed: %s. Attempting auth via credentials' % e)
             full_authentication_required = True
@@ -222,7 +224,6 @@ class AuthenticationManager(object):
             ts.title_token = self._xbox_live_title_auth(ts.device_token, ts.access_token)
             '''
             self.xsts_token, self.userinfo = self._xbox_live_authorize(self.user_token)
-            self.authenticated = True
 
         if not self.authenticated:
             raise AuthenticationException("AuthenticationManager was not able to authenticate "
