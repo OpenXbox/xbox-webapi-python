@@ -42,8 +42,8 @@ class AuthenticationManager(object):
 
     @property
     def authenticated(self):
-        return self.xsts_token and self.xsts_token.is_valid and \
-                self.refresh_token and self.refresh_token.is_valid
+        return bool(self.xsts_token and self.xsts_token.is_valid and
+                    self.refresh_token and self.refresh_token.is_valid)
 
     # Backward compatibility
     @property

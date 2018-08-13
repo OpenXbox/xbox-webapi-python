@@ -26,7 +26,7 @@ def test_auth_invalid_credentials():
         with pytest.raises(AuthenticationException):
             auth_manager.authenticate()
 
-    assert not auth_manager.authenticated
+    assert auth_manager.authenticated is False
 
 
 def test_auth_valid_credentials():
