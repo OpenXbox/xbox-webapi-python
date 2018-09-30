@@ -34,7 +34,7 @@ class XboxLiveUserInfo(object):
         Returns:
             Instance of :class:`XboxLiveUserInfo`
         """
-        return cls(node['xid'], node['uhs'], node['gtg'], node['agg'], node['prv'], node['usr'])
+        return cls(node['xid'], node['uhs'], node['gtg'], node['agg'], node.get('prv'), node.get('usr'))
 
     def to_dict(self):
         """
