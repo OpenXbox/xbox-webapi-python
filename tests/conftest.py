@@ -43,7 +43,13 @@ def token_expired_timestring():
 
 @pytest.fixture(scope='session')
 def windows_live_authenticate_response():
-    filepath = os.path.join(current_dir, 'data', 'test_regex.html')
+    filepath = os.path.join(current_dir, 'data', 'wl_auth_response.html')
+    with open(filepath, 'r') as f:
+        return f.read()
+
+@pytest.fixture(scope='session')
+def windows_live_authenticate_response_two_js_obj():
+    filepath = os.path.join(current_dir, 'data', 'wl_auth_response_two_js_obj.html')
     with open(filepath, 'r') as f:
         return f.read()
 

@@ -318,7 +318,7 @@ class AuthenticationManager(object):
         proof_type = self.extract_js_object(response.content, "PROOF.Type")
         if proof_type:
             log.debug('Following 2fa proof-types gathered: {!s}'.format(proof_type))
-            server_data = self.extract_js_object(response.content, "ServerData")
+            server_data = self.extract_js_object(response.content, "var ServerData")
             raise TwoFactorAuthRequired("Two Factor Authentication is required", server_data)
 
         try:
@@ -467,7 +467,7 @@ class AuthenticationManager(object):
             return resp
 
         # Extract ServerData javascript-object via regex, convert it to proper JSON
-        server_data = self.extract_js_object(resp.content, "ServerData")
+        server_data = self.extract_js_object(resp.content, "var ServerData")
         # Extract PPFT value (flowtoken)
         ppft = server_data.get('sFTTag')
         ppft = minidom.parseString(ppft).getElementsByTagName("input")[0].getAttribute("value")

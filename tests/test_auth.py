@@ -8,15 +8,6 @@ from xbox.webapi.authentication.token import AccessToken, RefreshToken, XSTSToke
 from xbox.webapi.common.userinfo import XboxLiveUserInfo
 
 
-def test_extract_js_node(windows_live_authenticate_response):
-    auth_manager = AuthenticationManager()
-    js_node = auth_manager.extract_js_object(windows_live_authenticate_response, 'ServerData')
-
-    assert js_node is not None
-    assert js_node['sFTTag'] == "<input name=\"PPFT\" value=\"normally_base64_encoded_string_here+\"/>"
-    assert js_node['urlPost'] == "https://login.live.com/ppsecure/post.srf?response_type=token"
-
-
 def test_auth_invalid_credentials():
     auth_manager = AuthenticationManager()
     auth_manager.email_address = "invalid@mail.com"
