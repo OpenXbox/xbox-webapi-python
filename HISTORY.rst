@@ -2,8 +2,26 @@
 History
 =======
 
+1.1.7 (2018-11-10)
+------------------
+
+* Fix parsing of WindowsLive auth response
+
+1.1.6 (2018-09-30)
+------------------
+
+* Consider (User-)privileges of (XSTS) userinfo optional
+* Fix: Always return bool for @Property AuthenticationManager.authenticated
+
+1.1.5 (2018-08-11)
+------------------
+
+* Make property *authenticated* in AuthenticationManager check token validity
+* Break out of windows live auth early if cookies were cached previously
+
 1.1.4 (2018-07-01)
 ------------------
+
 * Implement convenience functions for Partner Service Authentication
 
 1.1.3 (2018-06-16)
