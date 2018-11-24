@@ -62,13 +62,57 @@ Fallback Authentication::
   # Execute the script with supplied redirect url
   xbox-auth-via-browser 'https://login.live.com/oauth20_desktop.srf?...access_token=...&refresh_token=...'
 
-API usage::
+Example: Search Xbox Live via cmdline tool::
 
   # Search Xbox One Catalog
   xbox-searchlive --tokens tokens.json "Some game title"
 
   # Search Xbox 360 Catalog
   xbox-searchlive --tokens tokens.json -l "Some game title"
+
+API usage::
+
+  import sys
+
+  from xbox.webapi.api.client import XboxLiveClient
+  from xbox.webapi.authentication.manager import AuthenticationManager
+  from xbox.webapi.common.exceptions import AuthenticationException
+
+  """
+  For doing authentication in code, see xbox/webapi/scripts/authenticate.py
+  or for OAUTH via web-brower, see xbox/webapi/scripts/browserauth.py
+  """
+
+  try:
+    auth_mgr = AuthenticationManager.from_file('/path_to/tokens.json')
+  except FileNotFoundError as e:
+    print(
+      'Failed to load tokens from \'{}\'.\n'
+      'ERROR: {}'.format(e.filename, e.strerror)
+    )
+    sys.exit(-1)
+
+  try:
+    auth_mgr.authenticate(do_refresh=True)
+  except AuthenticationException as e:
+    print('Authentication failed! Err: %s' % e)
+    sys.exit(-1)
+
+  xbl_client = XboxLiveClient(auth_mgr.userinfo.userhash, auth_mgr.xsts_token.jwt, auth_mgr.userinfo.xuid)
+
+  # Some example API calls
+
+  # Get friendslist
+  friendslist = xbl_client.people.get_friends_own()
+
+  # Get presence status (by list of XUID)
+  presence = xbl_client.presence.get_presence_batch([12344567687845, 453486346235151])
+
+  # Get messages
+  messages = xbl_client.message.get_message_inbox()
+
+  # Get profile by GT
+  profile = xbl_client.profile.get_profile_by_gamertag('SomeGamertag')
 
 Screenshots
 -----------
