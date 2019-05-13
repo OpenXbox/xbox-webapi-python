@@ -48,7 +48,10 @@ def main():
 
     print('Claiming gamertag...')
     resp = xbl_client.account.claim_gamertag(xbl_client.xuid, args.gamertag)
-    if resp.status_code != 200:
+    if resp.status_code == 409:
+        print('Claiming gamertag failed - Desired gamertag is unavailable')
+        sys.exit(-1)
+    elif resp.status_code != 200:
         print('Invalid HTTP response from claim: %i' % resp.status_code)
         print('Headers: %s' % resp.headers)
         print('Response: %s' % resp.content)
