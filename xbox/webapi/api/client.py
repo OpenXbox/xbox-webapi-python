@@ -20,6 +20,7 @@ from xbox.webapi.api.provider.message import MessageProvider
 from xbox.webapi.api.provider.userstats import UserStatsProvider
 from xbox.webapi.api.provider.screenshots import ScreenshotsProvider
 from xbox.webapi.api.provider.titlehub import TitlehubProvider
+from xbox.webapi.api.provider.account import AccountProvider
 from xbox.webapi.api.language import XboxLiveLanguage
 
 log = logging.getLogger('xbox.api')
@@ -63,6 +64,7 @@ class XboxLiveClient(object):
         self.userstats = UserStatsProvider(self)
         self.screenshots = ScreenshotsProvider(self)
         self.titlehub = TitlehubProvider(self)
+        self.account = AccountProvider(self)
 
     @property
     def xuid(self):

@@ -66,7 +66,8 @@ setup(
             'xbox-auth-via-browser=xbox.webapi.scripts.browserauth:main',
             'xbox-authenticate=xbox.webapi.scripts.authenticate:main',
             'xbox-auth-tui=xbox.webapi.scripts.tui:main',
-            'xbox-searchlive=xbox.webapi.scripts.search:main'
+            'xbox-searchlive=xbox.webapi.scripts.search:main',
+            'xbox-change-gt=xbox.webapi.scripts.change_gamertag:main'
         ]
     }
 )
