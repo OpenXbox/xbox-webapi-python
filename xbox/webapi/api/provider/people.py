@@ -40,6 +40,19 @@ class PeopleProvider(BaseProvider):
         """
         url = self.SOCIAL_URL + "/users/xuid(%s)/summary" % xuid
         return self.client.session.get(url, headers=self.HEADERS_SOCIAL)
+    
+    def get_friends_by_xuid(self, xuid):
+        """
+        Get friendlist of user by xuid
+
+        Args:
+            xuid (str): XUID to request summary from
+
+        Returns:
+            :class:`requests.Response`: HTTP Response
+        """
+        url = self.SOCIAL_URL + "/users/xuid(%s)/people" % xuid
+        return self.client.session.get(url, headers=self.HEADERS_SOCIAL)
 
     def get_friends_summary_by_gamertag(self, gamertag):
         """
