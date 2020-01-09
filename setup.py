@@ -35,7 +35,7 @@ setup(
     ],
     test_suite="tests",
     install_requires=[
-        'requests',
+        'aiohttp',
         'demjson',
         'appdirs',
         'urwid'
