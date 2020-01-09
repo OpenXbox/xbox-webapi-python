@@ -18,7 +18,7 @@ class PresenceProvider(BaseProvider):
         'Accept': 'application/json'
     }
 
-    def get_presence_batch(self, xuids, online_only=False, presence_level=PresenceLevel.USER):
+    async def get_presence_batch(self, xuids, online_only=False, presence_level=PresenceLevel.USER):
         """
         Get presence for list of xuids
 
@@ -28,7 +28,7 @@ class PresenceProvider(BaseProvider):
             presence_level (str): Filter level
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(xuids, list):
             raise Exception("xuids parameter is not a list")
@@ -41,9 +41,9 @@ class PresenceProvider(BaseProvider):
             'onlineOnly': online_only,
             'level': presence_level
         }
-        return self.client.session.post(url, json=post_data, headers=self.HEADERS_PRESENCE)
+        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_PRESENCE)
 
-    def get_presence_own(self, presence_level=PresenceLevel.ALL):
+    async def get_presence_own(self, presence_level=PresenceLevel.ALL):
         """
         Get presence of own profile
 
@@ -51,10 +51,10 @@ class PresenceProvider(BaseProvider):
             presence_level (str): Filter level
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.PRESENCE_URL + "/users/me"
         params = {
             'level': presence_level
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_PRESENCE)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_PRESENCE)

@@ -21,7 +21,7 @@ class CQSProvider(BaseProvider):
         'x-xbl-isautomated-client': 'true'
     }
 
-    def get_channel_list(self, locale_info, headend_id):
+    async def get_channel_list(self, locale_info, headend_id):
         """
         Get stump channel list
 
@@ -30,15 +30,15 @@ class CQSProvider(BaseProvider):
             headend_id (str): Headend id
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.CQS_URL + "/epg/%s/lineups/%s/channels?" % (locale_info, headend_id)
         params = {
             "desired": str(VesperType.MOBILE_LINEUP)
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
 
-    def get_schedule(self, locale_info, headend_id, start_date, duration_minutes, channel_skip, channel_count):
+    async def get_schedule(self, locale_info, headend_id, start_date, duration_minutes, channel_skip, channel_count):
         """
         Get stump epg data
 
@@ -51,7 +51,7 @@ class CQSProvider(BaseProvider):
             channel_count (int): Count of channels to get data for
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.CQS_URL + "/epg/%s/lineups/%s/programs?" % (locale_info, headend_id)
         params = {
@@ -61,7 +61,7 @@ class CQSProvider(BaseProvider):
             "channelCount": channel_count,
             "desired": str(VesperType.MOBILE_SCHEDULE)
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
 
 
 class VesperType(StrEnum):

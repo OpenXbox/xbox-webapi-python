@@ -22,7 +22,7 @@ class EDSProvider(BaseProvider):
 
     SEPERATOR = "."
 
-    def get_appchannel_channel_list(self, lineup_id):
+    async def get_appchannel_channel_list(self, lineup_id):
         """
         Get AppChannel channel list
 
@@ -30,13 +30,13 @@ class EDSProvider(BaseProvider):
             lineup_id (str): Lineup ID
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.EDS_URL + "/media/%s/tvchannels?" % self.client.language.locale
         params = {"channelLineupId": lineup_id}
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_appchannel_schedule(self, lineup_id, start_time, end_time, max_items, skip_items):
+    async def get_appchannel_schedule(self, lineup_id, start_time, end_time, max_items, skip_items):
         """
         Get AppChannel schedule / EPG
 
@@ -48,7 +48,7 @@ class EDSProvider(BaseProvider):
             skip_items (int): Count of items to skip
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.EDS_URL + "/media/%s/tvchannellineupguide?" % self.client.language.locale
         desired = [
@@ -68,9 +68,9 @@ class EDSProvider(BaseProvider):
             "channelLineupId": lineup_id,
             "desired": self.SEPERATOR.join(desired)
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_browse_query(self, order_by, desired, **kwargs):
+    async def get_browse_query(self, order_by, desired, **kwargs):
         """
         Get a browse query
 
@@ -95,9 +95,9 @@ class EDSProvider(BaseProvider):
             "desiredMediaItemTypes": str(desired)
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_recommendations(self, desired, **kwargs):
+    async def get_recommendations(self, desired, **kwargs):
         """
         Get recommended content suggestions
 
@@ -106,7 +106,7 @@ class EDSProvider(BaseProvider):
             **kwargs: Additional query parameters
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if isinstance(desired, list):
             desired = self.SEPERATOR.join(str(d) for d in desired)
@@ -116,9 +116,9 @@ class EDSProvider(BaseProvider):
             "desiredMediaItemTypes": str(desired)
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_related(self, id, desired, **kwargs):
+    async def get_related(self, id, desired, **kwargs):
         """
         Get related content for a specific Id
 
@@ -128,7 +128,7 @@ class EDSProvider(BaseProvider):
             **kwargs: Additional query parameters
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if isinstance(desired, list):
             desired = self.SEPERATOR.join(str(d) for d in desired)
@@ -139,9 +139,9 @@ class EDSProvider(BaseProvider):
             "desiredMediaItemTypes": str(desired)
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_fields(self, desired, **kwargs):
+    async def get_fields(self, desired, **kwargs):
         """
         Get Fields
 
@@ -150,7 +150,7 @@ class EDSProvider(BaseProvider):
             **kwargs: Additional query parameters
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if isinstance(desired, list):
             desired = self.SEPERATOR.join(desired)
@@ -160,9 +160,9 @@ class EDSProvider(BaseProvider):
             "desired": desired
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_details(self, ids, mediagroup, **kwargs):
+    async def get_details(self, ids, mediagroup, **kwargs):
         """
         Get details for a list of IDs in a specific media group
 
@@ -172,7 +172,7 @@ class EDSProvider(BaseProvider):
             **kwargs: Additional query parameters
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if isinstance(ids, list):
             ids = self.SEPERATOR.join(ids)
@@ -183,9 +183,9 @@ class EDSProvider(BaseProvider):
             "MediaGroup": str(mediagroup)
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_crossmediagroup_search(self, search_query, max_items, **kwargs):
+    async def get_crossmediagroup_search(self, search_query, max_items, **kwargs):
         """
         Do a crossmedia-group search (search for content for multiple devices)
 
@@ -195,7 +195,7 @@ class EDSProvider(BaseProvider):
             **kwargs: Additional query parameters
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.EDS_URL + "/media/%s/crossMediaGroupSearch?" % self.client.language.locale
         params = {
@@ -203,9 +203,9 @@ class EDSProvider(BaseProvider):
             "maxItems": max_items
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
-    def get_singlemediagroup_search(self, search_query, max_items, media_item_types, **kwargs):
+    async def get_singlemediagroup_search(self, search_query, max_items, media_item_types, **kwargs):
         """
         Do a singlemedia-group search
 
@@ -216,7 +216,7 @@ class EDSProvider(BaseProvider):
             **kwargs: Additional query parameters
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if isinstance(media_item_types, list):
             media_item_types = self.SEPERATOR.join(str(t) for t in media_item_types)
@@ -228,7 +228,7 @@ class EDSProvider(BaseProvider):
             "desiredMediaItemTypes": str(media_item_types)
         }
         params.update(kwargs)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
 
 
 class MediaItemType(StrEnum):
