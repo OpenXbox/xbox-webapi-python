@@ -5,12 +5,15 @@ Authenticate with Windows Live Server and Xbox Live.
 In case Two-Factor authentication is requested from provided account,
 the user is asked for input via standard-input.
 """
+import aiohttp
+import datetime
 import re
 import json
 import logging
 import demjson
-import requests
+from typing import Optional
 import xml.dom.minidom as minidom
+import yarl
 
 from urllib.parse import urlparse, parse_qs
 
@@ -22,13 +25,22 @@ from xbox.webapi.common.userinfo import XboxLiveUserInfo
 log = logging.getLogger('authentication')
 
 
-class AuthenticationManager(object):
-    def __init__(self):
-        """
-        Initialize an instance of :class:`AuthenticationManager`
-        """
-        self.session = requests.session()
+class MicrosoftCookieJar(aiohttp.cookiejar.CookieJar):
+    """
+    This class is a workaround for aiohttp which is unable to managa correctly double Set-Cookie in same request.
+    See https://github.com/aio-libs/aiohttp/issues/4486
+    """
+    @classmethod
+    def _parse_date(cls, date_str: str) -> Optional[datetime.datetime]:
+        date = super()._parse_date(date_str)
+        if date.year == 1980:
+            return None
+        return date
 
+
+class AuthenticationManager(object):
+    def __init__(self, client_session: aiohttp.ClientSession):
+        self.session = client_session
         self.email_address = None
         self.password = None
 
@@ -39,6 +51,13 @@ class AuthenticationManager(object):
         self.xsts_token = None
         self.title_token = None
         self.device_token = None
+
+    @classmethod
+    async def create(cls):
+        """
+        Initialize an instance of :class:`AuthenticationManager`
+        """
+        return cls(aiohttp.ClientSession(cookie_jar=MicrosoftCookieJar()))
 
     @property
     def authenticated(self):
@@ -51,16 +70,20 @@ class AuthenticationManager(object):
         return self.authenticated
 
     @classmethod
-    def from_file(cls, filepath):
-        mgr = cls()
+    async def from_file(cls, filepath):
+        mgr = await cls.create()
         mgr.load(filepath)
         return mgr
 
     @classmethod
-    def from_redirect_url(cls, redirect_url):
-        mgr = cls()
+    async def from_redirect_url(cls, redirect_url):
+        mgr = await cls.create()
         mgr.access_token, mgr.refresh_token = mgr.parse_redirect_url(redirect_url)
         return mgr
+
+    async def close(self):
+        if not self.session.closed:
+            await self.session.close()
 
     def load(self, filepath):
         """
@@ -159,9 +182,9 @@ class AuthenticationManager(object):
         if state:
             params.update(state=state)
 
-        return requests.Request('GET', base_url, params=params).prepare().url
+        return aiohttp.ClientRequest('GET', yarl.URL(base_url), params=params).url
 
-    def authenticate(self, do_refresh=True):
+    async def authenticate(self, do_refresh=True):
         """
         Authenticate with Xbox Live using either tokens or user credentials.
 
@@ -181,13 +204,13 @@ class AuthenticationManager(object):
                     self.access_token.is_valid and self.refresh_token.is_valid:
                 pass
             else:
-                self.access_token, self.refresh_token = self._windows_live_token_refresh(self.refresh_token)
+                self.access_token, self.refresh_token = await self._windows_live_token_refresh(self.refresh_token)
 
             # User Token
             if self.user_token and self.user_token.is_valid:
                 pass
             else:
-                self.user_token = self._xbox_live_authenticate(self.access_token)
+                self.user_token = await self._xbox_live_authenticate(self.access_token)
 
             '''
             TODO: Fix
@@ -208,7 +231,7 @@ class AuthenticationManager(object):
             if self.xsts_token and self.xsts_token.is_valid and self.userinfo:
                 pass
             else:
-                self.xsts_token, self.userinfo = self._xbox_live_authorize(self.user_token)
+                self.xsts_token, self.userinfo = await self._xbox_live_authorize(self.user_token)
         except AuthenticationException as e:
             log.warning('Token Auth failed: %s. Attempting auth via credentials' % e)
             full_authentication_required = True
@@ -216,20 +239,20 @@ class AuthenticationManager(object):
         # Authentication via credentials
         if full_authentication_required and self.email_address and self.password:
             log.info('Attempting user credentials auth')
-            self.access_token, self.refresh_token = self._windows_live_authenticate(self.email_address, self.password)
-            self.user_token = self._xbox_live_authenticate(self.access_token)
+            self.access_token, self.refresh_token = await self._windows_live_authenticate(self.email_address, self.password)
+            self.user_token = await self._xbox_live_authenticate(self.access_token)
             '''
             TODO: Fix
             ts.device_token = self._xbox_live_device_auth(ts.access_token)
             ts.title_token = self._xbox_live_title_auth(ts.device_token, ts.access_token)
             '''
-            self.xsts_token, self.userinfo = self._xbox_live_authorize(self.user_token)
+            self.xsts_token, self.userinfo = await self._xbox_live_authorize(self.user_token)
 
         if not self.authenticated:
             raise AuthenticationException("AuthenticationManager was not able to authenticate "
                                           "with provided tokens or user credentials!")
 
-    def authenticate_with_service(self, authorization_url):
+    async def authenticate_with_service(self, authorization_url):
         """
         Authenticate with partnered service, requires a successful Windows Live Authentication.
 
@@ -240,17 +263,17 @@ class AuthenticationManager(object):
             authorization_url (str): Authorization URL
 
         Returns:
-            requests.Response: Response of the final request
+            aiohttp.ClientResponse: Response of the final request
         """
         if not self.authenticated:
             raise AuthenticationException("Not authenticated with Windows Live, please do that first, "
                                           "before attempting a service authentication")
 
-        response = self.session.get(authorization_url, allow_redirects=False)
-        if response.status_code != 302:
+        response = await self.session.get(authorization_url, allow_redirects=False)
+        if response.status != 302:
             raise AuthenticationException("Failed to authenticate with partner service")
 
-        return self.session.get(response.headers['Location'])
+        return await self.session.get(response.headers['Location'])
 
     @staticmethod
     def extract_js_object(body, obj_name):
@@ -295,7 +318,7 @@ class AuthenticationManager(object):
         refresh_token = RefreshToken(fragment['refresh_token'][0])
         return access_token, refresh_token
 
-    def _windows_live_authenticate(self, email_address, password):
+    async def _windows_live_authenticate(self, email_address, password):
         """
         Internal method to authenticate with Windows Live, called by `self.authenticate`
 
@@ -313,22 +336,23 @@ class AuthenticationManager(object):
         Returns:
             tuple: If authentication succeeds, `tuple` of (AccessToken, RefreshToken) is returned
         """
-        response = self.__window_live_authenticate_request(email_address, password)
+        response = await self.__window_live_authenticate_request(email_address, password)
 
-        proof_type = self.extract_js_object(response.content, "PROOF.Type")
+        proof_type = self.extract_js_object(await response.text(), "PROOF.Type")
         if proof_type:
             log.debug('Following 2fa proof-types gathered: {!s}'.format(proof_type))
-            server_data = self.extract_js_object(response.content, "var ServerData")
+            server_data = self.extract_js_object(await response.text(), "var ServerData")
             raise TwoFactorAuthRequired("Two Factor Authentication is required", server_data)
 
         try:
             # the access token is included in fragment of the location header
+            print(await response.text())
             return self.parse_redirect_url(response.headers.get('Location'))
         except Exception as e:
             log.debug('Parsing redirection url failed, error: {0}'.format(str(e)))
             raise AuthenticationException("Could not log in with supplied credentials")
 
-    def _windows_live_token_refresh(self, refresh_token):
+    async def _windows_live_token_refresh(self, refresh_token):
         """
         Internal method to refresh Windows Live Token, called by `self.authenticate`
 
@@ -344,8 +368,8 @@ class AuthenticationManager(object):
         if not refresh_token or not refresh_token.is_valid:
             raise AuthenticationException("No valid RefreshToken")
 
-        resp = self.__window_live_token_refresh_request(refresh_token)
-        response = json.loads(resp.content.decode('utf-8'))
+        resp = await self.__window_live_token_refresh_request(refresh_token)
+        response = json.loads(await resp.text(encoding='utf-8'))
 
         if 'access_token' not in response:
             raise AuthenticationException("Could not refresh token via RefreshToken")
@@ -354,7 +378,7 @@ class AuthenticationManager(object):
         refresh_token = RefreshToken(response['refresh_token'])
         return access_token, refresh_token
 
-    def _xbox_live_authenticate(self, access_token):
+    async def _xbox_live_authenticate(self, access_token):
         """
         Internal method to authenticate with Xbox Live, called by `self.authenticate`
 
@@ -370,10 +394,11 @@ class AuthenticationManager(object):
         if not access_token or not access_token.is_valid:
             raise AuthenticationException("No valid AccessToken")
 
-        json_data = self.__xbox_live_authenticate_request(access_token).json()
+        json_data = await self.__xbox_live_authenticate_request(access_token)
+        json_data = await json_data.json()
         return UserToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
 
-    def _xbox_live_device_auth(self, access_token):
+    async def _xbox_live_device_auth(self, access_token):
         """
          Internal method to authenticate Device with Xbox Live, called by `self.authenticate`
 
@@ -389,11 +414,11 @@ class AuthenticationManager(object):
         if not access_token or not access_token.is_valid:
             raise AuthenticationException("No valid AccessToken")
 
-        json_data = self.__device_authenticate_request(access_token)
-        json_data = json_data.json()
+        json_data = await self.__device_authenticate_request(access_token)
+        json_data = await json_data.json()
         return DeviceToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
 
-    def _xbox_live_title_auth(self, device_token, access_token):
+    async def _xbox_live_title_auth(self, device_token, access_token):
         """
          Internal method to authenticate Device with Xbox Live, called by `self.authenticate`
 
@@ -411,10 +436,11 @@ class AuthenticationManager(object):
            not device_token or not device_token.is_valid:
             raise AuthenticationException("No valid AccessToken/DeviceToken")
 
-        json_data = self.__title_authenticate_request(device_token, access_token).json()
+        json_data = await self.__title_authenticate_request(device_token, access_token)
+        json_data = await json_data.json()
         return TitleToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
 
-    def _xbox_live_authorize(self, user_token, device_token=None, title_token=None):
+    async def _xbox_live_authorize(self, user_token, device_token=None, title_token=None):
         """
         Internal method to authorize with Xbox Live, called by `self.authenticate`
 
@@ -432,14 +458,15 @@ class AuthenticationManager(object):
         if not user_token or not user_token.is_valid:
             raise AuthenticationException("No valid UserToken")
 
-        json_data = self.__xbox_live_authorize_request(user_token, device_token, title_token).json()
+        json_data = await self.__xbox_live_authorize_request(user_token, device_token, title_token)
+        json_data = await json_data.json()
         userinfo = json_data['DisplayClaims']['xui'][0]
         userinfo = XboxLiveUserInfo.from_dict(userinfo)
 
         xsts_token = XSTSToken(json_data['Token'], json_data['IssueInstant'], json_data['NotAfter'])
         return xsts_token, userinfo
 
-    def __window_live_authenticate_request(self, email, password):
+    async def __window_live_authenticate_request(self, email, password):
         """
         Authenticate with Windows Live Server.
 
@@ -455,19 +482,19 @@ class AuthenticationManager(object):
             password (str): Corresponding password
 
         Returns:
-            requests.Response: Response of the final POST-Request
+            aiohttp.ClientResponse: Response of the final POST-Request
         """
 
         authorization_url = AuthenticationManager.generate_authorization_url()
-        resp = self.session.get(authorization_url, allow_redirects=False)
+        resp = await self.session.get(authorization_url, allow_redirects=False)
 
-        if resp.status_code == 302 and \
+        if resp.status == 302 and \
            resp.headers['Location'].startswith('https://login.live.com/oauth20_desktop.srf'):
             # We are already authenticated by cached cookies
             return resp
 
         # Extract ServerData javascript-object via regex, convert it to proper JSON
-        server_data = self.extract_js_object(resp.content, "var ServerData")
+        server_data = self.extract_js_object(await resp.text(), "var ServerData")
         # Extract PPFT value (flowtoken)
         ppft = server_data.get('sFTTag')
         ppft = minidom.parseString(ppft).getElementsByTagName("input")[0].getAttribute("value")
@@ -481,7 +508,7 @@ class AuthenticationManager(object):
 
         post_data = {
             'username': email,
-            'uaid': self.session.cookies['uaid'],
+            'uaid': self.session.cookie_jar.filter_cookies('https://login.live.com')['uaid'].value,
             'isOtherIdpSupported': False,
             'checkPhones': False,
             'isRemoteNGCSupported': True,
@@ -489,8 +516,8 @@ class AuthenticationManager(object):
             'isFidoSupported': False,
             'flowToken': ppft
         }
-        resp = self.session.post(credential_type_url, json=post_data, headers=dict(Referer=resp.url))
-        credential_type = resp.json()
+        resp = await self.session.post(credential_type_url, json=post_data, headers=dict(Referer=str(resp.url)))
+        credential_type = await resp.json()
 
         post_data = {
             'login': email,
@@ -513,9 +540,9 @@ class AuthenticationManager(object):
                 'psRNGCDefaultType': ngc_params['DefaultType']
             })
 
-        return self.session.post(server_data.get('urlPost'), data=post_data, allow_redirects=False)
+        return await self.session.post(server_data.get('urlPost'), data=post_data, allow_redirects=False)
 
-    def __window_live_token_refresh_request(self, refresh_token):
+    async def __window_live_token_refresh_request(self, refresh_token):
         """
         Refresh the Windows Live Token by sending HTTP-GET Request containing Refresh-token in query to a static URL.
 
@@ -523,7 +550,7 @@ class AuthenticationManager(object):
             refresh_token (:class:`RefreshToken`): Refresh token from a previous Windows Live Authentication
 
         Returns:
-            requests.Response: Response of HTTP-GET
+            aiohttp.ClientResponse: Response of HTTP-GET
         """
         base_url = 'https://login.live.com/oauth20_token.srf?'
         params = {
@@ -533,9 +560,9 @@ class AuthenticationManager(object):
             'refresh_token': refresh_token.jwt,
         }
 
-        return self.session.get(base_url, params=params)
+        return await self.session.get(base_url, params=params)
 
-    def __xbox_live_authenticate_request(self, access_token):
+    async def __xbox_live_authenticate_request(self, access_token):
         """
         Authenticate with Xbox Live by sending HTTP-POST containing Windows-Live Access-Token to User-Auth endpoint.
 
@@ -543,7 +570,7 @@ class AuthenticationManager(object):
             access_token (:class:`AccessToken`): Access token from the Windows-Live-Authentication
 
         Returns:
-           requests.Response: Response of HTTP-POST
+           aiohttp.ClientResponse: Response of HTTP-POST
         """
         url = 'https://user.auth.xboxlive.com/user/authenticate'
         headers = {"x-xbl-contract-version": "1"}
@@ -557,9 +584,9 @@ class AuthenticationManager(object):
             }
         }
 
-        return self.session.post(url, json=data, headers=headers)
+        return await self.session.post(url, json=data, headers=headers)
 
-    def __xbox_live_authorize_request(self, user_token, device_token=None, title_token=None):
+    async def __xbox_live_authorize_request(self, user_token, device_token=None, title_token=None):
         """
         Authorize with Xbox Live by sending Xbox-Live User-Token via HTTP Post to the XSTS-Authorize endpoint.
 
@@ -569,7 +596,7 @@ class AuthenticationManager(object):
             title_token (:class:`TitleToken`): Optional Title token from Xbox-Live Title Authentication
 
         Returns:
-            requests.Response: Response of HTTP-POST
+            aiohttp.ClientResponse: Response of HTTP-POST
         """
         url = 'https://xsts.auth.xboxlive.com/xsts/authorize'
         headers = {"x-xbl-contract-version": "1"}
@@ -587,9 +614,9 @@ class AuthenticationManager(object):
         if title_token:
             data["Properties"].update({"TitleToken": title_token.jwt})
 
-        return self.session.post(url, json=data, headers=headers)
+        return await self.session.post(url, json=data, headers=headers)
 
-    def __title_authenticate_request(self, device_token, access_token):
+    async def __title_authenticate_request(self, device_token, access_token):
         """
         Authenticate Title / App with Xbox Live.
 
@@ -600,7 +627,7 @@ class AuthenticationManager(object):
             access_token (:class:`AccessToken`): Access token
 
         Returns:
-            requests.Response: Response of HTTP-POST
+            aiohttp.ClientResponse: Response of HTTP-POST
         """
         url = "https://title.auth.xboxlive.com"
         headers = {"x-xbl-contract-version": "1"}
@@ -615,9 +642,9 @@ class AuthenticationManager(object):
             }
         }
 
-        return self.session.post(url, json=data, headers=headers)
+        return await self.session.post(url, json=data, headers=headers)
 
-    def __device_authenticate_request(self, access_token):
+    async def __device_authenticate_request(self, access_token):
         """
         Authenticate your current device with Xbox Live.
 
@@ -625,7 +652,7 @@ class AuthenticationManager(object):
             access_token (:class:`AccessToken`): Access token
 
         Returns:
-            requests.Response: Response of HTTP-POST`
+            aiohttp.ClientResponse: Response of HTTP-POST`
         """
         url = "https://device.auth.xboxlive.com/device/authenticate"
         headers = {"x-xbl-contract-version": "1"}
@@ -639,4 +666,4 @@ class AuthenticationManager(object):
             }
         }
 
-        return self.session.post(url, json=data, headers=headers)
+        return await self.session.post(url, json=data, headers=headers)
