@@ -10,7 +10,7 @@ class UserStatsProvider(BaseProvider):
     HEADERS_USERSTATS_WITH_METADATA = {'x-xbl-contract-version': '3'}
     SEPERATOR = ","
 
-    def get_stats(self, xuid, service_config_id, stats_fields=None):
+    async def get_stats(self, xuid, service_config_id, stats_fields=None):
         """
         Get userstats
 
@@ -20,16 +20,16 @@ class UserStatsProvider(BaseProvider):
             stats_fields (list): List of stats fields to acquire
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
         stats = self.SEPERATOR.join(stats_fields)
 
         url = self.USERSTATS_URL + "/users/xuid(%s)/scids/%s/stats/%s" % (xuid, service_config_id, stats)
-        return self.client.session.get(url, headers=self.HEADERS_USERSTATS)
+        return await self.client.session.get(url, headers=self.HEADERS_USERSTATS)
 
-    def get_stats_with_metadata(self, xuid, service_config_id, stats_fields=None):
+    async def get_stats_with_metadata(self, xuid, service_config_id, stats_fields=None):
         """
         Get userstats including metadata for each stat (if available)
 
@@ -39,7 +39,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields (list): List of stats fields to acquire
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
@@ -49,9 +49,9 @@ class UserStatsProvider(BaseProvider):
         params = {
             'include': 'valuemetadata'
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA)
 
-    def get_stats_batch(self, xuids, title_id, stats_fields=None):
+    async def get_stats_batch(self, xuids, title_id, stats_fields=None):
         """
         Get userstats in batch mode
 
@@ -61,7 +61,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields (list): List of stats fields to acquire
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(xuids, list):
             raise ValueError('Xuids parameter is not a list')
@@ -81,9 +81,9 @@ class UserStatsProvider(BaseProvider):
             'stats': [dict(name=stat, titleId=int(title_id)) for stat in stats_fields],
             'xuids': [str(xid) for xid in xuids]
         }
-        return self.client.session.post(url, json=post_data, headers=self.HEADERS_USERSTATS)
+        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_USERSTATS)
 
-    def get_stats_batch_by_scid(self, xuids, service_config_id, stats_fields=None):
+    async def get_stats_batch_by_scid(self, xuids, service_config_id, stats_fields=None):
         """
         Get userstats in batch mode, via scid
 
@@ -93,7 +93,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields (list): List of stats fields to acquire
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(xuids, list):
             raise ValueError('Xuids parameter is not a list')
@@ -114,7 +114,7 @@ class UserStatsProvider(BaseProvider):
             'stats': [dict(name=stat, scid=service_config_id) for stat in stats_fields],
             'xuids': [str(xid) for xid in xuids]
         }
-        return self.client.session.post(url, json=post_data, headers=self.HEADERS_USERSTATS)
+        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_USERSTATS)
 
 
 class GeneralStatsField(object):

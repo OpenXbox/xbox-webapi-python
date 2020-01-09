@@ -34,7 +34,7 @@ class TitlehubProvider(BaseProvider):
         super(TitlehubProvider, self).__init__(client)
         self.HEADERS_TITLEHUB.update({'Accept-Language': self.client.language.locale})
 
-    def get_title_history(self, xuid, fields=None, max_items=5):
+    async def get_title_history(self, xuid, fields=None, max_items=5):
         """
         Get recently played titles
 
@@ -44,7 +44,7 @@ class TitlehubProvider(BaseProvider):
             max_items (int): Maximum items
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not fields:
             fields = [TitleFields.ACHIEVEMENT, TitleFields.IMAGE, TitleFields.SERVICE_CONFIG_ID]
@@ -54,9 +54,9 @@ class TitlehubProvider(BaseProvider):
         params = {
             'maxItems': max_items
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_TITLEHUB)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_TITLEHUB)
 
-    def get_title_info(self, title_id, fields=None):
+    async def get_title_info(self, title_id, fields=None):
         """
         Get info for specific title
 
@@ -65,7 +65,7 @@ class TitlehubProvider(BaseProvider):
             fields (list): Members of :class:`TitleFields`
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not fields:
             fields = [
@@ -75,9 +75,9 @@ class TitlehubProvider(BaseProvider):
         fields = self.SEPARATOR.join(fields)
 
         url = self.TITLEHUB_URL + "/users/xuid(%s)/titles/titleid(%s)/decoration/%s" % (self.client.xuid, title_id, fields)
-        return self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
+        return await self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
 
-    def get_titles_batch(self, pfns, fields=None):
+    async def get_titles_batch(self, pfns, fields=None):
         """
         Get Title info via PFN ids
 
@@ -86,7 +86,7 @@ class TitlehubProvider(BaseProvider):
             fields (list): Members of :class:`TitleFields`
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(pfns, list):
             raise ValueError("PFN parameter requires list of strings")
@@ -100,4 +100,4 @@ class TitlehubProvider(BaseProvider):
             "pfns": pfns,
             "windowsPhoneProductIds": []
         }
-        return self.client.session.post(url, json=post_data, headers=self.HEADERS_TITLEHUB)
+        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_TITLEHUB)

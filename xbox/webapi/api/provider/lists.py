@@ -13,7 +13,7 @@ class ListsProvider(BaseProvider):
 
     SEPERATOR = "."
 
-    def remove_items(self, xuid, params, listname="XBLPins"):
+    async def remove_items(self, xuid, params, listname="XBLPins"):
         """
         Remove items from specific list, defaults to "XBLPins"
 
@@ -22,12 +22,12 @@ class ListsProvider(BaseProvider):
             listname (str): Name of list to edit
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return self.client.session.delete(url, params=params, headers=self.HEADERS_LISTS)
+        return await self.client.session.delete(url, params=params, headers=self.HEADERS_LISTS)
 
-    def get_items(self, xuid, params, listname="XBLPins"):
+    async def get_items(self, xuid, params, listname="XBLPins"):
         """
         Get items from specific list, defaults to "XBLPins"
 
@@ -36,12 +36,12 @@ class ListsProvider(BaseProvider):
             listname (str): Name of list to edit
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return self.client.session.get(url, params=params, headers=self.HEADERS_LISTS)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_LISTS)
 
-    def insert_items(self, xuid, params, listname="XBLPins"):
+    async def insert_items(self, xuid, params, listname="XBLPins"):
         """
         Insert items to specific list, defaults to "XBLPins"
 
@@ -50,12 +50,12 @@ class ListsProvider(BaseProvider):
             listname (str): Name of list to edit
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return self.client.session.post(url, params=params, headers=self.HEADERS_LISTS)
+        return await self.client.session.post(url, params=params, headers=self.HEADERS_LISTS)
 
-    def update_items(self, xuid, params, listname="XBLPins"):
+    async def update_items(self, xuid, params, listname="XBLPins"):
         """
         Update items in specific list, defaults to "XBLPins"
 
@@ -64,7 +64,7 @@ class ListsProvider(BaseProvider):
             listname (str): Name of list to edit
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return self.client.session.put(url, params=params, headers=self.HEADERS_LISTS)
+        return await self.client.session.put(url, params=params, headers=self.HEADERS_LISTS)

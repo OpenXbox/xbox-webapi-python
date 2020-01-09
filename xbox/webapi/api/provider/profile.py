@@ -13,7 +13,7 @@ class ProfileProvider(BaseProvider):
     }
     SEPARATOR = ","
 
-    def get_profiles(self, xuid_list):
+    async def get_profiles(self, xuid_list):
         """
         Get profile info for list of xuids
 
@@ -21,7 +21,7 @@ class ProfileProvider(BaseProvider):
             xuid_list (list): List of xuids
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         post_data = {
             "settings": [
@@ -43,9 +43,9 @@ class ProfileProvider(BaseProvider):
             "userIds": [int(xuid) for xuid in xuid_list]
         }
         url = self.PROFILE_URL + "/users/batch/profile/settings"
-        return self.client.session.post(url, json=post_data, headers=self.HEADERS_PROFILE)
+        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_PROFILE)
 
-    def get_profile_by_xuid(self, target_xuid):
+    async def get_profile_by_xuid(self, target_xuid):
         """
         Get Userprofile by xuid
 
@@ -53,7 +53,7 @@ class ProfileProvider(BaseProvider):
             target_xuid (int): XUID to get profile for
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.PROFILE_URL + "/users/xuid(%s)/profile/settings?" % target_xuid
         params = {
@@ -65,9 +65,9 @@ class ProfileProvider(BaseProvider):
                 ProfileSettings.XBOX_ONE_REP
             ])
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_PROFILE)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_PROFILE)
 
-    def get_profile_by_gamertag(self, gamertag):
+    async def get_profile_by_gamertag(self, gamertag):
         """
         Get Userprofile by gamertag
 
@@ -75,7 +75,7 @@ class ProfileProvider(BaseProvider):
             gamertag (str): Gamertag to get profile for
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.PROFILE_URL + "/users/gt(%s)/profile/settings?" % gamertag
         params = {
@@ -87,7 +87,7 @@ class ProfileProvider(BaseProvider):
                 ProfileSettings.XBOX_ONE_REP
             ])
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_PROFILE)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_PROFILE)
 
 
 class ProfileSettings(object):

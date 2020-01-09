@@ -8,7 +8,7 @@ class AccountProvider(BaseProvider):
     HEADERS_USER_MGT = {'x-xbl-contract-version': '1'}
     HEADERS_ACCOUNT = {'x-xbl-contract-version': '2'}
 
-    def claim_gamertag(self, xuid, gamertag):
+    async def claim_gamertag(self, xuid, gamertag):
         """
         Claim gamertag
 
@@ -24,17 +24,17 @@ class AccountProvider(BaseProvider):
             gamertag (str): Desired gamertag
 
         Returns:
-            object: Instance of :class:`requests.Response`
+            object: Instance of :class:`aiohttp.ClientResponse`
         """
         url = self.BASE_URL_USER_MGT + "/gamertags/reserve"
         post_data = {
             "Gamertag": gamertag,
             "ReservationId": str(xuid)
         }
-        return self.client.session.post(url, json=post_data,
+        return await self.client.session.post(url, json=post_data,
                                         headers=self.HEADERS_USER_MGT)
 
-    def change_gamertag(self, xuid, gamertag, preview=False):
+    async def change_gamertag(self, xuid, gamertag, preview=False):
         """
         Change your gamertag.
 
@@ -48,7 +48,7 @@ class AccountProvider(BaseProvider):
             preview (bool): Preview the change
 
         Returns:
-            object: Instance of :class:`requests.Response`
+            object: Instance of :class:`aiohttp.ClientResponse`
         """
         url = self.BASE_URL_ACCOUNT + "/users/current/profile/gamertag"
         post_data = {
@@ -56,5 +56,5 @@ class AccountProvider(BaseProvider):
             "preview": preview,
             "reservationId": int(xuid)
         }
-        return self.client.session.post(url, json=post_data,
+        return await self.client.session.post(url, json=post_data,
                                         headers=self.HEADERS_ACCOUNT)

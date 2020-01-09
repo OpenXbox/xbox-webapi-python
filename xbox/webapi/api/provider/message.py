@@ -8,7 +8,7 @@ class MessageProvider(BaseProvider):
     MSG_URL = "https://msg.xboxlive.com"
     HEADERS_MESSAGE = {'x-xbl-contract-version': '1'}
 
-    def get_message_inbox(self, skip_items=0, max_items=100):
+    async def get_message_inbox(self, skip_items=0, max_items=100):
         """
         Get messages
 
@@ -17,16 +17,16 @@ class MessageProvider(BaseProvider):
             max_items (int): Maximum item count to load
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.MSG_URL + "/users/xuid(%s)/inbox" % self.client.xuid
         params = {
             'skipItems': skip_items,
             'maxItems': max_items
         }
-        return self.client.session.get(url, params=params, headers=self.HEADERS_MESSAGE)
+        return await self.client.session.get(url, params=params, headers=self.HEADERS_MESSAGE)
 
-    def get_message(self, message_id):
+    async def get_message(self, message_id):
         """
         Get detailed message info
 
@@ -34,12 +34,12 @@ class MessageProvider(BaseProvider):
             message_id (str): Message Id
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.MSG_URL + "/users/xuid(%s)/inbox/%s" % (self.client.xuid, message_id)
-        return self.client.session.get(url, headers=self.HEADERS_MESSAGE)
+        return await self.client.session.get(url, headers=self.HEADERS_MESSAGE)
 
-    def delete_message(self, message_id):
+    async def delete_message(self, message_id):
         """
         Delete message
 
@@ -49,12 +49,12 @@ class MessageProvider(BaseProvider):
             message_id (str): Message Id
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.MSG_URL + "/users/xuid(%s)/inbox/%s" % (self.client.xuid, message_id)
-        return self.client.session.delete(url, headers=self.HEADERS_MESSAGE)
+        return await self.client.session.delete(url, headers=self.HEADERS_MESSAGE)
 
-    def send_message(self, message_text, gamertags=None, xuids=None):
+    async def send_message(self, message_text, gamertags=None, xuids=None):
         """
         Send message to a list of gamertags
 
@@ -65,7 +65,7 @@ class MessageProvider(BaseProvider):
             gamertags (list): List of gamertags
 
         Returns:
-            :class:`requests.Response`: HTTP Response
+            :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(message_text, str):
             raise TypeError('Expecting message_text string')
@@ -88,4 +88,4 @@ class MessageProvider(BaseProvider):
             },
             'messageText': message_text
         }
-        return self.client.session.post(url, json=post_data, headers=self.HEADERS_MESSAGE)
+        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_MESSAGE)
