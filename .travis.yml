@@ -3,23 +3,23 @@ notifications:
   email: false
 language: python
 python:
-  - 3.4
-  - 3.5
-  - 3.6
-  - 3.7
-  - 3.8
-  - pypy3
+- 3.4
+- 3.5
+- 3.6
+- 3.7
+- 3.8
+- pypy3
 install:
-  - pip install -U tox-travis
-  - pip install -e .[dev]
-  - python setup.py develop
+- pip install -U tox-travis
+- pip install -e .[dev]
+- python setup.py develop
 script: tox
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
-  user: OpenXbox
+  user: "__token__"
   password:
-    secure: qxtkGD6+TupRae7K7AtpgDsAkPJbZyC8Vu/ZwAQN+rIDrdT3c9SUeMr8l7LVHnDfflxuDqmiudDetOyRTMTjx5IcyTJOAfhw3ZEhovPZDc1n3gyRxXxSi1Lv5sfNb3vZ/g4btE3wcsAVtpfeVQXDKG5gsRrRQiXtVbce8ZgI4hFSb2uABNgkQ6Ecod4gFEIAVO3X3nCkQB/qXbjXMVP0fpDe9UuIHk5pND8l6ZFKvd/4zuc6ELlCEVBQvpM2OEPB6eViVMCB5eyUcRVDF3n5gQsy0ieiHhXKoxniph8VjEAYhk5NsveGE9EY/DtFMJq9dUoKpZzFj6V+q6zHfsYaSFSreyS9MDU3x4jdRau3lYcDcC/sjxzqWOnVWINep2XMJju5BzFQRQ4lMsjTm+FQewcmlOs2Jwog8KkliXE9U7OTmbIT45sOLW9/BRVMIARmXWPOjzwpk3OjNYgwJmPNTmPSLBGcAzoiDDSR1YeDC2U8Q1I29aIgJX/GePQVuKJjDceGch+MeOK/I3Sw3jRm15XklqtD1XiqRAV42aWzzSoVjyfNLOAkFgffKi4aA3rKXeSYgmyStEMa1JmPj10TfDSy9eo2STGg6YMAxuoz/MihtxzyU12EnuTJ83qw07kADp/d0RoVi2Sdax254uUNg8ZxJRRXM0yeYjt6bYEnMvc=
+    secure: "S3UsrlMOgutVNG1BcyAQWYC5rfLOqCtFYZb7dr0XpSBMGFYHTBdVP83iA/ns6k0pTl0d5A0LWD5qqD6VejrJ/RzgJiXoN6GkCO4My1i9yZzdlFCJgtyZvfCiiySsVZhJzWo48idmC7zAiDIEWCeSz4WmYK9ZJcV+m3UiSdoHhbw3oToRbRREnlPLjmQheaZNc3pXfiM9S1izoIN0jCY93W0k4b++ftHu9qJEuZfSgHhvVo7kaCf2wjsuY1BNUQiDNPvveRXYkHWAZXbu0I3FsZWS8sMEexP7Afa7HqamX/CM+UaaP3kxN7TPpxHBKHjEgBsmMzdPj9gaEwc5W5txYs46ZoHoJL/VdcEBYWIkj/R1MtDpvU1AbZ9MKxIK+2xgWdX8DlDkfJD0Eb1ibkHng5JRaAgK5ceMsXXHs4b18iTsjWmgBlyb3JvFUkEoG8Feyh6uVstEJLddd63r3tlbgpOr7b+XGwfv1LwVUSy2Y0p5OVJOtd40T+7p2Ba05TIwt4ib0LDyyHedHn8xhHtgiwdUkcYlIRNHwxs9ymscDf04Fpp1TQEnzszPcDznV7T2wGe1rNqpLFLXIUunuOTPYP/TTW2jRPvpnuQybIXC3x6qIToQzzD9QzkjZFMwYKiOVZ0r4MNYGbpl3hc+Nqpd4s7Cb4cad0HHSNJKIJ8z9tg="
   on:
     tags: true
     branch: master
