@@ -3,7 +3,6 @@
 
 from setuptools import setup
 
-
 setup(
     name="xbox-webapi",
     version="1.1.7",
@@ -18,8 +17,8 @@ setup(
         'xbox.webapi.common',
         'xbox.webapi.scripts',
         'xbox.webapi.api',
-        'xbox.webapi.authentication',
-        'xbox.webapi.api.provider'
+        'xbox.webapi.api.provider',
+        'xbox.webapi.authentication'
     ],
     namespace_packages=['xbox'],
     zip_safe=False,
@@ -31,7 +30,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7"
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8"
     ],
     test_suite="tests",
     install_requires=[
@@ -48,7 +48,7 @@ setup(
     extras_require={
         'dev': [
             'pip',
-            'bumpversion',
+            'bump2version',
             'wheel',
             'watchdog',
             'flake8',
