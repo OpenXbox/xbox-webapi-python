@@ -11,19 +11,21 @@ from ecdsa import NIST256p, SigningKey
 
 
 class RequestSigner:
+
     # Version 1
     SIGNATURE_VERSION = b"\x00\x00\x00\x01"
 
     def __init__(self, signing_key=None):
         self.signing_key = signing_key or SigningKey.generate(curve=NIST256p)
 
+        pk_point = self.signing_key.verifying_key.pubkey.point
         self.proof_field = {
             "use": "sig",
             "alg": "ES256",
             "kty": "EC",
             "crv": "P-256",
-            "x": self.__encode_ec_coord(sk.verifying_key.pubkey.point.x()),
-            "y": self.__encode_ec_coord(sk.verifying_key.pubkey.point.y()),
+            "x": self.__encode_ec_coord(pk_point.x()),
+            "y": self.__encode_ec_coord(pk_point.y()),
         }
 
     def sign(self, method, path_and_query, body=b"", authorization="", timestamp=None):
@@ -53,7 +55,7 @@ class RequestSigner:
         hash = hashlib.sha256()
 
         # Version + null
-        hash.update(SignedSession.SIGNATURE_VERSION)
+        hash.update(RequestSigner.SIGNATURE_VERSION)
         hash.update(b"\x00")
 
         # Timestamp + null
@@ -76,7 +78,7 @@ class RequestSigner:
         hash.update(body)
         hash.update(b"\x00")
 
-        return signature
+        return hash.digest()
 
     @staticmethod
     def __base64_escaped(binary):
