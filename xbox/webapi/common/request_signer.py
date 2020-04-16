@@ -39,13 +39,11 @@ class RequestSigner:
 
     def _sign_raw(self, method, path_and_query, body, authorization, timestamp):
         # Calculate hash
-        ts_bytes = timestamp.to_bytes(8, "big")
-        hash = self._hash_request(
-            method, path_and_query, body, authorization, timestamp
-        )
+        ts_bytes = timestamp.to_bytes(8, 'big')
+        hash = self._hash(method, path_and_query, body, authorization, ts_bytes)
 
         # Sign the hash
-        signature = self._signing_key.sign(hash)
+        signature = self.signing_key.sign_digest_deterministic(hash)
 
         # Return signature version + timestamp encoded + signature
         return self.SIGNATURE_VERSION + ts_bytes + signature
@@ -71,8 +69,8 @@ class RequestSigner:
         hash.update(b"\x00")
 
         # Authorization (even if an empty string)
-        hash.update(path_and_query.encode("ascii"))
-        hash.update(b"\x00")
+        hash.update(authorization.encode('ascii'))
+        hash.update(b'\x00')
 
         # Body
         hash.update(body)

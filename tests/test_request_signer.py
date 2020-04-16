@@ -18,3 +18,14 @@ def test_signing():
         "y": "syjS0YE9vH3eBat61P9TkCpseo0qtL0weQKP-PJtIho",
     }
     assert signer.proof_field == correct_proof
+
+    timestamp = 1586999965
+
+    test_hash = signer._hash(method='POST', path_and_query='/path?query=1', body=b'thebodygoeshere',
+                             authorization='XBL3.0 x=userid;jsonwebtoken', ts_bytes=timestamp.to_bytes(8, 'big'))
+    assert test_hash.hex() == '9d3c6365f3a07b03de582d59f01c1e8265b25ca679ddef8ee58e9886a4fca10f'
+
+    test_signature = signer.sign(method='POST', path_and_query='/path?query=1', body=b'thebodygoeshere',
+                                 authorization='XBL3.0 x=userid;jsonwebtoken', timestamp=1586999965)
+
+    assert(test_signature == 'AAAAAQAAAABel7Kd/FgavClh7YZK5qB0NVGcMPfP0NgNM2gPXiUB7PzXQewVq6D2M7nkEjMolOGkjnEm5pphuXSAtreYV14HPTJaDA==')
