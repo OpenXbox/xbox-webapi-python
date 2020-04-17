@@ -23,8 +23,15 @@ class SignedSession(Session):
         path_and_query = urlunsplit(("", "", parsed_url.path, parsed_url.query, ""))
         authorization = prepared.headers.get("Authorization", "")
 
+        if prepared.body:
+            if not isinstance(prepared.body, bytes):
+                prepared.body = prepared.body.encode('ascii')
+            body = prepared.body
+        else:
+            body = b''
+
         signature = self.request_signer.sign(method=prepared.method, path_and_query=path_and_query,
-                                             body=prepared.body, authorization=authorization)
+                                             body=body, authorization=authorization)
 
         prepared.headers["Signature"] = signature
         return prepared
