@@ -12,11 +12,7 @@ class MessageProvider(BaseProvider):
 
     def get_message_inbox(self):
         """
-        Get messages
-
-        Args:
-            skip_items (int): Item count to skip
-            max_items (int): Maximum item count to load
+        Get message inbox
 
         Returns:
             :class:`requests.Response`: HTTP Response
@@ -44,9 +40,10 @@ class MessageProvider(BaseProvider):
 
     def send_message(self, message_text, xuid):
         """
-        Send message to a list of gamertags
+        Send message to a XUID
 
         Args:
+            message_text: text message
             xuid: id of recipient
 
         Returns:
@@ -74,9 +71,10 @@ class MessageProvider(BaseProvider):
 
     def send_image(self, image_url, xuid, media_type="unknown", message_text="unknown"):
         """
-        Send message to a list of gamertags
+        Send an image to a XUID
 
         Args:
+            message_text: optional message text
             image_url: url to image file
             media_type: extension/filetype of provided image
             xuid: id of recipient
