@@ -10,8 +10,9 @@ Xbox-WebAPI
     :target: http://xbox-webapi-python.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://travis-ci.org/OpenXbox/xbox-webapi-python.svg?branch=master
-    :target: https://travis-ci.org/OpenXbox/xbox-webapi-python
+.. image:: https://img.shields.io/github/workflow/status/OpenXbox/xbox-webapi-python/build?label=build
+    :target: https://github.com/OpenXbox/xbox-webapi-python/actions?query=workflow%3Abuild
+    :alt: Build status
 
 .. image:: https://img.shields.io/badge/discord-OpenXbox-blue.svg
     :target: https://openxbox.org/discord
