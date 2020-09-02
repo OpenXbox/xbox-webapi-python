@@ -57,6 +57,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       -
+        name: Docker Buildx (push)
+        if: success() && github.event_name != 'pull_request'
+        run: |
+          docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}
+      -
         name: Update Dockerhub description
         if: success() && github.event_name != 'pull_request'
         uses: peter-evans/dockerhub-description@v2
@@ -65,11 +70,6 @@ jobs:
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERHUB_REPOSITORY: ${{ steps.prepare.outputs.docker_image }}
           README_FILEPATH: ./README.rst
-      -
-        name: Docker Buildx (push)
-        if: success() && github.event_name != 'pull_request'
-        run: |
-          docker buildx build --output "type=image,push=true" ${{ steps.prepare.outputs.buildx_args }}
       -
         name: Inspect image
         if: always() && github.event_name != 'pull_request'
