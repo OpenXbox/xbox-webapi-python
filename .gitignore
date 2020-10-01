@@ -8,7 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-.env/
+.env
+.venv/
+venv/
 build/
 develop-eggs/
 dist/
@@ -60,6 +62,9 @@ target/
 
 # Intellij
 .idea/
+
+# VS Code
+.vscode/
 
 # Node
 node_modules
