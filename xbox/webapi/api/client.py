@@ -4,8 +4,11 @@ Xbox Live Client
 Basic factory that stores :class:`XboxLiveLanguage`, User authorization data
 and available `Providers`
 """
-import aiohttp
 import logging
+from typing import Any
+
+from aiohttp.client import ClientResponse
+from aiohttp import hdrs
 
 from xbox.webapi.api.provider.eds import EDSProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
@@ -21,22 +24,63 @@ from xbox.webapi.api.provider.userstats import UserStatsProvider
 from xbox.webapi.api.provider.screenshots import ScreenshotsProvider
 from xbox.webapi.api.provider.titlehub import TitlehubProvider
 from xbox.webapi.api.provider.account import AccountProvider
-from xbox.webapi.api.language import XboxLiveLanguage
+from xbox.webapi.api.language import XboxLiveLanguage, XboxLiveLocale
+from xbox.webapi.authentication.manager import AuthenticationManager
 
 log = logging.getLogger('xbox.api')
 
 
+class Session(object):
+    def __init__(self, auth_mgr: AuthenticationManager):
+        self._auth_mgr = auth_mgr
+
+    async def request(self, method: str, url: str, **kwargs: Any) -> ClientResponse:
+        headers = kwargs.pop('headers', {})
+        resp = await self._auth_mgr.session.request(
+            method,
+            url,
+            **kwargs,
+            headers={
+                hdrs.AUTHORIZATION: self._auth_mgr.xsts_token.authorization_header_value,
+                **headers,
+            },
+        )
+        resp.raise_for_status()
+        return resp
+
+
+    async def get(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_GET, url, **kwargs)
+
+
+    async def options(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_OPTIONS, url, **kwargs)
+
+
+    async def head(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_HEAD, url, **kwargs)
+
+
+    async def post(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_POST, url, **kwargs)
+
+    
+    async def put(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_PUT, url, **kwargs)
+
+
+    async def patch(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_PATCH, url, **kwargs)
+
+
+    async def delete(self, url: str, **kwargs: Any) -> ClientResponse:
+        return await self.request(hdrs.METH_DELETE, url, **kwargs)
+
+
 class XboxLiveClient(object):
-    def __init__(self, client_session: aiohttp.ClientSession, xuid, language=XboxLiveLanguage.United_States):
-        self._session = client_session
-
-        if isinstance(xuid, str):
-            self._xuid = int(xuid)
-        elif isinstance(xuid, int):
-            self._xuid = xuid
-        else:
-            raise ValueError("Xuid was passed in wrong format, neither int nor string")
-
+    def __init__(self, auth_mgr: AuthenticationManager, language: XboxLiveLocale=XboxLiveLanguage.United_States):
+        self._auth_mgr = auth_mgr
+        self.session = Session(auth_mgr)
         self._lang = language
 
         self.eds = EDSProvider(self)
@@ -54,24 +98,6 @@ class XboxLiveClient(object):
         self.titlehub = TitlehubProvider(self)
         self.account = AccountProvider(self)
 
-    @classmethod
-    async def create(cls, userhash, auth_token, xuid, language=XboxLiveLanguage.United_States):
-        """
-        Provide various Web API from Xbox Live
-
-        Args:
-            userhash (str): Userhash obtained by authentication with Xbox Live Server
-            auth_token (str): Authentication Token (XSTS), obtained by authentication with Xbox Live Server
-            xuid (str/int): Xbox User Identification of your Xbox Live Account
-            language (str): Member of :class:`XboxLiveLanguage`
-        """
-        authorization_header = {'Authorization': 'XBL3.0 x=%s;%s' % (userhash, auth_token)}
-        return cls(aiohttp.ClientSession(headers=authorization_header), xuid, language)
-
-    async def close(self):
-        if not self._session.closed:
-            await self._session.close()
-
     @property
     def xuid(self):
         """
@@ -80,7 +106,7 @@ class XboxLiveClient(object):
         Returns:
             int: Xbox User ID
         """
-        return self._xuid
+        return self._auth_mgr.xsts_token.xuid
 
     @property
     def language(self):
@@ -91,13 +117,3 @@ class XboxLiveClient(object):
             :class:`XboxLiveLanguage`: Active Xbox Live language
         """
         return self._lang
-
-    @property
-    def session(self):
-        """
-        Wrapper around requests session
-
-        Returns:
-            object: Instance of :class:`aiohttp.ClientSession` - Xbox Live Authorization header is set.
-        """
-        return self._session

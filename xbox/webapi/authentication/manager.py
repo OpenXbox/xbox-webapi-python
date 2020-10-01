@@ -6,6 +6,7 @@ Authenticate with Windows Live Server and Xbox Live.
 import aiohttp
 import json
 import logging
+from typing import Any
 
 from yarl import URL
 
@@ -48,7 +49,6 @@ class AuthenticationManager(object):
 
 
     async def request_tokens(self, authorization_code):
-        print("Requesting OAUTH Token")
         self.oauth = await self._oauth2_token_request(
             {
                 "grant_type": "authorization_code",
@@ -57,9 +57,7 @@ class AuthenticationManager(object):
                 "redirect_uri": self._redirect_uri,
             }
         )
-        print("Requesting User Token")
         self.user_token = await self._request_user_token()
-        print("Requesting XSTS Token")
         self.xsts_token = await self._request_xsts_token()
 
 
@@ -79,7 +77,6 @@ class AuthenticationManager(object):
         data["client_id"] = self._client_id
         if self._client_secret is not None:
             data["client_secret"] = self._client_secret
-        print("Requesting OAUTH Token - Sending Request")
         resp = await self.session.post("https://login.live.com/oauth20_token.srf", data=data)
         resp.raise_for_status()
         return OAuth2TokenResponse.parse_raw(await resp.text())

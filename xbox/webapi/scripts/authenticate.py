@@ -4,10 +4,12 @@ Example scripts that performs XBL authentication
 import asyncio
 import os
 import webbrowser
+from pprint import pprint
 
 from aiohttp import web, ClientSession
 
 from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.api.client import XboxLiveClient
 
 CLIENT_ID = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
@@ -31,9 +33,10 @@ async def main():
         code = await queue.get()
         await auth_mgr.request_tokens(code)
 
-        print('Refresh Token: %s' % auth_mgr.oauth)
-        print('User Token: %s' % auth_mgr.user_token)
-        print('XSTS Token: %s' % auth_mgr.xsts_token)
+        client = XboxLiveClient(auth_mgr)
+        profile = await client.profile.get_profile_by_xuid(client.xuid)
+
+        pprint(await profile.json())
 
 
 if __name__ == '__main__':
