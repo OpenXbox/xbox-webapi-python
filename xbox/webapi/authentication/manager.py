@@ -29,7 +29,6 @@ class AuthenticationManager(object):
         self.user_token: XAUResponse = None
         self.xsts_token: XSTSResponse = None
 
-
     def generate_authorization_url(self, state: Optional[str] = None) -> str:
         """Generate Windows Live Authorization URL."""
         query_string = {
@@ -48,25 +47,22 @@ class AuthenticationManager(object):
             .with_query(query_string)
         )
 
-
-    async def request_tokens(self, authorization_code: str, state: Optional[str] = None) -> None:
+    async def request_tokens(self, authorization_code: str) -> None:
         """Request all tokens."""
-        self.oauth = await self.request_oauth_token(authorization_code, state)
+        self.oauth = await self.request_oauth_token(authorization_code)
         self.user_token = await self.request_user_token()
         self.xsts_token = await self.request_xsts_token()
-
 
     async def refresh_tokens(self) -> None:
         """Refresh all tokens."""
         if self.oauth and not self.oauth.is_valid():
-            self.oauth = self.refresh_oauth_token()
+            self.oauth = await self.refresh_oauth_token()
         if self.user_token and not self.user_token.is_valid():
             self.user_token = await self.request_user_token()
         if self.xsts_token and not self.xsts_token.is_valid():
             self.xsts_token = await self.request_xsts_token()
 
-
-    async def request_oauth_token(self, authorization_code: str, state: Optional[str] = None) -> OAuth2TokenResponse:
+    async def request_oauth_token(self, authorization_code: str) -> OAuth2TokenResponse:
         """Request OAuth2 token."""
         return await self._oauth2_token_request(
             {
@@ -77,7 +73,6 @@ class AuthenticationManager(object):
             }
         )
 
-    
     async def refresh_oauth_token(self) -> OAuth2TokenResponse:
         """Refresh OAuth2 token."""
         return await self._oauth2_token_request(
@@ -91,12 +86,12 @@ class AuthenticationManager(object):
     async def _oauth2_token_request(self, data: dict) -> OAuth2TokenResponse:
         """Execute token requests."""
         data["client_id"] = self._client_id
-        if self._client_secret is not None:
+        if self._client_secret:
             data["client_secret"] = self._client_secret
         resp = await self.session.post("https://login.live.com/oauth20_token.srf", data=data)
+        # print(await resp.content.read())
         resp.raise_for_status()
         return OAuth2TokenResponse.parse_raw(await resp.text())
-
 
     async def request_user_token(self, relaying_party: str = "http://auth.xboxlive.com", use_compact_ticket: bool = False) -> XAUResponse:
         """Authenticate via access token and receive user token."""
@@ -115,7 +110,6 @@ class AuthenticationManager(object):
         resp = await self.session.post(url, json=data, headers=headers)
         resp.raise_for_status()
         return XAUResponse.parse_raw(await resp.text())
-
 
     async def request_xsts_token(self, relaying_party: str = "http://xboxlive.com") -> XSTSResponse:
         """Authorize via user token and receive final X token."""

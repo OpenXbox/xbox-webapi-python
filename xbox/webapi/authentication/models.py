@@ -1,5 +1,5 @@
 """Authentication Models."""
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pydantic import BaseModel, Field
 from typing import Dict, List
 
@@ -71,4 +71,4 @@ class OAuth2TokenResponse(BaseModel):
     issued: datetime = Field(default_factory=utc_now)
 
     def is_valid(self) -> bool:
-        return (self.issued + self.expires_in) > utc_now()
+        return (self.issued + timedelta(seconds=self.expires_in)) > utc_now()

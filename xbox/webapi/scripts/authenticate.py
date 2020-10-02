@@ -17,14 +17,22 @@ REDIRECT_URI = "http://localhost:8080/auth/callback"
 
 queue = asyncio.Queue(1)
 
+
 async def auth_callback(request):
-    await queue.put(request.query["code"])
+    error = request.query.get('error')
+    if error:
+        description = request.query.get('error_description')
+        print(f'Error in auth_callback: {description}')
+        return
+    # Run in task to not make unsuccessful parsing the HTTP response fail
+    asyncio.create_task(queue.put(request.query["code"]))
     return web.Response(
         headers={"content-type": "text/html"},
         text="<script>window.close()</script>",
     )
 
-async def main():
+
+async def async_main():
 
     async with ClientSession() as session:
         auth_mgr = AuthenticationManager(session, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
@@ -39,7 +47,7 @@ async def main():
         pprint(await profile.json())
 
 
-if __name__ == '__main__':
+def main():
     app = web.Application()
     app.add_routes([web.get('/auth/callback', auth_callback)])
     runner = web.AppRunner(app)
@@ -48,4 +56,8 @@ if __name__ == '__main__':
     loop.run_until_complete(runner.setup())
     site = web.TCPSite(runner, 'localhost', 8080)
     loop.run_until_complete(site.start())
-    loop.run_until_complete(main())
+    loop.run_until_complete(async_main())
+
+
+if __name__ == '__main__':
+    main()
