@@ -3,22 +3,32 @@ Authentication Manager
 
 Authenticate with Windows Live Server and Xbox Live.
 """
-import aiohttp
-import json
 import logging
-from typing import Any, List, Optional
+from typing import List, Optional
 
+import aiohttp
 from yarl import URL
 
-from xbox.webapi.authentication.models import OAuth2TokenResponse, XAUResponse, XSTSResponse
+from xbox.webapi.authentication.models import (
+    OAuth2TokenResponse,
+    XAUResponse,
+    XSTSResponse,
+)
 
-log = logging.getLogger('authentication')
+log = logging.getLogger("authentication")
 
 DEFAULT_SCOPES = ["Xboxlive.signin", "Xboxlive.offline_access"]
 
 
-class AuthenticationManager(object):
-    def __init__(self, client_session: aiohttp.ClientSession, client_id: str, client_secret: str, redirect_uri: str, scopes: List[str] = DEFAULT_SCOPES):
+class AuthenticationManager:
+    def __init__(
+        self,
+        client_session: aiohttp.ClientSession,
+        client_id: str,
+        client_secret: str,
+        redirect_uri: str,
+        scopes: List[str] = DEFAULT_SCOPES,
+    ):
         self.session: aiohttp.ClientSession = client_session
         self._client_id: str = client_id
         self._client_secret: str = client_secret
@@ -43,8 +53,7 @@ class AuthenticationManager(object):
             query_string["state"] = state
 
         return str(
-            URL("https://login.live.com/oauth20_authorize.srf")
-            .with_query(query_string)
+            URL("https://login.live.com/oauth20_authorize.srf").with_query(query_string)
         )
 
     async def request_tokens(self, authorization_code: str) -> None:
@@ -88,12 +97,18 @@ class AuthenticationManager(object):
         data["client_id"] = self._client_id
         if self._client_secret:
             data["client_secret"] = self._client_secret
-        resp = await self.session.post("https://login.live.com/oauth20_token.srf", data=data)
+        resp = await self.session.post(
+            "https://login.live.com/oauth20_token.srf", data=data
+        )
         # print(await resp.content.read())
         resp.raise_for_status()
         return OAuth2TokenResponse.parse_raw(await resp.text())
 
-    async def request_user_token(self, relaying_party: str = "http://auth.xboxlive.com", use_compact_ticket: bool = False) -> XAUResponse:
+    async def request_user_token(
+        self,
+        relaying_party: str = "http://auth.xboxlive.com",
+        use_compact_ticket: bool = False,
+    ) -> XAUResponse:
         """Authenticate via access token and receive user token."""
         url = "https://user.auth.xboxlive.com/user/authenticate"
         headers = {"x-xbl-contract-version": "1"}
@@ -103,7 +118,9 @@ class AuthenticationManager(object):
             "Properties": {
                 "AuthMethod": "RPS",
                 "SiteName": "user.auth.xboxlive.com",
-                "RpsTicket": self.oauth.access_token if use_compact_ticket else f"d={self.oauth.access_token}",
+                "RpsTicket": self.oauth.access_token
+                if use_compact_ticket
+                else f"d={self.oauth.access_token}",
             },
         }
 
@@ -111,7 +128,9 @@ class AuthenticationManager(object):
         resp.raise_for_status()
         return XAUResponse.parse_raw(await resp.text())
 
-    async def request_xsts_token(self, relaying_party: str = "http://xboxlive.com") -> XSTSResponse:
+    async def request_xsts_token(
+        self, relaying_party: str = "http://xboxlive.com"
+    ) -> XSTSResponse:
         """Authorize via user token and receive final X token."""
         url = "https://xsts.auth.xboxlive.com/xsts/authorize"
         headers = {"x-xbl-contract-version": "1"}

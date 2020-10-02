@@ -3,19 +3,23 @@ Achievements
 
 Get Xbox 360 and Xbox One Achievement data
 """
-from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.api.provider.achievements.models import (
-    AchievementResponse, Achievement360Response,
-    Achievement360ProgressResponse, RecentProgressResponse
+    Achievement360ProgressResponse,
+    Achievement360Response,
+    AchievementResponse,
+    RecentProgressResponse,
 )
+from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
 class AchievementsProvider(BaseProvider):
     ACHIEVEMENTS_URL = "https://achievements.xboxlive.com"
-    HEADERS_GAME_360_PROGRESS = {'x-xbl-contract-version': '1'}
-    HEADERS_GAME_PROGRESS = {'x-xbl-contract-version': '2'}
+    HEADERS_GAME_360_PROGRESS = {"x-xbl-contract-version": "1"}
+    HEADERS_GAME_PROGRESS = {"x-xbl-contract-version": "2"}
 
-    async def get_achievements_detail_item(self, xuid, service_config_id, achievement_id):
+    async def get_achievements_detail_item(
+        self, xuid, service_config_id, achievement_id
+    ):
         """
         Get achievement detail for specific item
 
@@ -27,7 +31,7 @@ class AchievementsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/achievements/%s/%s" % (xuid, service_config_id, achievement_id)
+        url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements/{service_config_id}/{achievement_id}"
         resp = await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
         resp.raise_for_status()
         return AchievementResponse.parse_raw(await resp.text())
@@ -43,11 +47,11 @@ class AchievementsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/titleachievements?" % xuid
-        params = {
-            "titleId": title_id
-        }
-        resp = await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_360_PROGRESS)
+        url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/titleachievements?"
+        params = {"titleId": title_id}
+        resp = await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAME_360_PROGRESS
+        )
         resp.raise_for_status()
         return Achievement360Response.parse_raw(await resp.text())
 
@@ -62,11 +66,11 @@ class AchievementsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/achievements?" % xuid
-        params = {
-            "titleId": title_id
-        }
-        resp = await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_360_PROGRESS)
+        url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements?"
+        params = {"titleId": title_id}
+        resp = await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAME_360_PROGRESS
+        )
         resp.raise_for_status()
         return Achievement360Response.parse_raw(await resp.text())
 
@@ -80,8 +84,10 @@ class AchievementsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/history/titles" % xuid
-        resp = await self.client.session.get(url, headers=self.HEADERS_GAME_360_PROGRESS)
+        url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/history/titles"
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_GAME_360_PROGRESS
+        )
         resp.raise_for_status()
         return Achievement360ProgressResponse.parse_raw(await resp.text())
 
@@ -96,11 +102,11 @@ class AchievementsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/achievements?" % xuid
-        params = {
-            "titleId": title_id
-        }
-        resp = await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_PROGRESS)
+        url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements?"
+        params = {"titleId": title_id}
+        resp = await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAME_PROGRESS
+        )
         resp.raise_for_status()
         return AchievementResponse.parse_raw(await resp.text())
 
@@ -114,7 +120,7 @@ class AchievementsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/history/titles" % xuid
+        url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/history/titles"
         resp = await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
         resp.raise_for_status()
         return RecentProgressResponse.parse_raw(await resp.text())

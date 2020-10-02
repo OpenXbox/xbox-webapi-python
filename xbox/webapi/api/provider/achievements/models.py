@@ -1,7 +1,8 @@
 from datetime import datetime, time
-from typing import Any, Optional, List
+from typing import Any, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+
 from xbox.webapi.common.models import CamelCaseModel
 
 
@@ -52,6 +53,7 @@ class Achievement360ProgressResponse(CamelCaseModel):
     titles: List[Title360]
     paging_info: PagingInfo
     version: datetime
+
 
 class TitleAssociation(BaseModel):
     name: str
@@ -112,6 +114,7 @@ class Achievement(CamelCaseModel):
 class AchievementResponse(CamelCaseModel):
     achievements: List[Achievement]
     paging_info: PagingInfo
+
 
 class Title(CamelCaseModel):
     last_unlock: datetime

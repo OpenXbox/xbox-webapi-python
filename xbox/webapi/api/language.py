@@ -3,7 +3,7 @@ Language definitions
 """
 
 
-class XboxLiveLocale(object):
+class XboxLiveLocale:
     def __init__(self, name, short_id, identifier, locale):
         """
         Initialize a new instance of :class:`XboxLiveLocale`
@@ -20,10 +20,11 @@ class XboxLiveLocale(object):
         self.locale = locale
 
 
-class XboxLiveLanguage(object):
+class XboxLiveLanguage:
     """
     Collection of languages compatible with XBL
     """
+
     Argentina = XboxLiveLocale("Argentina", "AR", "es_AR", "es-AR")
     Australia = XboxLiveLocale("Australia", "AU", "en_AU", "en-AU")
     Austria = XboxLiveLocale("Austria", "AT", "de_AT", "de-AT")
@@ -62,6 +63,8 @@ class XboxLiveLanguage(object):
     Spain = XboxLiveLocale("Spain", "ES", "es_ES", "es-ES")
     Switzerland = XboxLiveLocale("Switzerland", "CH", "de_CH", "de-CH")
     Switzerland_FR = XboxLiveLocale("Switzerland (FR)", "CH", "fr_CH", "fr-CH")
-    United_Arab_Emirates = XboxLiveLocale("United Arab Emirates", "AE", "en_AE", "en-AE")
+    United_Arab_Emirates = XboxLiveLocale(
+        "United Arab Emirates", "AE", "en_AE", "en-AE"
+    )
     United_States = XboxLiveLocale("United States", "US", "en_US", "en-US")
     Ireland = XboxLiveLocale("Ireland", "IE", "en_IE", "en-IE")

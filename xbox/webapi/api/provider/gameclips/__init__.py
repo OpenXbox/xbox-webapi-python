@@ -6,7 +6,7 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 class GameclipProvider(BaseProvider):
     GAMECLIPS_METADATA_URL = "https://gameclipsmetadata.xboxlive.com"
-    HEADERS_GAMECLIPS_METADATA = {'x-xbl-contract-version': '1'}
+    HEADERS_GAMECLIPS_METADATA = {"x-xbl-contract-version": "1"}
 
     async def get_recent_community_clips_by_title_id(self, title_id):
         """
@@ -19,10 +19,10 @@ class GameclipProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.GAMECLIPS_METADATA_URL + "/public/titles/%s/clips?" % title_id
-        params = {
-            "qualifier": "created"
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
+        params = {"qualifier": "created"}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA
+        )
 
     async def get_recent_own_clips(self, title_id=None, skip_items=0, max_items=25):
         """
@@ -41,13 +41,14 @@ class GameclipProvider(BaseProvider):
             url += "/titles/%s" % title_id
         url += "/clips"
 
-        params = {
-            'skipItems': skip_items,
-            'maxItems': max_items
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
+        params = {"skipItems": skip_items, "maxItems": max_items}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA
+        )
 
-    async def get_recent_clips_by_xuid(self, xuid, title_id=None, skip_items=0, max_items=25):
+    async def get_recent_clips_by_xuid(
+        self, xuid, title_id=None, skip_items=0, max_items=25
+    ):
         """
         Get clips by XUID, optionally filter for title Id
 
@@ -65,11 +66,10 @@ class GameclipProvider(BaseProvider):
             url += "/titles/%s" % title_id
         url += "/clips"
 
-        params = {
-            'skipItems': skip_items,
-            'maxItems': max_items
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
+        params = {"skipItems": skip_items, "maxItems": max_items}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA
+        )
 
     async def get_saved_community_clips_by_title_id(self, title_id):
         """
@@ -82,10 +82,10 @@ class GameclipProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.GAMECLIPS_METADATA_URL + "/public/titles/%s/clips/saved" % title_id
-        params = {
-            "qualifier": "created"
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
+        params = {"qualifier": "created"}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA
+        )
 
     async def get_saved_own_clips(self, title_id=None, skip_items=0, max_items=25):
         """
@@ -104,13 +104,14 @@ class GameclipProvider(BaseProvider):
             url += "/titles/%s" % title_id
         url += "/clips/saved"
 
-        params = {
-            'skipItems': skip_items,
-            'maxItems': max_items
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
+        params = {"skipItems": skip_items, "maxItems": max_items}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA
+        )
 
-    async def get_saved_clips_by_xuid(self, xuid, title_id=None, skip_items=0, max_items=25):
+    async def get_saved_clips_by_xuid(
+        self, xuid, title_id=None, skip_items=0, max_items=25
+    ):
         """
         Get saved clips by XUID, optionally filter for title Id
 
@@ -128,8 +129,7 @@ class GameclipProvider(BaseProvider):
             url += "/titles/%s" % title_id
         url += "/clips/saved"
 
-        params = {
-            'skipItems': skip_items,
-            'maxItems': max_items
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA)
+        params = {"skipItems": skip_items, "maxItems": max_items}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA
+        )

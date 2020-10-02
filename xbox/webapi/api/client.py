@@ -7,35 +7,35 @@ and available `Providers`
 import logging
 from typing import Any
 
-from aiohttp.client import ClientResponse
 from aiohttp import hdrs
+from aiohttp.client import ClientResponse
 
-from xbox.webapi.api.provider.eds import EDSProvider
-from xbox.webapi.api.provider.cqs import CQSProvider
-from xbox.webapi.api.provider.lists import ListsProvider
-from xbox.webapi.api.provider.profile import ProfileProvider
+from xbox.webapi.api.language import XboxLiveLanguage, XboxLiveLocale
+from xbox.webapi.api.provider.account import AccountProvider
 from xbox.webapi.api.provider.achievements import AchievementsProvider
-from xbox.webapi.api.provider.usersearch import UserSearchProvider
+from xbox.webapi.api.provider.cqs import CQSProvider
+from xbox.webapi.api.provider.eds import EDSProvider
 from xbox.webapi.api.provider.gameclips import GameclipProvider
+from xbox.webapi.api.provider.lists import ListsProvider
+from xbox.webapi.api.provider.message import MessageProvider
 from xbox.webapi.api.provider.people import PeopleProvider
 from xbox.webapi.api.provider.presence import PresenceProvider
-from xbox.webapi.api.provider.message import MessageProvider
-from xbox.webapi.api.provider.userstats import UserStatsProvider
+from xbox.webapi.api.provider.profile import ProfileProvider
 from xbox.webapi.api.provider.screenshots import ScreenshotsProvider
 from xbox.webapi.api.provider.titlehub import TitlehubProvider
-from xbox.webapi.api.provider.account import AccountProvider
-from xbox.webapi.api.language import XboxLiveLanguage, XboxLiveLocale
+from xbox.webapi.api.provider.usersearch import UserSearchProvider
+from xbox.webapi.api.provider.userstats import UserStatsProvider
 from xbox.webapi.authentication.manager import AuthenticationManager
 
-log = logging.getLogger('xbox.api')
+log = logging.getLogger("xbox.api")
 
 
-class Session(object):
+class Session:
     def __init__(self, auth_mgr: AuthenticationManager):
         self._auth_mgr = auth_mgr
 
     async def request(self, method: str, url: str, **kwargs: Any) -> ClientResponse:
-        headers = kwargs.pop('headers', {})
+        headers = kwargs.pop("headers", {})
         resp = await self._auth_mgr.session.request(
             method,
             url,
@@ -48,37 +48,34 @@ class Session(object):
         resp.raise_for_status()
         return resp
 
-
     async def get(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_GET, url, **kwargs)
-
 
     async def options(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_OPTIONS, url, **kwargs)
 
-
     async def head(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_HEAD, url, **kwargs)
-
 
     async def post(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_POST, url, **kwargs)
 
-    
     async def put(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_PUT, url, **kwargs)
 
-
     async def patch(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_PATCH, url, **kwargs)
-
 
     async def delete(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_DELETE, url, **kwargs)
 
 
-class XboxLiveClient(object):
-    def __init__(self, auth_mgr: AuthenticationManager, language: XboxLiveLocale=XboxLiveLanguage.United_States):
+class XboxLiveClient:
+    def __init__(
+        self,
+        auth_mgr: AuthenticationManager,
+        language: XboxLiveLocale = XboxLiveLanguage.United_States,
+    ):
         self._auth_mgr = auth_mgr
         self.session = Session(auth_mgr)
         self._lang = language

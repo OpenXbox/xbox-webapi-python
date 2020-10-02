@@ -6,8 +6,8 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 class UserStatsProvider(BaseProvider):
     USERSTATS_URL = "https://userstats.xboxlive.com"
-    HEADERS_USERSTATS = {'x-xbl-contract-version': '2'}
-    HEADERS_USERSTATS_WITH_METADATA = {'x-xbl-contract-version': '3'}
+    HEADERS_USERSTATS = {"x-xbl-contract-version": "2"}
+    HEADERS_USERSTATS_WITH_METADATA = {"x-xbl-contract-version": "3"}
     SEPERATOR = ","
 
     async def get_stats(self, xuid, service_config_id, stats_fields=None):
@@ -26,7 +26,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
         stats = self.SEPERATOR.join(stats_fields)
 
-        url = self.USERSTATS_URL + "/users/xuid(%s)/scids/%s/stats/%s" % (xuid, service_config_id, stats)
+        url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
         return await self.client.session.get(url, headers=self.HEADERS_USERSTATS)
 
     async def get_stats_with_metadata(self, xuid, service_config_id, stats_fields=None):
@@ -45,11 +45,11 @@ class UserStatsProvider(BaseProvider):
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
         stats = self.SEPERATOR.join(stats_fields)
 
-        url = self.USERSTATS_URL + "/users/xuid(%s)/scids/%s/stats/%s" % (xuid, service_config_id, stats)
-        params = {
-            'include': 'valuemetadata'
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA)
+        url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
+        params = {"include": "valuemetadata"}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA
+        )
 
     async def get_stats_batch(self, xuids, title_id, stats_fields=None):
         """
@@ -64,26 +64,25 @@ class UserStatsProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(xuids, list):
-            raise ValueError('Xuids parameter is not a list')
+            raise ValueError("Xuids parameter is not a list")
 
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
 
         url = self.USERSTATS_URL + "/batch"
         post_data = {
-            'arrangebyfield': 'xuid',
-            'groups': [
-                {
-                    'name': 'Hero',
-                    'titleId': int(title_id)
-                }
-            ],
-            'stats': [dict(name=stat, titleId=int(title_id)) for stat in stats_fields],
-            'xuids': [str(xid) for xid in xuids]
+            "arrangebyfield": "xuid",
+            "groups": [{"name": "Hero", "titleId": int(title_id)}],
+            "stats": [dict(name=stat, titleId=int(title_id)) for stat in stats_fields],
+            "xuids": [str(xid) for xid in xuids],
         }
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_USERSTATS)
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_USERSTATS
+        )
 
-    async def get_stats_batch_by_scid(self, xuids, service_config_id, stats_fields=None):
+    async def get_stats_batch_by_scid(
+        self, xuids, service_config_id, stats_fields=None
+    ):
         """
         Get userstats in batch mode, via scid
 
@@ -96,7 +95,7 @@ class UserStatsProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(xuids, list):
-            raise ValueError('Xuids parameter is not a list')
+            raise ValueError("Xuids parameter is not a list")
 
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
@@ -104,18 +103,15 @@ class UserStatsProvider(BaseProvider):
         url = self.USERSTATS_URL + "/batch"
 
         post_data = {
-            'arrangebyfield': 'xuid',
-            'groups': [
-                {
-                    'name': 'Hero',
-                    'scid': service_config_id
-                }
-            ],
-            'stats': [dict(name=stat, scid=service_config_id) for stat in stats_fields],
-            'xuids': [str(xid) for xid in xuids]
+            "arrangebyfield": "xuid",
+            "groups": [{"name": "Hero", "scid": service_config_id}],
+            "stats": [dict(name=stat, scid=service_config_id) for stat in stats_fields],
+            "xuids": [str(xid) for xid in xuids],
         }
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_USERSTATS)
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_USERSTATS
+        )
 
 
-class GeneralStatsField(object):
+class GeneralStatsField:
     MINUTES_PLAYED = "MinutesPlayed"

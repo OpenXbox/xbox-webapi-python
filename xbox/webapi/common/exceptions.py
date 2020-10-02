@@ -5,11 +5,13 @@ Special Exception subclasses
 
 class XboxException(Exception):
     """Base exception for all Xbox exceptions to subclass"""
+
     pass
 
 
 class AuthenticationException(XboxException):
     """Raised when logging in fails, likely due to incorrect auth credentials"""
+
     pass
 
 
@@ -22,7 +24,7 @@ class TwoFactorAuthRequired(XboxException):
             message (str): Exception message
             server_data (dict): Server data dict, extracted js object from windows live auth request
         """
-        super(TwoFactorAuthRequired, self).__init__(message)
+        super().__init__(message)
         self.server_data = server_data
 
 
@@ -42,4 +44,5 @@ class InvalidRequest(XboxException):
 
 class NotFoundException(XboxException):
     """Any exception raised due to a resource being missing will subclass this"""
+
     pass

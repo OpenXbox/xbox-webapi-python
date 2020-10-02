@@ -11,14 +11,14 @@ from xbox.webapi.common.enum import StrEnum
 class CQSProvider(BaseProvider):
     CQS_URL = "https://cqs.xboxlive.com"
     HEADERS_CQS = {
-        'Cache-Control': 'no-cache',
-        'Accept': 'application/json',
-        'Pragma': 'no-cache',
-        'x-xbl-client-type': 'Companion',
-        'x-xbl-client-version': '2.0',
-        'x-xbl-contract-version': '1.b',
-        'x-xbl-device-type': 'WindowsPhone',
-        'x-xbl-isautomated-client': 'true'
+        "Cache-Control": "no-cache",
+        "Accept": "application/json",
+        "Pragma": "no-cache",
+        "x-xbl-client-type": "Companion",
+        "x-xbl-client-version": "2.0",
+        "x-xbl-contract-version": "1.b",
+        "x-xbl-device-type": "WindowsPhone",
+        "x-xbl-isautomated-client": "true",
     }
 
     async def get_channel_list(self, locale_info, headend_id):
@@ -32,13 +32,21 @@ class CQSProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.CQS_URL + "/epg/%s/lineups/%s/channels?" % (locale_info, headend_id)
-        params = {
-            "desired": str(VesperType.MOBILE_LINEUP)
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
+        url = self.CQS_URL + f"/epg/{locale_info}/lineups/{headend_id}/channels?"
+        params = {"desired": str(VesperType.MOBILE_LINEUP)}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_CQS
+        )
 
-    async def get_schedule(self, locale_info, headend_id, start_date, duration_minutes, channel_skip, channel_count):
+    async def get_schedule(
+        self,
+        locale_info,
+        headend_id,
+        start_date,
+        duration_minutes,
+        channel_skip,
+        channel_count,
+    ):
         """
         Get stump epg data
 
@@ -53,15 +61,17 @@ class CQSProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.CQS_URL + "/epg/%s/lineups/%s/programs?" % (locale_info, headend_id)
+        url = self.CQS_URL + f"/epg/{locale_info}/lineups/{headend_id}/programs?"
         params = {
             "startDate": start_date,
             "durationMinutes": duration_minutes,
             "channelSkip": channel_skip,
             "channelCount": channel_count,
-            "desired": str(VesperType.MOBILE_SCHEDULE)
+            "desired": str(VesperType.MOBILE_SCHEDULE),
         }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_CQS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_CQS
+        )
 
 
 class VesperType(StrEnum):

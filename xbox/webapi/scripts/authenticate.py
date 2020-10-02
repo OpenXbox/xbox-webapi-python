@@ -3,13 +3,13 @@ Example scripts that performs XBL authentication
 """
 import asyncio
 import os
-import webbrowser
 from pprint import pprint
+import webbrowser
 
-from aiohttp import web, ClientSession
+from aiohttp import ClientSession, web
 
-from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.api.client import XboxLiveClient
+from xbox.webapi.authentication.manager import AuthenticationManager
 
 CLIENT_ID = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
@@ -19,10 +19,10 @@ queue = asyncio.Queue(1)
 
 
 async def auth_callback(request):
-    error = request.query.get('error')
+    error = request.query.get("error")
     if error:
-        description = request.query.get('error_description')
-        print(f'Error in auth_callback: {description}')
+        description = request.query.get("error_description")
+        print(f"Error in auth_callback: {description}")
         return
     # Run in task to not make unsuccessful parsing the HTTP response fail
     asyncio.create_task(queue.put(request.query["code"]))
@@ -35,7 +35,9 @@ async def auth_callback(request):
 async def async_main():
 
     async with ClientSession() as session:
-        auth_mgr = AuthenticationManager(session, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+        auth_mgr = AuthenticationManager(
+            session, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
+        )
         auth_url = auth_mgr.generate_authorization_url()
         webbrowser.open(auth_url)
         code = await queue.get()
@@ -49,15 +51,15 @@ async def async_main():
 
 def main():
     app = web.Application()
-    app.add_routes([web.get('/auth/callback', auth_callback)])
+    app.add_routes([web.get("/auth/callback", auth_callback)])
     runner = web.AppRunner(app)
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(runner.setup())
-    site = web.TCPSite(runner, 'localhost', 8080)
+    site = web.TCPSite(runner, "localhost", 8080)
     loop.run_until_complete(site.start())
     loop.run_until_complete(async_main())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

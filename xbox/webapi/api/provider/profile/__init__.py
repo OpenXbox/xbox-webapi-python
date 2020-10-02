@@ -8,9 +8,7 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 class ProfileProvider(BaseProvider):
     PROFILE_URL = "https://profile.xboxlive.com"
-    HEADERS_PROFILE = {
-        'x-xbl-contract-version': '2'
-    }
+    HEADERS_PROFILE = {"x-xbl-contract-version": "2"}
     SEPARATOR = ","
 
     async def get_profiles(self, xuid_list):
@@ -38,12 +36,14 @@ class ProfileProvider(BaseProvider):
                 ProfileSettings.LOCATION,
                 ProfileSettings.BIOGRAPHY,
                 ProfileSettings.WATERMARKS,
-                ProfileSettings.REAL_NAME
+                ProfileSettings.REAL_NAME,
             ],
-            "userIds": [int(xuid) for xuid in xuid_list]
+            "userIds": [int(xuid) for xuid in xuid_list],
         }
         url = self.PROFILE_URL + "/users/batch/profile/settings"
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_PROFILE)
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_PROFILE
+        )
 
     async def get_profile_by_xuid(self, target_xuid):
         """
@@ -57,15 +57,19 @@ class ProfileProvider(BaseProvider):
         """
         url = self.PROFILE_URL + "/users/xuid(%s)/profile/settings?" % target_xuid
         params = {
-            'settings': self.SEPARATOR.join([
-                ProfileSettings.APP_DISPLAY_NAME,
-                ProfileSettings.GAMERSCORE,
-                ProfileSettings.GAMERTAG,
-                ProfileSettings.PUBLIC_GAMERPIC,
-                ProfileSettings.XBOX_ONE_REP
-            ])
+            "settings": self.SEPARATOR.join(
+                [
+                    ProfileSettings.APP_DISPLAY_NAME,
+                    ProfileSettings.GAMERSCORE,
+                    ProfileSettings.GAMERTAG,
+                    ProfileSettings.PUBLIC_GAMERPIC,
+                    ProfileSettings.XBOX_ONE_REP,
+                ]
+            )
         }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_PROFILE)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_PROFILE
+        )
 
     async def get_profile_by_gamertag(self, gamertag):
         """
@@ -79,21 +83,26 @@ class ProfileProvider(BaseProvider):
         """
         url = self.PROFILE_URL + "/users/gt(%s)/profile/settings?" % gamertag
         params = {
-            'settings': self.SEPARATOR.join([
-                ProfileSettings.APP_DISPLAY_NAME,
-                ProfileSettings.GAMERSCORE,
-                ProfileSettings.GAMERTAG,
-                ProfileSettings.PUBLIC_GAMERPIC,
-                ProfileSettings.XBOX_ONE_REP
-            ])
+            "settings": self.SEPARATOR.join(
+                [
+                    ProfileSettings.APP_DISPLAY_NAME,
+                    ProfileSettings.GAMERSCORE,
+                    ProfileSettings.GAMERTAG,
+                    ProfileSettings.PUBLIC_GAMERPIC,
+                    ProfileSettings.XBOX_ONE_REP,
+                ]
+            )
         }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_PROFILE)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_PROFILE
+        )
 
 
-class ProfileSettings(object):
+class ProfileSettings:
     """
     Profile settings, used as parameter for Profile API
     """
+
     GAME_DISPLAY_NAME = "GameDisplayName"
     APP_DISPLAY_NAME = "AppDisplayName"
     APP_DISPLAYPIC_RAW = "AppDisplayPicRaw"

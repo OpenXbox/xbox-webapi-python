@@ -1,12 +1,15 @@
 """Authentication Models."""
-from datetime import datetime, timezone, timedelta
-from pydantic import BaseModel, Field
+from datetime import datetime, timedelta, timezone
 from typing import Dict, List
+
+from pydantic import BaseModel, Field
 
 from xbox.webapi.common.models import PascalCaseModel
 
+
 def utc_now():
     return datetime.now(timezone.utc)
+
 
 class XTokenResponse(PascalCaseModel):
     issue_instant: datetime
@@ -58,7 +61,7 @@ class XSTSResponse(XTokenResponse):
 
     @property
     def authorization_header_value(self) -> str:
-        return f'XBL3.0 x={self.userhash};{self.token}'
+        return f"XBL3.0 x={self.userhash};{self.token}"
 
 
 class OAuth2TokenResponse(BaseModel):

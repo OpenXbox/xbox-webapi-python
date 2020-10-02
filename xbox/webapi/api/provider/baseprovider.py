@@ -5,7 +5,7 @@ Subclassed by every *real* provider
 """
 
 
-class BaseProvider(object):
+class BaseProvider:
     def __init__(self, client):
         """
         Initialize an the BaseProvider

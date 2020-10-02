@@ -4,7 +4,7 @@ Titlehub - Get Title history and info
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
-class TitleFields(object):
+class TitleFields:
     ACHIEVEMENT = "achievement"
     IMAGE = "image"
     FRIENDS_WHO_PLAYED = "friendswhoplayed"
@@ -16,11 +16,11 @@ class TitleFields(object):
 class TitlehubProvider(BaseProvider):
     TITLEHUB_URL = "https://titlehub.xboxlive.com"
     HEADERS_TITLEHUB = {
-        'x-xbl-contract-version': '2',
-        'x-xbl-client-name': 'XboxApp',
-        'x-xbl-client-type': 'UWA',
-        'x-xbl-client-version': '39.39.22001.0',
-        'Accept-Language': 'overwrite in __init__'
+        "x-xbl-contract-version": "2",
+        "x-xbl-client-name": "XboxApp",
+        "x-xbl-client-type": "UWA",
+        "x-xbl-client-version": "39.39.22001.0",
+        "Accept-Language": "overwrite in __init__",
     }
     SEPARATOR = ","
 
@@ -31,8 +31,8 @@ class TitlehubProvider(BaseProvider):
         Args:
             client (:class:`XboxLiveClient`): Instance of client
         """
-        super(TitlehubProvider, self).__init__(client)
-        self.HEADERS_TITLEHUB.update({'Accept-Language': self.client.language.locale})
+        super().__init__(client)
+        self.HEADERS_TITLEHUB.update({"Accept-Language": self.client.language.locale})
 
     async def get_title_history(self, xuid, fields=None, max_items=5):
         """
@@ -47,14 +47,18 @@ class TitlehubProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not fields:
-            fields = [TitleFields.ACHIEVEMENT, TitleFields.IMAGE, TitleFields.SERVICE_CONFIG_ID]
+            fields = [
+                TitleFields.ACHIEVEMENT,
+                TitleFields.IMAGE,
+                TitleFields.SERVICE_CONFIG_ID,
+            ]
         fields = self.SEPARATOR.join(fields)
 
-        url = self.TITLEHUB_URL + "/users/xuid(%s)/titles/titlehistory/decoration/%s" % (xuid, fields)
-        params = {
-            'maxItems': max_items
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_TITLEHUB)
+        url = f"{self.TITLEHUB_URL}/users/xuid({xuid})/titles/titlehistory/decoration/{fields}"
+        params = {"maxItems": max_items}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_TITLEHUB
+        )
 
     async def get_title_info(self, title_id, fields=None):
         """
@@ -69,12 +73,15 @@ class TitlehubProvider(BaseProvider):
         """
         if not fields:
             fields = [
-                TitleFields.ACHIEVEMENT, TitleFields.ALTERNATE_TITLE_ID, TitleFields.DETAIL,
-                TitleFields.IMAGE, TitleFields.SERVICE_CONFIG_ID
+                TitleFields.ACHIEVEMENT,
+                TitleFields.ALTERNATE_TITLE_ID,
+                TitleFields.DETAIL,
+                TitleFields.IMAGE,
+                TitleFields.SERVICE_CONFIG_ID,
             ]
         fields = self.SEPARATOR.join(fields)
 
-        url = self.TITLEHUB_URL + "/users/xuid(%s)/titles/titleid(%s)/decoration/%s" % (self.client.xuid, title_id, fields)
+        url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
         return await self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
 
     async def get_titles_batch(self, pfns, fields=None):
@@ -92,12 +99,16 @@ class TitlehubProvider(BaseProvider):
             raise ValueError("PFN parameter requires list of strings")
 
         if not fields:
-            fields = [TitleFields.ACHIEVEMENT, TitleFields.DETAIL, TitleFields.IMAGE, TitleFields.SERVICE_CONFIG_ID]
+            fields = [
+                TitleFields.ACHIEVEMENT,
+                TitleFields.DETAIL,
+                TitleFields.IMAGE,
+                TitleFields.SERVICE_CONFIG_ID,
+            ]
         fields = self.SEPARATOR.join(fields)
 
         url = self.TITLEHUB_URL + "/titles/batch/decoration/%s" % fields
-        post_data = {
-            "pfns": pfns,
-            "windowsPhoneProductIds": []
-        }
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_TITLEHUB)
+        post_data = {"pfns": pfns, "windowsPhoneProductIds": []}
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_TITLEHUB
+        )

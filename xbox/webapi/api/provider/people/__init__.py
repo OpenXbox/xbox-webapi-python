@@ -6,7 +6,7 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 class PeopleProvider(BaseProvider):
     SOCIAL_URL = "https://social.xboxlive.com"
-    HEADERS_SOCIAL = {'x-xbl-contract-version': '1'}
+    HEADERS_SOCIAL = {"x-xbl-contract-version": "1"}
 
     async def get_friends_own(self):
         """
@@ -40,7 +40,7 @@ class PeopleProvider(BaseProvider):
         """
         url = self.SOCIAL_URL + "/users/xuid(%s)/summary" % xuid
         return await self.client.session.get(url, headers=self.HEADERS_SOCIAL)
-    
+
     async def get_friends_by_xuid(self, xuid):
         """
         Get friendlist of user by xuid
@@ -81,7 +81,7 @@ class PeopleProvider(BaseProvider):
             raise Exception("xuids parameter is not a list")
 
         url = self.SOCIAL_URL + "/users/me/people/xuids"
-        post_data = {
-            "xuids": [str(xuid) for xuid in xuids]
-        }
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_SOCIAL)
+        post_data = {"xuids": [str(xuid) for xuid in xuids]}
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_SOCIAL
+        )

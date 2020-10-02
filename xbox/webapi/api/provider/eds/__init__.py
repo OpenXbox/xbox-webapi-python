@@ -10,14 +10,14 @@ from xbox.webapi.common.enum import StrEnum
 class EDSProvider(BaseProvider):
     EDS_URL = "https://eds.xboxlive.com"
     HEADERS_EDS = {
-        'Cache-Control': 'no-cache',
-        'Accept': 'application/json',
-        'Pragma': 'no-cache',
-        'x-xbl-client-type': 'Companion',
-        'x-xbl-client-version': '2.0',
-        'x-xbl-contract-version': '3.2',
-        'x-xbl-device-type': 'WindowsPhone',
-        'x-xbl-isautomated-client': 'true'
+        "Cache-Control": "no-cache",
+        "Accept": "application/json",
+        "Pragma": "no-cache",
+        "x-xbl-client-type": "Companion",
+        "x-xbl-client-version": "2.0",
+        "x-xbl-contract-version": "3.2",
+        "x-xbl-device-type": "WindowsPhone",
+        "x-xbl-isautomated-client": "true",
     }
 
     SEPERATOR = "."
@@ -34,9 +34,13 @@ class EDSProvider(BaseProvider):
         """
         url = self.EDS_URL + "/media/%s/tvchannels?" % self.client.language.locale
         params = {"channelLineupId": lineup_id}
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
-    async def get_appchannel_schedule(self, lineup_id, start_time, end_time, max_items, skip_items):
+    async def get_appchannel_schedule(
+        self, lineup_id, start_time, end_time, max_items, skip_items
+    ):
         """
         Get AppChannel schedule / EPG
 
@@ -50,7 +54,9 @@ class EDSProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.EDS_URL + "/media/%s/tvchannellineupguide?" % self.client.language.locale
+        url = (
+            f"{self.EDS_URL}/media/{self.client.language.locale}/tvchannellineupguide?"
+        )
         desired = [
             ScheduleDetailsField.ID,
             ScheduleDetailsField.NAME,
@@ -58,7 +64,7 @@ class EDSProvider(BaseProvider):
             ScheduleDetailsField.DESCRIPTION,
             ScheduleDetailsField.PARENTAL_RATING,
             ScheduleDetailsField.PARENT_SERIES,
-            ScheduleDetailsField.SCHEDULE_INFO
+            ScheduleDetailsField.SCHEDULE_INFO,
         ]
         params = {
             "startTime": start_time,
@@ -66,9 +72,11 @@ class EDSProvider(BaseProvider):
             "maxItems": max_items,
             "skipItems": skip_items,
             "channelLineupId": lineup_id,
-            "desired": self.SEPERATOR.join(desired)
+            "desired": self.SEPERATOR.join(desired),
         }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
     async def get_browse_query(self, order_by, desired, **kwargs):
         """
@@ -92,10 +100,12 @@ class EDSProvider(BaseProvider):
         params = {
             "fields": "all",
             "orderBy": str(order_by),
-            "desiredMediaItemTypes": str(desired)
+            "desiredMediaItemTypes": str(desired),
         }
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
     async def get_recommendations(self, desired, **kwargs):
         """
@@ -112,11 +122,11 @@ class EDSProvider(BaseProvider):
             desired = self.SEPERATOR.join(str(d) for d in desired)
 
         url = self.EDS_URL + "/media/%s/recommendations?" % self.client.language.locale
-        params = {
-            "desiredMediaItemTypes": str(desired)
-        }
+        params = {"desiredMediaItemTypes": str(desired)}
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
     async def get_related(self, id, desired, **kwargs):
         """
@@ -134,12 +144,11 @@ class EDSProvider(BaseProvider):
             desired = self.SEPERATOR.join(str(d) for d in desired)
 
         url = self.EDS_URL + "/media/%s/related?" % self.client.language.locale
-        params = {
-            "id": id,
-            "desiredMediaItemTypes": str(desired)
-        }
+        params = {"id": id, "desiredMediaItemTypes": str(desired)}
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
     async def get_fields(self, desired, **kwargs):
         """
@@ -156,11 +165,11 @@ class EDSProvider(BaseProvider):
             desired = self.SEPERATOR.join(desired)
 
         url = self.EDS_URL + "/media/%s/fields?" % self.client.language.locale
-        params = {
-            "desired": desired
-        }
+        params = {"desired": desired}
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
     async def get_details(self, ids, mediagroup, **kwargs):
         """
@@ -178,12 +187,11 @@ class EDSProvider(BaseProvider):
             ids = self.SEPERATOR.join(ids)
 
         url = self.EDS_URL + "/media/%s/details?" % self.client.language.locale
-        params = {
-            "ids": ids,
-            "MediaGroup": str(mediagroup)
-        }
+        params = {"ids": ids, "MediaGroup": str(mediagroup)}
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
     async def get_crossmediagroup_search(self, search_query, max_items, **kwargs):
         """
@@ -197,15 +205,18 @@ class EDSProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.EDS_URL + "/media/%s/crossMediaGroupSearch?" % self.client.language.locale
-        params = {
-            "q": search_query,
-            "maxItems": max_items
-        }
+        url = (
+            f"{self.EDS_URL}/media/{self.client.language.locale}/crossMediaGroupSearch?"
+        )
+        params = {"q": search_query, "maxItems": max_items}
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
-    async def get_singlemediagroup_search(self, search_query, max_items, media_item_types, **kwargs):
+    async def get_singlemediagroup_search(
+        self, search_query, max_items, media_item_types, **kwargs
+    ):
         """
         Do a singlemedia-group search
 
@@ -221,20 +232,23 @@ class EDSProvider(BaseProvider):
         if isinstance(media_item_types, list):
             media_item_types = self.SEPERATOR.join(str(t) for t in media_item_types)
 
-        url = self.EDS_URL + "/media/%s/singleMediaGroupSearch?" % self.client.language.locale
+        url = f"{self.EDS_URL}/media/{self.client.language.locale}/singleMediaGroupSearch?"
         params = {
             "q": search_query,
             "maxItems": max_items,
-            "desiredMediaItemTypes": str(media_item_types)
+            "desiredMediaItemTypes": str(media_item_types),
         }
         params.update(kwargs)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_EDS)
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_EDS
+        )
 
 
 class MediaItemType(StrEnum):
     """
     Media Item Type, used as parameter for EDS API
     """
+
     XBOX360_GAME = "Xbox360Game"
     XBOX360_GAME_CONTENT = "Xbox360GameContent"
     XBOX360_GAME_DEMO = "Xbox360GameDemo"
@@ -312,6 +326,7 @@ class MediaGroup(StrEnum):
     EnhancedContentType: GameLayer, GameActivity, AppActivity, VideoLayer, VideoActivity, DActivity, DNativeApp
     SubscriptionType: Subscription
     """
+
     GAME_TYPE = "GameType"
     APP_TYPE = "AppType"
     MOVIE_TYPE = "MovieType"
@@ -327,6 +342,7 @@ class ScheduleDetailsField(StrEnum):
     """
     Schedule Details Field, used as parameter for EDS API
     """
+
     NAME = "Name"
     ID = "Id"
     IMAGES = "Images"
@@ -340,6 +356,7 @@ class Domain(StrEnum):
     """
     Domain, used as parameter for EDS API
     """
+
     XBOX_360 = "Xbox360"
     XBOX_ONE = "Modern"
 
@@ -348,6 +365,7 @@ class IdType(StrEnum):
     """
     ID Type, used as parameter for EDS API
     """
+
     CANONICAL = "Canonical"  # BING/MARKETPLACE
     XBOX_HEX_TITLE = "XboxHexTitle"
     SCOPED_MEDIA_ID = "ScopedMediaId"
@@ -362,6 +380,7 @@ class ClientType(StrEnum):
     """
     Client Type, used as parameter for EDS API
     """
+
     C13 = "C13"
     COMMERCIAL_SERVICE = "CommercialService"
     COMPANION = "Companion"
@@ -384,6 +403,7 @@ class DeviceType(StrEnum):
     """
     Device Type, used as parameter for EDS API
     """
+
     XBOX360 = "Xbox360"
     XBOXONE = "XboxDurango"
     XBOX = "Xbox"
@@ -403,6 +423,7 @@ class OrderBy(StrEnum):
     """
     The orderBy parameter determines how the items being returned should be sorted
     """
+
     PLAY_COUNT_DAILY = "PlayCountDaily"
     FREE_AND_PAID_COUNT_DAILY = "FreeAndPaidCountDaily"
     PAID_COUNT_ALL_TIME = "PaidCountAllTime"
@@ -416,5 +437,6 @@ class SubscriptionLevel(StrEnum):
     """
     The subscriptionLevel parameter determines the type of subscription the user has
     """
+
     GOLD = "gold"
     SILVER = "silver"

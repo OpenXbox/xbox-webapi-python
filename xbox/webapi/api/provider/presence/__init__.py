@@ -4,21 +4,20 @@ Presence - Get online status of friends
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
-class PresenceLevel(object):
-    USER = 'user'
-    DEVICE = 'device'
-    TITLE = 'title'
-    ALL = 'all'
+class PresenceLevel:
+    USER = "user"
+    DEVICE = "device"
+    TITLE = "title"
+    ALL = "all"
 
 
 class PresenceProvider(BaseProvider):
     PRESENCE_URL = "https://userpresence.xboxlive.com"
-    HEADERS_PRESENCE = {
-        'x-xbl-contract-version': '3',
-        'Accept': 'application/json'
-    }
+    HEADERS_PRESENCE = {"x-xbl-contract-version": "3", "Accept": "application/json"}
 
-    async def get_presence_batch(self, xuids, online_only=False, presence_level=PresenceLevel.USER):
+    async def get_presence_batch(
+        self, xuids, online_only=False, presence_level=PresenceLevel.USER
+    ):
         """
         Get presence for list of xuids
 
@@ -37,11 +36,13 @@ class PresenceProvider(BaseProvider):
 
         url = self.PRESENCE_URL + "/users/batch"
         post_data = {
-            'users': [str(x) for x in xuids],
-            'onlineOnly': online_only,
-            'level': presence_level
+            "users": [str(x) for x in xuids],
+            "onlineOnly": online_only,
+            "level": presence_level,
         }
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_PRESENCE)
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_PRESENCE
+        )
 
     async def get_presence_own(self, presence_level=PresenceLevel.ALL):
         """
@@ -54,7 +55,7 @@ class PresenceProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.PRESENCE_URL + "/users/me"
-        params = {
-            'level': presence_level
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_PRESENCE)
+        params = {"level": presence_level}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_PRESENCE
+        )

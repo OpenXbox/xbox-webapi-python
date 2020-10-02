@@ -1,0 +1,51 @@
+repos:
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.7.2
+    hooks:
+      - id: pyupgrade
+        args: [--py36-plus]
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+        args:
+          - --safe
+          - --quiet
+        files: ^((xbox|tests)/.+)?[^/]+\.py$
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.3
+    hooks:
+      - id: flake8
+        additional_dependencies:
+          # - flake8-docstrings==1.5.0
+          - pydocstyle==5.1.1
+        files: ^(xbox)/.+\.py$
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.6.2
+    hooks:
+      - id: bandit
+        args:
+          - --quiet
+          - --format=custom
+          - --configfile=bandit.yaml
+        files: ^(xbox|tests)/.+\.py$
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.5.3
+    hooks:
+      - id: isort
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: check-executables-have-shebangs
+        stages: [manual]
+      - id: check-json
+      - id: no-commit-to-branch
+        args:
+          - --branch=develop
+          - --branch=master
+  - repo: https://github.com/prettier/prettier
+    rev: 2.0.4
+    hooks:
+      - id: prettier
+        stages: [manual]
+  

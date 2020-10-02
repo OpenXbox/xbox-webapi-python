@@ -6,7 +6,7 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 class MessageProvider(BaseProvider):
     MSG_URL = "https://msg.xboxlive.com"
-    HEADERS_MESSAGE = {'x-xbl-contract-version': '1'}
+    HEADERS_MESSAGE = {"x-xbl-contract-version": "1"}
 
     async def get_message_inbox(self, skip_items=0, max_items=100):
         """
@@ -20,11 +20,10 @@ class MessageProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.MSG_URL + "/users/xuid(%s)/inbox" % self.client.xuid
-        params = {
-            'skipItems': skip_items,
-            'maxItems': max_items
-        }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_MESSAGE)
+        params = {"skipItems": skip_items, "maxItems": max_items}
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_MESSAGE
+        )
 
     async def get_message(self, message_id):
         """
@@ -36,7 +35,7 @@ class MessageProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.MSG_URL + "/users/xuid(%s)/inbox/%s" % (self.client.xuid, message_id)
+        url = self.MSG_URL + f"/users/xuid({self.client.xuid})/inbox/{message_id}"
         return await self.client.session.get(url, headers=self.HEADERS_MESSAGE)
 
     async def delete_message(self, message_id):
@@ -51,7 +50,7 @@ class MessageProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.MSG_URL + "/users/xuid(%s)/inbox/%s" % (self.client.xuid, message_id)
+        url = self.MSG_URL + f"/users/xuid({self.client.xuid})/inbox/{message_id}"
         return await self.client.session.delete(url, headers=self.HEADERS_MESSAGE)
 
     async def send_message(self, message_text, gamertags=None, xuids=None):
@@ -68,24 +67,21 @@ class MessageProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         if not isinstance(message_text, str):
-            raise TypeError('Expecting message_text string')
+            raise TypeError("Expecting message_text string")
         elif len(message_text) > 256:
-            raise ValueError('Message text exceeds max length of 256 chars')
+            raise ValueError("Message text exceeds max length of 256 chars")
 
         if gamertags and xuids:
-            raise ValueError('Either pass gamertags or xuids, not both!')
+            raise ValueError("Either pass gamertags or xuids, not both!")
         elif gamertags:
             recipients = [dict(gamertag=gtg) for gtg in gamertags]
         elif xuids:
             recipients = [dict(xuid=xid) for xid in xuids]
         else:
-            raise ValueError('No recipients are passed')
+            raise ValueError("No recipients are passed")
 
         url = self.MSG_URL + "/users/xuid(%s)/outbox" % self.client.xuid
-        post_data = {
-            'header': {
-                'recipients': recipients
-            },
-            'messageText': message_text
-        }
-        return await self.client.session.post(url, json=post_data, headers=self.HEADERS_MESSAGE)
+        post_data = {"header": {"recipients": recipients}, "messageText": message_text}
+        return await self.client.session.post(
+            url, json=post_data, headers=self.HEADERS_MESSAGE
+        )

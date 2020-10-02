@@ -6,10 +6,7 @@ from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 class ListsProvider(BaseProvider):
     LISTS_URL = "https://eplists.xboxlive.com"
-    HEADERS_LISTS = {
-        'Content-Type': 'application/json',
-        'x-xbl-contract-version': '2'
-    }
+    HEADERS_LISTS = {"Content-Type": "application/json", "x-xbl-contract-version": "2"}
 
     SEPERATOR = "."
 
@@ -24,8 +21,10 @@ class ListsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return await self.client.session.delete(url, params=params, headers=self.HEADERS_LISTS)
+        url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
+        return await self.client.session.delete(
+            url, params=params, headers=self.HEADERS_LISTS
+        )
 
     async def get_items(self, xuid, params, listname="XBLPins"):
         """
@@ -38,8 +37,10 @@ class ListsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_LISTS)
+        url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
+        return await self.client.session.get(
+            url, params=params, headers=self.HEADERS_LISTS
+        )
 
     async def insert_items(self, xuid, params, listname="XBLPins"):
         """
@@ -52,8 +53,10 @@ class ListsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return await self.client.session.post(url, params=params, headers=self.HEADERS_LISTS)
+        url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
+        return await self.client.session.post(
+            url, params=params, headers=self.HEADERS_LISTS
+        )
 
     async def update_items(self, xuid, params, listname="XBLPins"):
         """
@@ -66,5 +69,7 @@ class ListsProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.LISTS_URL + "/users/xuid(%s)/lists/PINS/%s" % (xuid, listname)
-        return await self.client.session.put(url, params=params, headers=self.HEADERS_LISTS)
+        url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
+        return await self.client.session.put(
+            url, params=params, headers=self.HEADERS_LISTS
+        )
