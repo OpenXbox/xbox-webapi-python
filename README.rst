@@ -24,8 +24,8 @@ Authentication via credentials or tokens is supported, Two-Factor-Authentication
 
 Dependencies
 ------------
-* Python >= 3.5
-* Libraries: aiohttp, demjson, appdirs, urwid
+* Python >= 3.6
+* Libraries: aiohttp, pydantic, demjson, appdirs, urwid
 
 How to use
 ----------
