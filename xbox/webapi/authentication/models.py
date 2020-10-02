@@ -3,23 +3,18 @@ from datetime import datetime, timezone
 from pydantic import BaseModel, Field
 from typing import Dict, List
 
-def to_pascal(string):
-    return string.replace("_", " ").title().replace(" ", "")
+from xbox.webapi.common.models import PascalCaseModel
 
 def utc_now():
     return datetime.now(timezone.utc)
 
-class XTokenResponse(BaseModel):
+class XTokenResponse(PascalCaseModel):
     issue_instant: datetime
     not_after: datetime
     token: str
 
     def is_valid(self) -> bool:
         return self.not_after > utc_now()
-    
-    class Config:
-        allow_population_by_field_name = True
-        alias_generator = to_pascal
 
 
 class XAUDisplayClaims(BaseModel):

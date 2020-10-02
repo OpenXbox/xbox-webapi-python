@@ -4,6 +4,7 @@ Achievements
 Get Xbox 360 and Xbox One Achievement data
 """
 from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.achievements.models import AchievementResponse
 
 
 class AchievementsProvider(BaseProvider):
@@ -24,7 +25,9 @@ class AchievementsProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/achievements/%s/%s" % (xuid, service_config_id, achievement_id)
-        return await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
+        resp = await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
+        resp.raise_for_status()
+        return AchievementResponse.from_raw(await resp.text())
 
     async def get_achievements_xbox360_all(self, xuid, title_id):
         """
