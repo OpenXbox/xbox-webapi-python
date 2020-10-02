@@ -4,7 +4,10 @@ Achievements
 Get Xbox 360 and Xbox One Achievement data
 """
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-from xbox.webapi.api.provider.achievements.models import AchievementResponse, Achievement360Response
+from xbox.webapi.api.provider.achievements.models import (
+    AchievementResponse, Achievement360Response,
+    Achievement360ProgressResponse, RecentProgressResponse
+)
 
 
 class AchievementsProvider(BaseProvider):
@@ -63,7 +66,9 @@ class AchievementsProvider(BaseProvider):
         params = {
             "titleId": title_id
         }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_360_PROGRESS)
+        resp = await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_360_PROGRESS)
+        resp.raise_for_status()
+        return Achievement360Response.parse_raw(await resp.text())
 
     async def get_achievements_xbox360_recent_progress_and_info(self, xuid):
         """
@@ -76,7 +81,9 @@ class AchievementsProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/history/titles" % xuid
-        return await self.client.session.get(url, headers=self.HEADERS_GAME_360_PROGRESS)
+        resp = await self.client.session.get(url, headers=self.HEADERS_GAME_360_PROGRESS)
+        resp.raise_for_status()
+        return Achievement360ProgressResponse.parse_raw(await resp.text())
 
     async def get_achievements_xboxone_gameprogress(self, xuid, title_id):
         """
@@ -93,7 +100,9 @@ class AchievementsProvider(BaseProvider):
         params = {
             "titleId": title_id
         }
-        return await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_PROGRESS)
+        resp = await self.client.session.get(url, params=params, headers=self.HEADERS_GAME_PROGRESS)
+        resp.raise_for_status()
+        return AchievementResponse.parse_raw(await resp.text())
 
     async def get_achievements_xboxone_recent_progress_and_info(self, xuid):
         """
@@ -106,4 +115,6 @@ class AchievementsProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.ACHIEVEMENTS_URL + "/users/xuid(%s)/history/titles" % xuid
-        return await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
+        resp = await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
+        resp.raise_for_status()
+        return RecentProgressResponse.parse_raw(await resp.text())

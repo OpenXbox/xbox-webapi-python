@@ -60,7 +60,7 @@ class TitleAssociation(BaseModel):
 
 class Requirement(CamelCaseModel):
     id: str
-    current: str
+    current: Optional[str]
     target: str
     operation_type: str
     value_type: str
