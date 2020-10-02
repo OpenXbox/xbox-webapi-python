@@ -6,7 +6,7 @@ Authenticate with Windows Live Server and Xbox Live.
 import aiohttp
 import json
 import logging
-from typing import Any
+from typing import Any, List, Optional
 
 from yarl import URL
 
@@ -14,66 +14,82 @@ from xbox.webapi.authentication.models import OAuth2TokenResponse, XAUResponse, 
 
 log = logging.getLogger('authentication')
 
+DEFAULT_SCOPES = ["Xboxlive.signin", "Xboxlive.offline_access"]
+
 
 class AuthenticationManager(object):
-    def __init__(self, client_session: aiohttp.ClientSession, client_id: str, client_secret: str, redirect_uri: str):
-        self.session = client_session
-        self._client_id = client_id
-        self._client_secret = client_secret
-        self._redirect_uri = redirect_uri
+    def __init__(self, client_session: aiohttp.ClientSession, client_id: str, client_secret: str, redirect_uri: str, scopes: List[str] = DEFAULT_SCOPES):
+        self.session: aiohttp.ClientSession = client_session
+        self._client_id: str = client_id
+        self._client_secret: str = client_secret
+        self._redirect_uri: str = redirect_uri
+        self._scopes: List[str] = scopes
 
         self.oauth: OAuth2TokenResponse = None
         self.user_token: XAUResponse = None
         self.xsts_token: XSTSResponse = None
 
 
-    def generate_authorization_url(self):
-        """
-        Generate Windows Live Authorization URL.
+    def generate_authorization_url(self, state: Optional[str] = None) -> str:
+        """Generate Windows Live Authorization URL."""
+        query_string = {
+            "client_id": self._client_id,
+            "response_type": "code",
+            "approval_prompt": "auto",
+            "scope": "Xboxlive.signin Xboxlive.offline_access",
+            "redirect_uri": self._redirect_uri,
+        }
 
-        Returns:
-            str: Assembled URL, including query parameters
-        """
+        if state:
+            query_string["state"] = state
+
         return str(
             URL("https://login.live.com/oauth20_authorize.srf")
-            .with_query(
-                {
-                    "client_id": self._client_id,
-                    "response_type": "code",
-                    "approval_prompt": "auto",
-                    "scope": "Xboxlive.signin Xboxlive.offline_access",
-                    "redirect_uri": self._redirect_uri,
-                }
-            )
+            .with_query(query_string)
         )
 
 
-    async def request_tokens(self, authorization_code):
-        self.oauth = await self._oauth2_token_request(
+    async def request_tokens(self, authorization_code: str, state: Optional[str] = None) -> None:
+        """Request all tokens."""
+        self.oauth = await self.request_oauth_token(authorization_code, state)
+        self.user_token = await self.request_user_token()
+        self.xsts_token = await self.request_xsts_token()
+
+
+    async def refresh_tokens(self) -> None:
+        """Refresh all tokens."""
+        if self.oauth and not self.oauth.is_valid():
+            self.oauth = self.refresh_oauth_token()
+        if self.user_token and not self.user_token.is_valid():
+            self.user_token = await self.request_user_token()
+        if self.xsts_token and not self.xsts_token.is_valid():
+            self.xsts_token = await self.request_xsts_token()
+
+
+    async def request_oauth_token(self, authorization_code: str, state: Optional[str] = None) -> OAuth2TokenResponse:
+        """Request OAuth2 token."""
+        return await self._oauth2_token_request(
             {
                 "grant_type": "authorization_code",
                 "code": authorization_code,
-                "scope": "Xboxlive.signin Xboxlive.offline_access",
+                "scope": " ".join(self._scopes),
                 "redirect_uri": self._redirect_uri,
             }
         )
-        self.user_token = await self._request_user_token()
-        self.xsts_token = await self._request_xsts_token()
 
-
-    async def refresh_tokens(self):
-        self.oauth = await self._oauth2_token_request(
+    
+    async def refresh_oauth_token(self) -> OAuth2TokenResponse:
+        """Refresh OAuth2 token."""
+        return await self._oauth2_token_request(
             {
                 "grant_type": "refresh_token",
-                "scope": "Xboxlive.signin Xboxlive.offline_access",
+                "scope": " ".join(self._scopes),
                 "refresh_token": self.oauth.refresh_token,
             }
         )
-        self.user_token = await self._request_user_token()
-        self.xsts_token = await self._request_xsts_token()
-
 
     async def _oauth2_token_request(self, data: dict) -> OAuth2TokenResponse:
+        """Execute token requests."""
         data["client_id"] = self._client_id
         if self._client_secret is not None:
             data["client_secret"] = self._client_secret
@@ -82,17 +98,17 @@ class AuthenticationManager(object):
         return OAuth2TokenResponse.parse_raw(await resp.text())
 
 
-    async def _request_user_token(self) -> XAUResponse:
-        """Authenticate via access token and receive user token"""
+    async def request_user_token(self, relaying_party: str = "http://auth.xboxlive.com", use_compact_ticket: bool = False) -> XAUResponse:
+        """Authenticate via access token and receive user token."""
         url = "https://user.auth.xboxlive.com/user/authenticate"
         headers = {"x-xbl-contract-version": "1"}
         data = {
-            "RelyingParty": "http://auth.xboxlive.com",
+            "RelyingParty": relaying_party,
             "TokenType": "JWT",
             "Properties": {
                 "AuthMethod": "RPS",
                 "SiteName": "user.auth.xboxlive.com",
-                "RpsTicket": "d=" + self.oauth.access_token,
+                "RpsTicket": self.oauth.access_token if use_compact_ticket else f"d={self.oauth.access_token}",
             },
         }
 
@@ -101,12 +117,12 @@ class AuthenticationManager(object):
         return XAUResponse.parse_raw(await resp.text())
 
 
-    async def _request_xsts_token(self) -> XSTSResponse:
-        """Authorize via user token and receive final X token"""
+    async def request_xsts_token(self, relaying_party: str = "http://xboxlive.com") -> XSTSResponse:
+        """Authorize via user token and receive final X token."""
         url = "https://xsts.auth.xboxlive.com/xsts/authorize"
         headers = {"x-xbl-contract-version": "1"}
         data = {
-            "RelyingParty": "http://xboxlive.com",
+            "RelyingParty": relaying_party,
             "TokenType": "JWT",
             "Properties": {
                 "UserTokens": [self.user_token.token],

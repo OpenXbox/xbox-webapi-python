@@ -1,14 +1,21 @@
 """Authentication Models."""
-from pydantic import BaseModel
+from datetime import datetime, timezone
+from pydantic import BaseModel, Field
 from typing import Dict, List
 
 def to_pascal(string):
     return string.replace("_", " ").title().replace(" ", "")
 
+def utc_now():
+    return datetime.now(timezone.utc)
+
 class XTokenResponse(BaseModel):
-    issue_instant: str
-    not_after: str
+    issue_instant: datetime
+    not_after: datetime
     token: str
+
+    def is_valid(self) -> bool:
+        return self.not_after > utc_now()
     
     class Config:
         allow_population_by_field_name = True
@@ -66,3 +73,7 @@ class OAuth2TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     user_id: str
+    issued: datetime = Field(default_factory=utc_now)
+
+    def is_valid(self) -> bool:
+        return (self.issued + self.expires_in) > utc_now()
