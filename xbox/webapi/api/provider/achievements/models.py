@@ -1,12 +1,12 @@
 from datetime import datetime, time
-from typing import Any, List
+from typing import Any, Optional, List
 
 from pydantic import BaseModel, Field
 from xbox.webapi.common.models import CamelCaseModel
 
 
 class PagingInfo(CamelCaseModel):
-    continuation_token: str
+    continuation_token: Optional[str]
     total_records: int
 
 

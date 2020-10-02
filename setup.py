@@ -44,6 +44,7 @@ setup(
     setup_requires=['pytest-runner'],
     tests_require=[
         'pytest',
+        'aresponses',
         'betamax'
     ],
     extras_require={

@@ -2,8 +2,13 @@ import os
 import json
 import pytest
 import betamax
-from datetime import datetime
+from datetime import datetime, timedelta
+
+from aiohttp import ClientSession
+
 from xbox.webapi.api.client import XboxLiveClient
+from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.authentication.models import XSTSResponse, XSTSDisplayClaims
 
 current_dir = os.path.dirname(__file__)
 
@@ -66,10 +71,28 @@ def tokens_json(tokens_filepath):
         return json.load(f)
 
 
-@pytest.fixture(scope='session')
-def xbl_client():
-    return XboxLiveClient(
-        userhash='012345679',
-        auth_token='eyToken==',
-        xuid='987654321'
+@pytest.fixture(scope="session")
+def xsts_token():
+    return XSTSResponse(
+        issue_instant=datetime.utcnow(),
+        not_after=datetime.utcnow() + timedelta(hours=16),
+        token="123456789",
+        display_claims=XSTSDisplayClaims(xui=[{
+            "xid": "2669321029139235",
+            "uhs": "abcdefg"
+        }])
     )
+
+@pytest.fixture(scope='function')
+def xbl_client(event_loop):
+    auth_mgr = AuthenticationManager(ClientSession(loop=event_loop), 'abc', '123', 'http://localhost')
+    auth_mgr.xsts_token = XSTSResponse(
+        issue_instant=datetime.utcnow(),
+        not_after=datetime.utcnow() + timedelta(hours=16),
+        token="123456789",
+        display_claims=XSTSDisplayClaims(xui=[{
+            "xid": "2669321029139235",
+            "uhs": "abcdefg"
+        }])
+    )
+    return XboxLiveClient(auth_mgr)
