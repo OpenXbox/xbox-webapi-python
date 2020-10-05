@@ -10,7 +10,7 @@ from typing import Any
 from aiohttp import hdrs
 from aiohttp.client import ClientResponse
 
-from xbox.webapi.api.language import DefaultXboxLiveLocales, XboxLiveLocale
+from xbox.webapi.api.language import DefaultXboxLiveLanguages, XboxLiveLanguage
 from xbox.webapi.api.provider.account import AccountProvider
 from xbox.webapi.api.provider.achievements import AchievementsProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
@@ -73,11 +73,11 @@ class XboxLiveClient:
     def __init__(
         self,
         auth_mgr: AuthenticationManager,
-        locale: XboxLiveLocale = DefaultXboxLiveLocales.United_States,
+        language: XboxLiveLanguage = DefaultXboxLiveLanguages.United_States,
     ):
         self._auth_mgr = auth_mgr
         self.session = Session(auth_mgr)
-        self._locale = locale
+        self._language = language
 
         self.eds = EDSProvider(self)
         self.cqs = CQSProvider(self)
@@ -104,10 +104,10 @@ class XboxLiveClient:
         return self._auth_mgr.xsts_token.xuid
 
     @property
-    def locale(self) -> XboxLiveLocale:
+    def language(self) -> XboxLiveLanguage:
         """
-        Gets the active Xbox Live Locale
+        Gets the active Xbox Live Language
 
-        Returns: Active Xbox Live locale
+        Returns: Active Xbox Live language
         """
-        return self._locale
+        return self._language

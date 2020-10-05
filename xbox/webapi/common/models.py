@@ -13,11 +13,13 @@ def to_camel(string):
 
 class PascalCaseModel(BaseModel):
     class Config:
+        arbitrary_types_allowed = True
         allow_population_by_field_name = True
         alias_generator = to_pascal
 
 
 class CamelCaseModel(BaseModel):
     class Config:
+        arbitrary_types_allowed = True
         allow_population_by_field_name = True
         alias_generator = to_camel
