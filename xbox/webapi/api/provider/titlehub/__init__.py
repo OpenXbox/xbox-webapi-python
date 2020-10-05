@@ -1,8 +1,10 @@
 """
 Titlehub - Get Title history and info
 """
+from typing import List
+
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-from xbox.webapi.api.provider.titlehub.models import TitleFields
+from xbox.webapi.api.provider.titlehub.models import TitleFields, TitlehubResponse
 
 
 class TitlehubProvider(BaseProvider):
@@ -26,14 +28,16 @@ class TitlehubProvider(BaseProvider):
         super().__init__(client)
         self.HEADERS_TITLEHUB.update({"Accept-Language": self.client.language.locale})
 
-    async def get_title_history(self, xuid, fields=None, max_items=5):
+    async def get_title_history(
+        self, xuid: str, fields: List[TitleFields] = None, max_items: int = 5
+    ) -> TitlehubResponse:
         """
         Get recently played titles
 
         Args:
-            xuid (int/str): Xuid
-            fields (list): Members of :class:`TitleFields`
-            max_items (int): Maximum items
+            xuid: Xuid
+            fields: List of titlefield
+            max_items: Maximum items
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
@@ -48,17 +52,21 @@ class TitlehubProvider(BaseProvider):
 
         url = f"{self.TITLEHUB_URL}/users/xuid({xuid})/titles/titlehistory/decoration/{fields}"
         params = {"maxItems": max_items}
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_TITLEHUB
         )
+        resp.raise_for_status()
+        return TitlehubResponse.parse_raw(await resp.text())
 
-    async def get_title_info(self, title_id, fields=None):
+    async def get_title_info(
+        self, title_id: str, fields: List[TitleFields] = None
+    ) -> TitlehubResponse:
         """
         Get info for specific title
 
         Args:
-            title_id (str): Title Id
-            fields (list): Members of :class:`TitleFields`
+            title_id: Title Id
+            fields: List of title fields
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
@@ -74,15 +82,19 @@ class TitlehubProvider(BaseProvider):
         fields = self.SEPARATOR.join(fields)
 
         url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
-        return await self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
+        resp = await self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
+        resp.raise_for_status()
+        return TitlehubResponse.parse_raw(await resp.text())
 
-    async def get_titles_batch(self, pfns, fields=None):
+    async def get_titles_batch(
+        self, pfns: List[str], fields: List[TitleFields] = None
+    ) -> TitlehubResponse:
         """
         Get Title info via PFN ids
 
         Args:
-            pfns (list): PFN Id strings (e.g. 'Microsoft.XboxApp_8wekyb3d8bbwe')
-            fields (list): Members of :class:`TitleFields`
+            pfns: List of Package family names (e.g. 'Microsoft.XboxApp_8wekyb3d8bbwe')
+            fields: List of title fields
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
@@ -101,6 +113,8 @@ class TitlehubProvider(BaseProvider):
 
         url = self.TITLEHUB_URL + f"/titles/batch/decoration/{fields}"
         post_data = {"pfns": pfns, "windowsPhoneProductIds": []}
-        return await self.client.session.post(
+        resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_TITLEHUB
         )
+        resp.raise_for_status()
+        return TitlehubResponse.parse_raw(await resp.text())
