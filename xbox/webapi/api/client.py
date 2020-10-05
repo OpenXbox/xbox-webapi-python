@@ -10,7 +10,7 @@ from typing import Any
 from aiohttp import hdrs
 from aiohttp.client import ClientResponse
 
-from xbox.webapi.api.language import XboxLiveLanguage, XboxLiveLocale
+from xbox.webapi.api.language import DefaultXboxLiveLocales, XboxLiveLocale
 from xbox.webapi.api.provider.account import AccountProvider
 from xbox.webapi.api.provider.achievements import AchievementsProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
@@ -45,7 +45,6 @@ class Session:
                 **headers,
             },
         )
-        resp.raise_for_status()
         return resp
 
     async def get(self, url: str, **kwargs: Any) -> ClientResponse:
@@ -74,11 +73,11 @@ class XboxLiveClient:
     def __init__(
         self,
         auth_mgr: AuthenticationManager,
-        language: XboxLiveLocale = XboxLiveLanguage.United_States,
+        locale: XboxLiveLocale = DefaultXboxLiveLocales.United_States,
     ):
         self._auth_mgr = auth_mgr
         self.session = Session(auth_mgr)
-        self._lang = language
+        self._locale = locale
 
         self.eds = EDSProvider(self)
         self.cqs = CQSProvider(self)
@@ -96,21 +95,19 @@ class XboxLiveClient:
         self.account = AccountProvider(self)
 
     @property
-    def xuid(self):
+    def xuid(self) -> str:
         """
         Gets the Xbox User ID
 
-        Returns:
-            int: Xbox User ID
+        Returns: Xbox user Id
         """
         return self._auth_mgr.xsts_token.xuid
 
     @property
-    def language(self):
+    def locale(self) -> XboxLiveLocale:
         """
-        Gets the active Xbox Live Language
+        Gets the active Xbox Live Locale
 
-        Returns:
-            :class:`XboxLiveLanguage`: Active Xbox Live language
+        Returns: Active Xbox Live locale
         """
-        return self._lang
+        return self._locale

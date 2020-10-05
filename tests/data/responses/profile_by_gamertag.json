@@ -1,1 +1,31 @@
-{"profileUsers":[{"id":"2669321029139235","hostId":"2669321029139235","settings":[{"id":"AppDisplayName","value":"e"},{"id":"Gamerscore","value":"89410"},{"id":"Gamertag","value":"e"},{"id":"PublicGamerpic","value":"http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIl_5PaIHeJ592LG1L.uCOWneEDBhHctvuC06CzW38LKNYiVGTXqxcsQqYGIrr8hFz"},{"id":"XboxOneRep","value":"GoodPlayer"}],"isSponsoredUser":false}]}
+{
+  "profileUsers": [
+    {
+      "id": "2669321029139235",
+      "hostId": "2669321029139235",
+      "settings": [
+        {
+          "id": "AppDisplayName",
+          "value": "e"
+        },
+        {
+          "id": "Gamerscore",
+          "value": "89410"
+        },
+        {
+          "id": "Gamertag",
+          "value": "e"
+        },
+        {
+          "id": "PublicGamerpic",
+          "value": "http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIl_5PaIHeJ592LG1L.uCOWneEDBhHctvuC06CzW38LKNYiVGTXqxcsQqYGIrr8hFz"
+        },
+        {
+          "id": "XboxOneRep",
+          "value": "GoodPlayer"
+        }
+      ],
+      "isSponsoredUser": false
+    }
+  ]
+}

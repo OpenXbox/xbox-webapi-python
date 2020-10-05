@@ -44,9 +44,12 @@ async def async_main():
         await auth_mgr.request_tokens(code)
 
         client = XboxLiveClient(auth_mgr)
-        profile = await client.profile.get_profile_by_xuid(client.xuid)
+        # profile = await client.profile.get_profile_by_xuid(client.xuid)
+        profile = await client.account.claim_gamertag(client.xuid, "EAppx")
 
-        pprint(await profile.json())
+        pprint(profile.status)
+        pprint(profile.headers)
+        pprint(await profile.text())
 
 
 def main():

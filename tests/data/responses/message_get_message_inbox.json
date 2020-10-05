@@ -1,1 +1,24 @@
-{"results":[{"header":{"id":"1","isRead":false,"senderXuid":1234567890123456,"sender":"NoExist1","sent":"2018-03-28T14:15:18Z","expiration":"2018-04-27T14:15:18Z","messageType":"User","hasText":true,"hasPhoto":false,"hasAudio":false,"messageFolderType":"Inbox"},"messageSummary":"Test message string"}],"pagingInfo":{"continuationToken":null,"totalItems":1}}
+{
+  "results": [
+    {
+      "header": {
+        "id": "1",
+        "isRead": false,
+        "senderXuid": 1234567890123456,
+        "sender": "NoExist1",
+        "sent": "2018-03-28T14:15:18Z",
+        "expiration": "2018-04-27T14:15:18Z",
+        "messageType": "User",
+        "hasText": true,
+        "hasPhoto": false,
+        "hasAudio": false,
+        "messageFolderType": "Inbox"
+      },
+      "messageSummary": "Test message string"
+    }
+  ],
+  "pagingInfo": {
+    "continuationToken": null,
+    "totalItems": 1
+  }
+}

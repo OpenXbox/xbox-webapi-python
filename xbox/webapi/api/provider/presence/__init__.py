@@ -1,14 +1,14 @@
 """
 Presence - Get online status of friends
 """
+from typing import List
+
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-
-
-class PresenceLevel:
-    USER = "user"
-    DEVICE = "device"
-    TITLE = "title"
-    ALL = "all"
+from xbox.webapi.api.provider.presence.models import (
+    PresenceBatchResponse,
+    PresenceItem,
+    PresenceLevel,
+)
 
 
 class PresenceProvider(BaseProvider):
@@ -16,18 +16,20 @@ class PresenceProvider(BaseProvider):
     HEADERS_PRESENCE = {"x-xbl-contract-version": "3", "Accept": "application/json"}
 
     async def get_presence_batch(
-        self, xuids, online_only=False, presence_level=PresenceLevel.USER
-    ):
+        self,
+        xuids: List[str],
+        online_only: bool = False,
+        presence_level: PresenceLevel = PresenceLevel.USER,
+    ) -> PresenceBatchResponse:
         """
         Get presence for list of xuids
 
         Args:
-            xuids (str): List of XUIDs
-            online_only (bool): Only get online profiles
-            presence_level (str): Filter level
+            xuids: List of XUIDs
+            online_only: Only get online profiles
+            presence_level: Filter level
 
-        Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+        Returns: Presence batch response
         """
         if not isinstance(xuids, list):
             raise Exception("xuids parameter is not a list")
@@ -40,22 +42,28 @@ class PresenceProvider(BaseProvider):
             "onlineOnly": online_only,
             "level": presence_level,
         }
-        return await self.client.session.post(
+        resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_PRESENCE
         )
+        resp.raise_for_status()
+        return PresenceBatchResponse.parse_raw(await resp.text())
 
-    async def get_presence_own(self, presence_level=PresenceLevel.ALL):
+    async def get_presence_own(
+        self, presence_level: PresenceLevel = PresenceLevel.ALL
+    ) -> PresenceItem:
         """
         Get presence of own profile
 
         Args:
-            presence_level (str): Filter level
+            presence_level: Filter level
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.PRESENCE_URL + "/users/me"
         params = {"level": presence_level}
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_PRESENCE
         )
+        resp.raise_for_status()
+        return PresenceItem.parse_raw(await resp.text())

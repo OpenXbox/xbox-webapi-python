@@ -1,1 +1,25 @@
-{"totalCount":2,"people":[{"xuid":"2669321029139235","addedDateTimeUtc":"2018-03-28T00:21:05.4625422Z","isFavorite":false,"isKnown":false,"socialNetworks":[],"isFollowedByCaller":true,"isFollowingCaller":true,"isUnfollowingFeed":false},{"xuid":"2584878536129841","addedDateTimeUtc":"2018-03-28T00:20:35.8047047Z","isFavorite":false,"isKnown":false,"socialNetworks":[],"isFollowedByCaller":true,"isFollowingCaller":false,"isUnfollowingFeed":false}]}
+{
+  "totalCount": 2,
+  "people": [
+    {
+      "xuid": "2669321029139235",
+      "addedDateTimeUtc": "2018-03-28T00:21:05.4625422Z",
+      "isFavorite": false,
+      "isKnown": false,
+      "socialNetworks": [],
+      "isFollowedByCaller": true,
+      "isFollowingCaller": true,
+      "isUnfollowingFeed": false
+    },
+    {
+      "xuid": "2584878536129841",
+      "addedDateTimeUtc": "2018-03-28T00:20:35.8047047Z",
+      "isFavorite": false,
+      "isKnown": false,
+      "socialNetworks": [],
+      "isFollowedByCaller": true,
+      "isFollowingCaller": false,
+      "isUnfollowingFeed": false
+    }
+  ]
+}

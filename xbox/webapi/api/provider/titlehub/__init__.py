@@ -2,15 +2,7 @@
 Titlehub - Get Title history and info
 """
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-
-
-class TitleFields:
-    ACHIEVEMENT = "achievement"
-    IMAGE = "image"
-    FRIENDS_WHO_PLAYED = "friendswhoplayed"
-    SERVICE_CONFIG_ID = "SCID"
-    DETAIL = "detail"
-    ALTERNATE_TITLE_ID = "alternateTitleId"
+from xbox.webapi.api.provider.titlehub.models import TitleFields
 
 
 class TitlehubProvider(BaseProvider):
@@ -107,7 +99,7 @@ class TitlehubProvider(BaseProvider):
             ]
         fields = self.SEPARATOR.join(fields)
 
-        url = self.TITLEHUB_URL + "/titles/batch/decoration/%s" % fields
+        url = self.TITLEHUB_URL + f"/titles/batch/decoration/{fields}"
         post_data = {"pfns": pfns, "windowsPhoneProductIds": []}
         return await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_TITLEHUB

@@ -8,17 +8,17 @@ class UserSearchProvider(BaseProvider):
     USERSEARCH_URL = "https://usersearch.xboxlive.com"
     HEADERS_USER_SEARCH = {"x-xbl-contract-version": "1"}
 
-    async def get_live_search(self, query):
+    async def get_live_search(self, query: str):
         """
         Get userprofiles for search query
 
         Args:
-            query (str): Search query
+            query: Search query
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.USERSEARCH_URL + "/suggest?"
+        url = self.USERSEARCH_URL + "/suggest"
         params = {"q": query}
         return await self.client.session.get(
             url, params=params, headers=self.HEADERS_USER_SEARCH

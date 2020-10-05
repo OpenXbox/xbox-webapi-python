@@ -19,7 +19,7 @@ class AchievementsProvider(BaseProvider):
 
     async def get_achievements_detail_item(
         self, xuid, service_config_id, achievement_id
-    ):
+    ) -> AchievementResponse:
         """
         Get achievement detail for specific item
 
@@ -36,7 +36,9 @@ class AchievementsProvider(BaseProvider):
         resp.raise_for_status()
         return AchievementResponse.parse_raw(await resp.text())
 
-    async def get_achievements_xbox360_all(self, xuid, title_id):
+    async def get_achievements_xbox360_all(
+        self, xuid, title_id
+    ) -> Achievement360Response:
         """
         Get all achievements for specific X360 title Id
 
@@ -55,7 +57,9 @@ class AchievementsProvider(BaseProvider):
         resp.raise_for_status()
         return Achievement360Response.parse_raw(await resp.text())
 
-    async def get_achievements_xbox360_earned(self, xuid, title_id):
+    async def get_achievements_xbox360_earned(
+        self, xuid, title_id
+    ) -> Achievement360Response:
         """
         Get earned achievements for specific X360 title id
 
@@ -74,7 +78,9 @@ class AchievementsProvider(BaseProvider):
         resp.raise_for_status()
         return Achievement360Response.parse_raw(await resp.text())
 
-    async def get_achievements_xbox360_recent_progress_and_info(self, xuid):
+    async def get_achievements_xbox360_recent_progress_and_info(
+        self, xuid
+    ) -> Achievement360ProgressResponse:
         """
         Get recent achievement progress and information
 
@@ -91,7 +97,9 @@ class AchievementsProvider(BaseProvider):
         resp.raise_for_status()
         return Achievement360ProgressResponse.parse_raw(await resp.text())
 
-    async def get_achievements_xboxone_gameprogress(self, xuid, title_id):
+    async def get_achievements_xboxone_gameprogress(
+        self, xuid, title_id
+    ) -> AchievementResponse:
         """
         Get gameprogress for Xbox One title
 
@@ -110,7 +118,9 @@ class AchievementsProvider(BaseProvider):
         resp.raise_for_status()
         return AchievementResponse.parse_raw(await resp.text())
 
-    async def get_achievements_xboxone_recent_progress_and_info(self, xuid):
+    async def get_achievements_xboxone_recent_progress_and_info(
+        self, xuid
+    ) -> RecentProgressResponse:
         """
         Get recent achievement progress and information
 

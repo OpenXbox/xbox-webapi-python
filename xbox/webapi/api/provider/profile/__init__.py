@@ -3,7 +3,10 @@ Profile
 
 Get Userprofiles by XUID or Gamertag
 """
+from typing import List
+
 from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.profile.models import ProfileResponse, ProfileSettings
 
 
 class ProfileProvider(BaseProvider):
@@ -11,7 +14,7 @@ class ProfileProvider(BaseProvider):
     HEADERS_PROFILE = {"x-xbl-contract-version": "2"}
     SEPARATOR = ","
 
-    async def get_profiles(self, xuid_list):
+    async def get_profiles(self, xuid_list: List) -> ProfileResponse:
         """
         Get profile info for list of xuids
 
@@ -45,17 +48,17 @@ class ProfileProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_PROFILE
         )
 
-    async def get_profile_by_xuid(self, target_xuid):
+    async def get_profile_by_xuid(self, target_xuid: int) -> ProfileResponse:
         """
         Get Userprofile by xuid
 
         Args:
-            target_xuid (int): XUID to get profile for
+            target_xuid: XUID to get profile for
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.PROFILE_URL + "/users/xuid(%s)/profile/settings?" % target_xuid
+        url = self.PROFILE_URL + f"/users/xuid({target_xuid})/profile/settings"
         params = {
             "settings": self.SEPARATOR.join(
                 [
@@ -71,17 +74,17 @@ class ProfileProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_PROFILE
         )
 
-    async def get_profile_by_gamertag(self, gamertag):
+    async def get_profile_by_gamertag(self, gamertag: str) -> ProfileResponse:
         """
         Get Userprofile by gamertag
 
         Args:
-            gamertag (str): Gamertag to get profile for
+            gamertag: Gamertag to get profile for
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        url = self.PROFILE_URL + "/users/gt(%s)/profile/settings?" % gamertag
+        url = self.PROFILE_URL + f"/users/gt({gamertag})/profile/settings"
         params = {
             "settings": self.SEPARATOR.join(
                 [
@@ -96,27 +99,3 @@ class ProfileProvider(BaseProvider):
         return await self.client.session.get(
             url, params=params, headers=self.HEADERS_PROFILE
         )
-
-
-class ProfileSettings:
-    """
-    Profile settings, used as parameter for Profile API
-    """
-
-    GAME_DISPLAY_NAME = "GameDisplayName"
-    APP_DISPLAY_NAME = "AppDisplayName"
-    APP_DISPLAYPIC_RAW = "AppDisplayPicRaw"
-    GAME_DISPLAYPIC_RAW = "GameDisplayPicRaw"
-    PUBLIC_GAMERPIC = "PublicGamerpic"
-    SHOW_USER_AS_AVATAR = "ShowUserAsAvatar"
-    GAMERSCORE = "Gamerscore"
-    GAMERTAG = "Gamertag"
-    ACCOUNT_TIER = "AccountTier"
-    TENURE_LEVEL = "TenureLevel"
-    XBOX_ONE_REP = "XboxOneRep"
-    PREFERRED_COLOR = "PreferredColor"
-    LOCATION = "Location"
-    BIOGRAPHY = "Bio"
-    WATERMARKS = "Watermarks"
-    REAL_NAME = "RealName"
-    REAL_NAME_OVERRIDE = "RealNameOverride"

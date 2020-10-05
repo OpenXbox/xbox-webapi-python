@@ -1,3 +1,7 @@
+from xbox.webapi.api.provider.account.models import (
+    ChangeGamertagResult,
+    ClaimGamertagResult,
+)
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 
 
@@ -8,7 +12,7 @@ class AccountProvider(BaseProvider):
     HEADERS_USER_MGT = {"x-xbl-contract-version": "1"}
     HEADERS_ACCOUNT = {"x-xbl-contract-version": "2"}
 
-    async def claim_gamertag(self, xuid, gamertag):
+    async def claim_gamertag(self, xuid, gamertag) -> ClaimGamertagResult:
         """
         Claim gamertag
 
@@ -23,16 +27,21 @@ class AccountProvider(BaseProvider):
             xuid (int): Your xuid as integer
             gamertag (str): Desired gamertag
 
-        Returns:
-            object: Instance of :class:`aiohttp.ClientResponse`
+        Returns: ClaimGamertagResult
         """
         url = self.BASE_URL_USER_MGT + "/gamertags/reserve"
         post_data = {"Gamertag": gamertag, "ReservationId": str(xuid)}
-        return await self.client.session.post(
+        resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_USER_MGT
         )
+        try:
+            return ClaimGamertagResult(resp.status)
+        except ValueError:
+            resp.raise_for_status()
 
-    async def change_gamertag(self, xuid, gamertag, preview=False):
+    async def change_gamertag(
+        self, xuid, gamertag, preview=False
+    ) -> ChangeGamertagResult:
         """
         Change your gamertag.
 
@@ -45,8 +54,7 @@ class AccountProvider(BaseProvider):
             gamertag (str): Desired gamertag name
             preview (bool): Preview the change
 
-        Returns:
-            object: Instance of :class:`aiohttp.ClientResponse`
+        Returns: ChangeGamertagResult
         """
         url = self.BASE_URL_ACCOUNT + "/users/current/profile/gamertag"
         post_data = {
@@ -54,6 +62,10 @@ class AccountProvider(BaseProvider):
             "preview": preview,
             "reservationId": int(xuid),
         }
-        return await self.client.session.post(
+        resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_ACCOUNT
         )
+        try:
+            return ChangeGamertagResult(resp.status)
+        except ValueError:
+            resp.raise_for_status()

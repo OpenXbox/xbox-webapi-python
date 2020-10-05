@@ -1,7 +1,10 @@
 """
 Userstats - Get game statistics
 """
+from typing import List
+
 from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.userstats.models import GeneralStatsField
 
 
 class UserStatsProvider(BaseProvider):
@@ -10,14 +13,16 @@ class UserStatsProvider(BaseProvider):
     HEADERS_USERSTATS_WITH_METADATA = {"x-xbl-contract-version": "3"}
     SEPERATOR = ","
 
-    async def get_stats(self, xuid, service_config_id, stats_fields=None):
+    async def get_stats(
+        self, xuid: str, service_config_id: str, stats_fields: List = None
+    ):
         """
         Get userstats
 
         Args:
-            xuid (str): Xbox User Id
-            service_config_id (str): Service Config Id of Game (scid)
-            stats_fields (list): List of stats fields to acquire
+            xuid: Xbox User Id
+            service_config_id: Service Config Id of Game (scid)
+            stats_fields: List of stats fields to acquire
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
@@ -29,7 +34,9 @@ class UserStatsProvider(BaseProvider):
         url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
         return await self.client.session.get(url, headers=self.HEADERS_USERSTATS)
 
-    async def get_stats_with_metadata(self, xuid, service_config_id, stats_fields=None):
+    async def get_stats_with_metadata(
+        self, xuid: str, service_config_id: str, stats_fields: List = None
+    ):
         """
         Get userstats including metadata for each stat (if available)
 
@@ -51,7 +58,9 @@ class UserStatsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA
         )
 
-    async def get_stats_batch(self, xuids, title_id, stats_fields=None):
+    async def get_stats_batch(
+        self, xuids: List, title_id: int, stats_fields: List = None
+    ):
         """
         Get userstats in batch mode
 
@@ -81,15 +90,15 @@ class UserStatsProvider(BaseProvider):
         )
 
     async def get_stats_batch_by_scid(
-        self, xuids, service_config_id, stats_fields=None
+        self, xuids: List, service_config_id: str, stats_fields: List = None
     ):
         """
         Get userstats in batch mode, via scid
 
         Args:
-            xuids (list): List of XUIDs to get stats for
-            service_config_id (int): Service Config Id of Game (scid)
-            stats_fields (list): List of stats fields to acquire
+            xuids: List of XUIDs to get stats for
+            service_config_id: Service Config Id of Game (scid)
+            stats_fields: List of stats fields to acquire
 
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
@@ -111,7 +120,3 @@ class UserStatsProvider(BaseProvider):
         return await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_USERSTATS
         )
-
-
-class GeneralStatsField:
-    MINUTES_PLAYED = "MinutesPlayed"

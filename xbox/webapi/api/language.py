@@ -20,9 +20,9 @@ class XboxLiveLocale:
         self.locale = locale
 
 
-class XboxLiveLanguage:
+class DefaultXboxLiveLocales:
     """
-    Collection of languages compatible with XBL
+    Collection of locales compatible with XBL
     """
 
     Argentina = XboxLiveLocale("Argentina", "AR", "es_AR", "es-AR")

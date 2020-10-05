@@ -1,1 +1,27 @@
-{"achievements":[{"id":6,"titleId":1297290392,"name":"Die fantastischen Fünf","sequence":0,"flags":3342345,"unlockedOnline":true,"unlocked":true,"isSecret":false,"platform":15,"gamerscore":10,"imageId":12,"description":"Ein Farblöscher-Hexa aus 5 Hexas erzeugt","lockedDescription":"Erzeuge ein Farblöscher-Hexa aus 5 Hexas","type":1,"isRevoked":false,"timeUnlocked":"2014-04-12T14:05:02.0000000Z"}],"pagingInfo":{"continuationToken":null,"totalRecords":1},"version":"0001-01-01T00:00:00.0000000Z"}
+{
+  "achievements": [
+    {
+      "id": 6,
+      "titleId": 1297290392,
+      "name": "Die fantastischen Fünf",
+      "sequence": 0,
+      "flags": 3342345,
+      "unlockedOnline": true,
+      "unlocked": true,
+      "isSecret": false,
+      "platform": 15,
+      "gamerscore": 10,
+      "imageId": 12,
+      "description": "Ein Farblöscher-Hexa aus 5 Hexas erzeugt",
+      "lockedDescription": "Erzeuge ein Farblöscher-Hexa aus 5 Hexas",
+      "type": 1,
+      "isRevoked": false,
+      "timeUnlocked": "2014-04-12T14:05:02.0000000Z"
+    }
+  ],
+  "pagingInfo": {
+    "continuationToken": null,
+    "totalRecords": 1
+  },
+  "version": "0001-01-01T00:00:00.0000000Z"
+}
