@@ -1,20 +1,16 @@
-from betamax import Betamax
+import pytest
+
+from tests.common import get_response
 
 
-def test_profile_by_xuid(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("usersearch_live_search"):
-        ret = xbl_client.usersearch.get_live_search("tux")
+@pytest.mark.asyncio
+async def test_profile_by_xuid(aresponses, xbl_client):
+    aresponses.add(
+        "usersearch.xboxlive.com", response=get_response("usersearch_live_search")
+    )
+    ret = await xbl_client.usersearch.get_live_search("tux")
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
+    assert len(ret.results) == 8
 
-        assert len(data["results"]) == 8
-        result = data["results"][0]
-
-        assert result["text"] == "Tux"
-        assert result["result"]["id"] == "2533274895244106"
-        assert result["result"]["score"] == 0.0
-        assert result["result"]["gamertag"] == "Tux"
-        assert result["result"]["displayPicUri"].startswith(
-            "http://images-eds.xboxlive.com/image?url="
-        )
+    aresponses.assert_plan_strictly_followed()

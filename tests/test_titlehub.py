@@ -1,33 +1,40 @@
-from betamax import Betamax
+import pytest
+
+from tests.common import get_response
 
 
-def test_titlehub_titlehistory(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("titlehub_titlehistory"):
-        ret = xbl_client.titlehub.get_title_history(987654321)
+@pytest.mark.asyncio
+async def test_titlehub_titlehistory(aresponses, xbl_client):
+    aresponses.add(
+        "titlehub.xboxlive.com", response=get_response("titlehub_titlehistory")
+    )
+    ret = await xbl_client.titlehub.get_title_history(987654321)
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
+    assert len(ret.titles) == 5
 
-        assert len(data["titles"]) == 5
-
-
-def test_titlehub_titleinfo(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("titlehub_titleinfo"):
-        ret = xbl_client.titlehub.get_title_info(1717113201)
-
-        assert ret.status_code == 200
-        data = ret.json()
-
-        assert len(data["titles"]) == 1
+    aresponses.assert_plan_strictly_followed()
 
 
-def test_titlehub_batch(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("titlehub_batch"):
-        ret = xbl_client.titlehub.get_titles_batch(
-            ["Microsoft.SeaofThieves_8wekyb3d8bbwe", "Microsoft.XboxApp_8wekyb3d8bbwe"]
-        )
+@pytest.mark.asyncio
+async def test_titlehub_titleinfo(aresponses, xbl_client):
+    aresponses.add("titlehub.xboxlive.com", response=get_response("titlehub_titleinfo"))
+    ret = await xbl_client.titlehub.get_title_info(1717113201)
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
+    assert len(ret.titles) == 1
 
-        assert len(data["titles"]) == 2
+    aresponses.assert_plan_strictly_followed()
+
+
+@pytest.mark.asyncio
+async def test_titlehub_batch(aresponses, xbl_client):
+    aresponses.add("titlehub.xboxlive.com", response=get_response("titlehub_batch"))
+    ret = await xbl_client.titlehub.get_titles_batch(
+        ["Microsoft.SeaofThieves_8wekyb3d8bbwe", "Microsoft.XboxApp_8wekyb3d8bbwe"]
+    )
+    await xbl_client._auth_mgr.session.close()
+
+    assert len(ret.titles) == 2
+
+    aresponses.assert_plan_strictly_followed()

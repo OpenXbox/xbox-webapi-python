@@ -1,29 +1,25 @@
-from betamax import Betamax
+import pytest
+
+from tests.common import get_response
 
 
-def test_presence_batch(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("presence_batch"):
-        ret = xbl_client.presence.get_presence_batch(
-            ["2669321029139235", "2584878536129841"]
-        )
+@pytest.mark.asyncio
+async def test_presence_batch(aresponses, xbl_client):
+    aresponses.add("userpresence.xboxlive.com", response=get_response("presence_batch"))
+    ret = await xbl_client.presence.get_presence_batch(
+        ["2669321029139235", "2584878536129841"]
+    )
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
+    assert len(ret) == 2
 
-        assert len(data) == 2
-        assert data[0]["xuid"] == "2669321029139235"
-        assert data[0]["state"] == "Offline"
-
-        assert data[1]["xuid"] == "2584878536129841"
-        assert data[1]["state"] == "Offline"
+    aresponses.assert_plan_strictly_followed()
 
 
-def test_presence_own(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("presence_own"):
-        ret = xbl_client.presence.get_presence_own()
+@pytest.mark.asyncio
+async def test_presence_own(aresponses, xbl_client):
+    aresponses.add("userpresence.xboxlive.com", response=get_response("presence_own"))
+    ret = await xbl_client.presence.get_presence_own()
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
-
-        assert data["xuid"] == "2535428504476914"
-        assert data["state"] == "Offline"
+    aresponses.assert_plan_strictly_followed()

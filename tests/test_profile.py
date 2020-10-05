@@ -1,33 +1,38 @@
-from betamax import Betamax
+import pytest
+
+from tests.common import get_response
 
 
-def test_profile_by_xuid(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("profile_by_xuid"):
-        ret = xbl_client.profile.get_profile_by_xuid("2669321029139235")
+@pytest.mark.asyncio
+async def test_profile_by_xuid(aresponses, xbl_client):
+    aresponses.add("profile.xboxlive.com", response=get_response("profile_by_xuid"))
+    ret = await xbl_client.profile.get_profile_by_xuid("2669321029139235")
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
+    assert len(ret.profile_users) == 1
 
-        assert len(data["profileUsers"]) == 1
-        assert data["profileUsers"][0]["id"] == "2669321029139235"
-
-
-def test_profile_by_gamertag(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("profile_by_gamertag"):
-        ret = xbl_client.profile.get_profile_by_gamertag("e")
-
-        assert ret.status_code == 200
-        data = ret.json()
-
-        assert len(data["profileUsers"]) == 1
-        assert data["profileUsers"][0]["id"] == "2669321029139235"
+    aresponses.assert_plan_strictly_followed()
 
 
-def test_profiles_batch(xbl_client):
-    with Betamax(xbl_client.session).use_cassette("profile_batch"):
-        ret = xbl_client.profile.get_profiles(["2669321029139235", "2584878536129841"])
+@pytest.mark.asyncio
+async def test_profile_by_gamertag(aresponses, xbl_client):
+    aresponses.add("profile.xboxlive.com", response=get_response("profile_by_gamertag"))
+    ret = await xbl_client.profile.get_profile_by_gamertag("e")
+    await xbl_client._auth_mgr.session.close()
 
-        assert ret.status_code == 200
-        data = ret.json()
+    assert len(ret.profile_users) == 1
 
-        assert len(data["profileUsers"]) == 2
+    aresponses.assert_plan_strictly_followed()
+
+
+@pytest.mark.asyncio
+async def test_profiles_batch(aresponses, xbl_client):
+    aresponses.add("profile.xboxlive.com", response=get_response("profile_batch"))
+    ret = await xbl_client.profile.get_profiles(
+        ["2669321029139235", "2584878536129841"]
+    )
+    await xbl_client._auth_mgr.session.close()
+
+    assert len(ret.profile_users) == 2
+
+    aresponses.assert_plan_strictly_followed()

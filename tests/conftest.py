@@ -88,10 +88,14 @@ def xsts_token():
 
 
 @pytest.fixture(scope="function")
-async def xbl_client(event_loop):
-    auth_mgr = AuthenticationManager(
+def auth_mgr(event_loop):
+    return AuthenticationManager(
         ClientSession(loop=event_loop), "abc", "123", "http://localhost"
     )
+
+
+@pytest.fixture(scope="function")
+async def xbl_client(event_loop, auth_mgr):
     auth_mgr.xsts_token = XSTSResponse(
         issue_instant=datetime.utcnow(),
         not_after=datetime.utcnow() + timedelta(hours=16),
