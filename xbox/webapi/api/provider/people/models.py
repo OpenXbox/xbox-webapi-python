@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from xbox.webapi.common.models import CamelCaseModel
 
@@ -11,9 +11,9 @@ class PeopleSummaryResponse(CamelCaseModel):
     has_caller_marked_target_as_favorite: bool
     has_caller_marked_target_as_known: bool
     legacy_friend_status: str
-    available_people_slots: int
-    recent_change_count: int
-    watermark: str
+    available_people_slots: Optional[int]
+    recent_change_count: Optional[int]
+    watermark: Optional[str]
 
 
 class Person(CamelCaseModel):

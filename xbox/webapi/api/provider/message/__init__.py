@@ -97,5 +97,4 @@ class MessageProvider(BaseProvider):
         resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_MESSAGE
         )
-        resp.raise_for_status()
-        return resp
+        return resp.status == 200

@@ -12,7 +12,6 @@ async def test_presence_batch(aresponses, xbl_client):
     await xbl_client._auth_mgr.session.close()
 
     assert len(ret) == 2
-
     aresponses.assert_plan_strictly_followed()
 
 

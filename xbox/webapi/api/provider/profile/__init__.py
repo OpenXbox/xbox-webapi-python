@@ -44,9 +44,11 @@ class ProfileProvider(BaseProvider):
             "userIds": [int(xuid) for xuid in xuid_list],
         }
         url = self.PROFILE_URL + "/users/batch/profile/settings"
-        return await self.client.session.post(
+        resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_PROFILE
         )
+        resp.raise_for_status()
+        return ProfileResponse.parse_raw(await resp.text())
 
     async def get_profile_by_xuid(self, target_xuid: int) -> ProfileResponse:
         """
@@ -70,9 +72,11 @@ class ProfileProvider(BaseProvider):
                 ]
             )
         }
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_PROFILE
         )
+        resp.raise_for_status()
+        return ProfileResponse.parse_raw(await resp.text())
 
     async def get_profile_by_gamertag(self, gamertag: str) -> ProfileResponse:
         """
@@ -96,6 +100,8 @@ class ProfileProvider(BaseProvider):
                 ]
             )
         }
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_PROFILE
         )
+        resp.raise_for_status()
+        return ProfileResponse.parse_raw(await resp.text())

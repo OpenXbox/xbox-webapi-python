@@ -42,9 +42,11 @@ class EDSProvider(BaseProvider):
         """
         url = self.EDS_URL + f"/media/{self.client.language.locale}/tvchannels"
         params = {"channelLineupId": lineup_id}
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_appchannel_schedule(
         self,
@@ -85,9 +87,11 @@ class EDSProvider(BaseProvider):
             "channelLineupId": lineup_id,
             "desired": self.SEPERATOR.join(d.value for d in desired),
         }
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_browse_query(
         self, order_by: List[OrderBy], desired: List[MediaItemType], **kwargs
@@ -113,9 +117,11 @@ class EDSProvider(BaseProvider):
             "desiredMediaItemTypes": desired,
         }
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_recommendations(self, desired: List[MediaItemType], **kwargs):
         """
@@ -134,9 +140,11 @@ class EDSProvider(BaseProvider):
         url = self.EDS_URL + f"/media/{self.client.language.locale}/recommendations"
         params = {"desiredMediaItemTypes": desired}
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_related(self, id: str, desired: List[MediaItemType], **kwargs):
         """
@@ -155,9 +163,11 @@ class EDSProvider(BaseProvider):
         url = self.EDS_URL + f"/media/{self.client.language.locale}/related"
         params = {"id": id, "desiredMediaItemTypes": desired}
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_fields(self, desired: str, **kwargs):
         """
@@ -176,9 +186,11 @@ class EDSProvider(BaseProvider):
         url = self.EDS_URL + f"/media/{self.client.language.locale}/fields"
         params = {"desired": desired}
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_details(self, ids: List[str], mediagroup: MediaGroup, **kwargs):
         """
@@ -198,9 +210,11 @@ class EDSProvider(BaseProvider):
         url = self.EDS_URL + f"/media/{self.client.language.locale}/details"
         params = {"ids": ids, "MediaGroup": mediagroup.value}
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_crossmediagroup_search(
         self, search_query: str, max_items: int, **kwargs
@@ -221,9 +235,11 @@ class EDSProvider(BaseProvider):
         )
         params = {"q": search_query, "maxItems": max_items}
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())
 
     async def get_singlemediagroup_search(
         self,
@@ -255,6 +271,8 @@ class EDSProvider(BaseProvider):
             "desiredMediaItemTypes": str(media_item_types),
         }
         params.update(kwargs)
-        return await self.client.session.get(
+        resp = await self.client.session.get(
             url, params=params, headers=self.HEADERS_EDS
         )
+        resp.raise_for_status()
+        return EDSResponse.parse_raw(await resp.text())

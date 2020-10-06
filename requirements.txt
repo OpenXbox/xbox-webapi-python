@@ -20,6 +20,3 @@ flake8==3.8.3
 pydocstyle==5.1.1
 bandit==1.6.2
 isort==5.5.3
-
-# To deprecate
-betamax

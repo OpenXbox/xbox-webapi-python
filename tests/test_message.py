@@ -25,7 +25,11 @@ async def test_message_get_message(aresponses, xbl_client):
 
 @pytest.mark.asyncio
 async def test_message_delete_msg(aresponses, xbl_client):
-    aresponses.add("msg.xboxlive.com", response=get_response("message_delete_message"))
+    aresponses.add(
+        "msg.xboxlive.com",
+        method_pattern="DELETE",
+        response=aresponses.Response(status=204),
+    )
     ret = await xbl_client.message.delete_message("1")
     await xbl_client._auth_mgr.session.close()
 
@@ -35,7 +39,11 @@ async def test_message_delete_msg(aresponses, xbl_client):
 
 @pytest.mark.asyncio
 async def test_message_send(aresponses, xbl_client):
-    aresponses.add("msg.xboxlive.com", response=get_response("message_send_message"))
+    aresponses.add(
+        "msg.xboxlive.com",
+        method_pattern="POST",
+        response=aresponses.Response(status=200),
+    )
     ret = await xbl_client.message.send_message(
         message_text="Test string", gamertags=["NoExist1", "NoExist2"]
     )

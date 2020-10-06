@@ -1,9 +1,10 @@
+from enum import Enum
 from typing import List, Optional
 
 from xbox.webapi.common.models import CamelCaseModel
 
 
-class PresenceLevel:
+class PresenceLevel(str, Enum):
     USER = "user"
     DEVICE = "device"
     TITLE = "title"

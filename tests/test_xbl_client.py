@@ -6,4 +6,7 @@ from xbox.webapi.api.client import XboxLiveClient
 def test_authorization_header(auth_mgr):
     client = XboxLiveClient(auth_mgr)
 
-    assert client.session.headers["Authorization"] == "XBL3.0 x=userhash;token"
+    assert (
+        client._auth_mgr.xsts_token.authorization_header_value
+        == "XBL3.0 x=abcdefg;123456789"
+    )

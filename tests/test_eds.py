@@ -1,6 +1,7 @@
 import pytest
 
 from xbox.webapi.api.provider import eds
+from xbox.webapi.api.provider.eds.models import MediaItemType
 
 from tests.common import get_response
 
@@ -27,7 +28,7 @@ async def test_singlemediagroup_search(aresponses, xbl_client):
         "eds.xboxlive.com", response=get_response("eds_singlemediagroup_search")
     )
     ret = await xbl_client.eds.get_singlemediagroup_search(
-        search_query="sea", max_items=1, media_item_types="DGame"
+        search_query="sea", max_items=1, media_item_types=[MediaItemType.XBOXONE_GAME]
     )
     await xbl_client._auth_mgr.session.close()
 

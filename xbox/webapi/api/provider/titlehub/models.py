@@ -38,10 +38,10 @@ class Detail(CamelCaseModel):
 
 class Title(CamelCaseModel):
     title_id: str
-    pfn: str
+    pfn: Optional[str]
     bing_id: Any
     service_config_id: str
-    windows_phone_product_id: str
+    windows_phone_product_id: Optional[str]
     name: str
     type: str
     devices: List[str]

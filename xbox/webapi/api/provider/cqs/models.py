@@ -1,15 +1,15 @@
 from typing import Any, Dict, List, Optional
 
-from xbox.webapi.common.models import CamelCaseModel
+from xbox.webapi.common.models import PascalCaseModel
 
 
-class Image(CamelCaseModel):
+class Image(PascalCaseModel):
     purpose: str
     resize_uri: str
     fore_color: str
 
 
-class ListChannel(CamelCaseModel):
+class ListChannel(PascalCaseModel):
     id: str
     channel_id: str
     call_sign: str
@@ -20,27 +20,27 @@ class ListChannel(CamelCaseModel):
     is_HD: Optional[bool] = None
 
 
-class CqsChannelListResponse(CamelCaseModel):
+class CqsChannelListResponse(PascalCaseModel):
     channels: List[ListChannel]
 
 
-class Genre(CamelCaseModel):
+class Genre(PascalCaseModel):
     name: str
 
 
-class ParentSeries(CamelCaseModel):
+class ParentSeries(PascalCaseModel):
     id: str
     name: str
 
 
-class Program(CamelCaseModel):
+class Program(PascalCaseModel):
     id: str
     media_item_type: str
     start_date: str
     end_date: str
     name: str
     is_repeat: bool
-    parental_control: Dict[str, Any]
+    parental_control: Optional[Dict[str, Any]]
     genres: List[Genre]
     category_id: int
     description: Optional[str] = None
@@ -48,12 +48,12 @@ class Program(CamelCaseModel):
     images: Optional[List[Image]] = None
 
 
-class ScheduleChannel(CamelCaseModel):
+class ScheduleChannel(PascalCaseModel):
     id: str
     name: str
     images: List[Image]
     programs: List[Program]
 
 
-class CqsScheduleResponse(CamelCaseModel):
-    channels = List[ScheduleChannel]
+class CqsScheduleResponse(PascalCaseModel):
+    channels: List[ScheduleChannel]

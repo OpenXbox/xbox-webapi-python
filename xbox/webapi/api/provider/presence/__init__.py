@@ -20,7 +20,7 @@ class PresenceProvider(BaseProvider):
         xuids: List[str],
         online_only: bool = False,
         presence_level: PresenceLevel = PresenceLevel.USER,
-    ) -> PresenceBatchResponse:
+    ) -> List[PresenceItem]:
         """
         Get presence for list of xuids
 
@@ -46,7 +46,8 @@ class PresenceProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_PRESENCE
         )
         resp.raise_for_status()
-        return PresenceBatchResponse.parse_raw(await resp.text())
+        parsed = PresenceBatchResponse.parse_raw(await resp.text())
+        return parsed.__root__
 
     async def get_presence_own(
         self, presence_level: PresenceLevel = PresenceLevel.ALL

@@ -29,12 +29,12 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8"
+        "Programming Language :: Python :: 3.8",
     ],
     test_suite="tests",
     install_requires=["aiohttp", "pydantic", "demjson", "appdirs", "urwid"],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "aresponses", "betamax"],
+    tests_require=["pytest", "aresponses"],
     extras_require={
         "dev": [
             "pip",
@@ -46,7 +46,6 @@ setup(
             "coverage",
             "Sphinx",
             "twine",
-            "betamax",
             "pytest",
             "pytest-runner",
         ],

@@ -10,15 +10,15 @@ class GeneralStatsField:
 
 
 class GroupProperties(PascalCaseModel):
-    Ordinal: str
-    SortOrder: str
-    DisplayName: str
-    DisplayFormat: str
-    DisplaySemantic: str
+    Ordinal: Optional[str]
+    SortOrder: Optional[str]
+    DisplayName: Optional[str]
+    DisplayFormat: Optional[str]
+    DisplaySemantic: Optional[str]
 
 
 class Properties(PascalCaseModel):
-    DisplayName: str
+    DisplayName: Optional[str]
 
 
 class Stat(BaseModel):
@@ -39,7 +39,7 @@ class StatlistscollectionItem(BaseModel):
 
 class Group(BaseModel):
     name: str
-    titleid: str
+    titleid: Optional[str]
     statlistscollection: List[StatlistscollectionItem]
 
 

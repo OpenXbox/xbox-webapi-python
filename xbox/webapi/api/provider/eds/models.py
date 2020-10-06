@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import List, Optional
 
+from pydantic import Field
+
 from xbox.webapi.common.models import PascalCaseModel
 
 
@@ -205,7 +207,7 @@ class SubscriptionLevel(str, Enum):
 class EDSItem(PascalCaseModel):
     media_group: str
     media_item_type: str
-    id: str
+    id: str = Field(alias="ID")
     name: str
     k_value: str
     k_value_namespace: str
