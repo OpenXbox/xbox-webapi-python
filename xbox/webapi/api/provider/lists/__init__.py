@@ -2,6 +2,7 @@
 EPLists - Mainly used for XBL Pins
 """
 from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.lists.models import ListsResponse
 
 
 class ListsProvider(BaseProvider):
@@ -26,7 +27,7 @@ class ListsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_LISTS
         )
 
-    async def get_items(self, xuid, params, listname="XBLPins"):
+    async def get_items(self, xuid, listname="XBLPins") -> ListsResponse:
         """
         Get items from specific list, defaults to "XBLPins"
 
@@ -38,9 +39,9 @@ class ListsProvider(BaseProvider):
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
         url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
-        return await self.client.session.get(
-            url, params=params, headers=self.HEADERS_LISTS
-        )
+        resp = await self.client.session.get(url, headers=self.HEADERS_LISTS)
+        resp.raise_for_status()
+        return ListsResponse.parse_raw(await resp.text())
 
     async def insert_items(self, xuid, params, listname="XBLPins"):
         """

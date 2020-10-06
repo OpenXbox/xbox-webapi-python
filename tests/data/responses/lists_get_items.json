@@ -1,0 +1,55 @@
+{
+  "ImpressionId": "Lists.aa47a315-8a82-4739-a627-805231821ee3",
+  "ListItems": [
+    {
+      "DateAdded": "08/04/2015 21:06:06",
+      "DateModified": "08/04/2015 21:06:06",
+      "Index": 3,
+      "KValue": 3,
+      "Item": {
+        "ItemId": "Microsoft.Xbox.LiveTV_8wekyb3d8bbwe",
+        "ContentType": "DApp",
+        "Title": "TV",
+        "DeviceType": "XboxOne",
+        "Provider": null,
+        "ProviderId": null
+      }
+    },
+    {
+      "DateAdded": "09/16/2016 19:15:58",
+      "DateModified": "09/16/2016 19:15:58",
+      "Index": 4,
+      "KValue": 4,
+      "Item": {
+        "ItemId": "Microsoft.ZuneVideo_8wekyb3d8bbwe",
+        "ContentType": "DApp",
+        "Title": "Xbox Video",
+        "DeviceType": "XboxOne",
+        "Provider": null,
+        "ProviderId": null
+      }
+    },
+    {
+      "DateAdded": "09/16/2016 19:15:57",
+      "DateModified": "09/16/2016 19:15:57",
+      "Index": 5,
+      "KValue": 5,
+      "Item": {
+        "ItemId": "Microsoft.ZuneMusic_8wekyb3d8bbwe",
+        "ContentType": "DApp",
+        "Title": "Xbox Music",
+        "DeviceType": "XboxOne",
+        "Provider": null,
+        "ProviderId": null
+      }
+    }
+  ],
+  "ListMetadata": {
+    "ListTitle": "Recommended pps",
+    "ListVersion": 42,
+    "ListCount": 3,
+    "AllowDuplicates": false,
+    "MaxListSize": 200,
+    "AccessSetting": "OwnerOnly"
+  }
+}
