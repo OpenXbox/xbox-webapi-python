@@ -34,7 +34,7 @@ setup(
     test_suite="tests",
     install_requires=["aiohttp", "pydantic", "demjson", "appdirs", "urwid"],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "aresponses"],
+    tests_require=["pytest", "pytest-cov", "aresponses"],
     extras_require={
         "dev": [
             "pip",
@@ -47,6 +47,7 @@ setup(
             "Sphinx",
             "twine",
             "pytest",
+            "pytest-cov",
             "pytest-runner",
         ],
     },
