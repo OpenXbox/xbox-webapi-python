@@ -100,20 +100,6 @@ class MediaGroup(str, Enum):
     SUBSCRIPTION_TYPE = "SubscriptionType"
 
 
-class ScheduleDetailsField(str, Enum):
-    """
-    Schedule Details Field, used as parameter for EDS API
-    """
-
-    NAME = "Name"
-    ID = "Id"
-    IMAGES = "Images"
-    DESCRIPTION = "Description"
-    PARENTAL_RATING = "ParentalRating"
-    PARENT_SERIES = "ParentSeries"
-    SCHEDULE_INFO = "ScheduleInformation"
-
-
 class Domain(str, Enum):
     """
     Domain, used as parameter for EDS API

@@ -11,7 +11,6 @@ from xbox.webapi.api.provider.eds.models import (
     MediaGroup,
     MediaItemType,
     OrderBy,
-    ScheduleDetailsField,
 )
 
 
@@ -29,69 +28,6 @@ class EDSProvider(BaseProvider):
     }
 
     SEPERATOR = "."
-
-    async def get_appchannel_channel_list(self, lineup_id):
-        """
-        Get AppChannel channel list
-
-        Args:
-            lineup_id (str): Lineup ID
-
-        Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
-        """
-        url = self.EDS_URL + f"/media/{self.client.language.locale}/tvchannels"
-        params = {"channelLineupId": lineup_id}
-        resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_EDS
-        )
-        resp.raise_for_status()
-        return EDSResponse.parse_raw(await resp.text())
-
-    async def get_appchannel_schedule(
-        self,
-        lineup_id: str,
-        start_time: str,
-        end_time: str,
-        max_items: int,
-        skip_items: int,
-    ):
-        """
-        Get AppChannel schedule / EPG
-
-        Args:
-            lineup_id: Lineup ID
-            start_time: Start time (format: 2016-07-11T21:50:00.000Z)
-            end_time: End time (format: 2016-07-11T21:50:00.000Z)
-            max_items: Maximum number of items
-            skip_items: Count of items to skip
-
-        Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
-        """
-        url = f"{self.EDS_URL}/media/{self.client.language.locale}/tvchannellineupguide"
-        desired = [
-            ScheduleDetailsField.ID,
-            ScheduleDetailsField.NAME,
-            ScheduleDetailsField.IMAGES,
-            ScheduleDetailsField.DESCRIPTION,
-            ScheduleDetailsField.PARENTAL_RATING,
-            ScheduleDetailsField.PARENT_SERIES,
-            ScheduleDetailsField.SCHEDULE_INFO,
-        ]
-        params = {
-            "startTime": start_time,
-            "endTime": end_time,
-            "maxItems": max_items,
-            "skipItems": skip_items,
-            "channelLineupId": lineup_id,
-            "desired": self.SEPERATOR.join(d.value for d in desired),
-        }
-        resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_EDS
-        )
-        resp.raise_for_status()
-        return EDSResponse.parse_raw(await resp.text())
 
     async def get_browse_query(
         self, order_by: List[OrderBy], desired: List[MediaItemType], **kwargs
