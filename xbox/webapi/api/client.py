@@ -14,7 +14,6 @@ from xbox.webapi.api.language import DefaultXboxLiveLanguages, XboxLiveLanguage
 from xbox.webapi.api.provider.account import AccountProvider
 from xbox.webapi.api.provider.achievements import AchievementsProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
-from xbox.webapi.api.provider.eds import EDSProvider
 from xbox.webapi.api.provider.gameclips import GameclipProvider
 from xbox.webapi.api.provider.lists import ListsProvider
 from xbox.webapi.api.provider.message import MessageProvider
@@ -79,7 +78,6 @@ class XboxLiveClient:
         self.session = Session(auth_mgr)
         self._language = language
 
-        self.eds = EDSProvider(self)
         self.cqs = CQSProvider(self)
         self.lists = ListsProvider(self)
         self.profile = ProfileProvider(self)
