@@ -22,7 +22,7 @@ class ListsProvider(BaseProvider):
             listname (str): Name of list to edit
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ListMetadata`: List Metadata Response
         """
         url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
         resp = await self.client.session.delete(
@@ -58,7 +58,7 @@ class ListsProvider(BaseProvider):
             listname (str): Name of list to edit
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ListMetadata`: List Metadata Response
         """
         url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
         resp = await self.client.session.post(

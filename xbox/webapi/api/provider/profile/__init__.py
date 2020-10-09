@@ -22,7 +22,7 @@ class ProfileProvider(BaseProvider):
             xuid_list (list): List of xuids
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ProfileResponse`: Profile Response
         """
         post_data = {
             "settings": [
@@ -58,7 +58,7 @@ class ProfileProvider(BaseProvider):
             target_xuid: XUID to get profile for
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ProfileResponse`: Profile Response
         """
         url = self.PROFILE_URL + f"/users/xuid({target_xuid})/profile/settings"
         params = {
@@ -96,7 +96,7 @@ class ProfileProvider(BaseProvider):
             gamertag: Gamertag to get profile for
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ProfileResponse`: Profile Response
         """
         url = self.PROFILE_URL + f"/users/gt({gamertag})/profile/settings"
         params = {

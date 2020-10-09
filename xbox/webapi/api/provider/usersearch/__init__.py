@@ -17,7 +17,7 @@ class UserSearchProvider(BaseProvider):
             query: Search query
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`UserSearchResponse`: User Search Response
         """
         url = self.USERSEARCH_URL + "/suggest"
         params = {"q": query}

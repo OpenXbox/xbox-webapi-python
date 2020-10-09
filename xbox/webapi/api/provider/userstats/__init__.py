@@ -31,7 +31,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields: List of stats fields to acquire
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`UserStatsResponse`: User Stats Response
         """
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
@@ -57,7 +57,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields: List of stats fields to acquire
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`UserStatsResponse`: User Stats Response
         """
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
@@ -86,7 +86,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields: List of stats fields to acquire
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`UserStatsResponse`: User Stats Response
         """
         if not isinstance(xuids, list):
             raise ValueError("Xuids parameter is not a list")
@@ -122,7 +122,7 @@ class UserStatsProvider(BaseProvider):
             stats_fields: List of stats fields to acquire
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`UserStatsResponse`: User Stats Response
         """
         if not isinstance(xuids, list):
             raise ValueError("Xuids parameter is not a list")

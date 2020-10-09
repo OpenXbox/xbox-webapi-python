@@ -19,7 +19,7 @@ class ScreenshotsProvider(BaseProvider):
             title_id: Title Id to get screenshots for
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ScreenshotResponse`: Screenshot Response
         """
         url = self.SCREENSHOTS_METADATA_URL + f"/public/titles/{title_id}/screenshots"
         params = {"qualifier": "created"}
@@ -41,7 +41,7 @@ class ScreenshotsProvider(BaseProvider):
             max_items: Maximum item count to load
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ScreenshotResponse`: Screenshot Response
         """
         url = self.SCREENSHOTS_METADATA_URL + "/users/me"
         if title_id:
@@ -68,7 +68,7 @@ class ScreenshotsProvider(BaseProvider):
             max_items: Maximum item count to load
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ScreenshotResponse`: Screenshot Response
         """
         url = self.SCREENSHOTS_METADATA_URL + f"/users/xuid({xuid})"
         if title_id:
@@ -92,7 +92,7 @@ class ScreenshotsProvider(BaseProvider):
             title_id: Title Id to get screenshots for
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ScreenshotResponse`: Screenshot Response
         """
         url = f"{self.SCREENSHOTS_METADATA_URL}/public/titles/{title_id}/screenshots/saved"
         params = {"qualifier": "created"}
@@ -114,7 +114,7 @@ class ScreenshotsProvider(BaseProvider):
             max_items: Maximum item count to load
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ScreenshotResponse`: Screenshot Response
         """
         url = self.SCREENSHOTS_METADATA_URL + "/users/me"
         if title_id:
@@ -141,7 +141,7 @@ class ScreenshotsProvider(BaseProvider):
             max_items: Maximum item count to load
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`ScreenshotResponse`: Screenshot Response
         """
         url = self.SCREENSHOTS_METADATA_URL + f"/users/xuid({xuid})"
         if title_id:

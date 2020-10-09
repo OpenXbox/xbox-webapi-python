@@ -98,6 +98,6 @@ class Title(CamelCaseModel):
     is_streamable: Optional[bool]
 
 
-class TitlehubResponse(CamelCaseModel):
+class TitleHubResponse(CamelCaseModel):
     xuid: Optional[str]
     titles: List[Title]

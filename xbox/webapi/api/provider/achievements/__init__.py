@@ -29,7 +29,7 @@ class AchievementsProvider(BaseProvider):
             achievement_id (str): Achievement Id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`AchievementResponse`: Achievement Response
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements/{service_config_id}/{achievement_id}"
         resp = await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)
@@ -47,7 +47,7 @@ class AchievementsProvider(BaseProvider):
             title_id (str): Xbox 360 Title Id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`Achievement360Response`: Achievement 360 Response
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/titleachievements?"
         params = {"titleId": title_id}
@@ -68,7 +68,7 @@ class AchievementsProvider(BaseProvider):
             title_id (str): Xbox 360 Title Id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`Achievement360Response`: Achievement 360 Response
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements?"
         params = {"titleId": title_id}
@@ -88,7 +88,7 @@ class AchievementsProvider(BaseProvider):
             xuid (str): Xbox User Id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`Achievement360Response`: Achievement 360 Response
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/history/titles"
         resp = await self.client.session.get(
@@ -108,7 +108,7 @@ class AchievementsProvider(BaseProvider):
             title_id (str): Xbox One Title Id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`AchievementResponse`: Achievement Response
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements?"
         params = {"titleId": title_id}
@@ -128,7 +128,7 @@ class AchievementsProvider(BaseProvider):
             xuid (str): Xbox User Id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`RecentProgressResponse`: Recent Progress Response
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/history/titles"
         resp = await self.client.session.get(url, headers=self.HEADERS_GAME_PROGRESS)

@@ -24,7 +24,8 @@ class MessageProvider(BaseProvider):
             skip_items: Item count to skip
             max_items: Maximum item count to load
 
-        Returns: HTTP Response
+        Returns:
+            :class:`InboxResponse`: Inbox Response
         """
         url = f"{self.MSG_URL}/network/Xbox/users/me/inbox"
         resp = await self.client.session.get(url, headers=self.HEADERS_MESSAGE)
@@ -40,7 +41,8 @@ class MessageProvider(BaseProvider):
         Args:
             xuid: Xuid of user having a conversation with
 
-        Returns: HTTP Response
+        Returns:
+            :class:`ConversationResponse`: Conversation Response
         """
         url = f"{self.MSG_URL}/network/Xbox/users/me/conversations/users/xuid({xuid})"
         params = {"maxItems": max_items}
@@ -102,7 +104,8 @@ class MessageProvider(BaseProvider):
             xuid: Xuid
             message_text: Message text
 
-        Returns: True on success, False otherwise
+        Returns:
+            :class:`SendMessageResponse`: Send Message Response
         """
         if len(message_text) > 256:
             raise ValueError("Message text exceeds max length of 256 chars")

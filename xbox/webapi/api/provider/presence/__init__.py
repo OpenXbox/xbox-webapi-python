@@ -29,7 +29,7 @@ class PresenceProvider(BaseProvider):
             online_only: Only get online profiles
             presence_level: Filter level
 
-        Returns: Presence batch response
+        Returns: List[:class:`PresenceItem`]: List of presence items
         """
         if len(xuids) > 1100:
             raise Exception("Xuid list length is > 1100")
@@ -57,7 +57,7 @@ class PresenceProvider(BaseProvider):
             presence_level: Filter level
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`PresenceItem`: Presence Response
         """
         url = self.PRESENCE_URL + "/users/me"
         params = {"level": presence_level}

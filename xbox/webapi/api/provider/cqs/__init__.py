@@ -35,7 +35,7 @@ class CQSProvider(BaseProvider):
             headend_id: Headend id
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`CqsChannelListResponse`: Channel List Response
         """
         url = self.CQS_URL + f"/epg/{locale_info}/lineups/{headend_id}/channels"
         params = {"desired": "vesper_mobile_lineup"}
@@ -66,7 +66,7 @@ class CQSProvider(BaseProvider):
             channel_count: Count of channels to get data for
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`CqsScheduleResponse`: Schedule Response
         """
         url = self.CQS_URL + f"/epg/{locale_info}/lineups/{headend_id}/programs"
         params = {

@@ -4,7 +4,7 @@ Titlehub - Get Title history and info
 from typing import List, Optional
 
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-from xbox.webapi.api.provider.titlehub.models import TitleFields, TitlehubResponse
+from xbox.webapi.api.provider.titlehub.models import TitleFields, TitleHubResponse
 
 
 class TitlehubProvider(BaseProvider):
@@ -34,7 +34,7 @@ class TitlehubProvider(BaseProvider):
         xuid: str,
         fields: Optional[List[TitleFields]] = None,
         max_items: Optional[int] = 5,
-    ) -> TitlehubResponse:
+    ) -> TitleHubResponse:
         """
         Get recently played titles
 
@@ -44,7 +44,7 @@ class TitlehubProvider(BaseProvider):
             max_items: Maximum items
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`TitleHubResponse`: Title Hub Response
         """
         if not fields:
             fields = [
@@ -60,11 +60,11 @@ class TitlehubProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_TITLEHUB
         )
         resp.raise_for_status()
-        return TitlehubResponse.parse_raw(await resp.text())
+        return TitleHubResponse.parse_raw(await resp.text())
 
     async def get_title_info(
         self, title_id: str, fields: Optional[List[TitleFields]] = None
-    ) -> TitlehubResponse:
+    ) -> TitleHubResponse:
         """
         Get info for specific title
 
@@ -73,7 +73,7 @@ class TitlehubProvider(BaseProvider):
             fields: List of title fields
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`TitleHubResponse`: Title Hub Response
         """
         if not fields:
             fields = [
@@ -88,11 +88,11 @@ class TitlehubProvider(BaseProvider):
         url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
         resp = await self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
         resp.raise_for_status()
-        return TitlehubResponse.parse_raw(await resp.text())
+        return TitleHubResponse.parse_raw(await resp.text())
 
     async def get_titles_batch(
         self, pfns: List[str], fields: Optional[List[TitleFields]] = None
-    ) -> TitlehubResponse:
+    ) -> TitleHubResponse:
         """
         Get Title info via PFN ids
 
@@ -101,7 +101,7 @@ class TitlehubProvider(BaseProvider):
             fields: List of title fields
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`TitleHubResponse`: Title Hub Response
         """
         if not fields:
             fields = [
@@ -118,4 +118,4 @@ class TitlehubProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_TITLEHUB
         )
         resp.raise_for_status()
-        return TitlehubResponse.parse_raw(await resp.text())
+        return TitleHubResponse.parse_raw(await resp.text())
