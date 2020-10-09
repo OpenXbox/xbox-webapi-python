@@ -31,9 +31,7 @@ class PresenceProvider(BaseProvider):
 
         Returns: Presence batch response
         """
-        if not isinstance(xuids, list):
-            raise Exception("xuids parameter is not a list")
-        elif len(xuids) > 1100:
+        if len(xuids) > 1100:
             raise Exception("Xuid list length is > 1100")
 
         url = self.PRESENCE_URL + "/users/batch"

@@ -5,11 +5,12 @@ from tests.common import get_response
 
 @pytest.mark.asyncio
 async def test_people_friends_own(aresponses, xbl_client):
-    aresponses.add("social.xboxlive.com", response=get_response("people_friends_own"))
+    aresponses.add(
+        "peoplehub.xboxlive.com", response=get_response("people_friends_own")
+    )
     ret = await xbl_client.people.get_friends_own()
     await xbl_client._auth_mgr.session.close()
 
-    assert ret.total_count == 2
     assert len(ret.people) == 2
     aresponses.assert_plan_strictly_followed()
 
@@ -47,13 +48,12 @@ async def test_people_summary_own(aresponses, xbl_client):
 
 @pytest.mark.asyncio
 async def test_profiles_batch(aresponses, xbl_client):
-    aresponses.add("social.xboxlive.com", response=get_response("people_batch"))
+    aresponses.add("peoplehub.xboxlive.com", response=get_response("people_batch"))
     ret = await xbl_client.people.get_friends_own_batch(
-        ["2669321029139235", "2584878536129841"]
+        ["271958441785640", "277923030577271", "266932102913935"]
     )
     await xbl_client._auth_mgr.session.close()
 
-    assert ret.total_count == 2
-    assert len(ret.people) == 2
+    assert len(ret.people) == 3
 
     aresponses.assert_plan_strictly_followed()

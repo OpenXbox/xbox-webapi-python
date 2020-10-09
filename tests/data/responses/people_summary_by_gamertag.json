@@ -1,9 +1,9 @@
 {
   "targetFollowingCount": 0,
-  "targetFollowerCount": 20991,
+  "targetFollowerCount": 27660,
   "isCallerFollowingTarget": false,
   "isTargetFollowingCaller": false,
   "hasCallerMarkedTargetAsFavorite": false,
-  "hasCallerMarkedTargetAsKnown": false,
+  "hasCallerMarkedTargetAsIdentityShared": false,
   "legacyFriendStatus": "None"
 }

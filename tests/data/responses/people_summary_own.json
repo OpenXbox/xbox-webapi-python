@@ -1,12 +1,12 @@
 {
-  "targetFollowingCount": 2,
-  "targetFollowerCount": 1,
+  "targetFollowingCount": 121,
+  "targetFollowerCount": 105,
   "isCallerFollowingTarget": false,
   "isTargetFollowingCaller": false,
   "hasCallerMarkedTargetAsFavorite": false,
-  "hasCallerMarkedTargetAsKnown": false,
+  "hasCallerMarkedTargetAsIdentityShared": false,
   "legacyFriendStatus": "None",
-  "availablePeopleSlots": 998,
-  "recentChangeCount": 1,
-  "watermark": "5248264408914225648"
+  "availablePeopleSlots": 928,
+  "recentChangeCount": 3,
+  "watermark": "5249064048202941621"
 }
