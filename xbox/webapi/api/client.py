@@ -9,6 +9,7 @@ from typing import Any
 
 from aiohttp import hdrs
 from aiohttp.client import ClientResponse
+from ms_cv import CorrelationVector
 
 from xbox.webapi.api.language import DefaultXboxLiveLanguages, XboxLiveLanguage
 from xbox.webapi.api.provider.account import AccountProvider
@@ -32,6 +33,7 @@ log = logging.getLogger("xbox.api")
 class Session:
     def __init__(self, auth_mgr: AuthenticationManager):
         self._auth_mgr = auth_mgr
+        self._cv = CorrelationVector()
 
     async def request(self, method: str, url: str, **kwargs: Any) -> ClientResponse:
         headers = kwargs.pop("headers", {})
@@ -41,6 +43,7 @@ class Session:
             **kwargs,
             headers={
                 hdrs.AUTHORIZATION: self._auth_mgr.xsts_token.authorization_header_value,
+                "MS-CV": self._cv.increment(),
                 **headers,
             },
         )

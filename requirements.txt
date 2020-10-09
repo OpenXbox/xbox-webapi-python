@@ -1,7 +1,7 @@
 # Run
 aiohttp
 appdirs
-demjson
+ms_cv
 pydantic
 urwid
 yarl

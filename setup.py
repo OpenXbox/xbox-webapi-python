@@ -32,7 +32,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     test_suite="tests",
-    install_requires=["aiohttp", "pydantic", "demjson", "appdirs", "urwid"],
+    install_requires=["aiohttp", "appdirs", "ms_cv", "pydantic", "urwid", "yarl"],
     setup_requires=["pytest-runner"],
     tests_require=["pytest", "pytest-cov", "aresponses"],
     extras_require={
