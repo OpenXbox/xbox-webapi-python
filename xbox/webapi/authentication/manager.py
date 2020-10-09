@@ -27,7 +27,7 @@ class AuthenticationManager:
         client_id: str,
         client_secret: str,
         redirect_uri: str,
-        scopes: List[str] = None,
+        scopes: Optional[List[str]] = None,
     ):
         self.session: aiohttp.ClientSession = client_session
         self._client_id: str = client_id
