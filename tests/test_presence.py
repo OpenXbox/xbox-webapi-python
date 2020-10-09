@@ -16,6 +16,16 @@ async def test_presence_batch(aresponses, xbl_client):
 
 
 @pytest.mark.asyncio
+async def test_presence_too_many_people(xbl_client):
+    xuids = range(0, 2000)
+    with pytest.raises(Exception) as err:
+        await xbl_client.presence.get_presence_batch(xuids)
+
+    assert "length is > 1100" in str(err)
+    await xbl_client._auth_mgr.session.close()
+
+
+@pytest.mark.asyncio
 async def test_presence_own(aresponses, xbl_client):
     aresponses.add("userpresence.xboxlive.com", response=get_response("presence_own"))
     ret = await xbl_client.presence.get_presence_own()

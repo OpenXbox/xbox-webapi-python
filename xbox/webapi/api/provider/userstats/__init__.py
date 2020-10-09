@@ -88,9 +88,6 @@ class UserStatsProvider(BaseProvider):
         Returns:
             :class:`UserStatsResponse`: User Stats Response
         """
-        if not isinstance(xuids, list):
-            raise ValueError("Xuids parameter is not a list")
-
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
 
@@ -124,9 +121,6 @@ class UserStatsProvider(BaseProvider):
         Returns:
             :class:`UserStatsResponse`: User Stats Response
         """
-        if not isinstance(xuids, list):
-            raise ValueError("Xuids parameter is not a list")
-
         if not stats_fields:
             stats_fields = [GeneralStatsField.MINUTES_PLAYED]
 

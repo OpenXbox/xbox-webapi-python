@@ -169,5 +169,41 @@ class Person(CamelCaseModel):
     preferred_platforms: List[Any]
 
 
+class RecommendationSummary(CamelCaseModel):
+    friend_of_friend: int
+    facebook_friend: int
+    phone_contact: int
+    follower: int
+    VIP: int
+    steam_friend: int
+    promote_suggestions: bool
+
+
+class FriendFinderState(CamelCaseModel):
+    facebook_opt_in_status: str
+    facebook_token_status: str
+    phone_opt_in_status: str
+    phone_token_status: str
+    steam_opt_in_status: str
+    steam_token_status: str
+    discord_opt_in_status: str
+    discord_token_status: str
+    instagram_opt_in_status: str
+    instagram_token_status: str
+    mixer_opt_in_status: str
+    mixer_token_status: str
+    reddit_opt_in_status: str
+    reddit_token_status: str
+    twitch_opt_in_status: str
+    twitch_token_status: str
+    twitter_opt_in_status: str
+    twitter_token_status: str
+    you_tube_opt_in_status: str
+    you_tube_token_status: str
+
+
 class PeopleResponse(CamelCaseModel):
     people: List[Person]
+    recommendation_summary: Optional[RecommendationSummary]
+    friend_finder_state: Optional[FriendFinderState]
+    account_link_details: Optional[List[LinkedAccount]]
