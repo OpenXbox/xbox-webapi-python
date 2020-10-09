@@ -1,6 +1,7 @@
 # Run
 aiohttp
 appdirs
+ecdsa
 ms_cv
 pydantic
 urwid

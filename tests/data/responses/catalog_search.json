@@ -1,0 +1,165 @@
+{
+  "Results": [
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "",
+          "Height": 2160,
+          "ImageType": "BoxArt",
+          "Width": 2160,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.10960.68655995542193491.ba715372-3c52-40a9-9cc1-033bdedd4a66.64369d33-5ea2-4727-9eef-12c901bd2b31",
+          "ProductId": "BPQ955FQFPH6",
+          "Type": "Game",
+          "Title": "Destiny 2"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "#FFFFFF",
+          "Height": 2160,
+          "ImageType": "BoxArt",
+          "Width": 2160,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.39901.14491519069757754.144ce769-0fc7-434b-8308-6a341e7d536e.54086bae-6b7f-4deb-9098-84b4f9c0f70c",
+          "ProductId": "9NXXNTRZBS0Z",
+          "Type": "Durable",
+          "Title": "Destiny 2: Beyond Light"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "#FFFFFF",
+          "Height": 2160,
+          "ImageType": "BoxArt",
+          "Width": 2160,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.33742.14500351146667236.2c17de7c-efd6-4b42-92fb-389c61e837c1.31646dee-7365-4a6e-9506-2a82e1d61333",
+          "ProductId": "9P22KP1XQ1X7",
+          "Type": "Durable",
+          "Title": "Destiny 2: Season of Arrivals Silver Bundle"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "",
+          "Height": 1080,
+          "ImageType": "BoxArt",
+          "Width": 1080,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.9427.65506807380982023.0e494b93-8e27-4f0d-aa29-8b32bb48a45b.36af2922-8c20-4ecc-8055-d0fe060dbd32",
+          "ProductId": "C2JQRC2C49B0",
+          "Type": "Game",
+          "Title": "Destiny"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "#FFFFFF",
+          "Height": 1080,
+          "ImageType": "BoxArt",
+          "Width": 1080,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.45524.66018148425285849.6f707177-ab12-444d-bf83-d920657b8311.f1dd14f0-987f-449f-971a-e04dd9628441",
+          "ProductId": "C3GDK9QKWLRD",
+          "Type": "Game",
+          "Title": "Destiny - The Collection"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "",
+          "Height": 1080,
+          "ImageType": "BoxArt",
+          "Width": 1080,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.19713.65351860421990305.c537a3e9-568d-44bb-aa5d-f6ae04152bb0.695eedd5-39f2-4cec-9d3e-3122d54b4b23",
+          "ProductId": "C2B3MCDF0C4L",
+          "Type": "Consumable",
+          "Title": "Destiny 2 Silver"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Apps",
+      "Products": [
+        {
+          "BackgroundColor": "#152133",
+          "Height": 620,
+          "ImageType": "Tile",
+          "Width": 620,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.30247.14271590451520900.3621a7fc-148b-4a85-a8c8-caf72ccf1c94.ceae7d0a-2005-44d1-9c05-cd7143000b58",
+          "ProductId": "9PK8H9HDT0PP",
+          "Type": "Application",
+          "Title": "Destination America GO"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "",
+          "Height": 1080,
+          "ImageType": "BoxArt",
+          "Width": 1080,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.53787.64088737257749842.f6a3dfa2-1d08-47a5-ae76-4fe49d83d146.8f0b7a7c-fb39-4624-bbdd-06ae2e25541c",
+          "ProductId": "BZ6ZB8RGHDJZ",
+          "Type": "Durable",
+          "Title": "Destiny 2 - Coldheart Pre-Order Pack"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "",
+          "Height": 1080,
+          "ImageType": "BoxArt",
+          "Width": 1080,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.47149.68331807765411716.aa4ceb76-e992-46a5-83ba-5a5c948cd534.d109d0f1-00db-49bd-83b3-fe5367057b54",
+          "ProductId": "BQ56JMH9S69F",
+          "Type": "Durable",
+          "Title": "Destiny 2: Forsaken"
+        }
+      ]
+    },
+    {
+      "ProductFamilyName": "Games",
+      "Products": [
+        {
+          "BackgroundColor": "",
+          "Height": 2160,
+          "ImageType": "BoxArt",
+          "Width": 2160,
+          "PlatformProperties": [],
+          "Icon": "//store-images.s-microsoft.com/image/apps.48387.13678370117067710.1218a7fe-a12c-4b72-ab48-1609d37bb31e.c59042d7-353e-4ed2-8f2b-cce803e50670",
+          "ProductId": "9NJDJVZZ2613",
+          "Type": "Durable",
+          "Title": "Destiny 2: Shadowkeep + Season"
+        }
+      ]
+    }
+  ],
+  "TotalResultCount": 10
+}

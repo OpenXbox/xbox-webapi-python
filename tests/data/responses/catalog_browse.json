@@ -1,0 +1,1091 @@
+{
+  "Products": [
+    {
+      "LocalizedProperties": [
+        {
+          "Images": [
+            {
+              "FileId": "2000000000058677580",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 728371,
+              "ForegroundColor": "",
+              "Height": 800,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "BrandedKeyArt",
+              "UnscaledImageSHA256Hash": "431nalmBrmMxmf3hQpxS5m4AL1TSyptzGPmuvuqgvO0=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.32227.67185831113154542.0ad26b9c-c5b5-4694-982e-0daabb5fbe91.3aa23aad-c062-498c-b944-29b6355f1d23",
+              "Width": 584
+            },
+            {
+              "FileId": "2000000000058676265",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3477771,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "TitledHeroArt",
+              "UnscaledImageSHA256Hash": "3Qv/NQu57SLk4XaXVAp2zT68C0/pVLS8YPzhleG/O9Y=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.3037.67185831113154542.0ad26b9c-c5b5-4694-982e-0daabb5fbe91.a7cf1f65-bba2-4f20-94b1-cf71098228db",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000057802341",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1548866,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "BoxArt",
+              "UnscaledImageSHA256Hash": "ZWckiRZL9Gou7c/XJAkMr1R+Z3xUTJK2ea4UNek9HCU=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.26469.67185831113154542.5dc49779-431f-4ed6-8ced-0dc20d007d8a.47203177-71e3-4a97-a177-0797e81f724b",
+              "Width": 1080
+            },
+            {
+              "FileId": "2000000000058675808",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1907993,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "FeaturePromotionalSquareArt",
+              "UnscaledImageSHA256Hash": "z2N3WOaOGu5Qn+slk95a/i9QnG0ugYkzmPDpzbp+W2w=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.25551.67185831113154542.0ad26b9c-c5b5-4694-982e-0daabb5fbe91.f9174844-7ee0-4135-9fd7-58d2b6300a61",
+              "Width": 1080
+            },
+            {
+              "FileId": "2000000000058676506",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1182006,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "Poster",
+              "UnscaledImageSHA256Hash": "RBt5xWErRfyG/qna0iZyLizRUVA7o2zLSlHmihFn0gk=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.6980.67185831113154542.0ad26b9c-c5b5-4694-982e-0daabb5fbe91.40efa790-c085-49d6-9f85-022a59a86047",
+              "Width": 720
+            },
+            {
+              "FileId": "2000000000058676248",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3864086,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "SuperHeroArt",
+              "UnscaledImageSHA256Hash": "G3us8TuZAs/lmpkuysiJuA1Es3tnGnY3lNmqVXNViVg=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.31515.67185831113154542.0ad26b9c-c5b5-4694-982e-0daabb5fbe91.06b0f9d9-1012-411f-8b66-5661a6a16153",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000058578870",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 12979443,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/0",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "fy3sZV4hmSAWJJW0bbhwqdFVs6AlGC/ESiP5uySuxRM=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.11647.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.47fd5935-9fdb-43a0-9726-4d35e96a9f16",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000057802330",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 133792,
+              "ForegroundColor": "",
+              "Height": 300,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "Logo",
+              "UnscaledImageSHA256Hash": "Itiyq5JSbcYyR979UxBLtzxViMb7a/5zkc8PHYfZniQ=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.55330.67185831113154542.5dc49779-431f-4ed6-8ced-0dc20d007d8a.e11b9de7-0aa2-4c56-8dd7-2f092d75c5b0",
+              "Width": 300
+            },
+            {
+              "FileId": "2000000000058578495",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 17244785,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/1",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "RlPl4PASd0U89KOGhkCb30+e0PewQ7enNRclTs4+hH4=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.21318.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.82c06e08-847f-485c-8f32-35d071f119a4",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578454",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 9636732,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/2",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "Vp9TDdEH/oetViqqSMcV5+x49Y+XzAmJ0Bt97xBhQSU=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.40790.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.c64b94de-1c42-4771-a898-d5b7f6e594ce",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578861",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 12274027,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/3",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "QGigYRftquaTccg23xZo3VZn4eaH0NtxoVRLGEizP8E=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.26688.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.8483645c-b1f3-4856-a863-6a880a304b60",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578703",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 13404562,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/4",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "bYfKt4LokJZul+/7bsO1wuU86XfJHinsKO4VUJHSjrQ=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.34669.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.1df283a0-fe6d-4584-a0c1-5727f93965eb",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578496",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 12372872,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/5",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "QaoobN2AXsdpNoSA0tizhRjWrBDnLbrmEVEavk3CGxk=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.43585.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.3bce667d-6dc5-45c6-a2e0-4c277024d46b",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578497",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 12158673,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/6",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "eQyLrrtxvCEtQP9n6M0XaMx3stqXaBdInWApTgaAuEA=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.3193.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.0bec5ead-5edd-45b6-bef8-9bba0a1c5244",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578873",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 10802932,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/7",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "zsUKEKmxVx4PE/PAQcRRI8CmpRx2kg9e2ZkmffkJFXI=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.50638.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.82b88ab9-6049-4208-b470-9ee5fe843160",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578706",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 9145549,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/8",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "WKHKaMeaeNoFDId3eF76LvZ8oYdbaFuROHnLTXUXqrE=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.41304.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.7eaf689f-7211-4cd1-a8c6-df9d49e5167a",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058578862",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 12114605,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/9",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "aFu2BNuBHLDGnO70YYsuSNIUBRN4bCsULvXCu6euqvg=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.23400.67185831113154542.6b9c43e9-6edb-4dde-93cb-8c1d16bb284c.bc0a2b10-6943-4cff-a66b-0ac2bec58ee8",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593397",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 7093256,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/10",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "7VBwQbhOgU/6svYu+5ZUFIXCQ6qReVtHrTKQezUmKpo=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.20717.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.08095c95-990a-445d-8976-63bf9c4e57a8",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593516",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 8313688,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/11",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "RM/uC5nl9sPNByDONDQYTlE37wfy1q2OyMVkWylal9A=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.53060.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.22a7052a-55a3-4dc2-811f-badc099c04b7",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593429",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 10871348,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/12",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "fMiRHmWbkOaLBMqDBZ7EiVPInjhMa0tl9PxykXA0PPs=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.51324.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.da05ac29-1549-4f73-9491-41087fe09d69",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593654",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 8562527,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/13",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "3AunvApnPM2lPuZ6wg1jcB8h8Z55JOjf49CwA5fa1Wc=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.3036.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.5a0e3769-183d-4791-aff0-afaeae652772",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593398",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 9771946,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/14",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "z9YW9Iccs8NgtY5faAneXn1sgkhtYa6bODoUgFEqs48=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.54991.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.0b9a7d70-7e27-42af-8535-42460a34f040",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593655",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 7175494,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/15",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "AGjtuVgHpV8IKm34MrFN91VMyqrF/aJWbm7hGpl5/7g=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.26624.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.4bfb0a25-0fab-4bf1-946f-488e8d8a6a21",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593417",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3017334,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/16",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "Cr6H9AnwoxXCAvO1fszgCW19Tr5eCN2W5yom7/QkhVw=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.48650.67185831113154542.b21a4854-a857-41cf-983a-039eba42f274.5d0d8e93-80f1-4ccc-aa31-d38b32a188fb",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593517",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 8927322,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/17",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "NGV/nU0K9ZVX2bzYdLC6Cz9AJG08QLFW2ZC/PzJmic8=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.25908.67185831113154542.823e899c-d262-40a0-91f6-eee04bdc3713.ce6950bb-bb08-4c20-8653-711aed1e91a2",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593418",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 11110628,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/18",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "ljoH26RFu2p8EO0QF+UUxelCH6cYcDaFJWVsVf+priE=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.14998.67185831113154542.823e899c-d262-40a0-91f6-eee04bdc3713.a8d8160b-bf9f-41c3-b0de-48f1626d8949",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000058593880",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 5438404,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/19",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "wooEys+6puCAevs/IwY98aP4tv3NoTML4gT10WF3Jdw=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.35522.67185831113154542.823e899c-d262-40a0-91f6-eee04bdc3713.b25c8579-9be4-4e5e-a60d-5792f4f9ffaf",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000061992043",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 8789620,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/20",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "1SYO+kXLPiSppaLMSkaCWpy38qLrKgRiETtxWT1ijzM=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.9941.67185831113154542.db6b9d82-f45f-41f1-94c6-b2c0dcd63ae2.184f4fe7-7780-4012-97de-67ec8b80223b",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000061992091",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 10179503,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/21",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "V6kbjbCkPxGZzgMM64R0UXrNRc64nIvK0seAJp38Z4w=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.43351.67185831113154542.db6b9d82-f45f-41f1-94c6-b2c0dcd63ae2.1c778473-743c-42f8-bfa8-1e9b6e3d4ab0",
+              "Width": 3840
+            },
+            {
+              "FileId": "2000000000061992034",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 10119668,
+              "ForegroundColor": "",
+              "Height": 2160,
+              "ImagePositionInfo": "Xbox/22",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "4Q0LmFnEo+TivuzHqk5de200BsR4FIlz8wPGwadQzvE=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.3553.67185831113154542.db6b9d82-f45f-41f1-94c6-b2c0dcd63ae2.6fa69052-c392-4b4a-8fc8-5c2b49159006",
+              "Width": 3840
+            }
+          ],
+          "ProductTitle": "Call of Duty®: Modern Warfare®"
+        }
+      ],
+      "MarketProperties": [
+        {
+          "OriginalReleaseDate": "2019-10-25T00:00:00.0000000Z",
+          "UsageData": [
+            {
+              "AggregateTimeSpan": "7Days",
+              "AverageRating": 3.1,
+              "RatingCount": 131
+            },
+            {
+              "AggregateTimeSpan": "30Days",
+              "AverageRating": 3.1,
+              "RatingCount": 320
+            },
+            {
+              "AggregateTimeSpan": "AllTime",
+              "AverageRating": 3.0,
+              "RatingCount": 539
+            }
+          ]
+        }
+      ],
+      "ProductBSchema": "ProductGame;1",
+      "ProductId": "C5DTJ99626K3",
+      "PartD": "",
+      "ProductFamily": "Games",
+      "ProductKind": "Game",
+      "DisplaySkuAvailabilities": [
+        {
+          "Availabilities": [
+            {
+              "Actions": ["Details", "Browse", "Curate", "Fulfill", "Redeem"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "TaxesNotIncluded",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "LocalizedProperties": [
+        {
+          "Images": [
+            {
+              "FileId": "2000000000072443471",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 588525,
+              "ForegroundColor": "",
+              "Height": 800,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "BrandedKeyArt",
+              "UnscaledImageSHA256Hash": "gwb9B+IEp/RchUB1S6vJVF3bR64JnvBH96CJFZHN9fo=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.1667.70702278257994163.96f95b28-99b7-4173-86ca-82ee6064d142.e5521247-c031-4fda-ae4c-b40ec2b242cf",
+              "Width": 584
+            },
+            {
+              "FileId": "2000000000072443408",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1214089,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "Poster",
+              "UnscaledImageSHA256Hash": "TFMVJ0ruaPStqbvtKfmMUKDYYa5ed08LB8a6wFt7OBA=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.21324.70702278257994163.96f95b28-99b7-4173-86ca-82ee6064d142.7477ea20-8acc-413a-a102-d22099ed9a91",
+              "Width": 720
+            },
+            {
+              "FileId": "2000000000072443501",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3158928,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "SuperHeroArt",
+              "UnscaledImageSHA256Hash": "XEa7KINqVPCia0MX668O7wWSpxWMubUyX6xMefyBqHY=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.18012.70702278257994163.96f95b28-99b7-4173-86ca-82ee6064d142.462351c2-0b9f-4ebe-a005-231cb69d30fc",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000042305228",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1304464,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "FeaturePromotionalSquareArt",
+              "UnscaledImageSHA256Hash": "N5wTjR572iTHFLN7N0Kaxm4X2US4/VvjsossxReBhqE=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.39991.70702278257994163.e25e1cb1-ae4e-49b9-bbeb-a8db9942f1e6.20bdd72b-6007-4ed4-8e77-6e8cb2fa1fde",
+              "Width": 1080
+            },
+            {
+              "FileId": "2000000000072443470",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1714408,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "BoxArt",
+              "UnscaledImageSHA256Hash": "7BpkmOYN8/5kUrp1iFtEV5wiJPccd4A7SCBKbDjs4Ec=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.6892.70702278257994163.96f95b28-99b7-4173-86ca-82ee6064d142.6dcaef91-ac45-4bd0-8dc5-285bb018b03d",
+              "Width": 1080
+            },
+            {
+              "FileId": "2000000000074404672",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3252590,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/0",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "ZDXJKITlvz+geNmq6Z2LRo3b73JkiP47agVvKY/2MoI=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.13668.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.37554502-6356-4748-9bc6-5d97e0f4ae52",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000072443502",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 2587662,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "",
+              "ImagePurpose": "TitledHeroArt",
+              "UnscaledImageSHA256Hash": "5NMc3ywvRwWMbKwKosviQjbbnsMi9gWNd0aVpLlEG/Q=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.54244.70702278257994163.96f95b28-99b7-4173-86ca-82ee6064d142.fc52f2c3-3aaf-4bf2-be66-bcfe4992236c",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404674",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3041205,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/1",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "Vr5bw4JGsIVVEFMi+cMiFnBBlU+j732RVsGscbVUA6s=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.48726.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.5e21110c-aea8-440b-bbf1-838149eb8389",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404578",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3033345,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/2",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "bNwMnPFS4RRMIEypZtObjTHTgUXItV/ErvI98sXgegU=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.56428.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.3bc67742-2956-4bd6-a6bc-735988b7e28c",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404579",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 2980035,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/3",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "OWiwXYApsuutDe/PdSAs6vgB4c0fcIL5DRg1C0Hzvko=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.26681.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.6663ae04-5f02-452c-adb5-d2ee2f805d68",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404675",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3608567,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/4",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "hhIEdhjOEDn+Ct1fRFPLFLiRv1c8W0QL4iPt4P6d6wY=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.4742.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.83029273-df50-47da-9a1e-dd78689899dc",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404760",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 1962436,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/5",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "3WU7UQsPL5Jo6uNvHAYG0OML+zrBBsvo8Ta2hx8Z7i4=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.26077.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.a5f639ec-9134-42ef-907c-e14c53d9d7aa",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404677",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 2391544,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/6",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "WdYMO+oEe7CWZwQcnmbzqf6leUrXVSQYbfFCNX8SlNo=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.54873.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.63c91704-639e-4cc8-894b-6d8176fbb2b3",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404763",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 3724819,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/7",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "egZdRUmht3gvWzU63C7Z9ts5IRr6y6bOZp5DP/xoxSk=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.1658.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.dbd8efff-9018-40a3-ac54-0bd6d1bdc142",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404782",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 2134625,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/8",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "R2Ral7ztla9WKzmlLaUW9REZCy5uFELoignlx55OPns=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.25671.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.020fc875-6749-4b41-a3cc-1189a2bedd71",
+              "Width": 1920
+            },
+            {
+              "FileId": "2000000000074404765",
+              "EISListingIdentifier": null,
+              "BackgroundColor": "",
+              "Caption": "",
+              "FileSizeInBytes": 2820679,
+              "ForegroundColor": "",
+              "Height": 1080,
+              "ImagePositionInfo": "Xbox/9",
+              "ImagePurpose": "Screenshot",
+              "UnscaledImageSHA256Hash": "ZH18nSvwlUncFl7AUf+CAj80xwlIeGGWNlgK6g6aobo=",
+              "Uri": "//store-images.s-microsoft.com/image/apps.32100.70702278257994163.51cf782d-9573-4ec2-8347-77f00ba58489.972dc9bb-57a9-4060-ae10-10b2e18b0960",
+              "Width": 1920
+            }
+          ],
+          "ProductTitle": "Fortnite"
+        }
+      ],
+      "MarketProperties": [
+        {
+          "OriginalReleaseDate": "2017-07-25T00:00:00.0000000Z",
+          "UsageData": [
+            {
+              "AggregateTimeSpan": "7Days",
+              "AverageRating": 2.7,
+              "RatingCount": 892
+            },
+            {
+              "AggregateTimeSpan": "30Days",
+              "AverageRating": 3.0,
+              "RatingCount": 4794
+            },
+            {
+              "AggregateTimeSpan": "AllTime",
+              "AverageRating": 3.2,
+              "RatingCount": 202178
+            }
+          ]
+        }
+      ],
+      "ProductBSchema": "ProductGame;1",
+      "ProductId": "BT5P2X999VH2",
+      "PartD": "",
+      "ProductFamily": "Games",
+      "ProductKind": "Game",
+      "DisplaySkuAvailabilities": [
+        {
+          "Availabilities": [
+            {
+              "Actions": [
+                "Details",
+                "Fulfill",
+                "Purchase",
+                "Browse",
+                "Curate",
+                "Redeem"
+              ],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "TaxesNotIncluded",
+                  "WholesaleCurrencyCode": "USD",
+                  "WholesalePrice": 0.0
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            },
+            {
+              "Actions": ["License", "Browse", "Details"],
+              "OrderManagementData": {
+                "Price": {
+                  "CurrencyCode": "USD",
+                  "IsPIRequired": false,
+                  "ListPrice": 0.0,
+                  "MSRP": 0.0,
+                  "TaxType": "",
+                  "WholesaleCurrencyCode": ""
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

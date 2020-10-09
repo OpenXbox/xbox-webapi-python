@@ -14,6 +14,7 @@ from ms_cv import CorrelationVector
 from xbox.webapi.api.language import DefaultXboxLiveLanguages, XboxLiveLanguage
 from xbox.webapi.api.provider.account import AccountProvider
 from xbox.webapi.api.provider.achievements import AchievementsProvider
+from xbox.webapi.api.provider.catalog import CatalogProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
 from xbox.webapi.api.provider.gameclips import GameclipProvider
 from xbox.webapi.api.provider.lists import ListsProvider
@@ -36,14 +37,22 @@ class Session:
         self._cv = CorrelationVector()
 
     async def request(
-        self, method: str, url: str, include_cv: bool = True, **kwargs: Any
+        self,
+        method: str,
+        url: str,
+        include_auth: bool = True,
+        include_cv: bool = True,
+        **kwargs: Any,
     ) -> ClientResponse:
+        """Proxy Request and add Auth/CV headers."""
         headers = kwargs.pop("headers", {})
-        headers[
-            hdrs.AUTHORIZATION
-        ] = self._auth_mgr.xsts_token.authorization_header_value
+        if include_auth:
+            headers[
+                hdrs.AUTHORIZATION
+            ] = self._auth_mgr.xsts_token.authorization_header_value
         if include_cv:
             headers["MS-CV"] = self._cv.increment()
+
         return await self._auth_mgr.session.request(
             method,
             url,
@@ -96,6 +105,7 @@ class XboxLiveClient:
         self.screenshots = ScreenshotsProvider(self)
         self.titlehub = TitlehubProvider(self)
         self.account = AccountProvider(self)
+        self.catalog = CatalogProvider(self)
 
     @property
     def xuid(self) -> str:
