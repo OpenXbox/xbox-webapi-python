@@ -1,37 +1,38 @@
 """
 Signed Session
 
-A wrapper around requests' Session which transparently calculates the "Signature" header.
+A wrapper around httpx' AsyncClient which transparently calculates the "Signature" header.
 """
 
-from urllib.parse import urlsplit, urlunsplit
-
-from requests import Session
+import aiohttp
 
 from xbox.webapi.common.request_signer import RequestSigner
 
 
-class SignedSession(Session):
+class SignedSession(aiohttp.ClientSession):
     def __init__(self, request_signer=None):
         super().__init__()
         self.request_signer = request_signer or RequestSigner()
 
-    def prepare_request(self, request):
-        prepared = super().prepare_request(request)
+    @classmethod
+    def from_pem_signing_key(cls, pem_string: str):
+        request_signer = RequestSigner.from_pem(pem_string)
+        return cls(request_signer)
 
-        parsed_url = urlsplit(prepared.url)
-        path_and_query = urlunsplit(("", "", parsed_url.path, parsed_url.query, ""))
-        authorization = prepared.headers.get("Authorization", "")
+    async def prepare_signed_request(
+        self, request: aiohttp.ClientRequest
+    ) -> aiohttp.ClientRequest:
+        path_and_query = request.url.raw_path.decode()
+        authorization = request.headers.get("Authorization", "")
 
-        if prepared.body:
-            if not isinstance(prepared.body, bytes):
-                prepared.body = prepared.body.encode('ascii')
-            body = prepared.body
-        else:
-            body = b''
+        body = request.body
 
-        signature = self.request_signer.sign(method=prepared.method, path_and_query=path_and_query,
-                                             body=body, authorization=authorization)
+        signature = self.request_signer.sign(
+            method=request.method,
+            path_and_query=path_and_query,
+            body=body,
+            authorization=authorization,
+        )
 
-        prepared.headers["Signature"] = signature
-        return prepared
+        request.headers["Signature"] = signature
+        return request

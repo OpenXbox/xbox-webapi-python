@@ -4,10 +4,13 @@ Request Signer
 Employed for generating the "Signature" header in authentication requests.
 """
 import base64
+from datetime import datetime
 import hashlib
-import time
+import struct
 
 from ecdsa import NIST256p, SigningKey
+
+from xbox.webapi.common import filetimes
 
 
 class RequestSigner:
@@ -28,18 +31,57 @@ class RequestSigner:
             "y": self.__encode_ec_coord(pk_point.y()),
         }
 
-    def sign(self, method, path_and_query, body=b"", authorization="", timestamp=None):
+    def export_signing_key(self) -> str:
+        return self.signing_key.to_pem().decode()
+
+    @staticmethod
+    def import_signing_key(signing_key: str) -> SigningKey:
+        return SigningKey.from_pem(signing_key)
+
+    @classmethod
+    def from_pem(cls, pem_string: str):
+        request_signer = RequestSigner.import_signing_key(pem_string)
+        return cls(request_signer)
+
+    @staticmethod
+    def get_timestamp_buffer(dt: datetime) -> bytes:
+        """
+        Get usable buffer from datetime
+
+        dt: Input datetime
+
+        Returns:
+            bytes: FILETIME buffer (network order/big endian)
+        """
+        filetime = filetimes.dt_to_filetime(dt)
+        return struct.pack("!Q", filetime)
+
+    def sign(
+        self,
+        method: str,
+        path_and_query: str,
+        body: bytes = b"",
+        authorization: str = "",
+        timestamp: datetime = None,
+    ) -> str:
         if timestamp is None:
-            timestamp = round(time.time())
+            timestamp = datetime.utcnow()
 
         signature = self._sign_raw(
-            method, path_and_query, authorization, body, timestamp
+            method, path_and_query, body, authorization, timestamp
         )
         return base64.b64encode(signature).decode("ascii")
 
-    def _sign_raw(self, method, path_and_query, body, authorization, timestamp):
+    def _sign_raw(
+        self,
+        method: str,
+        path_and_query: str,
+        body: bytes,
+        authorization: str,
+        timestamp: datetime,
+    ) -> bytes:
         # Calculate hash
-        ts_bytes = timestamp.to_bytes(8, 'big')
+        ts_bytes = self.get_timestamp_buffer(timestamp)
         hash = self._hash(method, path_and_query, body, authorization, ts_bytes)
 
         # Sign the hash
@@ -49,7 +91,13 @@ class RequestSigner:
         return self.SIGNATURE_VERSION + ts_bytes + signature
 
     @staticmethod
-    def _hash(method, path_and_query, authorization, body, ts_bytes):
+    def _hash(
+        method: str,
+        path_and_query: str,
+        body: bytes,
+        authorization: str,
+        ts_bytes: bytes,
+    ) -> bytes:
         hash = hashlib.sha256()
 
         # Version + null
@@ -69,8 +117,8 @@ class RequestSigner:
         hash.update(b"\x00")
 
         # Authorization (even if an empty string)
-        hash.update(authorization.encode('ascii'))
-        hash.update(b'\x00')
+        hash.update(authorization.encode("ascii"))
+        hash.update(b"\x00")
 
         # Body
         hash.update(body)
@@ -79,7 +127,7 @@ class RequestSigner:
         return hash.digest()
 
     @staticmethod
-    def __base64_escaped(binary):
+    def __base64_escaped(binary: bytes) -> str:
         encoded = base64.b64encode(binary).decode("ascii")
         encoded = encoded.rstrip("=")
         encoded = encoded.replace("+", "-")
@@ -87,5 +135,5 @@ class RequestSigner:
         return encoded
 
     @staticmethod
-    def __encode_ec_coord(coord):
+    def __encode_ec_coord(coord) -> str:
         return RequestSigner.__base64_escaped(coord.to_bytes(32, "big"))
