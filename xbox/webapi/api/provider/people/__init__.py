@@ -29,7 +29,8 @@ class PeopleProvider(BaseProvider):
             client (:class:`XboxLiveClient`): Instance of client
         """
         super().__init__(client)
-        self.HEADERS_PEOPLE.update({"Accept-Language": self.client.language.locale})
+        self._headers = {**self.HEADERS_PEOPLE}
+        self._headers.update({"Accept-Language": self.client.language.locale})
 
     async def get_friends_own(
         self, decoration_fields: List[PeopleDecoration] = None
@@ -50,7 +51,7 @@ class PeopleProvider(BaseProvider):
         decoration = self.SEPERATOR.join(decoration_fields)
 
         url = f"{self.PEOPLE_URL}/users/me/people/social/decoration/{decoration}"
-        resp = await self.client.session.get(url, headers=self.HEADERS_PEOPLE)
+        resp = await self.client.session.get(url, headers=self._headers)
         resp.raise_for_status()
         return PeopleResponse.parse_raw(await resp.text())
 
@@ -73,7 +74,7 @@ class PeopleProvider(BaseProvider):
         decoration = self.SEPERATOR.join(decoration_fields)
 
         url = f"{self.PEOPLE_URL}/users/xuid({xuid})/people/social/decoration/{decoration}"
-        resp = await self.client.session.get(url, headers=self.HEADERS_PEOPLE)
+        resp = await self.client.session.get(url, headers=self._headers)
         resp.raise_for_status()
         return PeopleResponse.parse_raw(await resp.text())
 
@@ -100,7 +101,7 @@ class PeopleProvider(BaseProvider):
 
         url = f"{self.PEOPLE_URL}/users/me/people/batch/decoration/{decoration}"
         resp = await self.client.session.post(
-            url, json={"xuids": xuids}, headers=self.HEADERS_PEOPLE
+            url, json={"xuids": xuids}, headers=self._headers
         )
         resp.raise_for_status()
         return PeopleResponse.parse_raw(await resp.text())
@@ -113,7 +114,7 @@ class PeopleProvider(BaseProvider):
             :class:`PeopleResponse`: People Response
         """
         url = f"{self.PEOPLE_URL}/users/me/people/recommendations"
-        resp = await self.client.session.get(url, headers=self.HEADERS_PEOPLE)
+        resp = await self.client.session.get(url, headers=self._headers)
         resp.raise_for_status()
         return PeopleResponse.parse_raw(await resp.text())
 

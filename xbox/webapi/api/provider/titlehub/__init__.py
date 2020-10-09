@@ -26,7 +26,8 @@ class TitlehubProvider(BaseProvider):
             client (:class:`XboxLiveClient`): Instance of client
         """
         super().__init__(client)
-        self.HEADERS_TITLEHUB.update({"Accept-Language": self.client.language.locale})
+        self._headers = {**self.HEADERS_TITLEHUB}
+        self._headers.update({"Accept-Language": self.client.language.locale})
 
     async def get_title_history(
         self, xuid: str, fields: List[TitleFields] = None, max_items: int = 5
