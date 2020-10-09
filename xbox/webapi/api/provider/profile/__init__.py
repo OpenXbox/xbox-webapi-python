@@ -11,7 +11,7 @@ from xbox.webapi.api.provider.profile.models import ProfileResponse, ProfileSett
 
 class ProfileProvider(BaseProvider):
     PROFILE_URL = "https://profile.xboxlive.com"
-    HEADERS_PROFILE = {"x-xbl-contract-version": "2"}
+    HEADERS_PROFILE = {"x-xbl-contract-version": "3"}
     SEPARATOR = ","
 
     async def get_profiles(self, xuid_list: List) -> ProfileResponse:
@@ -64,11 +64,21 @@ class ProfileProvider(BaseProvider):
         params = {
             "settings": self.SEPARATOR.join(
                 [
-                    ProfileSettings.APP_DISPLAY_NAME,
-                    ProfileSettings.GAMERSCORE,
                     ProfileSettings.GAMERTAG,
-                    ProfileSettings.PUBLIC_GAMERPIC,
+                    ProfileSettings.MODERN_GAMERTAG,
+                    ProfileSettings.MODERN_GAMERTAG_SUFFIX,
+                    ProfileSettings.UNIQUE_MODERN_GAMERTAG,
+                    ProfileSettings.REAL_NAME_OVERRIDE,
+                    ProfileSettings.BIOGRAPHY,
+                    ProfileSettings.LOCATION,
+                    ProfileSettings.GAMERSCORE,
+                    ProfileSettings.GAME_DISPLAYPIC_RAW,
+                    ProfileSettings.TENURE_LEVEL,
+                    ProfileSettings.ACCOUNT_TIER,
                     ProfileSettings.XBOX_ONE_REP,
+                    ProfileSettings.PREFERRED_COLOR,
+                    ProfileSettings.WATERMARKS,
+                    ProfileSettings.IS_QUARANTINED,
                 ]
             )
         }
@@ -92,11 +102,21 @@ class ProfileProvider(BaseProvider):
         params = {
             "settings": self.SEPARATOR.join(
                 [
-                    ProfileSettings.APP_DISPLAY_NAME,
-                    ProfileSettings.GAMERSCORE,
                     ProfileSettings.GAMERTAG,
-                    ProfileSettings.PUBLIC_GAMERPIC,
+                    ProfileSettings.MODERN_GAMERTAG,
+                    ProfileSettings.MODERN_GAMERTAG_SUFFIX,
+                    ProfileSettings.UNIQUE_MODERN_GAMERTAG,
+                    ProfileSettings.REAL_NAME_OVERRIDE,
+                    ProfileSettings.BIOGRAPHY,
+                    ProfileSettings.LOCATION,
+                    ProfileSettings.GAMERSCORE,
+                    ProfileSettings.GAME_DISPLAYPIC_RAW,
+                    ProfileSettings.TENURE_LEVEL,
+                    ProfileSettings.ACCOUNT_TIER,
                     ProfileSettings.XBOX_ONE_REP,
+                    ProfileSettings.PREFERRED_COLOR,
+                    ProfileSettings.WATERMARKS,
+                    ProfileSettings.IS_QUARANTINED,
                 ]
             )
         }

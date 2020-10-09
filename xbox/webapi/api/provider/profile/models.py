@@ -17,6 +17,9 @@ class ProfileSettings(str, Enum):
     SHOW_USER_AS_AVATAR = "ShowUserAsAvatar"
     GAMERSCORE = "Gamerscore"
     GAMERTAG = "Gamertag"
+    MODERN_GAMERTAG = "ModernGamertag"
+    MODERN_GAMERTAG_SUFFIX = "ModernGamertagSuffix"
+    UNIQUE_MODERN_GAMERTAG = "UniqueModernGamertag"
     ACCOUNT_TIER = "AccountTier"
     TENURE_LEVEL = "TenureLevel"
     XBOX_ONE_REP = "XboxOneRep"
@@ -26,6 +29,7 @@ class ProfileSettings(str, Enum):
     WATERMARKS = "Watermarks"
     REAL_NAME = "RealName"
     REAL_NAME_OVERRIDE = "RealNameOverride"
+    IS_QUARANTINED = "IsQuarantined"
 
 
 class Setting(CamelCaseModel):

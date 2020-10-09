@@ -1,31 +1,71 @@
 {
   "profileUsers": [
-    {
-      "id": "2669321029139235",
-      "hostId": "2669321029139235",
-      "settings": [
-        {
-          "id": "AppDisplayName",
-          "value": "e"
-        },
-        {
-          "id": "Gamerscore",
-          "value": "89410"
-        },
-        {
-          "id": "Gamertag",
-          "value": "e"
-        },
-        {
-          "id": "PublicGamerpic",
-          "value": "http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIl_5PaIHeJ592LG1L.uCOWneEDBhHctvuC06CzW38LKNYiVGTXqxcsQqYGIrr8hFz"
-        },
-        {
-          "id": "XboxOneRep",
-          "value": "GoodPlayer"
-        }
-      ],
-      "isSponsoredUser": false
-    }
+      {
+          "id": "2669321029139235",
+          "hostId": "2669321029139235",
+          "settings": [
+              {
+                  "id": "Gamertag",
+                  "value": "e"
+              },
+              {
+                  "id": "ModernGamertag",
+                  "value": "e"
+              },
+              {
+                  "id": "ModernGamertagSuffix",
+                  "value": ""
+              },
+              {
+                  "id": "UniqueModernGamertag",
+                  "value": "e"
+              },
+              {
+                  "id": "RealNameOverride",
+                  "value": "Eric Neustadter"
+              },
+              {
+                  "id": "Bio",
+                  "value": "ex-Xbox"
+              },
+              {
+                  "id": "Location",
+                  "value": "about.me/thevowel"
+              },
+              {
+                  "id": "Gamerscore",
+                  "value": "98096"
+              },
+              {
+                  "id": "GameDisplayPicRaw",
+                  "value": "https://images-eds-ssl.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIl_5PaIHeJ592LG1L.uCOWneEDBhHctvuC06CzW38LKNYiVGTXqxcsQqYGIrr8hFz&format=png"
+              },
+              {
+                  "id": "TenureLevel",
+                  "value": "18"
+              },
+              {
+                  "id": "AccountTier",
+                  "value": "Gold"
+              },
+              {
+                  "id": "XboxOneRep",
+                  "value": "Superstar"
+              },
+              {
+                  "id": "PreferredColor",
+                  "value": "http://dlassets.xboxlive.com/public/content/ppl/colors/00000.json"
+              },
+              {
+                  "id": "Watermarks",
+                  "value": "XboxOriginalTeam|XboxLiveLaunchTeam|LaunchTeam|NxeTeam|KinectTeam|XboxOneTeam|XboxNxoeTeam"
+              },
+              {
+                  "id": "IsQuarantined",
+                  "value": "0"
+              }
+          ],
+          "isSponsoredUser": false
+      }
   ]
 }
