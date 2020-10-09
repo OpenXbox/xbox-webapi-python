@@ -27,13 +27,13 @@ class AuthenticationManager:
         client_id: str,
         client_secret: str,
         redirect_uri: str,
-        scopes: List[str] = DEFAULT_SCOPES,
+        scopes: List[str] = None,
     ):
         self.session: aiohttp.ClientSession = client_session
         self._client_id: str = client_id
         self._client_secret: str = client_secret
         self._redirect_uri: str = redirect_uri
-        self._scopes: List[str] = scopes
+        self._scopes: List[str] = scopes or DEFAULT_SCOPES
 
         self.oauth: OAuth2TokenResponse = None
         self.user_token: XAUResponse = None
@@ -45,7 +45,7 @@ class AuthenticationManager:
             "client_id": self._client_id,
             "response_type": "code",
             "approval_prompt": "auto",
-            "scope": "Xboxlive.signin Xboxlive.offline_access",
+            "scope": " ".join(self._scopes),
             "redirect_uri": self._redirect_uri,
         }
 
