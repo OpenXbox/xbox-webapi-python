@@ -1,4 +1,5 @@
-from typing import Any, List
+from datetime import datetime
+from typing import Any, List, Optional
 
 from xbox.webapi.common.models import CamelCaseModel
 
@@ -13,7 +14,7 @@ class ScreenshotUri(CamelCaseModel):
     uri: str
     file_size: int
     uri_type: str
-    expiration: str
+    expiration: datetime
 
 
 class Screenshot(CamelCaseModel):
@@ -21,9 +22,9 @@ class Screenshot(CamelCaseModel):
     resolution_height: int
     resolution_width: int
     state: str
-    date_published: str
-    date_taken: str
-    last_modified: str
+    date_published: datetime
+    date_taken: datetime
+    last_modified: datetime
     user_caption: str
     type: str
     scid: str
@@ -47,7 +48,7 @@ class Screenshot(CamelCaseModel):
 
 
 class PagingInfo(CamelCaseModel):
-    continuation_token: Any
+    continuation_token: Optional[str]
 
 
 class ScreenshotResponse(CamelCaseModel):
