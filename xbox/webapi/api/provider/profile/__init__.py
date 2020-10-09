@@ -14,7 +14,7 @@ class ProfileProvider(BaseProvider):
     HEADERS_PROFILE = {"x-xbl-contract-version": "3"}
     SEPARATOR = ","
 
-    async def get_profiles(self, xuid_list: List) -> ProfileResponse:
+    async def get_profiles(self, xuid_list: List[str]) -> ProfileResponse:
         """
         Get profile info for list of xuids
 
@@ -41,7 +41,7 @@ class ProfileProvider(BaseProvider):
                 ProfileSettings.WATERMARKS,
                 ProfileSettings.REAL_NAME,
             ],
-            "userIds": [int(xuid) for xuid in xuid_list],
+            "userIds": xuid_list,
         }
         url = self.PROFILE_URL + "/users/batch/profile/settings"
         resp = await self.client.session.post(
@@ -50,7 +50,7 @@ class ProfileProvider(BaseProvider):
         resp.raise_for_status()
         return ProfileResponse.parse_raw(await resp.text())
 
-    async def get_profile_by_xuid(self, target_xuid: int) -> ProfileResponse:
+    async def get_profile_by_xuid(self, target_xuid: str) -> ProfileResponse:
         """
         Get Userprofile by xuid
 
