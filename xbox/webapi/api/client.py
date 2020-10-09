@@ -35,19 +35,21 @@ class Session:
         self._auth_mgr = auth_mgr
         self._cv = CorrelationVector()
 
-    async def request(self, method: str, url: str, **kwargs: Any) -> ClientResponse:
+    async def request(
+        self, method: str, url: str, include_cv: bool = True, **kwargs: Any
+    ) -> ClientResponse:
         headers = kwargs.pop("headers", {})
-        resp = await self._auth_mgr.session.request(
+        headers[
+            hdrs.AUTHORIZATION
+        ] = self._auth_mgr.xsts_token.authorization_header_value
+        if include_cv:
+            headers["MS-CV"] = self._cv.increment()
+        return await self._auth_mgr.session.request(
             method,
             url,
             **kwargs,
-            headers={
-                hdrs.AUTHORIZATION: self._auth_mgr.xsts_token.authorization_header_value,
-                "MS-CV": self._cv.increment(),
-                **headers,
-            },
+            headers=headers,
         )
-        return resp
 
     async def get(self, url: str, **kwargs: Any) -> ClientResponse:
         return await self.request(hdrs.METH_GET, url, **kwargs)
