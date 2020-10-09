@@ -1,0 +1,67 @@
+{
+  "timestamp": "2020-10-09T02:05:48.9846784Z",
+  "networkId": "Xbox",
+  "type": "OneToOne",
+  "conversationId": "05907fa3-0000-0009-acbd-299772a90900",
+  "participants": [
+      "2533274883751843",
+      "2719584417856940"
+  ],
+  "readHorizon": "14670727301543890",
+  "deleteHorizon": "14670705998559210",
+  "isRead": true,
+  "muted": false,
+  "folder": "Primary",
+  "messages": [
+      {
+          "contentPayload": {
+              "content": {
+                  "parts": [
+                      {
+                          "contentType": "text",
+                          "text": "Deleted",
+                          "version": 0
+                      }
+                  ]
+              }
+          },
+          "timestamp": "2020-10-09T02:05:44.5938743Z",
+          "lastUpdateTimestamp": "2020-10-09T02:06:00.7038298Z",
+          "type": "ContentMessage",
+          "networkId": "Xbox",
+          "conversationType": "OneToOne",
+          "conversationId": "05907fa3-0000-0009-acbd-299772a90900",
+          "sender": "2719584417856940",
+          "messageId": "14670726562813906",
+          "isDeleted": true,
+          "isServerUpdated": false
+      },
+      {
+          "contentPayload": {
+              "content": {
+                  "parts": [
+                      {
+                          "contentType": "text",
+                          "version": 0,
+                          "text": "Test 4",
+                          "unsuitableFor": []
+                      }
+                  ]
+              }
+          },
+          "timestamp": "2020-10-09T02:05:48.9846784Z",
+          "lastUpdateTimestamp": "2020-10-09T02:05:48.9846784Z",
+          "type": "ContentMessage",
+          "networkId": "Xbox",
+          "conversationType": "OneToOne",
+          "conversationId": "05907fa3-0000-0009-acbd-299772a90900",
+          "sender": "2719584417856940",
+          "messageId": "14670727301543890",
+          "isDeleted": false,
+          "isServerUpdated": false
+      }
+  ],
+  "continuationToken": null,
+  "voiceId": "05907fa3-0000-0009-acbd-299772a90900",
+  "voiceRoster": []
+}

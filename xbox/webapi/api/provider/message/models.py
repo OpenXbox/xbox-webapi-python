@@ -1,39 +1,96 @@
+from datetime import datetime
 from typing import Any, List, Optional
 
 from xbox.webapi.common.models import CamelCaseModel
 
 
-class MessageHeader(CamelCaseModel):
-    id: Optional[str]
-    is_read: Optional[bool]
-    sender_xuid: int
+class Part(CamelCaseModel):
+    content_type: str
+    version: int
+    text: str
+    unsuitable_for: Optional[List]
+    locator: Optional[str]
+
+
+class Content(CamelCaseModel):
+    parts: List[Part]
+
+
+class ContentPayload(CamelCaseModel):
+    content: Content
+
+
+class Message(CamelCaseModel):
+    content_payload: Optional[ContentPayload]
+    timestamp: datetime
+    last_update_timestamp: datetime
+    type: str
+    network_id: str
+    conversation_type: str
+    conversation_id: str
+    owner: Optional[int]
     sender: str
-    sent: str
-    expiration: str
-    message_type: str
-    has_text: bool
-    has_photo: bool
-    has_audio: bool
-    message_folder_type: str
+    message_id: str
+    is_deleted: bool
+    is_server_updated: bool
 
 
-class MessageResponse(CamelCaseModel):
-    header: MessageHeader
-    messageText: str
-    attachmentId: Any
-    attachment: Any
+class Conversation(CamelCaseModel):
+    timestamp: datetime
+    network_id: str
+    type: str
+    conversation_id: str
+    voice_id: str
+    participants: List[str]
+    read_horizon: str
+    delete_horizon: str
+    is_read: bool
+    muted: bool
+    folder: str
+    last_message: Message
 
 
-class InboxResult(CamelCaseModel):
-    header: MessageHeader
-    message_summary: str
+class Primary(CamelCaseModel):
+    folder: str
+    total_count: int
+    unread_count: int
+    conversations: List[Conversation]
 
 
-class PagingInfo(CamelCaseModel):
-    continuation_token: Any
-    total_items: int
+class SafetySettings(CamelCaseModel):
+    version: int
+    primary_inbox_media: str
+    primary_inbox_text: str
+    primary_inbox_url: str
+    secondary_inbox_media: str
+    secondary_inbox_text: str
+    secondary_inbox_url: str
+    can_unobscure: bool
 
 
-class MessageInboxResponse(CamelCaseModel):
-    results: List[InboxResult]
-    paging_info: PagingInfo
+class InboxResponse(CamelCaseModel):
+    primary: Primary
+    folders: List[Any]
+    safety_settings: SafetySettings
+
+
+class ConversationResponse(CamelCaseModel):
+    timestamp: datetime
+    network_id: str
+    type: str
+    conversation_id: str
+    participants: Optional[List[str]]
+    read_horizon: str
+    delete_horizon: str
+    is_read: bool
+    muted: bool
+    folder: str
+    messages: Optional[List[Message]]
+    continuation_token: Optional[str]
+    voice_id: str
+    voice_roster: Optional[List[Any]]
+
+
+class SendMessageResponse(CamelCaseModel):
+    message_id: str
+    conversation_id: str

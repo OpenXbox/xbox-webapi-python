@@ -1,0 +1,16 @@
+{
+	"timestamp": "0001-01-01T00:00:00",
+	"networkId": "Xbox",
+	"type": "OneToOne",
+	"conversationId": "05907fa3-0000-0009-acbd-299772a90900",
+	"participants": null,
+	"readHorizon": "0",
+	"deleteHorizon": "0",
+	"isRead": false,
+	"muted": false,
+	"folder": "Unspecified",
+	"messages": null,
+	"continuationToken": null,
+	"voiceId": "05907fa3-0000-0009-acbd-299772a90900",
+	"voiceRoster": null
+}

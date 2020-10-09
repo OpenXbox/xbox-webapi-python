@@ -1,0 +1,95 @@
+{
+  "primary": {
+    "folder": "Primary",
+    "totalCount": 24,
+    "unreadCount": 1,
+    "conversations": [
+      {
+        "timestamp": "2020-10-09T01:35:32.2655859Z",
+        "networkId": "Xbox",
+        "type": "OneToOne",
+        "conversationId": "05907fa3-0000-0009-acbd-299772a90900",
+        "voiceId": "05907fa3-0000-0009-acbd-299772a90900",
+        "participants": ["2533274883751843", "2719584417856940"],
+        "readHorizon": "14670422513694688",
+        "deleteHorizon": "0",
+        "isRead": true,
+        "muted": false,
+        "folder": "Primary",
+        "lastMessage": {
+          "contentPayload": {
+            "content": {
+              "parts": [
+                {
+                  "contentType": "text",
+                  "version": 0,
+                  "text": "Test",
+                  "unsuitableFor": []
+                }
+              ]
+            }
+          },
+          "timestamp": "2020-10-09T01:35:32.2655859Z",
+          "lastUpdateTimestamp": "2020-10-09T01:35:32.2655859Z",
+          "type": "ContentMessage",
+          "networkId": "Xbox",
+          "conversationType": "OneToOne",
+          "conversationId": "05907fa3-0000-0009-acbd-299772a90900",
+          "owner": 2719584417856940,
+          "sender": "2719584417856940",
+          "messageId": "14670422513694688",
+          "isDeleted": false,
+          "isServerUpdated": false
+        }
+      },
+      {
+        "timestamp": "2020-10-09T00:35:57.8664824Z",
+        "networkId": "Xbox",
+        "type": "OneToOne",
+        "conversationId": "00000000-0000-0000-acbd-299772a90900",
+        "voiceId": "00000000-0000-0000-acbd-299772a90900",
+        "participants": ["0", "2719584417856940"],
+        "readHorizon": "14449092124444632",
+        "deleteHorizon": "6930255230021639",
+        "isRead": false,
+        "muted": false,
+        "folder": "Primary",
+        "lastMessage": {
+          "contentPayload": {
+            "content": {
+              "parts": [
+                {
+                  "contentType": "text",
+                  "text": "Great news: Game Pass is about to get even better! Starting November 10th 2020, EA Play, the gaming membership from Electronic Arts, will be included with your Xbox Game Pass Ultimate membership at no additional cost. See xbox.com/gamepass for details.",
+                  "version": 0
+                }
+              ]
+            }
+          },
+          "timestamp": "2020-10-09T00:35:57.8664824Z",
+          "lastUpdateTimestamp": "2020-10-09T00:35:57.8664824Z",
+          "type": "ContentMessage",
+          "networkId": "Xbox",
+          "conversationType": "OneToOne",
+          "conversationId": "00000000-0000-0000-acbd-299772a90900",
+          "owner": 2719584417856940,
+          "sender": "0",
+          "messageId": "14669822834366440",
+          "isDeleted": false,
+          "isServerUpdated": false
+        }
+      }
+    ]
+  },
+  "folders": [],
+  "safetySettings": {
+    "version": 3,
+    "primaryInboxMedia": "Mature",
+    "primaryInboxText": "AllowAll",
+    "primaryInboxUrl": "Mature",
+    "secondaryInboxMedia": "Medium",
+    "secondaryInboxText": "Medium",
+    "secondaryInboxUrl": "BlockAll",
+    "canUnobscure": true
+  }
+}
