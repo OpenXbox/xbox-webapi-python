@@ -1,7 +1,7 @@
 """
 Titlehub - Get Title history and info
 """
-from typing import List
+from typing import List, Optional
 
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.api.provider.titlehub.models import TitleFields, TitlehubResponse
@@ -30,7 +30,10 @@ class TitlehubProvider(BaseProvider):
         self._headers.update({"Accept-Language": self.client.language.locale})
 
     async def get_title_history(
-        self, xuid: str, fields: List[TitleFields] = None, max_items: int = 5
+        self,
+        xuid: str,
+        fields: Optional[List[TitleFields]] = None,
+        max_items: Optional[int] = 5,
     ) -> TitlehubResponse:
         """
         Get recently played titles
@@ -60,7 +63,7 @@ class TitlehubProvider(BaseProvider):
         return TitlehubResponse.parse_raw(await resp.text())
 
     async def get_title_info(
-        self, title_id: str, fields: List[TitleFields] = None
+        self, title_id: str, fields: Optional[List[TitleFields]] = None
     ) -> TitlehubResponse:
         """
         Get info for specific title
@@ -88,7 +91,7 @@ class TitlehubProvider(BaseProvider):
         return TitlehubResponse.parse_raw(await resp.text())
 
     async def get_titles_batch(
-        self, pfns: List[str], fields: List[TitleFields] = None
+        self, pfns: List[str], fields: Optional[List[TitleFields]] = None
     ) -> TitlehubResponse:
         """
         Get Title info via PFN ids
@@ -100,9 +103,6 @@ class TitlehubProvider(BaseProvider):
         Returns:
             :class:`aiohttp.ClientResponse`: HTTP Response
         """
-        if not isinstance(pfns, list):
-            raise ValueError("PFN parameter requires list of strings")
-
         if not fields:
             fields = [
                 TitleFields.ACHIEVEMENT,

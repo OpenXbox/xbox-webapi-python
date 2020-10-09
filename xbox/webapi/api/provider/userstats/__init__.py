@@ -1,12 +1,12 @@
 """
 Userstats - Get game statistics
 """
-from typing import List
+from typing import List, Optional
 
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.api.provider.userstats.models import (
     GeneralStatsField,
-    UserstatsResponse,
+    UserStatsResponse,
 )
 
 
@@ -17,8 +17,11 @@ class UserStatsProvider(BaseProvider):
     SEPERATOR = ","
 
     async def get_stats(
-        self, xuid: str, service_config_id: str, stats_fields: List = None
-    ) -> UserstatsResponse:
+        self,
+        xuid: str,
+        service_config_id: str,
+        stats_fields: Optional[List[GeneralStatsField]] = None,
+    ) -> UserStatsResponse:
         """
         Get userstats
 
@@ -37,11 +40,14 @@ class UserStatsProvider(BaseProvider):
         url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
         resp = await self.client.session.get(url, headers=self.HEADERS_USERSTATS)
         resp.raise_for_status()
-        return UserstatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse.parse_raw(await resp.text())
 
     async def get_stats_with_metadata(
-        self, xuid: str, service_config_id: str, stats_fields: List = None
-    ) -> UserstatsResponse:
+        self,
+        xuid: str,
+        service_config_id: str,
+        stats_fields: Optional[List[GeneralStatsField]] = None,
+    ) -> UserStatsResponse:
         """
         Get userstats including metadata for each stat (if available)
 
@@ -63,11 +69,14 @@ class UserStatsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA
         )
         resp.raise_for_status()
-        return UserstatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse.parse_raw(await resp.text())
 
     async def get_stats_batch(
-        self, xuids: List, title_id: int, stats_fields: List = None
-    ) -> UserstatsResponse:
+        self,
+        xuids: List[str],
+        title_id: str,
+        stats_fields: Optional[List[GeneralStatsField]] = None,
+    ) -> UserStatsResponse:
         """
         Get userstats in batch mode
 
@@ -88,19 +97,22 @@ class UserStatsProvider(BaseProvider):
         url = self.USERSTATS_URL + "/batch"
         post_data = {
             "arrangebyfield": "xuid",
-            "groups": [{"name": "Hero", "titleId": int(title_id)}],
-            "stats": [dict(name=stat, titleId=int(title_id)) for stat in stats_fields],
-            "xuids": [str(xid) for xid in xuids],
+            "groups": [{"name": "Hero", "titleId": title_id}],
+            "stats": [dict(name=stat, titleId=title_id) for stat in stats_fields],
+            "xuids": xuids,
         }
         resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_USERSTATS
         )
         resp.raise_for_status()
-        return UserstatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse.parse_raw(await resp.text())
 
     async def get_stats_batch_by_scid(
-        self, xuids: List, service_config_id: str, stats_fields: List = None
-    ) -> UserstatsResponse:
+        self,
+        xuids: List[str],
+        service_config_id: str,
+        stats_fields: Optional[List[GeneralStatsField]] = None,
+    ) -> UserStatsResponse:
         """
         Get userstats in batch mode, via scid
 
@@ -124,10 +136,10 @@ class UserStatsProvider(BaseProvider):
             "arrangebyfield": "xuid",
             "groups": [{"name": "Hero", "scid": service_config_id}],
             "stats": [dict(name=stat, scid=service_config_id) for stat in stats_fields],
-            "xuids": [str(xid) for xid in xuids],
+            "xuids": xuids,
         }
         resp = await self.client.session.post(
             url, json=post_data, headers=self.HEADERS_USERSTATS
         )
         resp.raise_for_status()
-        return UserstatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse.parse_raw(await resp.text())

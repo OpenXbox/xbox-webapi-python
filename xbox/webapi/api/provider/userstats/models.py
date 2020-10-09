@@ -1,8 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
-
-from xbox.webapi.common.models import PascalCaseModel
+from xbox.webapi.common.models import LowerCaseModel, PascalCaseModel
 
 
 class GeneralStatsField:
@@ -10,19 +8,19 @@ class GeneralStatsField:
 
 
 class GroupProperties(PascalCaseModel):
-    Ordinal: Optional[str]
-    SortOrder: Optional[str]
-    DisplayName: Optional[str]
-    DisplayFormat: Optional[str]
-    DisplaySemantic: Optional[str]
+    ordinal: Optional[str]
+    sort_order: Optional[str]
+    display_name: Optional[str]
+    display_format: Optional[str]
+    display_semantic: Optional[str]
 
 
 class Properties(PascalCaseModel):
-    DisplayName: Optional[str]
+    display_name: Optional[str]
 
 
-class Stat(BaseModel):
-    groupproperties: Optional[GroupProperties]
+class Stat(LowerCaseModel):
+    group_properties: Optional[GroupProperties]
     xuid: str
     scid: str
     name: str
@@ -31,18 +29,18 @@ class Stat(BaseModel):
     properties: Properties
 
 
-class StatlistscollectionItem(BaseModel):
-    arrangebyfield: str
-    arrangebyfieldid: str
+class StatListsCollectionItem(LowerCaseModel):
+    arrange_by_field: str
+    arrange_by_field_id: str
     stats: List[Stat]
 
 
-class Group(BaseModel):
+class Group(LowerCaseModel):
     name: str
-    titleid: Optional[str]
-    statlistscollection: List[StatlistscollectionItem]
+    title_id: Optional[str]
+    statlistscollection: List[StatListsCollectionItem]
 
 
-class UserstatsResponse(BaseModel):
+class UserStatsResponse(LowerCaseModel):
     groups: Optional[List[Group]]
-    statlistscollection: List[StatlistscollectionItem]
+    statlistscollection: List[StatListsCollectionItem]

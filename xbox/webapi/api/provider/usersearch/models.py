@@ -15,5 +15,5 @@ class UserResult(CamelCaseModel):
     result: UserDetail
 
 
-class UsersearchResponse(CamelCaseModel):
+class UserSearchResponse(CamelCaseModel):
     results: List[UserResult]

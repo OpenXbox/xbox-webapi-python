@@ -2,14 +2,14 @@
 Usersearch - Search for gamertags / userprofiles
 """
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-from xbox.webapi.api.provider.usersearch.models import UsersearchResponse
+from xbox.webapi.api.provider.usersearch.models import UserSearchResponse
 
 
 class UserSearchProvider(BaseProvider):
     USERSEARCH_URL = "https://usersearch.xboxlive.com"
     HEADERS_USER_SEARCH = {"x-xbl-contract-version": "1"}
 
-    async def get_live_search(self, query: str) -> UsersearchResponse:
+    async def get_live_search(self, query: str) -> UserSearchResponse:
         """
         Get userprofiles for search query
 
@@ -25,4 +25,4 @@ class UserSearchProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_USER_SEARCH
         )
         resp.raise_for_status()
-        return UsersearchResponse.parse_raw(await resp.text())
+        return UserSearchResponse.parse_raw(await resp.text())

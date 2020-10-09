@@ -35,11 +35,12 @@ async def test_userstats_by_scid_with_metadata(aresponses, xbl_client):
 @pytest.mark.asyncio
 async def test_userstats_batch(aresponses, xbl_client):
     aresponses.add("userstats.xboxlive.com", response=get_response("userstats_batch"))
-    ret = await xbl_client.userstats.get_stats_batch(["2584878536129841"], 1717113201)
+    ret = await xbl_client.userstats.get_stats_batch(["2584878536129841"], "1717113201")
     await xbl_client._auth_mgr.session.close()
 
     assert len(ret.statlistscollection) == 1
     assert len(ret.groups) == 1
+    assert len(ret.groups[0].statlistscollection) > 0
 
     aresponses.assert_plan_strictly_followed()
 
@@ -55,5 +56,7 @@ async def test_userstats_batch_by_scid(aresponses, xbl_client):
     await xbl_client._auth_mgr.session.close()
 
     assert len(ret.statlistscollection) == 1
+    assert len(ret.groups) == 1
+    assert len(ret.groups[0].statlistscollection) == 0
 
     aresponses.assert_plan_strictly_followed()
