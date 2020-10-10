@@ -20,7 +20,15 @@ Xbox-WebAPI
 
 Xbox-WebAPI is a python library to authenticate with Xbox Live via your Microsoft Account and provides Xbox related Web-API.
 
-Authentication via credentials or tokens is supported, Two-Factor-Authentication ( 2FA ) is also possible.
+Authentication is supported via OAuth2.
+
+#. Register a new application in `Azure AD <https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade>`_
+    #. Name your app
+    #. Select "Personal Microsoft accounts only" under supported account types
+    #. Add http://localhost/auth/callback as a Redirect URI of type "Web"
+#. Copy your Application (client) ID for later use
+#. On the App Page, navigate to "Certificates & secrets"
+    #. Generate a new client secret and save for later use
 
 Dependencies
 ------------
@@ -45,31 +53,12 @@ Authentication::
   #
   # For more information, see: https://pypi.org/project/appdirs and module: xbox.webapi.scripts.constants
 
-  xbox-authenticate --tokens tokens.json --email no@live.com --password abc123
-
-  # NOTE: If no credentials are provided via cmdline, they are requested from stdin
-  xbox-authenticate --tokens tokens.json
-
-  # If you have a shell compatible with ncurses, you can use the Terminal UI app
-  xbox-auth-ui --tokens tokens.json
-
-Fallback Authentication::
-
-  # In case this authentication flow breaks or you do not trust the code with your credentials..
-  # Open the following URL in your web-browser and authenticate
-  https://login.live.com/oauth20_authorize.srf?display=touch&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&redirect_uri=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf&locale=en&response_type=token&client_id=0000000048093EE3
-
-  # Once you finished auth and reached a blank page, copy the redirect url from your browser address-field
-  # Execute the script with supplied redirect url
-  xbox-auth-via-browser 'https://login.live.com/oauth20_desktop.srf?...access_token=...&refresh_token=...'
+  xbox-authenticate --client-id <client-id> --client-secret <client-secret>
 
 Example: Search Xbox Live via cmdline tool::
 
   # Search Xbox One Catalog
-  xbox-searchlive --tokens tokens.json "Some game title"
-
-  # Search Xbox 360 Catalog
-  xbox-searchlive --tokens tokens.json -l "Some game title"
+  xbox-searchlive "Some game title"
 
 API usage::
 
@@ -80,48 +69,42 @@ API usage::
   from xbox.webapi.common.exceptions import AuthenticationException
 
   """
-  For doing authentication in code, see xbox/webapi/scripts/authenticate.py
-  or for OAUTH via web-brower, see xbox/webapi/scripts/browserauth.py
+  For doing authentication, see xbox/webapi/scripts/authenticate.py
   """
 
-  try:
-    auth_mgr = AuthenticationManager.from_file('/path_to/tokens.json')
-  except FileNotFoundError as e:
-    print(
-      'Failed to load tokens from \'{}\'.\n'
-      'ERROR: {}'.format(e.filename, e.strerror)
-    )
-    sys.exit(-1)
+  tokens = "/path_to/tokens.json"
+  async with ClientSession() as session:
+      auth_mgr = AuthenticationManager(
+          session, args.client_id, args.client_secret, ""
+      )
 
-  try:
-    auth_mgr.authenticate(do_refresh=True)
-  except AuthenticationException as e:
-    print('Authentication failed! Err: %s' % e)
-    sys.exit(-1)
+      with open(args.tokens, mode="r") as f:
+          tokens = f.read()
+      auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
+      try:
+          await auth_mgr.refresh_tokens()
+      except ClientResponseError:
+          print("Could not refresh tokens")
+          sys.exit(-1)
 
-  xbl_client = XboxLiveClient(auth_mgr.userinfo.userhash, auth_mgr.xsts_token.jwt, auth_mgr.userinfo.xuid)
+      with open(args.tokens, mode="w") as f:
+          f.write(auth_mgr.oauth.json())
 
-  # Some example API calls
+      xbl_client = XboxLiveClient(auth_mgr)
 
-  # Get friendslist
-  friendslist = xbl_client.people.get_friends_own()
+      # Some example API calls
 
-  # Get presence status (by list of XUID)
-  presence = xbl_client.presence.get_presence_batch([12344567687845, 453486346235151])
+      # Get friendslist
+      friendslist = await xbl_client.people.get_friends_own()
 
-  # Get messages
-  messages = xbl_client.message.get_message_inbox()
+      # Get presence status (by list of XUID)
+      presence = await xbl_client.presence.get_presence_batch(["12344567687845", "453486346235151"])
 
-  # Get profile by GT
-  profile = xbl_client.profile.get_profile_by_gamertag('SomeGamertag')
+      # Get messages
+      messages = await xbl_client.message.get_inbox()
 
-Screenshots
------------
-Here you can see the Auth TUI (Text user interface):
-
-.. image:: https://raw.githubusercontent.com/OpenXbox/xbox-webapi-python/master/assets/xbox_auth_tui_main.png
-
-.. image:: https://raw.githubusercontent.com/OpenXbox/xbox-webapi-python/master/assets/xbox_auth_tui_2fa.png
+      # Get profile by GT
+      profile = await xbl_client.profile.get_profile_by_gamertag("SomeGamertag")
 
 Known issues
 ------------
