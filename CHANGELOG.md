@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.1 (2020-10-10)
+
+* Ensures token validity on every request
+
 ## 2.0.0 (2020-10-10)
 
 * Major rewrite (thx @hunterjm)
