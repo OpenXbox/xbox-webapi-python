@@ -38,7 +38,6 @@ setup(
         "appdirs",
         "ms_cv",
         "pydantic",
-        "urwid",
         "yarl",
         "ecdsa",
     ],
