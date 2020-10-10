@@ -3,6 +3,7 @@
 ## 2.0.0 (2020-10-10)
 
 * Major rewrite (thx @hunterjm)
+* Removed auth-TUI (text user interface)
 * async via aiohttp
 * Support full OAUTH2 flow
 * Add new smartglass endpoint (xccs.xboxlive.com)
