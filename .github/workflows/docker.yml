@@ -69,7 +69,7 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKERHUB_REPOSITORY: ${{ steps.prepare.outputs.docker_image }}
-          README_FILEPATH: ./README.rst
+          README_FILEPATH: ./README.md
       -
         name: Inspect image
         if: always() && github.event_name != 'pull_request'

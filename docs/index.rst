@@ -6,7 +6,7 @@
 Welcome to Xbox WebAPI's documentation!
 =======================================
 
-.. include:: ../README.rst
+.. mdinclude:: ../README.md
 
 .. toctree::
    :maxdepth: 2
