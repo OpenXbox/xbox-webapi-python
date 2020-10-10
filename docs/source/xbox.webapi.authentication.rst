@@ -7,8 +7,6 @@ Submodules
 .. toctree::
 
    xbox.webapi.authentication.manager
-   xbox.webapi.authentication.token
-   xbox.webapi.authentication.two_factor
 
 Module contents
 ---------------

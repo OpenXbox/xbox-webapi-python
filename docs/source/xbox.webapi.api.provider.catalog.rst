@@ -1,7 +1,7 @@
-Two Factor Authentication Support
+Catalog - Microsoft Store Catalog
 =================================
 
-.. automodule:: xbox.webapi.authentication.two_factor
+.. automodule:: xbox.webapi.api.provider.catalog
     :members:
     :undoc-members:
     :show-inheritance:
