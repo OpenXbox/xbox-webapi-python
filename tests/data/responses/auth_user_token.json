@@ -1,0 +1,12 @@
+{
+  "IssueInstant": "2010-10-10T03:04:29.6037497Z",
+  "NotAfter": "2010-10-24T03:04:29.6037497Z",
+  "Token": "abcdefg",
+  "DisplayClaims": {
+    "xui": [
+      {
+        "uhs": "abcdefg"
+      }
+    ]
+  }
+}

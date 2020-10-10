@@ -1,0 +1,8 @@
+{
+  "token_type": "bearer",
+  "expires_in": 3600,
+  "scope": "Xboxlive.signin Xboxlive.offline_access",
+  "access_token": "abcdefg",
+  "refresh_token": "hijklmnop",
+  "user_id": "123456789"
+}

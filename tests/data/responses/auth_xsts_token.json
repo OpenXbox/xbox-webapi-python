@@ -1,0 +1,18 @@
+{
+  "IssueInstant": "2010-10-10T03:06:35.5251155Z",
+  "NotAfter": "2010-10-10T19:06:35.5251155Z",
+  "Token": "123456789",
+  "DisplayClaims": {
+    "xui": [
+      {
+        "gtg": "e",
+        "xid": "2669321029139235",
+        "uhs": "abcdefg",
+        "agg": "Adult",
+        "usr": "",
+        "utr": "",
+        "prv": ""
+      }
+    ]
+  }
+}
