@@ -69,3 +69,13 @@ def test_synthetic():
         test_signature
         == "AAAAAQHWE40Q98yAFe3R7GuZfvGA350cH7hWgg4HIHjaD9lGYiwxki6bNyGnB8dMEIfEmBiuNuGUfWjY5lL2h44X/VMGOkPIezVb7Q=="
     )
+
+
+def test_import():
+    with open("tests/data/test_signing_key.pem") as f:
+        key = f.read()
+
+    signer = RequestSigner.from_pem(key)
+    export = signer.export_signing_key()
+
+    assert key == export

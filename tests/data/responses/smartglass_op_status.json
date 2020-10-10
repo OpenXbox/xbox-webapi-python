@@ -1,0 +1,19 @@
+{
+  "status": {
+    "errorCode": "OK",
+    "errorMessage": null
+  },
+  "opStatusList": [
+    {
+      "operationStatus": "Pending",
+      "opId": "35bd7870-fad4-4e98-a354-d027bd840116",
+      "originatingSessionId": "91b3af51-b59e-4d4c-b0d7-6acb6e3de586",
+      "command": "WakeUp",
+      "succeeded": false,
+      "consoleStatusCode": null,
+      "xccsErrorCode": null,
+      "hResult": null,
+      "message": null
+    }
+  ]
+}

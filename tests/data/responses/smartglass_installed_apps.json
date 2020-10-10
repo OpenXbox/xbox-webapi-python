@@ -1,0 +1,45 @@
+{
+  "status": {
+    "errorCode": "OK",
+    "errorMessage": null
+  },
+  "result": [
+    {
+      "oneStoreProductId": "C2DCVRMJ9V45",
+      "titleId": 12206284,
+      "aumid": "00BA40CC-US_fc7h7ec1dwtc0!App",
+      "lastActiveTime": "2020-10-07T21:00:48.036Z",
+      "isGame": true,
+      "name": "eFootball PES 2020",
+      "contentType": "Game",
+      "instanceId": "{A89ECE52-7E8E-444F-BBD0-C68B76C2ECA4}#AC093B66-C37C-4F95-BD9B-1817C789E41F",
+      "storageDeviceId": "A89ECE52-7E8E-444F-BBD0-C68B76C2ECA4",
+      "uniqueId": "AC093B66-C37C-4F95-BD9B-1817C789E41F",
+      "legacyProductId": "DF1B4514-2E4F-47B5-B3DD-F10B0CC6718A",
+      "version": 281509336514560.0,
+      "sizeInBytes": 43352756224.0,
+      "installTime": "2019-12-15T22:51:36.464Z",
+      "updateTime": "2020-07-18T22:35:46.912Z",
+      "parentId": null
+    },
+    {
+      "oneStoreProductId": "9WZDNCRFJ3TJ",
+      "titleId": 327370029,
+      "aumid": "4DF9E0F8.Netflix_mcm4njqhnhss8!App",
+      "lastActiveTime": "2020-10-08T01:48:30.203Z",
+      "isGame": false,
+      "name": "Netflix",
+      "contentType": "App",
+      "instanceId": "{A89ECE52-7E8E-444F-BBD0-C68B76C2ECA4}#4DF9E0F8.Netflix_mcm4njqhnhss8",
+      "storageDeviceId": "A89ECE52-7E8E-444F-BBD0-C68B76C2ECA4",
+      "uniqueId": "4DF9E0F8.Netflix_mcm4njqhnhss8",
+      "legacyProductId": null,
+      "version": 2251799815651398.0,
+      "sizeInBytes": 7250253.0,
+      "installTime": "2017-11-08T04:06:44.746Z",
+      "updateTime": "2019-02-04T23:42:42.422Z",
+      "parentId": null
+    }
+  ],
+  "agentUserId": null
+}

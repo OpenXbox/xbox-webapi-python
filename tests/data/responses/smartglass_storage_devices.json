@@ -1,0 +1,17 @@
+{
+  "status": {
+    "errorCode": "OK",
+    "errorMessage": null
+  },
+  "deviceId": "ABCDEFG",
+  "result": [
+    {
+      "storageDeviceId": "1",
+      "storageDeviceName": "Internal",
+      "isDefault": true,
+      "freeSpaceBytes": 236267835392.0,
+      "totalSpaceBytes": 838592360448.0
+    }
+  ],
+  "agentUserId": null
+}

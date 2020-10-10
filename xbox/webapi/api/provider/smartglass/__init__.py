@@ -50,8 +50,8 @@ class SmartglassProvider(BaseProvider):
             :class:`SmartglassConsoleList`: Console List
         """
         params = {
-            "queryCurrentDevice": False,
-            "includeStorageDevices": include_storage_devices,
+            "queryCurrentDevice": "false",
+            "includeStorageDevices": str(include_storage_devices).lower(),
         }
         resp = await self._fetch_list("devices", params)
         return SmartglassConsoleList.parse_raw(await resp.text())

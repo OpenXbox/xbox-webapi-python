@@ -23,6 +23,7 @@ from xbox.webapi.api.provider.people import PeopleProvider
 from xbox.webapi.api.provider.presence import PresenceProvider
 from xbox.webapi.api.provider.profile import ProfileProvider
 from xbox.webapi.api.provider.screenshots import ScreenshotsProvider
+from xbox.webapi.api.provider.smartglass import SmartglassProvider
 from xbox.webapi.api.provider.titlehub import TitlehubProvider
 from xbox.webapi.api.provider.usersearch import UserSearchProvider
 from xbox.webapi.api.provider.userstats import UserStatsProvider
@@ -106,6 +107,7 @@ class XboxLiveClient:
         self.titlehub = TitlehubProvider(self)
         self.account = AccountProvider(self)
         self.catalog = CatalogProvider(self)
+        self.smartglass = SmartglassProvider(self)
 
     @property
     def xuid(self) -> str:

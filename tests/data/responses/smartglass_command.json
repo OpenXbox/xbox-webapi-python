@@ -1,0 +1,21 @@
+{
+  "status": {
+    "errorCode": "OK",
+    "errorMessage": null
+  },
+  "result": null,
+  "uiText": null,
+  "destination": {
+    "id": "ABCDEFG",
+    "name": "XONEX",
+    "locale": "en-US",
+    "powerState": "ConnectedStandby",
+    "remoteManagementEnabled": "True",
+    "consoleStreamingEnabled": "False",
+    "consoleType": "XboxOneX",
+    "wirelessWarning": "",
+    "outOfHomeWarning": ""
+  },
+  "userInfo": null,
+  "opId": "35bd7870-fad4-4e98-a354-d027bd840116"
+}
