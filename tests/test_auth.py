@@ -37,6 +37,12 @@ async def test_request_tokens(aresponses, auth_mgr):
 
 @pytest.mark.asyncio
 async def test_refresh_tokens(aresponses, auth_mgr):
+    # Expire Tokens
+    expired = datetime.now(timezone.utc) - timedelta(days=10)
+    auth_mgr.oauth.issued = expired
+    auth_mgr.user_token.not_after = expired
+    auth_mgr.xsts_token.not_after = expired
+
     aresponses.add("login.live.com", response=get_response("auth_oauth2_token"))
     aresponses.add(
         "user.auth.xboxlive.com",
@@ -64,6 +70,11 @@ async def test_refresh_tokens_still_valid(aresponses, auth_mgr):
 
 @pytest.mark.asyncio
 async def test_refresh_tokens_user_still_valid(aresponses, auth_mgr):
+    # Expire Tokens
+    expired = datetime.now(timezone.utc) - timedelta(days=10)
+    auth_mgr.oauth.issued = expired
+    auth_mgr.xsts_token.not_after = expired
+
     auth_mgr.user_token.not_after = datetime.now(timezone.utc) + timedelta(days=1)
     aresponses.add("login.live.com", response=get_response("auth_oauth2_token"))
     aresponses.add(

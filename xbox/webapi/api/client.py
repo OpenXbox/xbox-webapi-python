@@ -46,6 +46,10 @@ class Session:
         **kwargs: Any,
     ) -> ClientResponse:
         """Proxy Request and add Auth/CV headers."""
+        # Ensure tokens valid
+        await self._auth_mgr.refresh_tokens()
+
+        # Build request
         headers = kwargs.pop("headers", {})
         if include_auth:
             headers[
