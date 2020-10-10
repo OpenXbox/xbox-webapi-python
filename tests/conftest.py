@@ -25,8 +25,6 @@ async def auth_mgr(event_loop):
         ClientSession(loop=event_loop), "abc", "123", "http://localhost"
     )
     mgr.oauth = OAuth2TokenResponse.parse_raw(get_response("auth_oauth2_token"))
-    # Expire the token
-    mgr.oauth.issued -= timedelta(days=10)
     mgr.user_token = XAUResponse.parse_raw(get_response("auth_user_token"))
     mgr.xsts_token = XSTSResponse.parse_raw(get_response("auth_xsts_token"))
     return mgr
