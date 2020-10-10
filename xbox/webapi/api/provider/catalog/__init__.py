@@ -62,7 +62,7 @@ class CatalogProvider(BaseProvider):
         params = {
             "languages": self.client.language.locale,
             "market": self.client.language.short_id,
-            "platformdependencyname": platform,
+            "platformdependencyname": platform.value,
             "productFamilyNames": "Games,Apps",
             "query": query,
             "topProducts": top,

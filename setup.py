@@ -64,6 +64,7 @@ setup(
             "xbox-authenticate=xbox.webapi.scripts.authenticate:main",
             "xbox-searchlive=xbox.webapi.scripts.search:main",
             "xbox-change-gt=xbox.webapi.scripts.change_gamertag:main",
+            "xbox-friends=xbox.webapi.scripts.friends:main",
         ]
     },
 )
