@@ -53,6 +53,7 @@ setup(
             "tox",
             "coverage",
             "Sphinx",
+            "sphinx_rtd_theme",
             "recommonmark",
             "twine",
             "pytest",
