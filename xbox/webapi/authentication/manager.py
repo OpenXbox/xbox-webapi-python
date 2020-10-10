@@ -64,11 +64,11 @@ class AuthenticationManager:
 
     async def refresh_tokens(self) -> None:
         """Refresh all tokens."""
-        if self.oauth and not self.oauth.is_valid():
+        if not (self.oauth and self.oauth.is_valid()):
             self.oauth = await self.refresh_oauth_token()
-        if self.user_token and not self.user_token.is_valid():
+        if not (self.user_token and self.user_token.is_valid()):
             self.user_token = await self.request_user_token()
-        if self.xsts_token and not self.xsts_token.is_valid():
+        if not (self.xsts_token and self.xsts_token.is_valid()):
             self.xsts_token = await self.request_xsts_token()
 
     async def request_oauth_token(self, authorization_code: str) -> OAuth2TokenResponse:
