@@ -19,9 +19,7 @@ async def async_main():
     args = parser.parse_args()
 
     async with ClientSession() as session:
-        auth_mgr = AuthenticationManager(
-            session, args.client_id, args.client_secret, ""
-        )
+        auth_mgr = AuthenticationManager(session, "", "", "")
 
         # No Auth necessary for catalog searches
         xbl_client = XboxLiveClient(auth_mgr)

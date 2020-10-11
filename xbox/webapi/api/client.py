@@ -46,15 +46,16 @@ class Session:
         **kwargs: Any,
     ) -> ClientResponse:
         """Proxy Request and add Auth/CV headers."""
-        # Ensure tokens valid
-        await self._auth_mgr.refresh_tokens()
-
-        # Build request
         headers = kwargs.pop("headers", {})
+
         if include_auth:
+            # Ensure tokens valid
+            await self._auth_mgr.refresh_tokens()
+            # Set auth header
             headers[
                 hdrs.AUTHORIZATION
             ] = self._auth_mgr.xsts_token.authorization_header_value
+
         if include_cv:
             headers["MS-CV"] = self._cv.increment()
 

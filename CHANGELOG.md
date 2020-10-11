@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2 (2020-10-11)
+
+* Fixed package includes for providers
+* No longer attempts to refresh tokens when no auth required
+* Fixed `xbox-searchlive`
+
 ## 2.0.1 (2020-10-10)
 
 * Ensures token validity on every request

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-from setuptools import setup
+from setuptools import find_packages, setup
+
+PACKAGES = [f"xbox.{p}" for p in find_packages(where="xbox")]
 
 setup(
     name="xbox-webapi",
@@ -12,14 +14,7 @@ setup(
     license="GPL",
     keywords="xbox one live api",
     url="https://github.com/OpenXbox/xbox-webapi-python",
-    packages=[
-        "xbox.webapi",
-        "xbox.webapi.common",
-        "xbox.webapi.scripts",
-        "xbox.webapi.api",
-        "xbox.webapi.api.provider",
-        "xbox.webapi.authentication",
-    ],
+    packages=PACKAGES,
     namespace_packages=["xbox"],
     zip_safe=False,
     classifiers=[
