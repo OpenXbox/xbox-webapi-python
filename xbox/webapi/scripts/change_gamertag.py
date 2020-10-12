@@ -15,7 +15,7 @@ from xbox.webapi.api.provider.account.models import (
 )
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
-from xbox.webapi.scripts import TOKENS_FILE
+from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, TOKENS_FILE
 
 
 async def async_main():
@@ -29,13 +29,13 @@ async def async_main():
     parser.add_argument(
         "--client-id",
         "-cid",
-        default=os.environ.get("CLIENT_ID", ""),
+        default=os.environ.get("CLIENT_ID", CLIENT_ID),
         help="OAuth2 Client ID",
     )
     parser.add_argument(
         "--client-secret",
         "-cs",
-        default=os.environ.get("CLIENT_SECRET", ""),
+        default=os.environ.get("CLIENT_SECRET", CLIENT_SECRET),
         help="OAuth2 Client Secret",
     )
     parser.add_argument("gamertag", help="Desired Gamertag")

@@ -10,12 +10,7 @@ from aiohttp import ClientSession, web
 
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
-from xbox.webapi.scripts import TOKENS_FILE
-
-CLIENT_ID = ""
-CLIENT_SECRET = ""
-REDIRECT_URI = "http://localhost:8080/auth/callback"
-TOKENS = ""
+from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKENS_FILE
 
 queue = asyncio.Queue(1)
 
@@ -34,16 +29,18 @@ async def auth_callback(request):
     )
 
 
-async def async_main():
+async def async_main(
+    client_id: str, client_secret: str, redirect_uri: str, token_filepath: str
+):
 
     async with ClientSession() as session:
         auth_mgr = AuthenticationManager(
-            session, CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
+            session, client_id, client_secret, redirect_uri
         )
 
         # Refresh tokens if we have them
-        if os.path.exists(TOKENS):
-            with open(TOKENS, mode="r") as f:
+        if os.path.exists(token_filepath):
+            with open(token_filepath, mode="r") as f:
                 tokens = f.read()
             auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
             await auth_mgr.refresh_tokens()
@@ -55,12 +52,11 @@ async def async_main():
             code = await queue.get()
             await auth_mgr.request_tokens(code)
 
-        with open(TOKENS, mode="w") as f:
+        with open(token_filepath, mode="w") as f:
             f.write(auth_mgr.oauth.json())
 
 
 def main():
-    global CLIENT_ID, CLIENT_SECRET, TOKENS
     parser = argparse.ArgumentParser(description="Authenticate with XBL")
     parser.add_argument(
         "--tokens",
@@ -68,15 +64,26 @@ def main():
         default=TOKENS_FILE,
         help=f"Token filepath. Default: '{TOKENS_FILE}'",
     )
-    parser.add_argument("--client-id", "-cid", help="OAuth2 Client ID")
-    parser.add_argument("--client-secret", "-cs", help="OAuth2 Client Secret")
+    parser.add_argument(
+        "--client-id",
+        "-cid",
+        default=os.environ.get("CLIENT_ID", CLIENT_ID),
+        help="OAuth2 Client ID",
+    )
+    parser.add_argument(
+        "--client-secret",
+        "-cs",
+        default=os.environ.get("CLIENT_SECRET", CLIENT_SECRET),
+        help="OAuth2 Client Secret",
+    )
+    parser.add_argument(
+        "--redirect-uri",
+        "-ru",
+        default=os.environ.get("REDIRECT_URI", REDIRECT_URI),
+        help="OAuth2 Redirect URI",
+    )
 
     args = parser.parse_args()
-
-    # pylint: disable=unused-variable
-    CLIENT_ID = args.client_id or os.environ.get("CLIENT_ID", "")
-    CLIENT_SECRET = args.client_secret or os.environ.get("CLIENT_SECRET", "")
-    TOKENS = args.tokens
 
     app = web.Application()
     app.add_routes([web.get("/auth/callback", auth_callback)])
@@ -86,7 +93,9 @@ def main():
     loop.run_until_complete(runner.setup())
     site = web.TCPSite(runner, "localhost", 8080)
     loop.run_until_complete(site.start())
-    loop.run_until_complete(async_main())
+    loop.run_until_complete(
+        async_main(args.client_id, args.client_secret, args.redirect_uri, args.tokens)
+    )
 
 
 if __name__ == "__main__":
