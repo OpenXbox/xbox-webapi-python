@@ -48,6 +48,21 @@ async def test_get_product_from_alternate_id(aresponses, xbl_client):
 
 
 @pytest.mark.asyncio
+async def test_get_product_from_alternate_id_legacy(aresponses, xbl_client):
+    aresponses.add(
+        "displaycatalog.mp.microsoft.com",
+        response=get_response("catalog_product_lookup_legacy"),
+    )
+    ret = await xbl_client.catalog.get_product_from_alternate_id(
+        "71e7df12-89e0-4dc7-a5ff-a182fc2df94f", AlternateIdType.LEGACY_XBOX_PRODUCT_ID
+    )
+    await xbl_client._auth_mgr.session.close()
+
+    assert ret.total_result_count == 1
+    aresponses.assert_plan_strictly_followed()
+
+
+@pytest.mark.asyncio
 async def test_product_search(aresponses, xbl_client):
     aresponses.add(
         "displaycatalog.mp.microsoft.com", response=get_response("catalog_search")

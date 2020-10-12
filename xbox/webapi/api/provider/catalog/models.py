@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, List, Optional
 
-from pydantic import Field
+from pydantic import Field, validator
 
 from xbox.webapi.common.models import PascalCaseModel
 
@@ -24,16 +24,16 @@ class PlatformType(str, Enum):
 
 
 class Image(PascalCaseModel):
-    file_id: str
+    file_id: Optional[str]
     eis_listing_identifier: Any = Field(alias="EISListingIdentifier")
     background_color: Optional[str]
-    caption: str
+    caption: Optional[str]
     file_size_in_bytes: int
     foreground_color: Optional[str]
     height: int
     image_position_info: Optional[str]
     image_purpose: str
-    unscaled_image_sha256_hash: str = Field(alias="UnscaledImageSHA256Hash")
+    unscaled_image_sha256_hash: Optional[str] = Field(alias="UnscaledImageSHA256Hash")
     uri: str
     width: int
 
@@ -62,7 +62,7 @@ class ContentRating(PascalCaseModel):
     rating_id: str
     rating_descriptors: List[str]
     rating_disclaimers: List
-    interactive_elements: List
+    interactive_elements: Optional[List]
 
 
 class UsageData(PascalCaseModel):
@@ -76,33 +76,33 @@ class UsageData(PascalCaseModel):
 
 
 class ProductProperties(PascalCaseModel):
-    attributes: List
-    can_install_to_sd_card: bool = Field(alias="CanInstallToSDCard")
-    category: str
+    attributes: Optional[List]
+    can_install_to_sd_card: Optional[bool] = Field(alias="CanInstallToSDCard")
+    category: Optional[str]
     sub_category: Optional[str]
-    categories: Any
+    categories: Optional[List[str]]
     extensions: Any
-    is_accessible: bool
-    is_line_of_business_app: bool
-    is_published_to_legacy_windows_phone_store: bool
-    is_published_to_legacy_windows_store: bool
+    is_accessible: Optional[bool]
+    is_line_of_business_app: Optional[bool]
+    is_published_to_legacy_windows_phone_store: Optional[bool]
+    is_published_to_legacy_windows_store: Optional[bool]
     is_settings_app: Optional[bool]
-    package_family_name: str
-    package_identity_name: str
-    publisher_certificate_name: str
+    package_family_name: Optional[str]
+    package_identity_name: Optional[str]
+    publisher_certificate_name: Optional[str]
     publisher_id: str
     xbox_live_tier: Any
     xbox_xpa: Any = Field(alias="XboxXPA")
     xbox_cross_gen_set_id: Any
     xbox_console_gen_optimized: Any
     xbox_console_gen_compatible: Any
-    xbox_live_gold_required: bool
+    xbox_live_gold_required: Optional[bool]
     ownership_type: Any
-    pdp_background_color: str
-    has_add_ons: bool
+    pdp_background_color: Optional[str]
+    has_add_ons: Optional[bool]
     revision_id: str
-    product_group_id: str
-    product_group_name: str
+    product_group_id: Optional[str]
+    product_group_name: Optional[str]
 
 
 class AlternateId(PascalCaseModel):
@@ -197,27 +197,27 @@ class LegalText(PascalCaseModel):
 
 
 class SkuLocalizedProperty(PascalCaseModel):
-    contributors: List
-    features: List
-    minimum_notes: str
-    recommended_notes: str
-    release_notes: str
+    contributors: Optional[List]
+    features: Optional[List]
+    minimum_notes: Optional[str]
+    recommended_notes: Optional[str]
+    release_notes: Optional[str]
     display_platform_properties: Any
     sku_description: str
     sku_title: str
-    sku_button_title: str
+    sku_button_title: Optional[str]
     delivery_date_overlay: Any
-    sku_display_rank: List
+    sku_display_rank: Optional[List]
     text_resources: Any
-    images: List
-    legal_text: LegalText
+    images: Optional[List]
+    legal_text: Optional[LegalText]
     language: str
     markets: List[str]
 
 
 class SkuMarketProperty(PascalCaseModel):
     first_available_date: datetime
-    supported_languages: List[str]
+    supported_languages: Optional[List[str]]
     package_ids: Any
     pi_filter: Any = Field(alias="PIFilter")
     markets: List[str]
@@ -225,19 +225,19 @@ class SkuMarketProperty(PascalCaseModel):
 
 class SkuProperties(PascalCaseModel):
     early_adopter_enrollment_url: Any
-    fulfillment_data: FulfillmentData
+    fulfillment_data: Optional[FulfillmentData]
     fulfillment_type: str
     fulfillment_plugin_id: Any
-    has_third_party_iaps: bool = Field(alias="HasThirdPartyIAPs")
-    last_update_date: datetime
-    hardware_properties: HardwareProperties
-    hardware_requirements: List
-    hardware_warning_list: List
+    has_third_party_iaps: Optional[bool] = Field(alias="HasThirdPartyIAPs")
+    last_update_date: Optional[datetime]
+    hardware_properties: Optional[HardwareProperties]
+    hardware_requirements: Optional[List]
+    hardware_warning_list: Optional[List]
     installation_terms: str
     packages: List[Package]
-    version_string: str
+    version_string: Optional[str]
     visible_to_b2b_service_ids: List = Field(alias="VisibleToB2BServiceIds")
-    xbox_xpa: bool = Field(alias="XboxXPA")
+    xbox_xpa: Optional[bool] = Field(alias="XboxXPA")
     bundled_skus: List
     is_repurchasable: bool
     sku_display_rank: int
@@ -246,6 +246,10 @@ class SkuProperties(PascalCaseModel):
     is_trial: bool
     is_pre_order: bool
     is_bundle: bool
+
+    @validator("last_update_date", pre=True, always=True)
+    def set_to_none(cls, v):
+        return v or None
 
 
 class Sku(PascalCaseModel):
@@ -263,8 +267,8 @@ class Sku(PascalCaseModel):
 
 
 class AllowedPlatform(PascalCaseModel):
-    max_version: int
-    min_version: int
+    max_version: Optional[int]
+    min_version: Optional[int]
     platform_name: str
 
 
@@ -386,7 +390,7 @@ class Product(PascalCaseModel):
     product_type: Optional[str]
     validation_data: Optional[ValidationData]
     merchandizing_tags: Optional[List]
-    part_d: str
+    part_d: Optional[str]
     product_family: str
     schema_version: Optional[str]
     product_kind: str

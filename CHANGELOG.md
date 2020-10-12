@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.5 (2020-10-12)
+
+* Fix catalog models for legacy products
+
 ## 2.0.4 (2020-10-11)
 
 * Fix catalog fields template
