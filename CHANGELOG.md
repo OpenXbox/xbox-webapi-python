@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.7 (2020-10-12)
+
+* Fix broken 2.0.6 yarl dep
+* Change GitHub action to not deploy on failed build
+
 ## 2.0.6 (2020-10-12)
 
 * Add constants for some system titles that do not have PFN in catalog
