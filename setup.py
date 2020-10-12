@@ -33,7 +33,6 @@ setup(
         "appdirs",
         "ms_cv",
         "pydantic",
-        "yarl",
         "ecdsa",
     ],
     setup_requires=["pytest-runner"],
