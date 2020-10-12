@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.4 (2020-10-11)
+
+* Fix catalog fields template
+
 ## 2.0.3 (2020-10-11)
 
 * Fix catalog alt id lookup

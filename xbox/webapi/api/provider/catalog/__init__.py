@@ -25,7 +25,7 @@ class CatalogProvider(BaseProvider):
         params = {
             "actionFilter": "Browse",
             "bigIds": ids,
-            "fieldsTemplate": fields,
+            "fieldsTemplate": fields.value,
             "languages": self.client.language.locale,
             "market": self.client.language.short_id,
         }
@@ -45,7 +45,7 @@ class CatalogProvider(BaseProvider):
         params = {
             "top": top,
             "alternateId": id_type.value,
-            "fieldsTemplate": fields,
+            "fieldsTemplate": fields.value,
             "languages": self.client.language.locale,
             "market": self.client.language.short_id,
             "value": id,
