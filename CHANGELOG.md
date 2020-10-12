@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.8 (2020-xx-xx)
+
+* GH action: Use official docker setup-buildx-step
+
 ## 2.0.7 (2020-10-12)
 
 * Fix broken 2.0.6 yarl dep
