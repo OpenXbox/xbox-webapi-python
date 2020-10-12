@@ -44,7 +44,7 @@ class CatalogProvider(BaseProvider):
         """Lookup product by Alternate ID."""
         params = {
             "top": top,
-            "alternateId": id_type,
+            "alternateId": id_type.value,
             "fieldsTemplate": fields,
             "languages": self.client.language.locale,
             "market": self.client.language.short_id,

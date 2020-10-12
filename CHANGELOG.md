@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3 (2020-10-11)
+
+* Fix catalog alt id lookup
+
 ## 2.0.2 (2020-10-11)
 
 * Fixed package includes for providers
