@@ -6,7 +6,7 @@ PACKAGES = [f"xbox.{p}" for p in find_packages(where="xbox")]
 
 setup(
     name="xbox-webapi",
-    version="2.0.2",
+    version="2.0.3",
     author="OpenXbox",
     description="A library to authenticate with Windows Live/Xbox Live and use their API",
     long_description=open("README.md").read() + "\n\n" + open("CHANGELOG.md").read(),
