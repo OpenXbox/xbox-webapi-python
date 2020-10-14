@@ -148,42 +148,42 @@ class FrameworkDependency(PascalCaseModel):
 
 
 class PlatformDependency(PascalCaseModel):
-    max_tested: int
-    min_version: int
+    max_tested: Optional[int]
+    min_version: Optional[int]
     platform_name: str
 
 
 class Package(PascalCaseModel):
-    applications: List[Application]
+    applications: Optional[List[Application]]
     architectures: List[str]
-    capabilities: List[str]
-    device_capabilities: List[str]
-    experience_ids: List
-    framework_dependencies: List[FrameworkDependency]
-    hardware_dependencies: List
-    hardware_requirements: List
-    hash: str
-    hash_algorithm: str
-    is_streaming_app: bool
-    languages: List[str]
+    capabilities: Optional[List[str]]
+    device_capabilities: Optional[List[str]]
+    experience_ids: Optional[List]
+    framework_dependencies: Optional[List[FrameworkDependency]]
+    hardware_dependencies: Optional[List]
+    hardware_requirements: Optional[List]
+    hash: Optional[str]
+    hash_algorithm: Optional[str]
+    is_streaming_app: Optional[bool]
+    languages: Optional[List[str]]
     max_download_size_in_bytes: int
     max_install_size_in_bytes: Optional[int]
     package_format: str
     package_family_name: Optional[str]
     main_package_family_name_for_dlc: Any
-    package_full_name: str
+    package_full_name: Optional[str]
     package_id: str
     content_id: str
     key_id: Optional[str]
-    package_rank: int
-    package_uri: str
-    platform_dependencies: List[PlatformDependency]
-    platform_dependency_xml_blob: str
-    resource_id: str
-    version: str
+    package_rank: Optional[int]
+    package_uri: Optional[str]
+    platform_dependencies: Optional[List[PlatformDependency]]
+    platform_dependency_xml_blob: Optional[str]
+    resource_id: Optional[str]
+    version: Optional[str]
     package_download_uris: Any
-    driver_dependencies: List
-    fulfillment_data: FulfillmentData
+    driver_dependencies: Optional[List]
+    fulfillment_data: Optional[FulfillmentData]
 
 
 class LegalText(PascalCaseModel):
