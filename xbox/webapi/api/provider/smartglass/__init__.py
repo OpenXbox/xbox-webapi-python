@@ -56,7 +56,9 @@ class SmartglassProvider(BaseProvider):
         resp = await self._fetch_list("devices", params)
         return SmartglassConsoleList.parse_raw(await resp.text())
 
-    async def get_installed_apps(self, device_id: str) -> InstalledPackagesList:
+    async def get_installed_apps(
+        self, device_id: Optional[str] = None
+    ) -> InstalledPackagesList:
         """
         Get Installed Apps
 
@@ -66,7 +68,9 @@ class SmartglassProvider(BaseProvider):
         Returns:
             :class:`InstalledPackagesList`: Installed Apps
         """
-        params = {"deviceId": device_id}
+        params = {}
+        if device_id:
+            params["deviceId"] = device_id
         resp = await self._fetch_list("installedApps", params)
         return InstalledPackagesList.parse_raw(await resp.text())
 

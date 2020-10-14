@@ -1,8 +1,10 @@
 # Changelog
 
-## 2.0.8 (2020-xx-xx)
+## 2.0.8 (2020-10-14)
 
 * GH action: Use official docker setup-buildx-step
+* Make more CatalogResponse fields optional
+* Allow fetching all installed apps across devices (remove device_id requirement)
 
 ## 2.0.7 (2020-10-12)
 
