@@ -9,13 +9,6 @@ from xbox.webapi.api.provider.titlehub.models import TitleFields, TitleHubRespon
 
 class TitlehubProvider(BaseProvider):
     TITLEHUB_URL = "https://titlehub.xboxlive.com"
-    HEADERS_TITLEHUB = {
-        "x-xbl-contract-version": "2",
-        "x-xbl-client-name": "XboxApp",
-        "x-xbl-client-type": "UWA",
-        "x-xbl-client-version": "39.39.22001.0",
-        "Accept-Language": "overwrite in __init__",
-    }
     SEPARATOR = ","
 
     def __init__(self, client):
@@ -26,8 +19,13 @@ class TitlehubProvider(BaseProvider):
             client (:class:`XboxLiveClient`): Instance of client
         """
         super().__init__(client)
-        self._headers = {**self.HEADERS_TITLEHUB}
-        self._headers.update({"Accept-Language": self.client.language.locale})
+        self._headers = {
+            "x-xbl-contract-version": "2",
+            "x-xbl-client-name": "XboxApp",
+            "x-xbl-client-type": "UWA",
+            "x-xbl-client-version": "39.39.22001.0",
+            "Accept-Language": self.client.language.locale,
+        }
 
     async def get_title_history(
         self,
@@ -56,9 +54,7 @@ class TitlehubProvider(BaseProvider):
 
         url = f"{self.TITLEHUB_URL}/users/xuid({xuid})/titles/titlehistory/decoration/{fields}"
         params = {"maxItems": max_items}
-        resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_TITLEHUB
-        )
+        resp = await self.client.session.get(url, params=params, headers=self._headers)
         resp.raise_for_status()
         return TitleHubResponse.parse_raw(await resp.text())
 
@@ -86,7 +82,7 @@ class TitlehubProvider(BaseProvider):
         fields = self.SEPARATOR.join(fields)
 
         url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
-        resp = await self.client.session.get(url, headers=self.HEADERS_TITLEHUB)
+        resp = await self.client.session.get(url, headers=self._headers)
         resp.raise_for_status()
         return TitleHubResponse.parse_raw(await resp.text())
 
@@ -115,7 +111,7 @@ class TitlehubProvider(BaseProvider):
         url = self.TITLEHUB_URL + f"/titles/batch/decoration/{fields}"
         post_data = {"pfns": pfns, "windowsPhoneProductIds": []}
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_TITLEHUB
+            url, json=post_data, headers=self._headers
         )
         resp.raise_for_status()
         return TitleHubResponse.parse_raw(await resp.text())
