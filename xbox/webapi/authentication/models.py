@@ -86,8 +86,10 @@ class TitleEndpoint(PascalCaseModel):
     host_type: str
     path: Optional[str]
     relying_party: Optional[str]
+    sub_relying_party: Optional[str]
     token_type: Optional[str]
     signature_policy_index: Optional[int]
+    server_cert_index: Optional[List[int]]
 
 
 class SignaturePolicy(PascalCaseModel):
