@@ -12,11 +12,13 @@ def test_real():
         body = f.read()
 
     test_hash = signer._hash(
+        signature_version=b"\x00\x00\x00\x01",
         method="POST",
         path_and_query="/xsts/authorize",
         body=body,
         authorization="",
         ts_bytes=(132315559631448749).to_bytes(8, "big"),
+        max_body_bytes=8192,
     )
     assert (
         test_hash.hex()
@@ -46,11 +48,13 @@ def test_synthetic():
     ts_bytes = RequestSigner.get_timestamp_buffer(dt_timestamp)
 
     test_hash = signer._hash(
+        signature_version=b"\x00\x00\x00\x01",
         method="POST",
         path_and_query="/path?query=1",
         body=b"thebodygoeshere",
         authorization="XBL3.0 x=userid;jsonwebtoken",
         ts_bytes=ts_bytes,
+        max_body_bytes=8192,
     )
     assert (
         test_hash.hex()
