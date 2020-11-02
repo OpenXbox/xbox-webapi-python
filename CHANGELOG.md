@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.9 (2020-00-00)
+
+* Fix titlehub endpoint
+* AuthenticationManager: Allow fetching title endpoints
+* RequestSigner: Extend to respect SigningPolicy
+
 ## 2.0.8 (2020-10-14)
 
 * GH action: Use official docker setup-buildx-step
