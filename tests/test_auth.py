@@ -87,6 +87,15 @@ async def test_refresh_tokens_user_still_valid(aresponses, auth_mgr):
 
 
 @pytest.mark.asyncio
+async def test_get_title_endpoints(aresponses, auth_mgr):
+    aresponses.add(
+        "title.mgt.xboxlive.com", response=get_response("auth_title_endpoints")
+    )
+    await auth_mgr.get_title_endpoints()
+    aresponses.assert_plan_strictly_followed()
+
+
+@pytest.mark.asyncio
 async def test_xsts_properties(auth_mgr):
     assert auth_mgr.xsts_token.xuid == "2669321029139235"
     assert auth_mgr.xsts_token.gamertag == "e"

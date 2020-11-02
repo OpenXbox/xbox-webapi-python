@@ -1,6 +1,6 @@
 """Authentication Models."""
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -75,3 +75,35 @@ class OAuth2TokenResponse(BaseModel):
 
     def is_valid(self) -> bool:
         return (self.issued + timedelta(seconds=self.expires_in)) > utc_now()
+
+
+"""Signature related models"""
+
+
+class TitleEndpoint(PascalCaseModel):
+    protocol: str
+    host: str
+    host_type: str
+    path: Optional[str]
+    relying_party: Optional[str]
+    token_type: Optional[str]
+    signature_policy_index: Optional[int]
+
+
+class SignaturePolicy(PascalCaseModel):
+    version: int
+    supported_algorithms: List[str]
+    max_body_bytes: int
+
+
+class TitleEndpointCertificate(PascalCaseModel):
+    thumbprint: str
+    is_issuer: Optional[bool]
+    root_cert_index: int
+
+
+class TitleEndpointsResponse(PascalCaseModel):
+    end_points: List[TitleEndpoint]
+    signature_policies: List[SignaturePolicy]
+    certs: List[TitleEndpointCertificate]
+    root_certs: List[str]
