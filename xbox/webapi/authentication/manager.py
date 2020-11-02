@@ -11,6 +11,7 @@ from yarl import URL
 
 from xbox.webapi.authentication.models import (
     OAuth2TokenResponse,
+    TitleEndpointsResponse,
     XAUResponse,
     XSTSResponse,
 )
@@ -70,6 +71,14 @@ class AuthenticationManager:
             self.user_token = await self.request_user_token()
         if not (self.xsts_token and self.xsts_token.is_valid()):
             self.xsts_token = await self.request_xsts_token()
+
+    async def get_title_endpoints(self) -> TitleEndpointsResponse:
+        url = "https://title.mgt.xboxlive.com/titles/default/endpoints"
+        headers = {"x-xbl-contract-version": "1"}
+        params = {"type": 1}
+        resp = await self.session.get(url, headers=headers, params=params)
+        resp.raise_for_status()
+        return TitleEndpointsResponse.parse_raw(await resp.text())
 
     async def request_oauth_token(self, authorization_code: str) -> OAuth2TokenResponse:
         """Request OAuth2 token."""
