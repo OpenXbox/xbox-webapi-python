@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.9 (2020-00-00)
+## 2.0.9 (2020-11-02)
 
 * Fix titlehub endpoint
 * AuthenticationManager: Allow fetching title endpoints
