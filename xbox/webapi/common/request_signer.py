@@ -10,21 +10,23 @@ import struct
 
 from ecdsa import NIST256p, SigningKey
 
+from xbox.webapi.authentication.models import SignaturePolicy
 from xbox.webapi.common import filetimes
+
+DEFAULT_SIGNING_POLICY = SignaturePolicy(
+    version=1, supported_algorithms=["ES256"], max_body_bytes=8192
+)
 
 
 class RequestSigner:
-
-    # Version 1
-    SIGNATURE_VERSION = b"\x00\x00\x00\x01"
-
-    def __init__(self, signing_key=None):
+    def __init__(self, signing_key=None, signing_policy=None):
         self.signing_key = signing_key or SigningKey.generate(curve=NIST256p)
+        self.signing_policy = signing_policy or DEFAULT_SIGNING_POLICY
 
         pk_point = self.signing_key.verifying_key.pubkey.point
         self.proof_field = {
             "use": "sig",
-            "alg": "ES256",
+            "alg": self.signing_policy.supported_algorithms[0],
             "kty": "EC",
             "crv": "P-256",
             "x": self.__encode_ec_coord(pk_point.x()),
@@ -56,6 +58,18 @@ class RequestSigner:
         filetime = filetimes.dt_to_filetime(dt)
         return struct.pack("!Q", filetime)
 
+    @staticmethod
+    def get_signature_version_buffer(version: int) -> bytes:
+        """
+        Get big endian uint32 bytes-representation from
+        signature version
+
+        version: Signature version
+
+        Returns: Version as uint32 big endian bytes
+        """
+        return struct.pack("!I", version)
+
     def sign(
         self,
         method: str,
@@ -81,27 +95,40 @@ class RequestSigner:
         timestamp: datetime,
     ) -> bytes:
         # Calculate hash
+        signature_version_bytes = self.get_signature_version_buffer(
+            self.signing_policy.version
+        )
         ts_bytes = self.get_timestamp_buffer(timestamp)
-        hash = self._hash(method, path_and_query, body, authorization, ts_bytes)
+        hash = self._hash(
+            signature_version_bytes,
+            method,
+            path_and_query,
+            body,
+            authorization,
+            ts_bytes,
+            self.signing_policy.max_body_bytes,
+        )
 
         # Sign the hash
         signature = self.signing_key.sign_digest_deterministic(hash)
 
         # Return signature version + timestamp encoded + signature
-        return self.SIGNATURE_VERSION + ts_bytes + signature
+        return signature_version_bytes + ts_bytes + signature
 
     @staticmethod
     def _hash(
+        signature_version: bytes,
         method: str,
         path_and_query: str,
         body: bytes,
         authorization: str,
         ts_bytes: bytes,
+        max_body_bytes: int,
     ) -> bytes:
         hash = hashlib.sha256()
 
         # Version + null
-        hash.update(RequestSigner.SIGNATURE_VERSION)
+        hash.update(signature_version)
         hash.update(b"\x00")
 
         # Timestamp + null
@@ -121,7 +148,8 @@ class RequestSigner:
         hash.update(b"\x00")
 
         # Body
-        hash.update(body)
+        body_size_to_hash = min(len(body), max_body_bytes)
+        hash.update(body[:body_size_to_hash])
         hash.update(b"\x00")
 
         return hash.digest()
