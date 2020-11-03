@@ -20,6 +20,23 @@ class XTokenResponse(PascalCaseModel):
         return self.not_after > utc_now()
 
 
+class XADDisplayClaims(BaseModel):
+    # {"xdi": {"did": "F.....", "dcs": "0"}}
+    xdi: Dict[str, str]
+
+
+class XADResponse(XTokenResponse):
+    display_claims: XADDisplayClaims
+
+
+class XATDisplayClaims(BaseModel):
+    xti: Dict[str, str]
+
+
+class XATResponse(XTokenResponse):
+    display_claims: XATDisplayClaims
+
+
 class XAUDisplayClaims(BaseModel):
     xui: List[Dict[str, str]]
 
