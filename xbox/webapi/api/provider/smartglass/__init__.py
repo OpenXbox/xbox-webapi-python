@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from aiohttp import ClientResponse
 
+from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.api.provider.smartglass.models import (
     CommandResponse,
@@ -27,12 +28,11 @@ class SmartglassProvider(BaseProvider):
         "skillplatform": "RemoteManagement",
     }
 
-    def __init__(self, client):
+    def __init__(self, client: XboxLiveClient):
         """
         Initialize Baseclass, create smartglass session id
 
-        Args:
-            client (:class:`XboxLiveClient`): Instance of client
+        Args: Instance of XBL client
         """
         super().__init__(client)
         self._smartglass_session_id = str(uuid4())
@@ -46,8 +46,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             include_storage_devices: Include a list of storage devices in the response
 
-        Returns:
-            :class:`SmartglassConsoleList`: Console List
+        Returns: Console List
         """
         params = {
             "queryCurrentDevice": "false",
@@ -65,8 +64,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`InstalledPackagesList`: Installed Apps
+        Returns: Installed Apps
         """
         params = {}
         if device_id:
@@ -81,8 +79,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`StorageDevicesList`: Storage Devices
+        Returns: Storage Devices list
         """
         params = {"deviceId": device_id}
         resp = await self._fetch_list("storageDevices", params)
@@ -95,8 +92,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Console Status
+        Returns: Console Status
         """
         url = f"{self.SG_URL}/consoles/{device_id}"
         resp = await self.client.session.get(url, headers=self.HEADERS_SG)
@@ -113,8 +109,7 @@ class SmartglassProvider(BaseProvider):
             device_id: ID of console (from console list)
             op_id: Operation ID (from previous command)
 
-        Returns:
-            :class:`OperationStatusResponse`: Operation Status
+        Returns: Operation Status
         """
         url = f"{self.SG_URL}/opStatus"
         headers = {
@@ -133,8 +128,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Power", "WakeUp")
 
@@ -145,8 +139,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Power", "TurnOff")
 
@@ -157,8 +150,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Power", "Reboot")
 
@@ -169,8 +161,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Audio", "Mute")
 
@@ -181,8 +172,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Audio", "Unmute")
 
@@ -195,8 +185,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         params = [{"direction": direction.value, "amount": str(amount)}]
         return await self._send_one_shot_command(device_id, "Audio", "Volume", params)
@@ -208,8 +197,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Media", "Play")
 
@@ -220,8 +208,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Media", "Pause")
 
@@ -232,8 +219,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Media", "Previous")
 
@@ -244,8 +230,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Media", "Next")
 
@@ -256,8 +241,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "Shell", "GoHome")
 
@@ -282,8 +266,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         params = [{"tabName": tab.value}]
         return await self._send_one_shot_command(
@@ -299,8 +282,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         params = [{"keyType": button.value}]
         return await self._send_one_shot_command(
@@ -314,8 +296,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         params = [{"replacementString": text}]
         return await self._send_one_shot_command(
@@ -332,8 +313,7 @@ class SmartglassProvider(BaseProvider):
             device_id: ID of console (from console list)
             one_store_product_id: OneStoreProductID for the app to launch
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         params = [{"oneStoreProductId": one_store_product_id}]
         return await self._send_one_shot_command(
@@ -347,8 +327,7 @@ class SmartglassProvider(BaseProvider):
         Args:
             device_id: ID of console (from console list)
 
-        Returns:
-            :class:`SmartglassConsoleStatus`: Command Response
+        Returns: Command Response
         """
         return await self._send_one_shot_command(device_id, "TV", "ShowGuide")
 
@@ -388,8 +367,7 @@ class SmartglassProvider(BaseProvider):
             command: name of command
             params: command parameters
 
-        Returns:
-            :class:`CommandResponse`: Command Response
+        Returns: Command Response
         """
         url = f"{self.SG_URL}/commands"
         body = {
