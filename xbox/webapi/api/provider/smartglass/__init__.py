@@ -6,7 +6,6 @@ from uuid import uuid4
 
 from aiohttp import ClientResponse
 
-from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.api.provider.smartglass.models import (
     CommandResponse,
@@ -28,7 +27,7 @@ class SmartglassProvider(BaseProvider):
         "skillplatform": "RemoteManagement",
     }
 
-    def __init__(self, client: XboxLiveClient):
+    def __init__(self, client):
         """
         Initialize Baseclass, create smartglass session id
 
