@@ -47,6 +47,13 @@ class Session:
     ) -> ClientResponse:
         """Proxy Request and add Auth/CV headers."""
         headers = kwargs.pop("headers", {})
+        params = kwargs.pop("params", None)
+        data = kwargs.pop("data", None)
+
+        # Extra, user supplied values
+        extra_headers = kwargs.pop("extra_headers", None)
+        extra_params = kwargs.pop("extra_params", None)
+        extra_data = kwargs.pop("extra_data", None)
 
         if include_auth:
             # Ensure tokens valid
@@ -59,11 +66,20 @@ class Session:
         if include_cv:
             headers["MS-CV"] = self._cv.increment()
 
+        # Extend with optionally supplied values
+        if extra_headers:
+            headers.update(extra_headers)
+        if extra_params:
+            # query parameters
+            params = params or {}
+            params.update(extra_params)
+        if extra_data:
+            # form encoded post data
+            data = data or {}
+            data.update(extra_data)
+
         return await self._auth_mgr.session.request(
-            method,
-            url,
-            **kwargs,
-            headers=headers,
+            method, url, **kwargs, headers=headers, params=params, data=data
         )
 
     async def get(self, url: str, **kwargs: Any) -> ClientResponse:
