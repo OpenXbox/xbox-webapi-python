@@ -86,7 +86,7 @@ class OAuth2TokenResponse(BaseModel):
     expires_in: int
     scope: str
     access_token: str
-    refresh_token: str
+    refresh_token: Optional[str]
     user_id: str
     issued: datetime = Field(default_factory=utc_now)
 
