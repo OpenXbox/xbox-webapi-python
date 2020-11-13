@@ -16,7 +16,7 @@ class MessageProvider(BaseProvider):
     HEADERS_MESSAGE = {"x-xbl-contract-version": "1"}
     HEADERS_HORIZON = {"x-xbl-contract-version": "2"}
 
-    async def get_inbox(self, **kwargs) -> InboxResponse:
+    async def get_inbox(self, max_items: int = 100, **kwargs) -> InboxResponse:
         """
         Get messages
 
@@ -24,8 +24,9 @@ class MessageProvider(BaseProvider):
             :class:`InboxResponse`: Inbox Response
         """
         url = f"{self.MSG_URL}/network/Xbox/users/me/inbox"
+        params = {"maxItems": max_items}
         resp = await self.client.session.get(
-            url, headers=self.HEADERS_MESSAGE, **kwargs
+            url, params=params, headers=self.HEADERS_MESSAGE, **kwargs
         )
         resp.raise_for_status()
         return InboxResponse.parse_raw(await resp.text())
