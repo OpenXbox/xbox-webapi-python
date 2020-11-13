@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from xbox.webapi.common.models import CamelCaseModel
 
@@ -50,7 +50,7 @@ class GameClip(CamelCaseModel):
 
 
 class PagingInfo(CamelCaseModel):
-    continuation_token: str
+    continuation_token: Optional[str]
 
 
 class GameclipsResponse(CamelCaseModel):
