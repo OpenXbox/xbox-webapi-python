@@ -7,7 +7,7 @@ from xbox.webapi.common.models import CamelCaseModel
 class Part(CamelCaseModel):
     content_type: str
     version: int
-    text: str
+    text: Optional[str]
     unsuitable_for: Optional[List]
     locator: Optional[str]
 
