@@ -324,7 +324,7 @@ class Availability(PascalCaseModel):
     conditions: Optional[Conditions]
     last_modified_date: Optional[datetime]
     markets: Optional[List[str]]
-    order_management_data: OrderManagementData
+    order_management_data: Optional[OrderManagementData]
     properties: Optional[AvailabilityProperties]
     sku_id: Optional[str]
     display_rank: Optional[int]
