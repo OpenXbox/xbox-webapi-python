@@ -12,7 +12,7 @@ class ListsProvider(BaseProvider):
     SEPERATOR = "."
 
     async def remove_items(
-        self, xuid: str, post_body: dict, listname: str = "XBLPins"
+        self, xuid: str, post_body: dict, listname: str = "XBLPins", **kwargs
     ) -> ListMetadata:
         """
         Remove items from specific list, defaults to "XBLPins"
@@ -26,12 +26,14 @@ class ListsProvider(BaseProvider):
         """
         url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
         resp = await self.client.session.delete(
-            url, json=post_body, headers=self.HEADERS_LISTS
+            url, json=post_body, headers=self.HEADERS_LISTS, **kwargs
         )
         resp.raise_for_status()
         return ListMetadata.parse_raw(await resp.text())
 
-    async def get_items(self, xuid: str, listname: str = "XBLPins") -> ListsResponse:
+    async def get_items(
+        self, xuid: str, listname: str = "XBLPins", **kwargs
+    ) -> ListsResponse:
         """
         Get items from specific list, defaults to "XBLPins"
 
@@ -43,12 +45,12 @@ class ListsProvider(BaseProvider):
             :class:`ListsResponse`: List Response
         """
         url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
-        resp = await self.client.session.get(url, headers=self.HEADERS_LISTS)
+        resp = await self.client.session.get(url, headers=self.HEADERS_LISTS, **kwargs)
         resp.raise_for_status()
         return ListsResponse.parse_raw(await resp.text())
 
     async def insert_items(
-        self, xuid: str, post_body: dict, listname: str = "XBLPins"
+        self, xuid: str, post_body: dict, listname: str = "XBLPins", **kwargs
     ) -> ListMetadata:
         """
         Insert items to specific list, defaults to "XBLPins"
@@ -62,7 +64,7 @@ class ListsProvider(BaseProvider):
         """
         url = self.LISTS_URL + f"/users/xuid({xuid})/lists/PINS/{listname}"
         resp = await self.client.session.post(
-            url, json=post_body, headers=self.HEADERS_LISTS
+            url, json=post_body, headers=self.HEADERS_LISTS, **kwargs
         )
         resp.raise_for_status()
         return ListMetadata.parse_raw(await resp.text())

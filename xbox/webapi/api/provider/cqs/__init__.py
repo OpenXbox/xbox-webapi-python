@@ -25,7 +25,7 @@ class CQSProvider(BaseProvider):
     }
 
     async def get_channel_list(
-        self, locale_info: str, headend_id: str
+        self, locale_info: str, headend_id: str, **kwargs
     ) -> CqsChannelListResponse:
         """
         Get stump channel list
@@ -40,7 +40,7 @@ class CQSProvider(BaseProvider):
         url = self.CQS_URL + f"/epg/{locale_info}/lineups/{headend_id}/channels"
         params = {"desired": "vesper_mobile_lineup"}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_CQS
+            url, params=params, headers=self.HEADERS_CQS, **kwargs
         )
         resp.raise_for_status()
         return CqsChannelListResponse.parse_raw(await resp.text())
@@ -53,6 +53,7 @@ class CQSProvider(BaseProvider):
         duration_minutes: int,
         channel_skip: int,
         channel_count: int,
+        **kwargs,
     ) -> CqsScheduleResponse:
         """
         Get stump epg data
@@ -77,7 +78,7 @@ class CQSProvider(BaseProvider):
             "desired": "vesper_mobile_schedule",
         }
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_CQS
+            url, params=params, headers=self.HEADERS_CQS, **kwargs
         )
         resp.raise_for_status()
         return CqsScheduleResponse.parse_raw(await resp.text())

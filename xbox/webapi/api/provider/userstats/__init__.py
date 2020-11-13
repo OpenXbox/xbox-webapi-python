@@ -21,6 +21,7 @@ class UserStatsProvider(BaseProvider):
         xuid: str,
         service_config_id: str,
         stats_fields: Optional[List[GeneralStatsField]] = None,
+        **kwargs,
     ) -> UserStatsResponse:
         """
         Get userstats
@@ -38,7 +39,9 @@ class UserStatsProvider(BaseProvider):
         stats = self.SEPERATOR.join(stats_fields)
 
         url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
-        resp = await self.client.session.get(url, headers=self.HEADERS_USERSTATS)
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_USERSTATS, **kwargs
+        )
         resp.raise_for_status()
         return UserStatsResponse.parse_raw(await resp.text())
 
@@ -47,6 +50,7 @@ class UserStatsProvider(BaseProvider):
         xuid: str,
         service_config_id: str,
         stats_fields: Optional[List[GeneralStatsField]] = None,
+        **kwargs,
     ) -> UserStatsResponse:
         """
         Get userstats including metadata for each stat (if available)
@@ -66,7 +70,7 @@ class UserStatsProvider(BaseProvider):
         url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
         params = {"include": "valuemetadata"}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA
+            url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA, **kwargs
         )
         resp.raise_for_status()
         return UserStatsResponse.parse_raw(await resp.text())
@@ -76,6 +80,7 @@ class UserStatsProvider(BaseProvider):
         xuids: List[str],
         title_id: str,
         stats_fields: Optional[List[GeneralStatsField]] = None,
+        **kwargs,
     ) -> UserStatsResponse:
         """
         Get userstats in batch mode
@@ -99,7 +104,7 @@ class UserStatsProvider(BaseProvider):
             "xuids": xuids,
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_USERSTATS
+            url, json=post_data, headers=self.HEADERS_USERSTATS, **kwargs
         )
         resp.raise_for_status()
         return UserStatsResponse.parse_raw(await resp.text())
@@ -109,6 +114,7 @@ class UserStatsProvider(BaseProvider):
         xuids: List[str],
         service_config_id: str,
         stats_fields: Optional[List[GeneralStatsField]] = None,
+        **kwargs,
     ) -> UserStatsResponse:
         """
         Get userstats in batch mode, via scid
@@ -133,7 +139,7 @@ class UserStatsProvider(BaseProvider):
             "xuids": xuids,
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_USERSTATS
+            url, json=post_data, headers=self.HEADERS_USERSTATS, **kwargs
         )
         resp.raise_for_status()
         return UserStatsResponse.parse_raw(await resp.text())

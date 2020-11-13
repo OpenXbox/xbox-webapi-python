@@ -20,6 +20,7 @@ class PresenceProvider(BaseProvider):
         xuids: List[str],
         online_only: bool = False,
         presence_level: PresenceLevel = PresenceLevel.USER,
+        **kwargs,
     ) -> List[PresenceItem]:
         """
         Get presence for list of xuids
@@ -41,14 +42,14 @@ class PresenceProvider(BaseProvider):
             "level": presence_level,
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_PRESENCE
+            url, json=post_data, headers=self.HEADERS_PRESENCE, **kwargs
         )
         resp.raise_for_status()
         parsed = PresenceBatchResponse.parse_raw(await resp.text())
         return parsed.__root__
 
     async def get_presence_own(
-        self, presence_level: PresenceLevel = PresenceLevel.ALL
+        self, presence_level: PresenceLevel = PresenceLevel.ALL, **kwargs
     ) -> PresenceItem:
         """
         Get presence of own profile
@@ -62,7 +63,7 @@ class PresenceProvider(BaseProvider):
         url = self.PRESENCE_URL + "/users/me"
         params = {"level": presence_level}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_PRESENCE
+            url, params=params, headers=self.HEADERS_PRESENCE, **kwargs
         )
         resp.raise_for_status()
         return PresenceItem.parse_raw(await resp.text())

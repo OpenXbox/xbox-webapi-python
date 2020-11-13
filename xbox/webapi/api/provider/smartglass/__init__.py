@@ -37,7 +37,7 @@ class SmartglassProvider(BaseProvider):
         self._smartglass_session_id = str(uuid4())
 
     async def get_console_list(
-        self, include_storage_devices: bool = True
+        self, include_storage_devices: bool = True, **kwargs
     ) -> SmartglassConsoleList:
         """
         Get Console list
@@ -51,11 +51,11 @@ class SmartglassProvider(BaseProvider):
             "queryCurrentDevice": "false",
             "includeStorageDevices": str(include_storage_devices).lower(),
         }
-        resp = await self._fetch_list("devices", params)
+        resp = await self._fetch_list("devices", params, **kwargs)
         return SmartglassConsoleList.parse_raw(await resp.text())
 
     async def get_installed_apps(
-        self, device_id: Optional[str] = None
+        self, device_id: Optional[str] = None, **kwargs
     ) -> InstalledPackagesList:
         """
         Get Installed Apps
@@ -68,10 +68,10 @@ class SmartglassProvider(BaseProvider):
         params = {}
         if device_id:
             params["deviceId"] = device_id
-        resp = await self._fetch_list("installedApps", params)
+        resp = await self._fetch_list("installedApps", params, **kwargs)
         return InstalledPackagesList.parse_raw(await resp.text())
 
-    async def get_storage_devices(self, device_id: str) -> StorageDevicesList:
+    async def get_storage_devices(self, device_id: str, **kwargs) -> StorageDevicesList:
         """
         Get Installed Apps
 
@@ -81,10 +81,12 @@ class SmartglassProvider(BaseProvider):
         Returns: Storage Devices list
         """
         params = {"deviceId": device_id}
-        resp = await self._fetch_list("storageDevices", params)
+        resp = await self._fetch_list("storageDevices", params, **kwargs)
         return StorageDevicesList.parse_raw(await resp.text())
 
-    async def get_console_status(self, device_id: str) -> SmartglassConsoleStatus:
+    async def get_console_status(
+        self, device_id: str, **kwargs
+    ) -> SmartglassConsoleStatus:
         """
         Get Console Status
 
@@ -94,12 +96,12 @@ class SmartglassProvider(BaseProvider):
         Returns: Console Status
         """
         url = f"{self.SG_URL}/consoles/{device_id}"
-        resp = await self.client.session.get(url, headers=self.HEADERS_SG)
+        resp = await self.client.session.get(url, headers=self.HEADERS_SG, **kwargs)
         resp.raise_for_status()
         return SmartglassConsoleStatus.parse_raw(await resp.text())
 
     async def get_op_status(
-        self, device_id: str, op_id: str
+        self, device_id: str, op_id: str, **kwargs
     ) -> OperationStatusResponse:
         """
         Get Operation Status
@@ -116,11 +118,11 @@ class SmartglassProvider(BaseProvider):
             "x-xbl-opId": op_id,
             "x-xbl-deviceId": device_id,
         }
-        resp = await self.client.session.get(url, headers=headers)
+        resp = await self.client.session.get(url, headers=headers, **kwargs)
         resp.raise_for_status()
         return OperationStatusResponse.parse_raw(await resp.text())
 
-    async def wake_up(self, device_id: str) -> CommandResponse:
+    async def wake_up(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Wake Up Console
 
@@ -129,9 +131,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Power", "WakeUp")
+        return await self._send_one_shot_command(device_id, "Power", "WakeUp", **kwargs)
 
-    async def turn_off(self, device_id: str) -> CommandResponse:
+    async def turn_off(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Turn Off Console
 
@@ -140,9 +142,11 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Power", "TurnOff")
+        return await self._send_one_shot_command(
+            device_id, "Power", "TurnOff", **kwargs
+        )
 
-    async def reboot(self, device_id: str) -> CommandResponse:
+    async def reboot(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Reboot Console
 
@@ -151,9 +155,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Power", "Reboot")
+        return await self._send_one_shot_command(device_id, "Power", "Reboot", **kwargs)
 
-    async def mute(self, device_id: str) -> CommandResponse:
+    async def mute(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Mute
 
@@ -162,9 +166,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Audio", "Mute")
+        return await self._send_one_shot_command(device_id, "Audio", "Mute", **kwargs)
 
-    async def unmute(self, device_id: str) -> CommandResponse:
+    async def unmute(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Unmute
 
@@ -173,10 +177,10 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Audio", "Unmute")
+        return await self._send_one_shot_command(device_id, "Audio", "Unmute", **kwargs)
 
     async def volume(
-        self, device_id: str, direction: VolumeDirection, amount: int = 1
+        self, device_id: str, direction: VolumeDirection, amount: int = 1, **kwargs
     ) -> CommandResponse:
         """
         Adjust Volume
@@ -187,9 +191,11 @@ class SmartglassProvider(BaseProvider):
         Returns: Command Response
         """
         params = [{"direction": direction.value, "amount": str(amount)}]
-        return await self._send_one_shot_command(device_id, "Audio", "Volume", params)
+        return await self._send_one_shot_command(
+            device_id, "Audio", "Volume", params, **kwargs
+        )
 
-    async def play(self, device_id: str) -> CommandResponse:
+    async def play(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Play (media controls)
 
@@ -198,9 +204,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Media", "Play")
+        return await self._send_one_shot_command(device_id, "Media", "Play", **kwargs)
 
-    async def pause(self, device_id: str) -> CommandResponse:
+    async def pause(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Pause (media controls)
 
@@ -209,9 +215,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Media", "Pause")
+        return await self._send_one_shot_command(device_id, "Media", "Pause", **kwargs)
 
-    async def previous(self, device_id: str) -> CommandResponse:
+    async def previous(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Previous (media controls)
 
@@ -220,9 +226,11 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Media", "Previous")
+        return await self._send_one_shot_command(
+            device_id, "Media", "Previous", **kwargs
+        )
 
-    async def next(self, device_id: str) -> CommandResponse:
+    async def next(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Next (media controls)
 
@@ -231,9 +239,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Media", "Next")
+        return await self._send_one_shot_command(device_id, "Media", "Next", **kwargs)
 
-    async def go_home(self, device_id: str) -> CommandResponse:
+    async def go_home(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Go Home
 
@@ -242,9 +250,9 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Shell", "GoHome")
+        return await self._send_one_shot_command(device_id, "Shell", "GoHome", **kwargs)
 
-    async def go_back(self, device_id: str) -> CommandResponse:
+    async def go_back(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Go Back
 
@@ -254,10 +262,10 @@ class SmartglassProvider(BaseProvider):
         Returns:
             :class:`SmartglassConsoleStatus`: Command Response
         """
-        return await self._send_one_shot_command(device_id, "Shell", "GoBack")
+        return await self._send_one_shot_command(device_id, "Shell", "GoBack", **kwargs)
 
     async def show_guide_tab(
-        self, device_id: str, tab: GuideTab = GuideTab.Guide
+        self, device_id: str, tab: GuideTab = GuideTab.Guide, **kwargs
     ) -> CommandResponse:
         """
         Show Guide Tab
@@ -269,11 +277,11 @@ class SmartglassProvider(BaseProvider):
         """
         params = [{"tabName": tab.value}]
         return await self._send_one_shot_command(
-            device_id, "Shell", "ShowGuideTab", params
+            device_id, "Shell", "ShowGuideTab", params, **kwargs
         )
 
     async def press_button(
-        self, device_id: str, button: InputKeyType
+        self, device_id: str, button: InputKeyType, **kwargs
     ) -> CommandResponse:
         """
         Press Button
@@ -285,10 +293,10 @@ class SmartglassProvider(BaseProvider):
         """
         params = [{"keyType": button.value}]
         return await self._send_one_shot_command(
-            device_id, "Shell", "InjectKey", params
+            device_id, "Shell", "InjectKey", params, **kwargs
         )
 
-    async def insert_text(self, device_id: str, text: str) -> CommandResponse:
+    async def insert_text(self, device_id: str, text: str, **kwargs) -> CommandResponse:
         """
         Insert Text
 
@@ -299,11 +307,11 @@ class SmartglassProvider(BaseProvider):
         """
         params = [{"replacementString": text}]
         return await self._send_one_shot_command(
-            device_id, "Shell", "InjectString", params
+            device_id, "Shell", "InjectString", params, **kwargs
         )
 
     async def launch_app(
-        self, device_id: str, one_store_product_id: str
+        self, device_id: str, one_store_product_id: str, **kwargs
     ) -> CommandResponse:
         """
         Launch Application
@@ -316,10 +324,14 @@ class SmartglassProvider(BaseProvider):
         """
         params = [{"oneStoreProductId": one_store_product_id}]
         return await self._send_one_shot_command(
-            device_id, "Shell", "ActivateApplicationWithOneStoreProductId", params
+            device_id,
+            "Shell",
+            "ActivateApplicationWithOneStoreProductId",
+            params,
+            **kwargs,
         )
 
-    async def show_tv_guide(self, device_id: str) -> CommandResponse:
+    async def show_tv_guide(self, device_id: str, **kwargs) -> CommandResponse:
         """
         Show TV Guide
 
@@ -328,10 +340,10 @@ class SmartglassProvider(BaseProvider):
 
         Returns: Command Response
         """
-        return await self._send_one_shot_command(device_id, "TV", "ShowGuide")
+        return await self._send_one_shot_command(device_id, "TV", "ShowGuide", **kwargs)
 
     async def _fetch_list(
-        self, list_name: str, params: Optional[dict] = None
+        self, list_name: str, params: Optional[dict] = None, **kwargs
     ) -> ClientResponse:
         """
         Fetch arbitrary list
@@ -345,7 +357,7 @@ class SmartglassProvider(BaseProvider):
         """
         url = f"{self.SG_URL}/lists/{list_name}"
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SG
+            url, params=params, headers=self.HEADERS_SG, **kwargs
         )
         resp.raise_for_status()
         return resp
@@ -356,6 +368,7 @@ class SmartglassProvider(BaseProvider):
         command_type: str,
         command: str,
         params: Optional[List[dict]] = None,
+        **kwargs,
     ) -> CommandResponse:
         """
         Send One Shot command to console
@@ -378,6 +391,8 @@ class SmartglassProvider(BaseProvider):
             "parameters": params or [{}],
             "linkedXboxId": device_id,
         }
-        resp = await self.client.session.post(url, json=body, headers=self.HEADERS_SG)
+        resp = await self.client.session.post(
+            url, json=body, headers=self.HEADERS_SG, **kwargs
+        )
         resp.raise_for_status()
         return CommandResponse.parse_raw(await resp.text())
