@@ -21,15 +21,15 @@ collect_ignore = ["setup.py"]
 
 @pytest.fixture(scope="function")
 async def auth_mgr(event_loop):
-    mgr = AuthenticationManager(
-        ClientSession(loop=event_loop), "abc", "123", "http://localhost"
-    )
+    session = ClientSession(loop=event_loop)
+    mgr = AuthenticationManager(session, "abc", "123", "http://localhost")
     mgr.oauth = OAuth2TokenResponse.parse_raw(get_response("auth_oauth2_token"))
     mgr.user_token = XAUResponse.parse_raw(get_response("auth_user_token"))
     mgr.xsts_token = XSTSResponse.parse_raw(get_response("auth_xsts_token"))
-    return mgr
+    yield mgr
+    await session.close()
 
 
 @pytest.fixture(scope="function")
 def xbl_client(auth_mgr):
-    return XboxLiveClient(auth_mgr)
+    yield XboxLiveClient(auth_mgr)

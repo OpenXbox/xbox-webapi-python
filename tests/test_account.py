@@ -32,7 +32,7 @@ async def test_claim_gamertag_error(aresponses, xbl_client):
         await xbl_client.account.claim_gamertag("2669321029139235", "PrettyPony")
     await xbl_client._auth_mgr.session.close()
 
-    assert err.value.code == 500
+    assert err.value.status == 500
     aresponses.assert_plan_strictly_followed()
 
 
@@ -61,5 +61,5 @@ async def test_change_gamertag_error(aresponses, xbl_client):
         await xbl_client.account.change_gamertag("2669321029139235", "PrettyPony")
     await xbl_client._auth_mgr.session.close()
 
-    assert err.value.code == 500
+    assert err.value.status == 500
     aresponses.assert_plan_strictly_followed()
