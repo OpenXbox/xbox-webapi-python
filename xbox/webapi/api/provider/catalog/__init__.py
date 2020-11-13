@@ -18,7 +18,10 @@ class CatalogProvider(BaseProvider):
     SEPERATOR = ","
 
     async def get_products(
-        self, big_ids: List[str], fields: FieldsTemplate = FieldsTemplate.DETAILS
+        self,
+        big_ids: List[str],
+        fields: FieldsTemplate = FieldsTemplate.DETAILS,
+        **kwargs,
     ) -> CatalogResponse:
         """Lookup product by Big IDs."""
         ids = self.SEPERATOR.join(big_ids)
@@ -30,7 +33,9 @@ class CatalogProvider(BaseProvider):
             "market": self.client.language.short_id,
         }
         url = f"{self.CATALOG_URL}/v7.0/products"
-        resp = await self.client.session.get(url, params=params, include_auth=False)
+        resp = await self.client.session.get(
+            url, params=params, include_auth=False, **kwargs
+        )
         resp.raise_for_status()
         return CatalogResponse.parse_raw(await resp.text())
 
@@ -40,6 +45,7 @@ class CatalogProvider(BaseProvider):
         id_type: AlternateIdType,
         fields: FieldsTemplate = FieldsTemplate.DETAILS,
         top: int = 25,
+        **kwargs,
     ) -> CatalogResponse:
         """Lookup product by Alternate ID."""
         params = {
@@ -51,12 +57,18 @@ class CatalogProvider(BaseProvider):
             "value": id,
         }
         url = f"{self.CATALOG_URL}/v7.0/products/lookup"
-        resp = await self.client.session.get(url, params=params, include_auth=False)
+        resp = await self.client.session.get(
+            url, params=params, include_auth=False, **kwargs
+        )
         resp.raise_for_status()
         return CatalogResponse.parse_raw(await resp.text())
 
     async def product_search(
-        self, query: str, platform: PlatformType = PlatformType.XBOX, top: int = 5
+        self,
+        query: str,
+        platform: PlatformType = PlatformType.XBOX,
+        top: int = 5,
+        **kwargs,
     ) -> CatalogSearchResponse:
         """Search for products by name."""
         params = {
@@ -68,6 +80,8 @@ class CatalogProvider(BaseProvider):
             "topProducts": top,
         }
         url = f"{self.CATALOG_URL}/v7.0/productFamilies/autosuggest"
-        resp = await self.client.session.get(url, params=params, include_auth=False)
+        resp = await self.client.session.get(
+            url, params=params, include_auth=False, **kwargs
+        )
         resp.raise_for_status()
         return CatalogSearchResponse.parse_raw(await resp.text())

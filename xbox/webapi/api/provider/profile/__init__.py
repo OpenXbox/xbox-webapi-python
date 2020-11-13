@@ -14,7 +14,7 @@ class ProfileProvider(BaseProvider):
     HEADERS_PROFILE = {"x-xbl-contract-version": "3"}
     SEPARATOR = ","
 
-    async def get_profiles(self, xuid_list: List[str]) -> ProfileResponse:
+    async def get_profiles(self, xuid_list: List[str], **kwargs) -> ProfileResponse:
         """
         Get profile info for list of xuids
 
@@ -45,12 +45,12 @@ class ProfileProvider(BaseProvider):
         }
         url = self.PROFILE_URL + "/users/batch/profile/settings"
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_PROFILE
+            url, json=post_data, headers=self.HEADERS_PROFILE, **kwargs
         )
         resp.raise_for_status()
         return ProfileResponse.parse_raw(await resp.text())
 
-    async def get_profile_by_xuid(self, target_xuid: str) -> ProfileResponse:
+    async def get_profile_by_xuid(self, target_xuid: str, **kwargs) -> ProfileResponse:
         """
         Get Userprofile by xuid
 
@@ -83,12 +83,12 @@ class ProfileProvider(BaseProvider):
             )
         }
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_PROFILE
+            url, params=params, headers=self.HEADERS_PROFILE, **kwargs
         )
         resp.raise_for_status()
         return ProfileResponse.parse_raw(await resp.text())
 
-    async def get_profile_by_gamertag(self, gamertag: str) -> ProfileResponse:
+    async def get_profile_by_gamertag(self, gamertag: str, **kwargs) -> ProfileResponse:
         """
         Get Userprofile by gamertag
 
@@ -121,7 +121,7 @@ class ProfileProvider(BaseProvider):
             )
         }
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_PROFILE
+            url, params=params, headers=self.HEADERS_PROFILE, **kwargs
         )
         resp.raise_for_status()
         return ProfileResponse.parse_raw(await resp.text())

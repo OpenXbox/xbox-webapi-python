@@ -16,24 +16,22 @@ class MessageProvider(BaseProvider):
     HEADERS_MESSAGE = {"x-xbl-contract-version": "1"}
     HEADERS_HORIZON = {"x-xbl-contract-version": "2"}
 
-    async def get_inbox(self) -> InboxResponse:
+    async def get_inbox(self, **kwargs) -> InboxResponse:
         """
         Get messages
-
-        Args:
-            skip_items: Item count to skip
-            max_items: Maximum item count to load
 
         Returns:
             :class:`InboxResponse`: Inbox Response
         """
         url = f"{self.MSG_URL}/network/Xbox/users/me/inbox"
-        resp = await self.client.session.get(url, headers=self.HEADERS_MESSAGE)
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_MESSAGE, **kwargs
+        )
         resp.raise_for_status()
         return InboxResponse.parse_raw(await resp.text())
 
     async def get_conversation(
-        self, xuid: str, max_items: int = 100
+        self, xuid: str, max_items: int = 100, **kwargs
     ) -> ConversationResponse:
         """
         Get detailed conversation info
@@ -47,12 +45,14 @@ class MessageProvider(BaseProvider):
         url = f"{self.MSG_URL}/network/Xbox/users/me/conversations/users/xuid({xuid})"
         params = {"maxItems": max_items}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_MESSAGE
+            url, params=params, headers=self.HEADERS_MESSAGE, **kwargs
         )
         resp.raise_for_status()
         return ConversationResponse.parse_raw(await resp.text())
 
-    async def delete_conversation(self, conversation_id: str, horizon: str) -> bool:
+    async def delete_conversation(
+        self, conversation_id: str, horizon: str, **kwargs
+    ) -> bool:
         """
         Delete message
 
@@ -76,11 +76,13 @@ class MessageProvider(BaseProvider):
             ]
         }
         resp = await self.client.session.put(
-            url, json=post_data, headers=self.HEADERS_HORIZON
+            url, json=post_data, headers=self.HEADERS_HORIZON, **kwargs
         )
         return resp.status == 200
 
-    async def delete_message(self, conversation_id: str, message_id: str) -> bool:
+    async def delete_message(
+        self, conversation_id: str, message_id: str, **kwargs
+    ) -> bool:
         """
         Delete message
 
@@ -93,10 +95,14 @@ class MessageProvider(BaseProvider):
         Returns: True on success, False otherwise
         """
         url = f"{self.MSG_URL}/network/Xbox/users/me/conversations/{conversation_id}/messages/{message_id}"
-        resp = await self.client.session.delete(url, headers=self.HEADERS_MESSAGE)
+        resp = await self.client.session.delete(
+            url, headers=self.HEADERS_MESSAGE, **kwargs
+        )
         return resp.status == 200
 
-    async def send_message(self, xuid: str, message_text: str) -> SendMessageResponse:
+    async def send_message(
+        self, xuid: str, message_text: str, **kwargs
+    ) -> SendMessageResponse:
         """
         Send message to an xuid
 
@@ -121,7 +127,7 @@ class MessageProvider(BaseProvider):
             ]
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_MESSAGE
+            url, json=post_data, headers=self.HEADERS_MESSAGE, **kwargs
         )
         resp.raise_for_status()
         return SendMessageResponse.parse_raw(await resp.text())

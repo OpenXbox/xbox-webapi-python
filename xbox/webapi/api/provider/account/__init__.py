@@ -12,7 +12,7 @@ class AccountProvider(BaseProvider):
     HEADERS_USER_MGT = {"x-xbl-contract-version": "1"}
     HEADERS_ACCOUNT = {"x-xbl-contract-version": "2"}
 
-    async def claim_gamertag(self, xuid, gamertag) -> ClaimGamertagResult:
+    async def claim_gamertag(self, xuid, gamertag, **kwargs) -> ClaimGamertagResult:
         """
         Claim gamertag
 
@@ -32,7 +32,7 @@ class AccountProvider(BaseProvider):
         url = self.BASE_URL_USER_MGT + "/gamertags/reserve"
         post_data = {"Gamertag": gamertag, "ReservationId": str(xuid)}
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_USER_MGT
+            url, json=post_data, headers=self.HEADERS_USER_MGT, **kwargs
         )
         try:
             return ClaimGamertagResult(resp.status)
@@ -40,7 +40,7 @@ class AccountProvider(BaseProvider):
             resp.raise_for_status()
 
     async def change_gamertag(
-        self, xuid, gamertag, preview=False
+        self, xuid, gamertag, preview=False, **kwargs
     ) -> ChangeGamertagResult:
         """
         Change your gamertag.
@@ -63,7 +63,7 @@ class AccountProvider(BaseProvider):
             "reservationId": int(xuid),
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_ACCOUNT
+            url, json=post_data, headers=self.HEADERS_ACCOUNT, **kwargs
         )
         try:
             return ChangeGamertagResult(resp.status)

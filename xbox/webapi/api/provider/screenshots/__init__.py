@@ -10,7 +10,7 @@ class ScreenshotsProvider(BaseProvider):
     HEADERS_SCREENSHOTS_METADATA = {"x-xbl-contract-version": "5"}
 
     async def get_recent_community_screenshots_by_title_id(
-        self, title_id: str
+        self, title_id: str, **kwargs
     ) -> ScreenshotResponse:
         """
         Get recent community screenshots by Title Id
@@ -24,13 +24,13 @@ class ScreenshotsProvider(BaseProvider):
         url = self.SCREENSHOTS_METADATA_URL + f"/public/titles/{title_id}/screenshots"
         params = {"qualifier": "created"}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA
+            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
         return ScreenshotResponse.parse_raw(await resp.text())
 
     async def get_recent_own_screenshots(
-        self, title_id: str = None, skip_items: int = 0, max_items: int = 25
+        self, title_id: str = None, skip_items: int = 0, max_items: int = 25, **kwargs
     ) -> ScreenshotResponse:
         """
         Get own recent screenshots, optionally filter for title Id
@@ -50,13 +50,18 @@ class ScreenshotsProvider(BaseProvider):
 
         params = {"skipItems": skip_items, "maxItems": max_items}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA
+            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
         return ScreenshotResponse.parse_raw(await resp.text())
 
     async def get_recent_screenshots_by_xuid(
-        self, xuid: str, title_id: str = None, skip_items: int = 0, max_items: int = 25
+        self,
+        xuid: str,
+        title_id: str = None,
+        skip_items: int = 0,
+        max_items: int = 25,
+        **kwargs,
     ) -> ScreenshotResponse:
         """
         Get recent screenshots by XUID, optionally filter for title Id
@@ -77,13 +82,13 @@ class ScreenshotsProvider(BaseProvider):
 
         params = {"skipItems": skip_items, "maxItems": max_items}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA
+            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
         return ScreenshotResponse.parse_raw(await resp.text())
 
     async def get_saved_community_screenshots_by_title_id(
-        self, title_id: str
+        self, title_id: str, **kwargs
     ) -> ScreenshotResponse:
         """
         Get saved community screenshots by Title Id
@@ -97,13 +102,13 @@ class ScreenshotsProvider(BaseProvider):
         url = f"{self.SCREENSHOTS_METADATA_URL}/public/titles/{title_id}/screenshots/saved"
         params = {"qualifier": "created"}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA
+            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
         return ScreenshotResponse.parse_raw(await resp.text())
 
     async def get_saved_own_screenshots(
-        self, title_id: str = None, skip_items: int = 0, max_items: int = 25
+        self, title_id: str = None, skip_items: int = 0, max_items: int = 25, **kwargs
     ) -> ScreenshotResponse:
         """
         Get own saved screenshots, optionally filter for title Id an
@@ -123,13 +128,18 @@ class ScreenshotsProvider(BaseProvider):
 
         params = {"skipItems": skip_items, "maxItems": max_items}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA
+            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
         return ScreenshotResponse.parse_raw(await resp.text())
 
     async def get_saved_screenshots_by_xuid(
-        self, xuid: str, title_id: str = None, skip_items: int = 0, max_items: int = 25
+        self,
+        xuid: str,
+        title_id: str = None,
+        skip_items: int = 0,
+        max_items: int = 25,
+        **kwargs,
     ) -> ScreenshotResponse:
         """
         Get saved screenshots by XUID, optionally filter for title Id
@@ -150,7 +160,7 @@ class ScreenshotsProvider(BaseProvider):
 
         params = {"skipItems": skip_items, "maxItems": max_items}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA
+            url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
         return ScreenshotResponse.parse_raw(await resp.text())

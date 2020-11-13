@@ -32,6 +32,7 @@ class TitlehubProvider(BaseProvider):
         xuid: str,
         fields: Optional[List[TitleFields]] = None,
         max_items: Optional[int] = 5,
+        **kwargs,
     ) -> TitleHubResponse:
         """
         Get recently played titles
@@ -54,12 +55,14 @@ class TitlehubProvider(BaseProvider):
 
         url = f"{self.TITLEHUB_URL}/users/xuid({xuid})/titles/titlehistory/decoration/{fields}"
         params = {"maxItems": max_items}
-        resp = await self.client.session.get(url, params=params, headers=self._headers)
+        resp = await self.client.session.get(
+            url, params=params, headers=self._headers, **kwargs
+        )
         resp.raise_for_status()
         return TitleHubResponse.parse_raw(await resp.text())
 
     async def get_title_info(
-        self, title_id: str, fields: Optional[List[TitleFields]] = None
+        self, title_id: str, fields: Optional[List[TitleFields]] = None, **kwargs
     ) -> TitleHubResponse:
         """
         Get info for specific title
@@ -82,12 +85,12 @@ class TitlehubProvider(BaseProvider):
         fields = self.SEPARATOR.join(fields)
 
         url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
-        resp = await self.client.session.get(url, headers=self._headers)
+        resp = await self.client.session.get(url, headers=self._headers, **kwargs)
         resp.raise_for_status()
         return TitleHubResponse.parse_raw(await resp.text())
 
     async def get_titles_batch(
-        self, pfns: List[str], fields: Optional[List[TitleFields]] = None
+        self, pfns: List[str], fields: Optional[List[TitleFields]] = None, **kwargs
     ) -> TitleHubResponse:
         """
         Get Title info via PFN ids
@@ -111,7 +114,7 @@ class TitlehubProvider(BaseProvider):
         url = self.TITLEHUB_URL + f"/titles/batch/decoration/{fields}"
         post_data = {"pfns": pfns, "windowsPhoneProductIds": []}
         resp = await self.client.session.post(
-            url, json=post_data, headers=self._headers
+            url, json=post_data, headers=self._headers, **kwargs
         )
         resp.raise_for_status()
         return TitleHubResponse.parse_raw(await resp.text())
