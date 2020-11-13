@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.10 (2020-11-13)
+
+* Add models for XAD and XAT Token responses
+* Fix message.get_inbox() (Setting text field as Optional) (Fixes issue #37)
+* Fix OAuth2TokenResponse incase no refresh_token is returned by authentication (Fixes issue #36)
+* Fix pytest warnings (unclosed ClientSession, usage of deprecated ClientResponse field)
+* Fix CatalogResponse.Products[].DisplaySkuAvailabilities[].Availabilities - Set order_management_data as Optional
+* Enable passing extra values to headers, params and data for all providers via kwargs (extra_headers, extra_params, extra_data)
+* Fix GameclipsResponse
+
 ## 2.0.9 (2020-11-02)
 
 * Fix titlehub endpoint
