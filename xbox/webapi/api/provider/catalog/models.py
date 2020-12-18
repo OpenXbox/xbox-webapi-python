@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Union
 
 from pydantic import Field, validator
 
@@ -113,12 +113,12 @@ class AlternateId(PascalCaseModel):
 class ValidationData(PascalCaseModel):
     passed_validation: bool
     revision_id: str
-    validation_result_uri: str
+    validation_result_uri: Optional[str]
 
 
 class FulfillmentData(PascalCaseModel):
     product_id: str
-    wu_bundle_id: str
+    wu_bundle_id: Optional[str]
     wu_category_id: str
     package_family_name: str
     sku_id: str
@@ -216,7 +216,7 @@ class SkuLocalizedProperty(PascalCaseModel):
 
 
 class SkuMarketProperty(PascalCaseModel):
-    first_available_date: datetime
+    first_available_date: Optional[Union[datetime, str]]
     supported_languages: Optional[List[str]]
     package_ids: Any
     pi_filter: Any = Field(alias="PIFilter")
@@ -226,7 +226,7 @@ class SkuMarketProperty(PascalCaseModel):
 class SkuProperties(PascalCaseModel):
     early_adopter_enrollment_url: Any
     fulfillment_data: Optional[FulfillmentData]
-    fulfillment_type: str
+    fulfillment_type: Optional[str]
     fulfillment_plugin_id: Any
     has_third_party_iaps: Optional[bool] = Field(alias="HasThirdPartyIAPs")
     last_update_date: Optional[datetime]
@@ -234,11 +234,11 @@ class SkuProperties(PascalCaseModel):
     hardware_requirements: Optional[List]
     hardware_warning_list: Optional[List]
     installation_terms: str
-    packages: List[Package]
+    packages: Optional[List[Package]]
     version_string: Optional[str]
     visible_to_b2b_service_ids: List = Field(alias="VisibleToB2BServiceIds")
     xbox_xpa: Optional[bool] = Field(alias="XboxXPA")
-    bundled_skus: List
+    bundled_skus: Optional[List]
     is_repurchasable: bool
     sku_display_rank: int
     display_physical_store_inventory: Any
@@ -364,7 +364,7 @@ class LocalizedProperty(PascalCaseModel):
 
 
 class MarketProperty(PascalCaseModel):
-    original_release_date: datetime
+    original_release_date: Optional[datetime]
     original_release_friendly_name: Optional[str]
     minimum_user_age: Optional[int]
     content_ratings: Optional[List[ContentRating]]
@@ -405,12 +405,12 @@ class CatalogResponse(PascalCaseModel):
 
 
 class SearchProduct(PascalCaseModel):
-    background_color: str
-    height: int
-    image_type: str
-    width: int
+    background_color: Optional[str]
+    height: Optional[int]
+    image_type: Optional[str]
+    width: Optional[int]
     platform_properties: List
-    icon: str
+    icon: Optional[str]
     product_id: str
     type: str
     title: str
