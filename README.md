@@ -58,8 +58,10 @@ API usage
 ```py
 import sys
 
+from aiohttp import ClientSession
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.authentication.models import OAuth2TokenResponse
 from xbox.webapi.common.exceptions import AuthenticationException
 
 """
