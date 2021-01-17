@@ -114,7 +114,7 @@ class Avatar(CamelCaseModel):
 
 class LinkedAccount(CamelCaseModel):
     network_name: str
-    display_name: str
+    display_name: Optional[str]
     show_on_profile: bool
     is_family_friendly: bool
     deeplink: Optional[str]
