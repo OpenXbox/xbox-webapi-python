@@ -115,14 +115,14 @@ class AuthenticationManager:
 
     async def request_user_token(
         self,
-        relaying_party: str = "http://auth.xboxlive.com",
+        relying_party: str = "http://auth.xboxlive.com",
         use_compact_ticket: bool = False,
     ) -> XAUResponse:
         """Authenticate via access token and receive user token."""
         url = "https://user.auth.xboxlive.com/user/authenticate"
         headers = {"x-xbl-contract-version": "1"}
         data = {
-            "RelyingParty": relaying_party,
+            "RelyingParty": relying_party,
             "TokenType": "JWT",
             "Properties": {
                 "AuthMethod": "RPS",
@@ -138,13 +138,13 @@ class AuthenticationManager:
         return XAUResponse.parse_raw(await resp.text())
 
     async def request_xsts_token(
-        self, relaying_party: str = "http://xboxlive.com"
+        self, relying_party: str = "http://xboxlive.com"
     ) -> XSTSResponse:
         """Authorize via user token and receive final X token."""
         url = "https://xsts.auth.xboxlive.com/xsts/authorize"
         headers = {"x-xbl-contract-version": "1"}
         data = {
-            "RelyingParty": relaying_party,
+            "RelyingParty": relying_party,
             "TokenType": "JWT",
             "Properties": {
                 "UserTokens": [self.user_token.token],
