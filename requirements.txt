@@ -7,6 +7,10 @@ pydantic
 urwid
 yarl
 
+# aiohttp speedups
+cchardet
+aiodns
+
 # Dev
 pytest
 pytest-cov
