@@ -33,6 +33,8 @@ pip install xbox-webapi
 Authentication
 
 ```text
+# Note: you must use non child account (> 18 years old)
+# 
 # Token save location: If tokenfile is not provided via cmdline, fallback
 # of <appdirs.user_data_dir>/tokens.json is used as save-location
 #

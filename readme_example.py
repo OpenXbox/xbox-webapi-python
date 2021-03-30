@@ -1,4 +1,4 @@
-# this is just scrip from README.md
+# this is just script from README.md
 import sys
 import asyncio
 from aiohttp import ClientSession
