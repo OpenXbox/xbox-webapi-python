@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.11 (2021-04-30)
+
+* Model validation fixes for optional properties (#41)
+* Fix example code in README (#44)
+* Fix linked account display name (#46)
+* Raise `AuthenticationException` on 401 (#55)
+* Add aiohttp speedups (#55)
+* Tests read files as UTF-8 (#55)
+* Fix API example in README (#56)
+
 ## 2.0.10 (2020-11-13)
 
 * Add models for XAD and XAT Token responses
