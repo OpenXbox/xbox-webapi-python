@@ -16,20 +16,20 @@ class LastSeen(CamelCaseModel):
     timestamp: str
     
 class ActivityRecord(CamelCaseModel):
-    richPresence: str
-    media: str
+    richPresence: Optional[str]
+    media: Optional[str]
     
 class TitleRecord(CamelCaseModel):
-    id: str
-    name: str
+    id: Optional[str]
+    name: Optional[str]
     activity: Optional[List[ActivityRecord]]
-    lastModified: str
-    placement: str
-    state: str
+    lastModified: Optional[str]
+    placement: Optional[str]
+    state: Optional[str]
 
 class DeviceRecord(CamelCaseModel):
-    titles: List[TitleRecord]
-    type: str
+    titles: Optional[List[TitleRecord]]
+    type: Optional[str]
         
 
 class PresenceItem(CamelCaseModel):
