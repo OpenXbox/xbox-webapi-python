@@ -15,6 +15,28 @@ class PresenceProvider(BaseProvider):
     PRESENCE_URL = "https://userpresence.xboxlive.com"
     HEADERS_PRESENCE = {"x-xbl-contract-version": "3", "Accept": "application/json"}
 
+    async def get_presence(
+        self,
+        xuid,
+        presence_level: PresenceLevel = PresenceLevel.USER,
+        **kwargs,
+    ) -> PresenceItem:
+        """
+        Get presence for given xuid
+
+        Args:
+            xuid: XUID
+            presence_level: Filter level
+
+        Returns:
+            :class:`PresenceItem`: Presence Response
+        """
+        url = self.PRESENCE_URL + "/users/xuid(" + xuid + ")?level=" + presence_level
+
+        resp = await self.client.session.get(url, headers=self.HEADERS_PRESENCE, **kwargs)
+        resp.raise_for_status()
+        return PresenceItem.parse_raw(await resp.text())
+
     async def get_presence_batch(
         self,
         xuids: List[str],
