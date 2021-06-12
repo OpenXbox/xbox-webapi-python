@@ -2,6 +2,13 @@ import pytest
 
 from tests.common import get_response
 
+@pytest.mark.asyncio
+async def test_presence(aresponses, xbl_client):
+    aresponses.add("userpresence.xboxlive.com", response=get_response("presence"))
+    ret = await xbl_client.presence.get_presence("2669321029139235")
+    await xbl_client._auth_mgr.session.close()
+
+    aresponses.assert_plan_strictly_followed()
 
 @pytest.mark.asyncio
 async def test_presence_batch(aresponses, xbl_client):
