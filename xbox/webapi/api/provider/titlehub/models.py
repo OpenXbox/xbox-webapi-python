@@ -64,6 +64,7 @@ class Detail(CamelCaseModel):
     capabilities: List[str]
     description: str
     developer_name: str
+    genres: Optional[List[str]]
     publisher_name: str
     min_age: int
     release_date: Optional[datetime]
