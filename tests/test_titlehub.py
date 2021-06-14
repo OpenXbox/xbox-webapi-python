@@ -24,6 +24,8 @@ async def test_titlehub_titleinfo(aresponses, xbl_client):
 
     assert len(ret.titles) == 1
 
+    assert ret.titles[0].detail.genres == ["Action & adventure"]
+
     aresponses.assert_plan_strictly_followed()
 
 
@@ -36,5 +38,9 @@ async def test_titlehub_batch(aresponses, xbl_client):
     await xbl_client._auth_mgr.session.close()
 
     assert len(ret.titles) == 2
+
+    
+    assert ret.titles[0].detail.genres == []
+    assert ret.titles[1].detail.genres == ["Action & adventure"]
 
     aresponses.assert_plan_strictly_followed()
