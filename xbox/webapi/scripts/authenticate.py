@@ -32,7 +32,6 @@ async def auth_callback(request):
 async def do_auth(
     client_id: str, client_secret: str, redirect_uri: str, token_filepath: str
 ):
-
     async with ClientSession() as session:
         auth_mgr = AuthenticationManager(
             session, client_id, client_secret, redirect_uri
@@ -53,6 +52,7 @@ async def do_auth(
             await auth_mgr.request_tokens(code)
 
         with open(token_filepath, mode="w") as f:
+            print(f"Finished authentication, writing tokens to {token_filepath}")
             f.write(auth_mgr.oauth.json())
 
 
@@ -82,9 +82,7 @@ async def async_main():
         default=os.environ.get("REDIRECT_URI", REDIRECT_URI),
         help="OAuth2 Redirect URI",
     )
-
     args = parser.parse_args()
-
     app = web.Application()
     app.add_routes([web.get("/auth/callback", auth_callback)])
     runner = web.AppRunner(app)
