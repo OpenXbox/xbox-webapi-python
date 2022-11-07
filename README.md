@@ -19,7 +19,7 @@ Authentication is supported via OAuth2.
 
 ## Dependencies
 
-- Python >= 3.6
+- Python >= 3.7
 - Libraries: aiohttp, appdirs, ms_cv, pydantic, urwid, yarl, ecdsa
 
 ## How to use
@@ -32,19 +32,18 @@ pip install xbox-webapi
 
 Authentication
 
-```text
-# Note: you must use non child account (> 18 years old)
-# 
-# Token save location: If tokenfile is not provided via cmdline, fallback
-# of <appdirs.user_data_dir>/tokens.json is used as save-location
-#
-# Specifically:
-# Windows: C:\\Users\\<username>\\AppData\\Local\\OpenXbox\\xbox
-# Mac OSX: /Users/<username>/Library/Application Support/xbox/tokens.json
-# Linux: /home/<username>/.local/share/xbox
-#
-# For more information, see: https://pypi.org/project/appdirs and module: xbox.webapi.scripts.constants
+**Note: You must use non child account (> 18 years old)**
 
+Token save location: If tokenfile is not provided via cmdline, fallback of `<appdirs.user_data_dir>/tokens.json` is used as save-location
+
+Specifically:
+Windows: `C:\\Users\\<username>\\AppData\\Local\\OpenXbox\\xbox`
+Mac OSX: `/Users/<username>/Library/Application Support/xbox/tokens.json`
+Linux: `/home/<username>/.local/share/xbox`
+
+For more information, see: <https://pypi.org/project/appdirs> and module: `xbox.webapi.scripts.constants`
+
+```
 xbox-authenticate --client-id <client-id> --client-secret <client-secret>
 ```
 
