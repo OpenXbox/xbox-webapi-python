@@ -59,19 +59,22 @@ API usage
 ```py
 import sys
 import asyncio
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ClientResponseError
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
-from xbox.webapi.common.exceptions import AuthenticationException
-from xbox import *
-client_id = 'YOUR CLIENT ID HERE'
-client_secret = 'YOUR CLIENT SECRET HERE'
+from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, TOKENS_FILE
+
+# This uses the default client identification by OpenXbox
+# Feel free to use your own here
+client_id = CLIENT_ID
+client_secret = CLIENT_SECRET
+tokens_file = TOKENS_FILE
+
 """
 For doing authentication, see xbox/webapi/scripts/authenticate.py
 """
 async def async_main():
-    tokens_file = "./tokens.json" # replace with path in auth scrip or just paste file with tokens here
     async with ClientSession() as session:
         auth_mgr = AuthenticationManager(
               session, client_id, client_secret, ""

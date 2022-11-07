@@ -111,7 +111,6 @@ class AuthenticationManager:
         resp = await self.session.post(
             "https://login.live.com/oauth20_token.srf", data=data
         )
-        # print(await resp.content.read())
         resp.raise_for_status()
         return OAuth2TokenResponse.parse_raw(await resp.text())
 
