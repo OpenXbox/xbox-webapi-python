@@ -15,6 +15,10 @@ from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKENS_F
 queue = asyncio.Queue(1)
 
 
+def get_home():
+    return os.environ.get('HOMEPATH') if os.name == 'nt' else os.environ.get('HOME')
+    
+
 async def auth_callback(request):
     error = request.query.get("error")
     if error:
@@ -30,9 +34,7 @@ async def auth_callback(request):
 
 
 async def async_main(
-    client_id: str, client_secret: str, redirect_uri: str, token_filepath: str
-):
-
+    client_id: str, client_secret: str, redirect_uri: str, token_filepath=TOKENS_FILE):
     async with ClientSession() as session:
         auth_mgr = AuthenticationManager(
             session, client_id, client_secret, redirect_uri
@@ -43,7 +45,7 @@ async def async_main(
             with open(token_filepath, mode="r") as f:
                 tokens = f.read()
             auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
-            await auth_mgr.refresh_tokens()
+            await auth_mgr.refresh_tokens() 
 
         # Request new ones if they are not valid
         if not (auth_mgr.xsts_token and auth_mgr.xsts_token.is_valid()):
@@ -53,10 +55,11 @@ async def async_main(
             await auth_mgr.request_tokens(code)
 
         with open(token_filepath, mode="w") as f:
+            print(f"Finished authentication, writing tokens to {token_filepath}")
             f.write(auth_mgr.oauth.json())
 
 
-def main():
+async def main():
     parser = argparse.ArgumentParser(description="Authenticate with XBL")
     parser.add_argument(
         "--tokens",
@@ -82,21 +85,14 @@ def main():
         default=os.environ.get("REDIRECT_URI", REDIRECT_URI),
         help="OAuth2 Redirect URI",
     )
-
     args = parser.parse_args()
-
     app = web.Application()
     app.add_routes([web.get("/auth/callback", auth_callback)])
     runner = web.AppRunner(app)
-
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(runner.setup())
+    await runner.setup()
     site = web.TCPSite(runner, "localhost", 8080)
-    loop.run_until_complete(site.start())
-    loop.run_until_complete(
-        async_main(args.client_id, args.client_secret, args.redirect_uri, args.tokens)
-    )
-
+    await site.start()
+    await async_main(args.client_id, args.client_secret, args.redirect_uri, args.tokens)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
