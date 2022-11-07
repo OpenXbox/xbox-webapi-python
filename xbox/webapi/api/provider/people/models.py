@@ -64,9 +64,9 @@ class Follower(CamelCaseModel):
 
 
 class PreferredColor(CamelCaseModel):
-    primary_color: str
-    secondary_color: str
-    tertiary_color: str
+    primary_color: Optional[str]
+    secondary_color: Optional[str]
+    tertiary_color: Optional[str]
 
 
 class PresenceDetail(PascalCaseModel):
