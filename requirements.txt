@@ -8,7 +8,6 @@ urwid
 yarl
 
 # aiohttp speedups
-cchardet
 aiodns
 
 # Dev
