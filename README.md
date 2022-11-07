@@ -1,6 +1,6 @@
 # Xbox-WebAPI
 
-[![PyPi - latest](https://pypip.in/version/xbox-webapi/badge.svg)](https://pypi.python.org/pypi/xbox-webapi/)
+[![PyPi - latest](https://img.shields.io/pypi/v/xbox-webapi.svg)](https://pypi.python.org/pypi/xbox-webapi/)
 [![Documentation status](https://readthedocs.org/projects/xbox-webapi-python/badge/?version=latest)](http://xbox-webapi-python.readthedocs.io/en/latest/?badge=latest)
 [![Build status](https://img.shields.io/github/workflow/status/OpenXbox/xbox-webapi-python/build?label=build)](https://github.com/OpenXbox/xbox-webapi-python/actions?query=workflow%3Abuild)
 [![Discord chat channel](https://img.shields.io/badge/discord-OpenXbox-blue.svg)](https://openxbox.org/discord)
