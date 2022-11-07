@@ -8,7 +8,6 @@ urwid
 yarl
 
 # aiohttp speedups
-cchardet
 aiodns
 
 # Dev
@@ -18,11 +17,11 @@ pylint
 aresponses
 
 # pre-commit
-pre-commit==2.7.1
-pyupgrade==2.7.2
-black==20.8b1
-flake8==3.8.3
+pre-commit==2.20.0
+pyupgrade==3.2.0
+black==22.10.0
+flake8==5.0.4
 # flake8-docstrings==1.5.0
-pydocstyle==5.1.1
-bandit==1.6.2
-isort==5.5.3
+pydocstyle==6.1.1
+bandit==1.7.4
+isort==5.10.1

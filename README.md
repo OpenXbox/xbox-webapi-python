@@ -19,7 +19,7 @@ Authentication is supported via OAuth2.
 
 ## Dependencies
 
-- Python >= 3.6
+- Python >= 3.7
 - Libraries: aiohttp, appdirs, ms_cv, pydantic, urwid, yarl, ecdsa
 
 ## How to use
@@ -32,19 +32,18 @@ pip install xbox-webapi
 
 Authentication
 
-```text
-# Note: you must use non child account (> 18 years old)
-# 
-# Token save location: If tokenfile is not provided via cmdline, fallback
-# of <appdirs.user_data_dir>/tokens.json is used as save-location
-#
-# Specifically:
-# Windows: C:\\Users\\<username>\\AppData\\Local\\OpenXbox\\xbox
-# Mac OSX: /Users/<username>/Library/Application Support/xbox/tokens.json
-# Linux: /home/<username>/.local/share/xbox
-#
-# For more information, see: https://pypi.org/project/appdirs and module: xbox.webapi.scripts.constants
+**Note: You must use non child account (> 18 years old)**
 
+Token save location: If tokenfile is not provided via cmdline, fallback of `<appdirs.user_data_dir>/tokens.json` is used as save-location
+
+Specifically:
+Windows: `C:\\Users\\<username>\\AppData\\Local\\OpenXbox\\xbox`
+Mac OSX: `/Users/<username>/Library/Application Support/xbox/tokens.json`
+Linux: `/home/<username>/.local/share/xbox`
+
+For more information, see: <https://pypi.org/project/appdirs> and module: `xbox.webapi.scripts.constants`
+
+```
 xbox-authenticate --client-id <client-id> --client-secret <client-secret>
 ```
 
@@ -60,19 +59,22 @@ API usage
 ```py
 import sys
 import asyncio
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ClientResponseError
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
-from xbox.webapi.common.exceptions import AuthenticationException
-from xbox import *
-client_id = 'YOUR CLIENT ID HERE'
-client_secret = 'YOUR CLIENT SECRET HERE'
+from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, TOKENS_FILE
+
+# This uses the default client identification by OpenXbox
+# Feel free to use your own here
+client_id = CLIENT_ID
+client_secret = CLIENT_SECRET
+tokens_file = TOKENS_FILE
+
 """
 For doing authentication, see xbox/webapi/scripts/authenticate.py
 """
 async def async_main():
-    tokens_file = "./tokens.json" # replace with path in auth scrip or just paste file with tokens here
     async with ClientSession() as session:
         auth_mgr = AuthenticationManager(
               session, client_id, client_secret, ""

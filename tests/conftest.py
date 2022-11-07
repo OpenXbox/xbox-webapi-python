@@ -4,6 +4,7 @@ import os
 
 from aiohttp import ClientSession
 import pytest
+import pytest_asyncio
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
@@ -19,7 +20,7 @@ from tests.common import get_response
 collect_ignore = ["setup.py"]
 
 
-@pytest.fixture(scope="function")
+@pytest_asyncio.fixture(scope="function")
 async def auth_mgr(event_loop):
     session = ClientSession(loop=event_loop)
     mgr = AuthenticationManager(session, "abc", "123", "http://localhost")
@@ -32,4 +33,4 @@ async def auth_mgr(event_loop):
 
 @pytest.fixture(scope="function")
 def xbl_client(auth_mgr):
-    yield XboxLiveClient(auth_mgr)
+    return XboxLiveClient(auth_mgr)

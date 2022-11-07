@@ -2,7 +2,7 @@
 
 #########################################
 # Image WITH C compiler, building wheels for next stage
-FROM python:3.6-alpine as bigimage
+FROM python:3.10-alpine as bigimage
 
 ENV LANG C.UTF-8
 
@@ -17,7 +17,7 @@ RUN pip wheel --wheel-dir=/root/wheels /src/xbox-webapi
 
 #########################################
 # Image WITHOUT C compiler, installing the component from wheel
-FROM python:3.6-alpine as smallimage
+FROM python:3.10-alpine as smallimage
 
 RUN apk add --no-cache openssl
 
