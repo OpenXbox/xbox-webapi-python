@@ -29,7 +29,7 @@ async def auth_callback(request):
     )
 
 
-async def async_main(
+async def do_auth(
     client_id: str, client_secret: str, redirect_uri: str, token_filepath: str
 ):
 
@@ -56,7 +56,7 @@ async def async_main(
             f.write(auth_mgr.oauth.json())
 
 
-def main():
+async def async_main():
     parser = argparse.ArgumentParser(description="Authenticate with XBL")
     parser.add_argument(
         "--tokens",
@@ -89,14 +89,11 @@ def main():
     app.add_routes([web.get("/auth/callback", auth_callback)])
     runner = web.AppRunner(app)
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(runner.setup())
+    await runner.setup()
     site = web.TCPSite(runner, "localhost", 8080)
-    loop.run_until_complete(site.start())
-    loop.run_until_complete(
-        async_main(args.client_id, args.client_secret, args.redirect_uri, args.tokens)
-    )
+    await site.start()
+    await do_auth(args.client_id, args.client_secret, args.redirect_uri, args.tokens)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(async_main())
