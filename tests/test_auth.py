@@ -10,7 +10,9 @@ from tests.common import get_response_json
 @pytest.mark.asyncio
 async def test_generate_auth_url(auth_mgr):
     url = auth_mgr.generate_authorization_url()
-    assert "https://login.live.com/oauth20_authorize.srf" in url
+    assert url.startswith("https://login.live.com/oauth20_authorize.srf?")
+    assert "client_id=abc" in url
+    assert "response_type=code" in url
 
 
 @pytest.mark.asyncio

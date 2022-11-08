@@ -4,7 +4,6 @@ appdirs
 ecdsa
 ms_cv
 pydantic
-yarl
 
 # Dev
 pytest
