@@ -1,7 +1,7 @@
 import base64
 from binascii import unhexlify
-
-from ecdsa.keys import VerifyingKey
+import pytest
+from ecdsa.keys import VerifyingKey, BadSignatureError
 
 from xbox.webapi.common.request_signer import RequestSigner
 
@@ -85,15 +85,14 @@ def test_synthetic_verify_digest(
         "Fe3R7GuZfvGA350cH7hWgg4HIHjaD9lGYiwxki6bNyGnB8dMEIfEmBiuNuGUfWjY5lL2h44X/VMGOkPIezVb7Q=="
     )
     invalid_signature = b"\xFF" + bytes(signature)[1:]
-
     success = synthetic_request_signer.verify_digest(signature, message)
-    success_invalid = synthetic_request_signer.verify_digest(invalid_signature, message)
     success_via_vk = synthetic_request_signer.verify_digest(
         signature, message, ecdsa_verifying_key
     )
+    with pytest.raises(BadSignatureError):
+        synthetic_request_signer.verify_digest(invalid_signature, message)
 
     assert success is True
-    assert success_invalid is False
     assert success_via_vk is True
 
 

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from ecdsa.keys import SigningKey
+from ecdsa.keys import SigningKey, VerifyingKey
 from httpx import AsyncClient
 import pytest
 import pytest_asyncio
@@ -45,6 +45,9 @@ def ecdsa_signing_key_str() -> str:
 def ecdsa_signing_key(ecdsa_signing_key_str: str) -> SigningKey:
     return SigningKey.from_pem(ecdsa_signing_key_str)
 
+@pytest.fixture(scope="session")
+def ecdsa_verifying_key(ecdsa_signing_key: SigningKey) -> VerifyingKey:
+    return ecdsa_signing_key.get_verifying_key()
 
 @pytest.fixture(scope="session")
 def synthetic_request_signer(ecdsa_signing_key) -> RequestSigner:
