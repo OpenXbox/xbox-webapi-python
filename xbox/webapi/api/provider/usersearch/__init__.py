@@ -25,4 +25,4 @@ class UserSearchProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_USER_SEARCH, **kwargs
         )
         resp.raise_for_status()
-        return UserSearchResponse.parse_raw(await resp.text())
+        return UserSearchResponse(**resp.json())

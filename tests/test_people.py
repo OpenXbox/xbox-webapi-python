@@ -1,83 +1,66 @@
 import pytest
-
-from tests.common import get_response
+from httpx import Response
+from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
-async def test_people_friends_own(aresponses, xbl_client):
-    aresponses.add(
-        "peoplehub.xboxlive.com", response=get_response("people_friends_own")
-    )
+async def test_people_friends_own(respx_mock, xbl_client):
+    route = respx_mock.get("https://peoplehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_friends_own")))
     ret = await xbl_client.people.get_friends_own()
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.people) == 2
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_people_friends_by_xuid(aresponses, xbl_client):
-    aresponses.add(
-        "peoplehub.xboxlive.com", response=get_response("people_friends_by_xuid")
-    )
+async def test_people_friends_by_xuid(respx_mock, xbl_client):
+    route = respx_mock.get("https://peoplehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_friends_by_xuid")))
     ret = await xbl_client.people.get_friends_by_xuid("2669321029139235")
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.people) == 2
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_profiles_batch(aresponses, xbl_client):
-    aresponses.add("peoplehub.xboxlive.com", response=get_response("people_batch"))
+async def test_profiles_batch(respx_mock, xbl_client):
+    route = respx_mock.post("https://peoplehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_batch")))
     ret = await xbl_client.people.get_friends_own_batch(
         ["271958441785640", "277923030577271", "266932102913935"]
     )
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.people) == 3
 
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_people_recommendations(aresponses, xbl_client):
-    aresponses.add(
-        "peoplehub.xboxlive.com", response=get_response("people_recommendations")
-    )
+async def test_people_recommendations(respx_mock, xbl_client):
+    route = respx_mock.get("https://peoplehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_recommendations")))
     ret = await xbl_client.people.get_friend_recommendations()
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert ret.recommendation_summary.friend_of_friend == 20
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_people_summary_own(aresponses, xbl_client):
-    aresponses.add("social.xboxlive.com", response=get_response("people_summary_own"))
+async def test_people_summary_own(respx_mock, xbl_client):
+    route = respx_mock.get("https://social.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_summary_own")))
     ret = await xbl_client.people.get_friends_summary_own()
-    await xbl_client._auth_mgr.session.close()
-
-    aresponses.assert_plan_strictly_followed()
+    
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_people_summary_by_xuid(aresponses, xbl_client):
-    aresponses.add(
-        "social.xboxlive.com", response=get_response("people_summary_by_xuid")
-    )
+async def test_people_summary_by_xuid(respx_mock, xbl_client):
+    route = respx_mock.get("https://social.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_summary_by_xuid")))
     ret = await xbl_client.people.get_friends_summary_by_xuid("2669321029139235")
-    await xbl_client._auth_mgr.session.close()
-
-    aresponses.assert_plan_strictly_followed()
+    
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_people_summary_by_gamertag(aresponses, xbl_client):
-    aresponses.add(
-        "social.xboxlive.com", response=get_response("people_summary_by_gamertag")
-    )
+async def test_people_summary_by_gamertag(respx_mock, xbl_client):
+    route = respx_mock.get("https://social.xboxlive.com").mock(return_value=Response(200, json=get_response_json("people_summary_by_gamertag")))
     ret = await xbl_client.people.get_friends_summary_by_gamertag("e")
-    await xbl_client._auth_mgr.session.close()
-
-    aresponses.assert_plan_strictly_followed()
+    
+    assert route.called

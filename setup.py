@@ -31,14 +31,14 @@ setup(
     ],
     test_suite="tests",
     install_requires=[
-        "aiohttp",
+        "httpx",
         "appdirs",
         "ms_cv",
         "pydantic",
         "ecdsa",
     ],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "pytest-cov", "aresponses"],
+    tests_require=["pytest", "pytest-cov", "respx"],
     extras_require={
         "dev": [
             "pip",

@@ -7,7 +7,7 @@ import os
 from pprint import pprint
 import sys
 
-from aiohttp import ClientResponseError, ClientSession
+from httpx import HTTPStatusError, AsyncClient
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
@@ -42,7 +42,7 @@ async def async_main():
         print("No token file found, run xbox-authenticate")
         sys.exit(-1)
 
-    async with ClientSession() as session:
+    async with AsyncClient() as session:
         auth_mgr = AuthenticationManager(
             session, args.client_id, args.client_secret, ""
         )
@@ -52,7 +52,7 @@ async def async_main():
         auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
         try:
             await auth_mgr.refresh_tokens()
-        except ClientResponseError:
+        except HTTPStatusError:
             print("Could not refresh tokens")
             sys.exit(-1)
 
@@ -63,7 +63,7 @@ async def async_main():
 
         try:
             resp = await xbl_client.people.get_friends_own()
-        except ClientResponseError:
+        except HTTPStatusError:
             print("Invalid HTTP response")
             sys.exit(-1)
 

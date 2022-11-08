@@ -53,7 +53,7 @@ class PeopleProvider(BaseProvider):
         url = f"{self.PEOPLE_URL}/users/me/people/social/decoration/{decoration}"
         resp = await self.client.session.get(url, headers=self._headers, **kwargs)
         resp.raise_for_status()
-        return PeopleResponse.parse_raw(await resp.text())
+        return PeopleResponse(**resp.json())
 
     async def get_friends_by_xuid(
         self, xuid: str, decoration_fields: List[PeopleDecoration] = None, **kwargs
@@ -76,7 +76,7 @@ class PeopleProvider(BaseProvider):
         url = f"{self.PEOPLE_URL}/users/xuid({xuid})/people/social/decoration/{decoration}"
         resp = await self.client.session.get(url, headers=self._headers, **kwargs)
         resp.raise_for_status()
-        return PeopleResponse.parse_raw(await resp.text())
+        return PeopleResponse(**resp.json())
 
     async def get_friends_own_batch(
         self,
@@ -107,7 +107,7 @@ class PeopleProvider(BaseProvider):
             url, json={"xuids": xuids}, headers=self._headers, **kwargs
         )
         resp.raise_for_status()
-        return PeopleResponse.parse_raw(await resp.text())
+        return PeopleResponse(**resp.json())
 
     async def get_friend_recommendations(self, **kwargs) -> PeopleResponse:
         """
@@ -119,7 +119,7 @@ class PeopleProvider(BaseProvider):
         url = f"{self.PEOPLE_URL}/users/me/people/recommendations"
         resp = await self.client.session.get(url, headers=self._headers, **kwargs)
         resp.raise_for_status()
-        return PeopleResponse.parse_raw(await resp.text())
+        return PeopleResponse(**resp.json())
 
     async def get_friends_summary_own(self, **kwargs) -> PeopleSummaryResponse:
         """
@@ -131,7 +131,7 @@ class PeopleProvider(BaseProvider):
         url = self.SOCIAL_URL + "/users/me/summary"
         resp = await self.client.session.get(url, headers=self.HEADERS_SOCIAL, **kwargs)
         resp.raise_for_status()
-        return PeopleSummaryResponse.parse_raw(await resp.text())
+        return PeopleSummaryResponse(**resp.json())
 
     async def get_friends_summary_by_xuid(
         self, xuid: str, **kwargs
@@ -148,7 +148,7 @@ class PeopleProvider(BaseProvider):
         url = self.SOCIAL_URL + f"/users/xuid({xuid})/summary"
         resp = await self.client.session.get(url, headers=self.HEADERS_SOCIAL, **kwargs)
         resp.raise_for_status()
-        return PeopleSummaryResponse.parse_raw(await resp.text())
+        return PeopleSummaryResponse(**resp.json())
 
     async def get_friends_summary_by_gamertag(
         self, gamertag: str, **kwargs
@@ -165,4 +165,4 @@ class PeopleProvider(BaseProvider):
         url = self.SOCIAL_URL + f"/users/gt({gamertag})/summary"
         resp = await self.client.session.get(url, headers=self.HEADERS_SOCIAL, **kwargs)
         resp.raise_for_status()
-        return PeopleSummaryResponse.parse_raw(await resp.text())
+        return PeopleSummaryResponse(**resp.json())

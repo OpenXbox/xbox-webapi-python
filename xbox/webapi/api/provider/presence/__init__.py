@@ -35,7 +35,7 @@ class PresenceProvider(BaseProvider):
 
         resp = await self.client.session.get(url, headers=self.HEADERS_PRESENCE, **kwargs)
         resp.raise_for_status()
-        return PresenceItem.parse_raw(await resp.text())
+        return PresenceItem(**resp.json())
 
     async def get_presence_batch(
         self,
@@ -67,7 +67,7 @@ class PresenceProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_PRESENCE, **kwargs
         )
         resp.raise_for_status()
-        parsed = PresenceBatchResponse.parse_raw(await resp.text())
+        parsed = PresenceBatchResponse.parse_obj(resp.json())
         return parsed.__root__
 
     async def get_presence_own(
@@ -88,4 +88,4 @@ class PresenceProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_PRESENCE, **kwargs
         )
         resp.raise_for_status()
-        return PresenceItem.parse_raw(await resp.text())
+        return PresenceItem(**resp.json())

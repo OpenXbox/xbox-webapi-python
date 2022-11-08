@@ -4,7 +4,7 @@ SmartGlass - Control Registered Devices
 from typing import List, Optional
 from uuid import uuid4
 
-from aiohttp import ClientResponse
+from httpx import Response
 
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.api.provider.smartglass.models import (
@@ -52,7 +52,7 @@ class SmartglassProvider(BaseProvider):
             "includeStorageDevices": str(include_storage_devices).lower(),
         }
         resp = await self._fetch_list("devices", params, **kwargs)
-        return SmartglassConsoleList.parse_raw(await resp.text())
+        return SmartglassConsoleList(**resp.json())
 
     async def get_installed_apps(
         self, device_id: Optional[str] = None, **kwargs
@@ -69,7 +69,7 @@ class SmartglassProvider(BaseProvider):
         if device_id:
             params["deviceId"] = device_id
         resp = await self._fetch_list("installedApps", params, **kwargs)
-        return InstalledPackagesList.parse_raw(await resp.text())
+        return InstalledPackagesList(**resp.json())
 
     async def get_storage_devices(self, device_id: str, **kwargs) -> StorageDevicesList:
         """
@@ -82,7 +82,7 @@ class SmartglassProvider(BaseProvider):
         """
         params = {"deviceId": device_id}
         resp = await self._fetch_list("storageDevices", params, **kwargs)
-        return StorageDevicesList.parse_raw(await resp.text())
+        return StorageDevicesList(**resp.json())
 
     async def get_console_status(
         self, device_id: str, **kwargs
@@ -98,7 +98,7 @@ class SmartglassProvider(BaseProvider):
         url = f"{self.SG_URL}/consoles/{device_id}"
         resp = await self.client.session.get(url, headers=self.HEADERS_SG, **kwargs)
         resp.raise_for_status()
-        return SmartglassConsoleStatus.parse_raw(await resp.text())
+        return SmartglassConsoleStatus(**resp.json())
 
     async def get_op_status(
         self, device_id: str, op_id: str, **kwargs
@@ -120,7 +120,7 @@ class SmartglassProvider(BaseProvider):
         }
         resp = await self.client.session.get(url, headers=headers, **kwargs)
         resp.raise_for_status()
-        return OperationStatusResponse.parse_raw(await resp.text())
+        return OperationStatusResponse(**resp.json())
 
     async def wake_up(self, device_id: str, **kwargs) -> CommandResponse:
         """
@@ -344,7 +344,7 @@ class SmartglassProvider(BaseProvider):
 
     async def _fetch_list(
         self, list_name: str, params: Optional[dict] = None, **kwargs
-    ) -> ClientResponse:
+    ) -> Response:
         """
         Fetch arbitrary list
 
@@ -353,7 +353,7 @@ class SmartglassProvider(BaseProvider):
             params: query params
 
         Returns:
-            :class:`aiohttp.ClientResponse`: HTTP Response
+            :class:`httpx.Response`: HTTP Response
         """
         url = f"{self.SG_URL}/lists/{list_name}"
         resp = await self.client.session.get(
@@ -395,4 +395,4 @@ class SmartglassProvider(BaseProvider):
             url, json=body, headers=self.HEADERS_SG, **kwargs
         )
         resp.raise_for_status()
-        return CommandResponse.parse_raw(await resp.text())
+        return CommandResponse(**resp.json())

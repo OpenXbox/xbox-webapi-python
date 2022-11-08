@@ -43,7 +43,7 @@ class UserStatsProvider(BaseProvider):
             url, headers=self.HEADERS_USERSTATS, **kwargs
         )
         resp.raise_for_status()
-        return UserStatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse(**resp.json())
 
     async def get_stats_with_metadata(
         self,
@@ -73,7 +73,7 @@ class UserStatsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return UserStatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse(**resp.json())
 
     async def get_stats_batch(
         self,
@@ -107,7 +107,7 @@ class UserStatsProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_USERSTATS, **kwargs
         )
         resp.raise_for_status()
-        return UserStatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse(**resp.json())
 
     async def get_stats_batch_by_scid(
         self,
@@ -142,4 +142,4 @@ class UserStatsProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_USERSTATS, **kwargs
         )
         resp.raise_for_status()
-        return UserStatsResponse.parse_raw(await resp.text())
+        return UserStatsResponse(**resp.json())

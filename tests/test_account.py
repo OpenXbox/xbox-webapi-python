@@ -1,4 +1,4 @@
-from aiohttp import ClientResponseError
+from httpx import HTTPStatusError, Response
 import pytest
 
 from xbox.webapi.api.provider.account.models import (
@@ -8,58 +8,39 @@ from xbox.webapi.api.provider.account.models import (
 
 
 @pytest.mark.asyncio
-async def test_claim_gamertag(aresponses, xbl_client):
-    aresponses.add(
-        "user.mgt.xboxlive.com",
-        method_pattern="POST",
-        response=aresponses.Response(status=200),
-    )
+async def test_claim_gamertag(respx_mock, xbl_client):
+    route = respx_mock.post("https://user.mgt.xboxlive.com").mock(return_value=Response(200))
     ret = await xbl_client.account.claim_gamertag("2669321029139235", "PrettyPony")
-    await xbl_client._auth_mgr.session.close()
 
     assert ret == ClaimGamertagResult.Available
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_claim_gamertag_error(aresponses, xbl_client):
-    aresponses.add(
-        "user.mgt.xboxlive.com",
-        method_pattern="POST",
-        response=aresponses.Response(status=500),
-    )
-    with pytest.raises(ClientResponseError) as err:
+async def test_claim_gamertag_error(respx_mock, xbl_client):
+    route = respx_mock.post("https://user.mgt.xboxlive.com").mock(return_value=Response(500))
+    with pytest.raises(HTTPStatusError) as err:
         await xbl_client.account.claim_gamertag("2669321029139235", "PrettyPony")
-    await xbl_client._auth_mgr.session.close()
 
-    assert err.value.status == 500
-    aresponses.assert_plan_strictly_followed()
+    print(err.value.request.__dict__)
+    assert err.value.response.status_code == 500
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_change_gamertag(aresponses, xbl_client):
-    aresponses.add(
-        "accounts.xboxlive.com",
-        method_pattern="POST",
-        response=aresponses.Response(status=200),
-    )
+async def test_change_gamertag(respx_mock, xbl_client):
+    route = respx_mock.post("https://accounts.xboxlive.com").mock(return_value=Response(200))
     ret = await xbl_client.account.change_gamertag("2669321029139235", "PrettyPony")
-    await xbl_client._auth_mgr.session.close()
 
     assert ret == ChangeGamertagResult.ChangeSuccessful
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_change_gamertag_error(aresponses, xbl_client):
-    aresponses.add(
-        "accounts.xboxlive.com",
-        method_pattern="POST",
-        response=aresponses.Response(status=500),
-    )
-    with pytest.raises(ClientResponseError) as err:
+async def test_change_gamertag_error(respx_mock, xbl_client):
+    route = respx_mock.post("https://accounts.xboxlive.com").mock(return_value=Response(500))
+    with pytest.raises(HTTPStatusError) as err:
         await xbl_client.account.change_gamertag("2669321029139235", "PrettyPony")
-    await xbl_client._auth_mgr.session.close()
 
-    assert err.value.status == 500
-    aresponses.assert_plan_strictly_followed()
+    assert err.value.response.status_code == 500
+    assert route.called

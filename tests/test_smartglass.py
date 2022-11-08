@@ -1,87 +1,65 @@
 import pytest
-
+from httpx import Response
 from xbox.webapi.api.provider.smartglass.models import InputKeyType, VolumeDirection
 
-from tests.common import get_response
+from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
-async def test_get_console_list(aresponses, xbl_client):
-    aresponses.add(
-        "xccs.xboxlive.com",
-        "/lists/devices",
-        response=get_response("smartglass_console_list"),
-    )
+async def test_get_console_list(respx_mock, xbl_client):
+    route = respx_mock.get("https://xccs.xboxlive.com/lists/devices").mock(return_value=Response(200, json=get_response_json("smartglass_console_list")))
     ret = await xbl_client.smartglass.get_console_list()
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.result) == 2
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_get_installed_apps(aresponses, xbl_client):
-    aresponses.add(
-        "xccs.xboxlive.com",
-        "/lists/installedApps",
-        response=get_response("smartglass_installed_apps"),
-    )
+async def test_get_installed_apps(respx_mock, xbl_client):
+    route = respx_mock.get("https://xccs.xboxlive.com/lists/installedApps").mock(return_value=Response(200, json=get_response_json("smartglass_installed_apps")))
     device_id = "ABCDEFG"
     ret = await xbl_client.smartglass.get_installed_apps(device_id)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.result) == 2
-    aresponses.assert_plan_strictly_followed()
-    assert aresponses.history[0].request.query["deviceId"] == device_id
+    assert route.called
+    assert device_id in str(respx_mock.calls[0].request.url)
+
 
 
 @pytest.mark.asyncio
-async def test_get_storage_devices(aresponses, xbl_client):
-    aresponses.add(
-        "xccs.xboxlive.com",
-        "/lists/storageDevices",
-        response=get_response("smartglass_storage_devices"),
-    )
+async def test_get_storage_devices(respx_mock, xbl_client):
+    route = respx_mock.get("https://xccs.xboxlive.com/lists/storageDevices").mock(return_value=Response(200, json=get_response_json("smartglass_storage_devices")))
     device_id = "ABCDEFG"
     ret = await xbl_client.smartglass.get_storage_devices(device_id)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.result) == 1
     assert ret.device_id == device_id
-    aresponses.assert_plan_strictly_followed()
-    assert aresponses.history[0].request.query["deviceId"] == device_id
+    assert route.called
+    assert device_id in str(respx_mock.calls[0].request.url)
 
 
 @pytest.mark.asyncio
-async def test_get_console_status(aresponses, xbl_client):
-    aresponses.add(
-        "xccs.xboxlive.com",
-        "/consoles/ABCDEFG",
-        response=get_response("smartglass_console_status"),
-    )
+async def test_get_console_status(respx_mock, xbl_client):
+    route = respx_mock.get("https://xccs.xboxlive.com/consoles/ABCDEFG").mock(return_value=Response(200, json=get_response_json("smartglass_console_status")))
     ret = await xbl_client.smartglass.get_console_status("ABCDEFG")
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert ret.status.error_code == "OK"
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_get_op_status(aresponses, xbl_client):
-    aresponses.add(
-        "xccs.xboxlive.com", "/opStatus", response=get_response("smartglass_op_status")
-    )
+async def test_get_op_status(respx_mock, xbl_client):
+    route = respx_mock.get("https://xccs.xboxlive.com/opStatus").mock(return_value=Response(200, json=get_response_json("smartglass_op_status")))
     ret = await xbl_client.smartglass.get_op_status(
         "ABCDEFG", "35bd7870-fad4-4e98-a354-d027bd840116"
     )
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert ret.status.error_code == "OK"
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_commands(aresponses, xbl_client):
+async def test_commands(respx_mock, xbl_client):
     device_args = {"device_id": "ABCDEFG"}
     commands = [
         {"method": "wake_up", "args": {**device_args}},
@@ -105,15 +83,9 @@ async def test_commands(aresponses, xbl_client):
         },
         {"method": "show_tv_guide", "args": {**device_args}},
     ]
-    aresponses.add(
-        "xccs.xboxlive.com",
-        "/commands",
-        response=get_response("smartglass_command"),
-        repeat=len(commands),
-    )
+    route = respx_mock.post("https://xccs.xboxlive.com/commands").mock(return_value=Response(200, json=get_response_json("smartglass_command")))
 
     for command in commands:
         await getattr(xbl_client.smartglass, command["method"])(**command["args"])
-    await xbl_client._auth_mgr.session.close()
-
-    aresponses.assert_plan_strictly_followed()
+    
+    assert route.called

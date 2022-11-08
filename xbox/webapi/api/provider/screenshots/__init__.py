@@ -27,7 +27,7 @@ class ScreenshotsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return ScreenshotResponse.parse_raw(await resp.text())
+        return ScreenshotResponse(**resp.json())
 
     async def get_recent_own_screenshots(
         self, title_id: str = None, skip_items: int = 0, max_items: int = 25, **kwargs
@@ -53,7 +53,7 @@ class ScreenshotsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return ScreenshotResponse.parse_raw(await resp.text())
+        return ScreenshotResponse(**resp.json())
 
     async def get_recent_screenshots_by_xuid(
         self,
@@ -85,7 +85,7 @@ class ScreenshotsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return ScreenshotResponse.parse_raw(await resp.text())
+        return ScreenshotResponse(**resp.json())
 
     async def get_saved_community_screenshots_by_title_id(
         self, title_id: str, **kwargs
@@ -105,7 +105,7 @@ class ScreenshotsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return ScreenshotResponse.parse_raw(await resp.text())
+        return ScreenshotResponse(**resp.json())
 
     async def get_saved_own_screenshots(
         self, title_id: str = None, skip_items: int = 0, max_items: int = 25, **kwargs
@@ -131,7 +131,7 @@ class ScreenshotsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return ScreenshotResponse.parse_raw(await resp.text())
+        return ScreenshotResponse(**resp.json())
 
     async def get_saved_screenshots_by_xuid(
         self,
@@ -163,4 +163,4 @@ class ScreenshotsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_SCREENSHOTS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return ScreenshotResponse.parse_raw(await resp.text())
+        return ScreenshotResponse(**resp.json())
