@@ -38,7 +38,7 @@ setup(
         "ecdsa",
     ],
     setup_requires=["pytest-runner"],
-    tests_require=["pytest", "pytest-cov", "respx"],
+    tests_require=["pytest", "pytest-cov", "pytest-asyncio", "respx"],
     extras_require={
         "dev": [
             "pip",
@@ -54,6 +54,7 @@ setup(
             "twine",
             "pytest",
             "pytest-cov",
+            "pytest-asyncio",
             "pytest-runner",
         ],
     },
