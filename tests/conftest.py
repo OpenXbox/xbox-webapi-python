@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from ecdsa.keys import SigningKey, VerifyingKey
-from httpx import AsyncClient
 import pytest
 import pytest_asyncio
 
@@ -13,6 +12,7 @@ from xbox.webapi.authentication.models import (
     XSTSResponse,
 )
 from xbox.webapi.common.request_signer import RequestSigner
+from xbox.webapi.common.signed_session import SignedSession
 
 from tests.common import get_response
 
@@ -21,7 +21,7 @@ collect_ignore = ["setup.py"]
 
 @pytest_asyncio.fixture(scope="function")
 async def auth_mgr(event_loop):
-    session = AsyncClient()
+    session = SignedSession()
     mgr = AuthenticationManager(session, "abc", "123", "http://localhost")
     mgr.oauth = OAuth2TokenResponse.parse_raw(get_response("auth_oauth2_token"))
     mgr.user_token = XAUResponse.parse_raw(get_response("auth_user_token"))
@@ -45,9 +45,11 @@ def ecdsa_signing_key_str() -> str:
 def ecdsa_signing_key(ecdsa_signing_key_str: str) -> SigningKey:
     return SigningKey.from_pem(ecdsa_signing_key_str)
 
+
 @pytest.fixture(scope="session")
 def ecdsa_verifying_key(ecdsa_signing_key: SigningKey) -> VerifyingKey:
     return ecdsa_signing_key.get_verifying_key()
+
 
 @pytest.fixture(scope="session")
 def synthetic_request_signer(ecdsa_signing_key) -> RequestSigner:

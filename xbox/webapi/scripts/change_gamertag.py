@@ -6,7 +6,7 @@ import asyncio
 import os
 import sys
 
-from httpx import AsyncClient, HTTPStatusError
+from httpx import HTTPStatusError
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.api.provider.account.models import (
@@ -15,6 +15,7 @@ from xbox.webapi.api.provider.account.models import (
 )
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
+from xbox.webapi.common.signed_session import SignedSession
 from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, TOKENS_FILE
 
 
@@ -50,12 +51,12 @@ async def async_main():
         print("No token file found, run xbox-authenticate")
         sys.exit(-1)
 
-    async with AsyncClient() as session:
+    async with SignedSession() as session:
         auth_mgr = AuthenticationManager(
             session, args.client_id, args.client_secret, ""
         )
 
-        with open(args.tokens, mode="r") as f:
+        with open(args.tokens) as f:
             tokens = f.read()
         auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
         try:

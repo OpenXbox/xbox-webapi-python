@@ -11,10 +11,9 @@ import threading
 from urllib.parse import parse_qs, urlparse
 import webbrowser
 
-from httpx import AsyncClient
-
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
+from xbox.webapi.common.signed_session import SignedSession
 from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKENS_FILE
 
 QUEUE = queue.Queue(1)
@@ -74,14 +73,14 @@ class AuthCallbackRequestHandler(http.server.BaseHTTPRequestHandler):
 async def do_auth(
     client_id: str, client_secret: str, redirect_uri: str, token_filepath: str
 ):
-    async with AsyncClient() as session:
+    async with SignedSession() as session:
         auth_mgr = AuthenticationManager(
             session, client_id, client_secret, redirect_uri
         )
 
         # Refresh tokens if we have them
         if os.path.exists(token_filepath):
-            with open(token_filepath, mode="r") as f:
+            with open(token_filepath) as f:
                 tokens = f.read()
             auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
             await auth_mgr.refresh_tokens()

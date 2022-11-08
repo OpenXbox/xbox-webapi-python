@@ -6,10 +6,11 @@ import asyncio
 from pprint import pprint
 import sys
 
-from httpx import AsyncClient, HTTPStatusError
+from httpx import HTTPStatusError
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.common.signed_session import SignedSession
 
 
 async def async_main():
@@ -18,7 +19,7 @@ async def async_main():
 
     args = parser.parse_args()
 
-    async with AsyncClient() as session:
+    async with SignedSession() as session:
         auth_mgr = AuthenticationManager(session, "", "", "")
 
         # No Auth necessary for catalog searches
