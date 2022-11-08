@@ -20,7 +20,6 @@ Authentication is supported via OAuth2.
 ## Dependencies
 
 - Python >= 3.7
-- Libraries: httpx, appdirs, ms_cv, pydantic, urwid, yarl, ecdsa
 
 ## How to use
 
