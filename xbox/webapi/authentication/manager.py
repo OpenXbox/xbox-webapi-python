@@ -6,7 +6,7 @@ Authenticate with Windows Live Server and Xbox Live.
 import logging
 from typing import List, Optional
 
-import aiohttp
+import httpx
 from yarl import URL
 
 from xbox.webapi.authentication.models import (
@@ -26,13 +26,13 @@ DEFAULT_SCOPES = ["Xboxlive.signin", "Xboxlive.offline_access"]
 class AuthenticationManager:
     def __init__(
         self,
-        client_session: aiohttp.ClientSession,
+        client_session: httpx.Client,
         client_id: str,
         client_secret: str,
         redirect_uri: str,
         scopes: Optional[List[str]] = None,
     ):
-        self.session: aiohttp.ClientSession = client_session
+        self.session: httpx.Client = client_session
         self._client_id: str = client_id
         self._client_secret: str = client_secret
         self._redirect_uri: str = redirect_uri
@@ -80,7 +80,7 @@ class AuthenticationManager:
         params = {"type": 1}
         resp = await self.session.get(url, headers=headers, params=params)
         resp.raise_for_status()
-        return TitleEndpointsResponse.parse_raw(await resp.text())
+        return TitleEndpointsResponse(**resp.json())
 
     async def request_oauth_token(self, authorization_code: str) -> OAuth2TokenResponse:
         """Request OAuth2 token."""
@@ -112,7 +112,7 @@ class AuthenticationManager:
             "https://login.live.com/oauth20_token.srf", data=data
         )
         resp.raise_for_status()
-        return OAuth2TokenResponse.parse_raw(await resp.text())
+        return OAuth2TokenResponse(**resp.json())
 
     async def request_user_token(
         self,
@@ -136,7 +136,7 @@ class AuthenticationManager:
 
         resp = await self.session.post(url, json=data, headers=headers)
         resp.raise_for_status()
-        return XAUResponse.parse_raw(await resp.text())
+        return XAUResponse(**resp.json())
 
     async def request_xsts_token(
         self, relying_party: str = "http://xboxlive.com"
@@ -154,8 +154,8 @@ class AuthenticationManager:
         }
 
         resp = await self.session.post(url, json=data, headers=headers)
-        if(resp.status == 401): # if unauthorized
+        if(resp.status_code == 401): # if unauthorized
             print('Failed to authorize you! Your password or username may be wrong or you are trying to use child account (< 18 years old)')
             raise AuthenticationException()
         resp.raise_for_status()
-        return XSTSResponse.parse_raw(await resp.text())
+        return XSTSResponse(**resp.json())

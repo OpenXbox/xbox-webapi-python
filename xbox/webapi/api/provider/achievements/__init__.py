@@ -36,7 +36,7 @@ class AchievementsProvider(BaseProvider):
             url, headers=self.HEADERS_GAME_PROGRESS, **kwargs
         )
         resp.raise_for_status()
-        return AchievementResponse.parse_raw(await resp.text())
+        return AchievementResponse(**resp.json())
 
     async def get_achievements_xbox360_all(
         self, xuid, title_id, **kwargs
@@ -57,7 +57,7 @@ class AchievementsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAME_360_PROGRESS, **kwargs
         )
         resp.raise_for_status()
-        return Achievement360Response.parse_raw(await resp.text())
+        return Achievement360Response(**resp.json())
 
     async def get_achievements_xbox360_earned(
         self, xuid, title_id, **kwargs
@@ -78,7 +78,7 @@ class AchievementsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAME_360_PROGRESS, **kwargs
         )
         resp.raise_for_status()
-        return Achievement360Response.parse_raw(await resp.text())
+        return Achievement360Response(**resp.json())
 
     async def get_achievements_xbox360_recent_progress_and_info(
         self, xuid, **kwargs
@@ -97,7 +97,7 @@ class AchievementsProvider(BaseProvider):
             url, headers=self.HEADERS_GAME_360_PROGRESS, **kwargs
         )
         resp.raise_for_status()
-        return Achievement360ProgressResponse.parse_raw(await resp.text())
+        return Achievement360ProgressResponse(**resp.json())
 
     async def get_achievements_xboxone_gameprogress(
         self, xuid, title_id, **kwargs
@@ -118,7 +118,7 @@ class AchievementsProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAME_PROGRESS, **kwargs
         )
         resp.raise_for_status()
-        return AchievementResponse.parse_raw(await resp.text())
+        return AchievementResponse(**resp.json())
 
     async def get_achievements_xboxone_recent_progress_and_info(
         self, xuid, **kwargs
@@ -137,4 +137,4 @@ class AchievementsProvider(BaseProvider):
             url, headers=self.HEADERS_GAME_PROGRESS, **kwargs
         )
         resp.raise_for_status()
-        return RecentProgressResponse.parse_raw(await resp.text())
+        return RecentProgressResponse(**resp.json())

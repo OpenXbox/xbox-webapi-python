@@ -1,16 +1,13 @@
 import pytest
-
-from tests.common import get_response
+from httpx import Response
+from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
-async def test_profile_by_xuid(aresponses, xbl_client):
-    aresponses.add(
-        "usersearch.xboxlive.com", response=get_response("usersearch_live_search")
-    )
+async def test_profile_by_xuid(respx_mock, xbl_client):
+    route = respx_mock.get("https://usersearch.xboxlive.com").mock(return_value=Response(200, json=get_response_json("usersearch_live_search")))
     ret = await xbl_client.usersearch.get_live_search("tux")
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.results) == 8
 
-    aresponses.assert_plan_strictly_followed()
+    assert route.called

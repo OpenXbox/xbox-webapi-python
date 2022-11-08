@@ -1,29 +1,20 @@
 import pytest
-
-from tests.common import get_response
+from httpx import Response
+from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
-async def test_get_list(aresponses, xbl_client):
-    aresponses.add(
-        "eplists.xboxlive.com",
-        method_pattern="GET",
-        response=get_response("lists_get_items"),
-    )
+async def test_get_list(respx_mock, xbl_client):
+    route = respx_mock.get("https://eplists.xboxlive.com").mock(return_value=Response(200, json=get_response_json("lists_get_items")))
     ret = await xbl_client.lists.get_items(xbl_client.xuid)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert ret.list_metadata.list_count == 3
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_list_add(aresponses, xbl_client):
-    aresponses.add(
-        "eplists.xboxlive.com",
-        method_pattern="POST",
-        response=get_response("list_add_item"),
-    )
+async def test_list_add(respx_mock, xbl_client):
+    route = respx_mock.post("https://eplists.xboxlive.com").mock(return_value=Response(200, json=get_response_json("list_add_item")))
     post_body = {
         "Items": [
             {
@@ -37,19 +28,14 @@ async def test_list_add(aresponses, xbl_client):
         ]
     }
     ret = await xbl_client.lists.insert_items(xbl_client.xuid, post_body)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert ret.list_count == 8
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_list_delete(aresponses, xbl_client):
-    aresponses.add(
-        "eplists.xboxlive.com",
-        method_pattern="DELETE",
-        response=get_response("list_delete_item"),
-    )
+async def test_list_delete(respx_mock, xbl_client):
+    route = respx_mock.delete("https://eplists.xboxlive.com").mock(return_value=Response(200, json=get_response_json("list_delete_item")))
     post_body = {
         "Items": [
             {
@@ -63,7 +49,6 @@ async def test_list_delete(aresponses, xbl_client):
         ]
     }
     ret = await xbl_client.lists.remove_items(xbl_client.xuid, post_body)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert ret.list_count == 7
-    aresponses.assert_plan_strictly_followed()
+    assert route.called

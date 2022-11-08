@@ -48,7 +48,7 @@ class ProfileProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_PROFILE, **kwargs
         )
         resp.raise_for_status()
-        return ProfileResponse.parse_raw(await resp.text())
+        return ProfileResponse(**resp.json())
 
     async def get_profile_by_xuid(self, target_xuid: str, **kwargs) -> ProfileResponse:
         """
@@ -86,7 +86,7 @@ class ProfileProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_PROFILE, **kwargs
         )
         resp.raise_for_status()
-        return ProfileResponse.parse_raw(await resp.text())
+        return ProfileResponse(**resp.json())
 
     async def get_profile_by_gamertag(self, gamertag: str, **kwargs) -> ProfileResponse:
         """
@@ -124,4 +124,4 @@ class ProfileProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_PROFILE, **kwargs
         )
         resp.raise_for_status()
-        return ProfileResponse.parse_raw(await resp.text())
+        return ProfileResponse(**resp.json())

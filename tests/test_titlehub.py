@@ -1,46 +1,40 @@
 import pytest
-
-from tests.common import get_response
+from httpx import Response
+from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
-async def test_titlehub_titlehistory(aresponses, xbl_client):
-    aresponses.add(
-        "titlehub.xboxlive.com", response=get_response("titlehub_titlehistory")
-    )
+async def test_titlehub_titlehistory(respx_mock, xbl_client):
+    route = respx_mock.get("https://titlehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("titlehub_titlehistory")))
     ret = await xbl_client.titlehub.get_title_history(987654321)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.titles) == 5
 
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_titlehub_titleinfo(aresponses, xbl_client):
-    aresponses.add("titlehub.xboxlive.com", response=get_response("titlehub_titleinfo"))
+async def test_titlehub_titleinfo(respx_mock, xbl_client):
+    route = respx_mock.get("https://titlehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("titlehub_titleinfo")))
     ret = await xbl_client.titlehub.get_title_info(1717113201)
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.titles) == 1
-
     assert ret.titles[0].detail.genres == ["Action & adventure"]
 
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio
-async def test_titlehub_batch(aresponses, xbl_client):
-    aresponses.add("titlehub.xboxlive.com", response=get_response("titlehub_batch"))
+async def test_titlehub_batch(respx_mock, xbl_client):
+    route = respx_mock.post("https://titlehub.xboxlive.com").mock(return_value=Response(200, json=get_response_json("titlehub_batch")))
     ret = await xbl_client.titlehub.get_titles_batch(
         ["Microsoft.SeaofThieves_8wekyb3d8bbwe", "Microsoft.XboxApp_8wekyb3d8bbwe"]
     )
-    await xbl_client._auth_mgr.session.close()
-
+    
     assert len(ret.titles) == 2
 
     
     assert ret.titles[0].detail.genres == []
     assert ret.titles[1].detail.genres == ["Action & adventure"]
 
-    aresponses.assert_plan_strictly_followed()
+    assert route.called

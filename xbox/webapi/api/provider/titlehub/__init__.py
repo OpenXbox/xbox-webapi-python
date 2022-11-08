@@ -59,7 +59,7 @@ class TitlehubProvider(BaseProvider):
             url, params=params, headers=self._headers, **kwargs
         )
         resp.raise_for_status()
-        return TitleHubResponse.parse_raw(await resp.text())
+        return TitleHubResponse(**resp.json())
 
     async def get_title_info(
         self, title_id: str, fields: Optional[List[TitleFields]] = None, **kwargs
@@ -87,7 +87,7 @@ class TitlehubProvider(BaseProvider):
         url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
         resp = await self.client.session.get(url, headers=self._headers, **kwargs)
         resp.raise_for_status()
-        return TitleHubResponse.parse_raw(await resp.text())
+        return TitleHubResponse(**resp.json())
 
     async def get_titles_batch(
         self, pfns: List[str], fields: Optional[List[TitleFields]] = None, **kwargs
@@ -117,4 +117,4 @@ class TitlehubProvider(BaseProvider):
             url, json=post_data, headers=self._headers, **kwargs
         )
         resp.raise_for_status()
-        return TitleHubResponse.parse_raw(await resp.text())
+        return TitleHubResponse(**resp.json())

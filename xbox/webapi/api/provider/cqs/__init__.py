@@ -43,7 +43,7 @@ class CQSProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_CQS, **kwargs
         )
         resp.raise_for_status()
-        return CqsChannelListResponse.parse_raw(await resp.text())
+        return CqsChannelListResponse(**resp.json())
 
     async def get_schedule(
         self,
@@ -81,4 +81,4 @@ class CQSProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_CQS, **kwargs
         )
         resp.raise_for_status()
-        return CqsScheduleResponse.parse_raw(await resp.text())
+        return CqsScheduleResponse(**resp.json())

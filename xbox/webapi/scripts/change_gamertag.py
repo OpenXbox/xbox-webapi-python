@@ -6,7 +6,7 @@ import asyncio
 import os
 import sys
 
-from aiohttp import ClientResponseError, ClientSession
+from httpx import HTTPStatusError, AsyncClient
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.api.provider.account.models import (
@@ -50,7 +50,7 @@ async def async_main():
         print("No token file found, run xbox-authenticate")
         sys.exit(-1)
 
-    async with ClientSession() as session:
+    async with AsyncClient() as session:
         auth_mgr = AuthenticationManager(
             session, args.client_id, args.client_secret, ""
         )
@@ -60,7 +60,7 @@ async def async_main():
         auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
         try:
             await auth_mgr.refresh_tokens()
-        except ClientResponseError:
+        except HTTPStatusError:
             print("Could not refresh tokens")
             sys.exit(-1)
 
@@ -82,7 +82,7 @@ async def async_main():
             if resp == ClaimGamertagResult.NotAvailable:
                 print("Claiming gamertag failed - Desired gamertag is unavailable")
                 sys.exit(-1)
-        except ClientResponseError:
+        except HTTPStatusError:
             print("Invalid HTTP response from claim")
             sys.exit(-1)
 
@@ -94,7 +94,7 @@ async def async_main():
             if resp == ChangeGamertagResult.NoFreeChangesAvailable:
                 print("Changing gamertag failed - You are out of free changes")
                 sys.exit(-1)
-        except ClientResponseError:
+        except HTTPStatusError:
             print("Invalid HTTP response from change")
             sys.exit(-1)
 

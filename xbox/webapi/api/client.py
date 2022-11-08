@@ -7,8 +7,7 @@ and available `Providers`
 import logging
 from typing import Any
 
-from aiohttp import hdrs
-from aiohttp.client import ClientResponse
+from httpx import Response
 from ms_cv import CorrelationVector
 
 from xbox.webapi.api.language import DefaultXboxLiveLanguages, XboxLiveLanguage
@@ -44,7 +43,7 @@ class Session:
         include_auth: bool = True,
         include_cv: bool = True,
         **kwargs: Any,
-    ) -> ClientResponse:
+    ) -> Response:
         """Proxy Request and add Auth/CV headers."""
         headers = kwargs.pop("headers", {})
         params = kwargs.pop("params", None)
@@ -60,7 +59,7 @@ class Session:
             await self._auth_mgr.refresh_tokens()
             # Set auth header
             headers[
-                hdrs.AUTHORIZATION
+                "Authorization"
             ] = self._auth_mgr.xsts_token.authorization_header_value
 
         if include_cv:
@@ -82,26 +81,26 @@ class Session:
             method, url, **kwargs, headers=headers, params=params, data=data
         )
 
-    async def get(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_GET, url, **kwargs)
+    async def get(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("GET", url, **kwargs)
 
-    async def options(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_OPTIONS, url, **kwargs)
+    async def options(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("OPTIONS", url, **kwargs)
 
-    async def head(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_HEAD, url, **kwargs)
+    async def head(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("HEAD", url, **kwargs)
 
-    async def post(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_POST, url, **kwargs)
+    async def post(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("POST", url, **kwargs)
 
-    async def put(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_PUT, url, **kwargs)
+    async def put(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("PUT", url, **kwargs)
 
-    async def patch(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_PATCH, url, **kwargs)
+    async def patch(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("PATCH", url, **kwargs)
 
-    async def delete(self, url: str, **kwargs: Any) -> ClientResponse:
-        return await self.request(hdrs.METH_DELETE, url, **kwargs)
+    async def delete(self, url: str, **kwargs: Any) -> Response:
+        return await self.request("DELETE", url, **kwargs)
 
 
 class XboxLiveClient:

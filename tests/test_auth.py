@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
-from tests.common import get_response
+from httpx import Response
+from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
@@ -19,80 +19,62 @@ async def test_generate_auth_url_with_state(auth_mgr):
 
 
 @pytest.mark.asyncio
-async def test_request_tokens(aresponses, auth_mgr):
-    aresponses.add("login.live.com", response=get_response("auth_oauth2_token"))
-    aresponses.add(
-        "user.auth.xboxlive.com",
-        "/user/authenticate",
-        response=get_response("auth_user_token"),
-    )
-    aresponses.add(
-        "xsts.auth.xboxlive.com",
-        "/xsts/authorize",
-        response=get_response("auth_xsts_token"),
-    )
+async def test_request_tokens(respx_mock, auth_mgr):
+    route1 = respx_mock.post("https://login.live.com").mock(return_value=Response(200, json=get_response_json("auth_oauth2_token")))
+    route2 = respx_mock.post("https://user.auth.xboxlive.com/user/authenticate").mock(return_value=Response(200, json=get_response_json("auth_user_token")))
+    route3 = respx_mock.post("https://xsts.auth.xboxlive.com/xsts/authorize").mock(return_value=Response(200, json=get_response_json("auth_xsts_token")))
     await auth_mgr.request_tokens("CODE")
-    aresponses.assert_plan_strictly_followed()
+    assert route1.called
+    assert route2.called
+    assert route3.called
 
 
 @pytest.mark.asyncio
-async def test_refresh_tokens(aresponses, auth_mgr):
+async def test_refresh_tokens(respx_mock, auth_mgr):
     # Expire Tokens
     expired = datetime.now(timezone.utc) - timedelta(days=10)
     auth_mgr.oauth.issued = expired
     auth_mgr.user_token.not_after = expired
     auth_mgr.xsts_token.not_after = expired
 
-    aresponses.add("login.live.com", response=get_response("auth_oauth2_token"))
-    aresponses.add(
-        "user.auth.xboxlive.com",
-        "/user/authenticate",
-        response=get_response("auth_user_token"),
-    )
-    aresponses.add(
-        "xsts.auth.xboxlive.com",
-        "/xsts/authorize",
-        response=get_response("auth_xsts_token"),
-    )
+    route1 = respx_mock.post("https://login.live.com").mock(return_value=Response(200, json=get_response_json("auth_oauth2_token")))
+    route2 = respx_mock.post("https://user.auth.xboxlive.com/user/authenticate").mock(return_value=Response(200, json=get_response_json("auth_user_token")))
+    route3 = respx_mock.post("https://xsts.auth.xboxlive.com/xsts/authorize").mock(return_value=Response(200, json=get_response_json("auth_xsts_token")))
     await auth_mgr.refresh_tokens()
-    aresponses.assert_plan_strictly_followed()
+    assert route1.called
+    assert route2.called
+    assert route3.called
 
 
 @pytest.mark.asyncio
-async def test_refresh_tokens_still_valid(aresponses, auth_mgr):
+async def test_refresh_tokens_still_valid(respx_mock, auth_mgr):
     now = datetime.now(timezone.utc)
     auth_mgr.oauth.issued = now
     auth_mgr.user_token.not_after = now + timedelta(days=1)
     auth_mgr.xsts_token.not_after = now + timedelta(days=1)
     await auth_mgr.refresh_tokens()
-    aresponses.assert_plan_strictly_followed()
 
 
 @pytest.mark.asyncio
-async def test_refresh_tokens_user_still_valid(aresponses, auth_mgr):
+async def test_refresh_tokens_user_still_valid(respx_mock, auth_mgr):
     # Expire Tokens
     expired = datetime.now(timezone.utc) - timedelta(days=10)
     auth_mgr.oauth.issued = expired
     auth_mgr.xsts_token.not_after = expired
 
     auth_mgr.user_token.not_after = datetime.now(timezone.utc) + timedelta(days=1)
-    aresponses.add("login.live.com", response=get_response("auth_oauth2_token"))
-    aresponses.add(
-        "xsts.auth.xboxlive.com",
-        "/xsts/authorize",
-        response=get_response("auth_xsts_token"),
-    )
+    route1 = respx_mock.post("https://login.live.com").mock(return_value=Response(200, json=get_response_json("auth_oauth2_token")))
+    route2 = respx_mock.post("https://xsts.auth.xboxlive.com/xsts/authorize").mock(return_value=Response(200, json=get_response_json("auth_xsts_token")))
     await auth_mgr.refresh_tokens()
-    aresponses.assert_plan_strictly_followed()
+    assert route1.called
+    assert route2.called
 
 
 @pytest.mark.asyncio
-async def test_get_title_endpoints(aresponses, auth_mgr):
-    aresponses.add(
-        "title.mgt.xboxlive.com", response=get_response("auth_title_endpoints")
-    )
+async def test_get_title_endpoints(respx_mock, auth_mgr):
+    route = respx_mock.get("https://title.mgt.xboxlive.com").mock(return_value=Response(200, json=get_response_json("auth_title_endpoints")))
     await auth_mgr.get_title_endpoints()
-    aresponses.assert_plan_strictly_followed()
+    assert route.called
 
 
 @pytest.mark.asyncio

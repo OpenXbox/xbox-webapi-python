@@ -7,8 +7,9 @@ import base64
 from datetime import datetime
 import hashlib
 import struct
+from typing import Optional
 
-from ecdsa import NIST256p, SigningKey
+from ecdsa import NIST256p, SigningKey, VerifyingKey
 
 from xbox.webapi.authentication.models import SignaturePolicy
 from xbox.webapi.common import filetimes
@@ -20,7 +21,9 @@ DEFAULT_SIGNING_POLICY = SignaturePolicy(
 
 class RequestSigner:
     def __init__(self, signing_key=None, signing_policy=None):
-        self.signing_key = signing_key or SigningKey.generate(curve=NIST256p)
+        self.signing_key: SigningKey = signing_key or SigningKey.generate(
+            curve=NIST256p
+        )
         self.signing_policy = signing_policy or DEFAULT_SIGNING_POLICY
 
         pk_point = self.signing_key.verifying_key.pubkey.point
@@ -70,6 +73,25 @@ class RequestSigner:
         """
         return struct.pack("!I", version)
 
+    def verify_digest(
+        self,
+        signature: bytes,
+        digest: bytes,
+        verifying_key: Optional[VerifyingKey] = None,
+    ) -> bool:
+        """
+        Verify signature against digest
+
+        signature: Signature to validate
+        message: Digest to verify
+        verifying_key: Public key to use for verification.
+                       If that key is not provided, the private key used for signing is used.
+
+        Returns: True on successful verification, False otherwise
+        """
+        verifier = verifying_key or self.signing_key.verifying_key
+        return verifier.verify_digest(signature, digest)
+
     def sign(
         self,
         method: str,
@@ -94,12 +116,14 @@ class RequestSigner:
         authorization: str,
         timestamp: datetime,
     ) -> bytes:
-        # Calculate hash
+        # Get big-endian representation of signature version and timestamp (FILETIME)
         signature_version_bytes = self.get_signature_version_buffer(
             self.signing_policy.version
         )
         ts_bytes = self.get_timestamp_buffer(timestamp)
-        hash = self._hash(
+
+        # Concatenate bytes to sign + hash
+        data = self._concat_data_to_sign(
             signature_version_bytes,
             method,
             path_and_query,
@@ -109,14 +133,24 @@ class RequestSigner:
             self.signing_policy.max_body_bytes,
         )
 
+        # Calculate digest
+        digest = self._hash(data)
+        print(digest)
+
         # Sign the hash
-        signature = self.signing_key.sign_digest_deterministic(hash)
+        signature = self.signing_key.sign_digest_deterministic(digest)
 
         # Return signature version + timestamp encoded + signature
         return signature_version_bytes + ts_bytes + signature
 
     @staticmethod
-    def _hash(
+    def _hash(data: bytes) -> bytes:
+        hash = hashlib.sha256()
+        hash.update(data)
+        return hash.digest()
+
+    @staticmethod
+    def _concat_data_to_sign(
         signature_version: bytes,
         method: str,
         path_and_query: str,
@@ -125,34 +159,22 @@ class RequestSigner:
         ts_bytes: bytes,
         max_body_bytes: int,
     ) -> bytes:
-        hash = hashlib.sha256()
-
-        # Version + null
-        hash.update(signature_version)
-        hash.update(b"\x00")
-
-        # Timestamp + null
-        hash.update(ts_bytes)
-        hash.update(b"\x00")
-
-        # Method (in uppercase) + null
-        hash.update(method.upper().encode("ascii"))
-        hash.update(b"\x00")
-
-        # Path and query
-        hash.update(path_and_query.encode("ascii"))
-        hash.update(b"\x00")
-
-        # Authorization (even if an empty string)
-        hash.update(authorization.encode("ascii"))
-        hash.update(b"\x00")
-
-        # Body
         body_size_to_hash = min(len(body), max_body_bytes)
-        hash.update(body[:body_size_to_hash])
-        hash.update(b"\x00")
 
-        return hash.digest()
+        return (
+            signature_version
+            + b"\x00"
+            + ts_bytes
+            + b"\x00"
+            + method.upper().encode("ascii")
+            + b"\x00"
+            + path_and_query.encode("ascii")
+            + b"\x00"
+            + authorization.encode("ascii")
+            + b"\x00"
+            + body[:body_size_to_hash]
+            + b"\x00"
+        )
 
     @staticmethod
     def __base64_escaped(binary: bytes) -> str:

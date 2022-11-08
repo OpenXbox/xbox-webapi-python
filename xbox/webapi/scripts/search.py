@@ -6,7 +6,7 @@ import asyncio
 from pprint import pprint
 import sys
 
-from aiohttp import ClientResponseError, ClientSession
+from httpx import HTTPStatusError, AsyncClient
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
@@ -18,7 +18,7 @@ async def async_main():
 
     args = parser.parse_args()
 
-    async with ClientSession() as session:
+    async with AsyncClient() as session:
         auth_mgr = AuthenticationManager(session, "", "", "")
 
         # No Auth necessary for catalog searches
@@ -26,7 +26,7 @@ async def async_main():
 
         try:
             resp = await xbl_client.catalog.product_search(args.search_query)
-        except ClientResponseError:
+        except HTTPStatusError:
             print("Search failed")
             sys.exit(-1)
 

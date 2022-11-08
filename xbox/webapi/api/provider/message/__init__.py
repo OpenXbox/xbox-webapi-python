@@ -29,7 +29,7 @@ class MessageProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_MESSAGE, **kwargs
         )
         resp.raise_for_status()
-        return InboxResponse.parse_raw(await resp.text())
+        return InboxResponse(**resp.json())
 
     async def get_conversation(
         self, xuid: str, max_items: int = 100, **kwargs
@@ -49,7 +49,7 @@ class MessageProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_MESSAGE, **kwargs
         )
         resp.raise_for_status()
-        return ConversationResponse.parse_raw(await resp.text())
+        return ConversationResponse(**resp.json())
 
     async def delete_conversation(
         self, conversation_id: str, horizon: str, **kwargs
@@ -79,7 +79,7 @@ class MessageProvider(BaseProvider):
         resp = await self.client.session.put(
             url, json=post_data, headers=self.HEADERS_HORIZON, **kwargs
         )
-        return resp.status == 200
+        return resp.status_code == 200
 
     async def delete_message(
         self, conversation_id: str, message_id: str, **kwargs
@@ -99,7 +99,7 @@ class MessageProvider(BaseProvider):
         resp = await self.client.session.delete(
             url, headers=self.HEADERS_MESSAGE, **kwargs
         )
-        return resp.status == 200
+        return resp.status_code == 200
 
     async def send_message(
         self, xuid: str, message_text: str, **kwargs
@@ -131,4 +131,4 @@ class MessageProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_MESSAGE, **kwargs
         )
         resp.raise_for_status()
-        return SendMessageResponse.parse_raw(await resp.text())
+        return SendMessageResponse(**resp.json())

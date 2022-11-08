@@ -1,6 +1,6 @@
 import sys
 import asyncio
-from aiohttp import ClientSession, ClientResponseError
+from httpx import AsyncClient, HTTPStatusError
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
@@ -16,7 +16,7 @@ tokens_file = TOKENS_FILE
 For doing authentication, see xbox/webapi/scripts/authenticate.py
 """
 async def async_main():
-    async with ClientSession() as session:
+    async with AsyncClient() as session:
         auth_mgr = AuthenticationManager(
               session, client_id, client_secret, ""
         )
@@ -31,7 +31,7 @@ async def async_main():
         
         try:
               await auth_mgr.refresh_tokens()
-        except ClientResponseError:
+        except HTTPStatusError:
               print("Could not refresh tokens")
               sys.exit(-1)
 

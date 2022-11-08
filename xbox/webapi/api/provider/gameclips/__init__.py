@@ -27,7 +27,7 @@ class GameclipProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return GameclipsResponse.parse_raw(await resp.text())
+        return GameclipsResponse(**resp.json())
 
     async def get_recent_own_clips(
         self, title_id: str = None, skip_items: int = 0, max_items: int = 25, **kwargs
@@ -53,7 +53,7 @@ class GameclipProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return GameclipsResponse.parse_raw(await resp.text())
+        return GameclipsResponse(**resp.json())
 
     async def get_recent_clips_by_xuid(
         self,
@@ -85,7 +85,7 @@ class GameclipProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return GameclipsResponse.parse_raw(await resp.text())
+        return GameclipsResponse(**resp.json())
 
     async def get_saved_community_clips_by_title_id(
         self, title_id: str, **kwargs
@@ -105,7 +105,7 @@ class GameclipProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return GameclipsResponse.parse_raw(await resp.text())
+        return GameclipsResponse(**resp.json())
 
     async def get_saved_own_clips(
         self, title_id: str = None, skip_items: int = 0, max_items: int = 25, **kwargs
@@ -131,7 +131,7 @@ class GameclipProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return GameclipsResponse.parse_raw(await resp.text())
+        return GameclipsResponse(**resp.json())
 
     async def get_saved_clips_by_xuid(
         self,
@@ -163,4 +163,4 @@ class GameclipProvider(BaseProvider):
             url, params=params, headers=self.HEADERS_GAMECLIPS_METADATA, **kwargs
         )
         resp.raise_for_status()
-        return GameclipsResponse.parse_raw(await resp.text())
+        return GameclipsResponse(**resp.json())

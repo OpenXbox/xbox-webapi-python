@@ -1,5 +1,5 @@
 # Run
-aiohttp
+httpx
 appdirs
 ecdsa
 ms_cv
@@ -7,14 +7,11 @@ pydantic
 urwid
 yarl
 
-# aiohttp speedups
-aiodns
-
 # Dev
 pytest
 pytest-cov
 pylint
-aresponses
+respx
 
 # pre-commit
 pre-commit==2.20.0

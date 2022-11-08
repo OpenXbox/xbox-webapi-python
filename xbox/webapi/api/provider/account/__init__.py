@@ -35,7 +35,7 @@ class AccountProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_USER_MGT, **kwargs
         )
         try:
-            return ClaimGamertagResult(resp.status)
+            return ClaimGamertagResult(resp.status_code)
         except ValueError:
             resp.raise_for_status()
 
@@ -66,6 +66,6 @@ class AccountProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_ACCOUNT, **kwargs
         )
         try:
-            return ChangeGamertagResult(resp.status)
+            return ChangeGamertagResult(resp.status_code)
         except ValueError:
             resp.raise_for_status()
