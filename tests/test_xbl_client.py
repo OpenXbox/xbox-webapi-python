@@ -1,5 +1,3 @@
-import pytest
-
 from xbox.webapi.api.client import XboxLiveClient
 
 

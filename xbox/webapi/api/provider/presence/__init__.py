@@ -33,7 +33,9 @@ class PresenceProvider(BaseProvider):
         """
         url = self.PRESENCE_URL + "/users/xuid(" + xuid + ")?level=" + presence_level
 
-        resp = await self.client.session.get(url, headers=self.HEADERS_PRESENCE, **kwargs)
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_PRESENCE, **kwargs
+        )
         resp.raise_for_status()
         return PresenceItem(**resp.json())
 

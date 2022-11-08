@@ -7,7 +7,7 @@ import os
 from pprint import pprint
 import sys
 
-from httpx import HTTPStatusError, AsyncClient
+from httpx import AsyncClient, HTTPStatusError
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager

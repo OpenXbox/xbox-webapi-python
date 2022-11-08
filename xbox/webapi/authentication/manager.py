@@ -15,7 +15,6 @@ from xbox.webapi.authentication.models import (
     XAUResponse,
     XSTSResponse,
 )
-
 from xbox.webapi.common.exceptions import AuthenticationException
 
 log = logging.getLogger("authentication")
@@ -154,8 +153,10 @@ class AuthenticationManager:
         }
 
         resp = await self.session.post(url, json=data, headers=headers)
-        if(resp.status_code == 401): # if unauthorized
-            print('Failed to authorize you! Your password or username may be wrong or you are trying to use child account (< 18 years old)')
+        if resp.status_code == 401:  # if unauthorized
+            print(
+                "Failed to authorize you! Your password or username may be wrong or you are trying to use child account (< 18 years old)"
+            )
             raise AuthenticationException()
         resp.raise_for_status()
         return XSTSResponse(**resp.json())
