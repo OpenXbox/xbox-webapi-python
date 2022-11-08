@@ -59,7 +59,8 @@ API usage
 ```py
 import sys
 import asyncio
-from httpx import AsyncClient, HTTPStatusError
+from httpx import HTTPStatusError
+from xbox.webapi.common.signed_session import SignedSession
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
@@ -75,7 +76,7 @@ tokens_file = TOKENS_FILE
 For doing authentication, see xbox/webapi/scripts/authenticate.py
 """
 async def async_main():
-    async with AsyncClient() as session:
+    async with SignedSession() as session:
         auth_mgr = AuthenticationManager(
               session, client_id, client_secret, ""
         )

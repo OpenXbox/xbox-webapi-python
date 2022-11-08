@@ -5,6 +5,7 @@ Authenticate with Windows Live Server and Xbox Live.
 """
 import logging
 from typing import List, Optional
+import uuid
 
 import httpx
 from yarl import URL
@@ -12,10 +13,12 @@ from yarl import URL
 from xbox.webapi.authentication.models import (
     OAuth2TokenResponse,
     TitleEndpointsResponse,
+    XADResponse,
     XAUResponse,
     XSTSResponse,
 )
 from xbox.webapi.common.exceptions import AuthenticationException
+from xbox.webapi.common.signed_session import SignedSession
 
 log = logging.getLogger("authentication")
 
@@ -25,13 +28,13 @@ DEFAULT_SCOPES = ["Xboxlive.signin", "Xboxlive.offline_access"]
 class AuthenticationManager:
     def __init__(
         self,
-        client_session: httpx.Client,
+        client_session: SignedSession,
         client_id: str,
         client_secret: str,
         redirect_uri: str,
         scopes: Optional[List[str]] = None,
     ):
-        self.session: httpx.Client = client_session
+        self.session: SignedSession = client_session
         self._client_id: str = client_id
         self._client_secret: str = client_secret
         self._redirect_uri: str = redirect_uri
@@ -160,3 +163,23 @@ class AuthenticationManager:
             raise AuthenticationException()
         resp.raise_for_status()
         return XSTSResponse(**resp.json())
+
+    async def request_device_token(self, device_id: uuid.UUID) -> XADResponse:
+        url = "https://device.auth.xboxlive.com/device/authenticate"
+        headers = {"x-xbl-contract-version": "1"}
+        data = {
+            "RelyingParty": "http://auth.xboxlive.com",
+            "TokenType": "JWT",
+            "Properties": {
+                "AuthMethod": "ProofOfPossession",
+                "Id": str(device_id).upper(),
+                "DeviceType": "Win32",
+                "Version": "10.0.22000.194",
+                "ProofKey": self.session.request_signer.proof_field,
+            },
+        }
+
+        request = httpx.Request("POST", url, headers=headers, json=data)
+        resp = await self.session.send_signed(request)
+        resp.raise_for_status()
+        return XADResponse(**resp.json())

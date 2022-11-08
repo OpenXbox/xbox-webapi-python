@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+import uuid
 
 from httpx import Response
 import pytest
@@ -60,7 +61,7 @@ async def test_refresh_tokens(respx_mock, auth_mgr):
 
 
 @pytest.mark.asyncio
-async def test_refresh_tokens_still_valid(respx_mock, auth_mgr):
+async def test_refresh_tokens_still_valid(auth_mgr):
     now = datetime.now(timezone.utc)
     auth_mgr.oauth.issued = now
     auth_mgr.user_token.not_after = now + timedelta(days=1)
@@ -93,6 +94,17 @@ async def test_get_title_endpoints(respx_mock, auth_mgr):
         return_value=Response(200, json=get_response_json("auth_title_endpoints"))
     )
     await auth_mgr.get_title_endpoints()
+    assert route.called
+
+
+@pytest.mark.asyncio
+async def test_get_device_token(respx_mock, auth_mgr):
+    route = respx_mock.post(
+        "https://device.auth.xboxlive.com/device/authenticate"
+    ).mock(return_value=Response(200, json=get_response_json("auth_device_token")))
+    resp = await auth_mgr.request_device_token(
+        uuid.UUID("9c493431-5462-4a4a-a247-f6420396318d")
+    )
     assert route.called
 
 
