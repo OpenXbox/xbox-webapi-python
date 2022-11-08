@@ -8,7 +8,6 @@ from typing import List, Optional
 import uuid
 
 import httpx
-from yarl import URL
 
 from xbox.webapi.authentication.models import (
     OAuth2TokenResponse,
@@ -46,7 +45,7 @@ class AuthenticationManager:
 
     def generate_authorization_url(self, state: Optional[str] = None) -> str:
         """Generate Windows Live Authorization URL."""
-        query_string = {
+        query_params = {
             "client_id": self._client_id,
             "response_type": "code",
             "approval_prompt": "auto",
@@ -55,10 +54,12 @@ class AuthenticationManager:
         }
 
         if state:
-            query_string["state"] = state
+            query_params["state"] = state
 
         return str(
-            URL("https://login.live.com/oauth20_authorize.srf").with_query(query_string)
+            httpx.URL(
+                "https://login.live.com/oauth20_authorize.srf", params=query_params
+            )
         )
 
     async def request_tokens(self, authorization_code: str) -> None:
