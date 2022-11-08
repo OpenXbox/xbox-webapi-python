@@ -3,43 +3,54 @@ Example scripts that performs XBL authentication
 """
 import argparse
 import asyncio
-import os
-import threading
-import queue
-import webbrowser
 import http.server
+import os
+import queue
 import socketserver
-from urllib.parse import urlparse, parse_qs
+import threading
+from urllib.parse import parse_qs, urlparse
+import webbrowser
 
 from httpx import AsyncClient
+
 from xbox.webapi.authentication.manager import AuthenticationManager
 from xbox.webapi.authentication.models import OAuth2TokenResponse
 from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKENS_FILE
 
 QUEUE = queue.Queue(1)
 
-"""
-Handles the auth callback that's received when Windows Live auth flow completed
-"""
+
 class AuthCallbackRequestHandler(http.server.BaseHTTPRequestHandler):
+    """
+    Handles the auth callback that's received when Windows Live auth flow completed
+    """
+
     def do_GET(self):
         try:
             url_path = self.requestline.split(" ")[1]
             query_params = parse_qs(urlparse(url_path).query)
         except Exception as e:
-            self.send_error(400, explain=f"Invalid request='{self.requestline}' - Failed to parse URL Path, error={e}")
+            self.send_error(
+                400,
+                explain=f"Invalid request='{self.requestline}' - Failed to parse URL Path, error={e}",
+            )
             self.end_headers()
             return
 
         if query_params.get("error"):
             error_description = query_params.get("error_description")
-            self.send_error(400, explain=f"Auth callback failed - Error: {error_description}")
+            self.send_error(
+                400, explain=f"Auth callback failed - Error: {error_description}"
+            )
             self.end_headers()
             return
 
         auth_code = query_params.get("code")
         if not auth_code:
-            self.send_error(400, explain=f"Auth callback failed - No code received - Original request: {self.requestline}")
+            self.send_error(
+                400,
+                explain=f"Auth callback failed - No code received - Original request: {self.requestline}",
+            )
             self.end_headers()
             return
 
@@ -55,7 +66,7 @@ class AuthCallbackRequestHandler(http.server.BaseHTTPRequestHandler):
         response_body = b"<script>window.close()</script>"
         self.send_response(200)
         self.send_header("Content-Type", "text/html")
-        self.send_header('Content-Length', str(len(response_body)))
+        self.send_header("Content-Length", str(len(response_body)))
         self.end_headers()
         self.wfile.write(response_body)
 
@@ -122,18 +133,23 @@ async def async_main():
         help="""
         HTTP Server port for awaiting auth callback
         * NOTE: Changing this will break default auth flow and requires providing own OAUTH parameters
-        """
+        """,
     )
     args = parser.parse_args()
 
-    with socketserver.TCPServer(("0.0.0.0", args.port), AuthCallbackRequestHandler) as httpd:
+    with socketserver.TCPServer(
+        ("0.0.0.0", args.port), AuthCallbackRequestHandler
+    ) as httpd:
         print(f"Serving HTTP Server for auth callback at port {args.port}")
         server_thread = threading.Thread(target=httpd.serve_forever)
         # Exit the server thread when the main thread terminates
         server_thread.daemon = True
         server_thread.start()
 
-        await do_auth(args.client_id, args.client_secret, args.redirect_uri, args.tokens)
+        await do_auth(
+            args.client_id, args.client_secret, args.redirect_uri, args.tokens
+        )
+
 
 if __name__ == "__main__":
     asyncio.run(async_main())

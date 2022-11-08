@@ -4,6 +4,7 @@ A wrapper around httpx' AsyncClient which transparently calculates the "Signatur
 """
 
 import httpx
+
 from xbox.webapi.common.request_signer import RequestSigner
 
 
@@ -17,14 +18,11 @@ class SignedSession(httpx.AsyncClient):
         request_signer = RequestSigner.from_pem(pem_string)
         return cls(request_signer)
 
-    def _prepare_signed_request(
-        self,
-        request: httpx.Request
-    ) -> httpx.Request:
+    def _prepare_signed_request(self, request: httpx.Request) -> httpx.Request:
         path_and_query = request.url.raw_path.decode()
-        authorization = request.headers.get('Authorization', '')
+        authorization = request.headers.get("Authorization", "")
 
-        body = b''
+        body = b""
         for byte in request.stream:
             body += byte
 
@@ -32,10 +30,10 @@ class SignedSession(httpx.AsyncClient):
             method=request.method,
             path_and_query=path_and_query,
             body=body,
-            authorization=authorization
+            authorization=authorization,
         )
 
-        request.headers['Signature'] = signature
+        request.headers["Signature"] = signature
         return request
 
     async def send_signed(self, request: httpx.Request) -> httpx.Response:

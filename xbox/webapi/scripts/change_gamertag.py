@@ -6,7 +6,7 @@ import asyncio
 import os
 import sys
 
-from httpx import HTTPStatusError, AsyncClient
+from httpx import AsyncClient, HTTPStatusError
 
 from xbox.webapi.api.client import XboxLiveClient
 from xbox.webapi.api.provider.account.models import (

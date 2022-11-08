@@ -1,8 +1,7 @@
 from datetime import datetime
 
+from ecdsa.keys import SigningKey
 from httpx import AsyncClient
-import respx
-from ecdsa.keys import SigningKey, VerifyingKey
 import pytest
 import pytest_asyncio
 
@@ -19,6 +18,7 @@ from tests.common import get_response
 
 collect_ignore = ["setup.py"]
 
+
 @pytest_asyncio.fixture(scope="function")
 async def auth_mgr(event_loop):
     session = AsyncClient()
@@ -33,6 +33,7 @@ async def auth_mgr(event_loop):
 @pytest.fixture(scope="function")
 def xbl_client(auth_mgr):
     return XboxLiveClient(auth_mgr)
+
 
 @pytest.fixture(scope="session")
 def ecdsa_signing_key_str() -> str:

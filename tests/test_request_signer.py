@@ -97,19 +97,6 @@ def test_synthetic_verify_digest(
     assert success_via_vk is True
 
 
-def test_synthetic_verify_digest(synthetic_request_signer: RequestSigner):
-    message = unhexlify(
-        "f7d61b6f8d4dcd86da1aa8553f0ee7c15450811e7cd2759364e22f67d853ff50"
-    )
-    signature = base64.b64decode(
-        "Fe3R7GuZfvGA350cH7hWgg4HIHjaD9lGYiwxki6bNyGnB8dMEIfEmBiuNuGUfWjY5lL2h44X/VMGOkPIezVb7Q=="
-    )
-
-    success = synthetic_request_signer.verify_digest(signature, message)
-
-    assert success is True
-
-
 def test_import(ecdsa_signing_key_str: str):
     signer = RequestSigner.from_pem(ecdsa_signing_key_str)
     export = signer.export_signing_key()

@@ -1,13 +1,16 @@
+from httpx import Request, Response
 import pytest
 
 from xbox.webapi.common.signed_session import SignedSession
-from httpx import Request, Response
+
 from tests.common import get_response_json
 
 
 @pytest.mark.asyncio
 async def test_sending_signed_request(synthetic_request_signer, respx_mock):
-    route = respx_mock.post("https://xsts.auth.xboxlive.com").mock(return_value=Response(200, json=get_response_json("auth_xsts_token")))
+    route = respx_mock.post("https://xsts.auth.xboxlive.com").mock(
+        return_value=Response(200, json=get_response_json("auth_xsts_token"))
+    )
 
     signed_session = SignedSession(synthetic_request_signer)
 
