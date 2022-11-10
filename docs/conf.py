@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('_ext'))
 # -- Project information -----------------------------------------------------
 
 project = 'Xbox-WebAPI'
-copyright = '2018, OpenXbox'
+copyright = '2022, OpenXbox'
 author = 'OpenXbox'
 
 # The short X.Y version
