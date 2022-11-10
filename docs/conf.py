@@ -18,6 +18,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('_ext'))
 
 # -- Project information -----------------------------------------------------
 
@@ -44,8 +45,12 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',
-    'recommonmark'
+    'sphinx.ext.linkcode',
+    'sphinx_mdinclude'
 ]
+
+# Linkcode resolver
+from linkcode_res import linkcode_resolve  # noqa: E402, F401
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -166,7 +171,7 @@ texinfo_documents = [
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/3': None}
 
 # -- Options for napoleon extension ------------------------------------------
 napoleon_google_docstring = True

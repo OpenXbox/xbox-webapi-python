@@ -48,14 +48,18 @@ setup(
             "flake8",
             "tox",
             "coverage",
-            "Sphinx",
-            "sphinx_rtd_theme",
-            "recommonmark",
+            # PyPi
             "twine",
+            # Tests
             "pytest",
             "pytest-cov",
             "pytest-asyncio",
             "pytest-runner",
+        ],
+        "docs": [
+            "Sphinx",
+            "sphinx_rtd_theme",
+            "sphinx-mdinclude",
         ],
     },
     entry_points={
