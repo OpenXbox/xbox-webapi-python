@@ -13,7 +13,7 @@ class PresenceLevel(str, Enum):
 
 class LastSeen(CamelCaseModel):
     device_type: str
-    title_id: str
+    title_id: Optional[str]
     title_name: str
     timestamp: str
 
