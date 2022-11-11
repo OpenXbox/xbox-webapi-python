@@ -14,6 +14,7 @@ class TitleFields(str, Enum):
     DETAIL = "detail"
     FRIENDS_WHO_PLAYED = "friendswhoplayed"
     ALTERNATE_TITLE_ID = "alternateTitleId"
+    PRODUCT_ID = "productId"
 
 
 class Achievement(CamelCaseModel):
