@@ -11,6 +11,7 @@ from xbox.webapi.authentication.models import (
     XAUResponse,
     XSTSResponse,
 )
+from xbox.webapi.authentication.xal import XALManager
 from xbox.webapi.common.request_signer import RequestSigner
 from xbox.webapi.common.signed_session import SignedSession
 
@@ -26,6 +27,14 @@ async def auth_mgr(event_loop):
     mgr.oauth = OAuth2TokenResponse.parse_raw(get_response("auth_oauth2_token"))
     mgr.user_token = XAUResponse.parse_raw(get_response("auth_user_token"))
     mgr.xsts_token = XSTSResponse.parse_raw(get_response("auth_xsts_token"))
+    yield mgr
+    await session.aclose()
+
+
+@pytest_asyncio.fixture(scope="function")
+async def xal_mgr(event_loop):
+    session = SignedSession()
+    mgr = XALManager(session)
     yield mgr
     await session.aclose()
 

@@ -5,14 +5,12 @@ Authenticate with Windows Live Server and Xbox Live.
 """
 import logging
 from typing import List, Optional
-import uuid
 
 import httpx
 
 from xbox.webapi.authentication.models import (
     OAuth2TokenResponse,
     TitleEndpointsResponse,
-    XADResponse,
     XAUResponse,
     XSTSResponse,
 )
@@ -170,23 +168,3 @@ class AuthenticationManager:
             raise AuthenticationException()
         resp.raise_for_status()
         return XSTSResponse(**resp.json())
-
-    async def request_device_token(self, device_id: uuid.UUID) -> XADResponse:
-        url = "https://device.auth.xboxlive.com/device/authenticate"
-        headers = {"x-xbl-contract-version": "1"}
-        data = {
-            "RelyingParty": "http://auth.xboxlive.com",
-            "TokenType": "JWT",
-            "Properties": {
-                "AuthMethod": "ProofOfPossession",
-                "Id": str(device_id).upper(),
-                "DeviceType": "Win32",
-                "Version": "10.0.22000.194",
-                "ProofKey": self.session.request_signer.proof_field,
-            },
-        }
-
-        request = httpx.Request("POST", url, headers=headers, json=data)
-        resp = await self.session.send_signed(request)
-        resp.raise_for_status()
-        return XADResponse(**resp.json())

@@ -34,6 +34,7 @@ async def test_sending_signed_request(synthetic_request_signer, respx_mock):
     assert route.called
     assert resp.request.headers.get("Signature") is not None
 
+
 @pytest.mark.asyncio
 async def test_sending_signed(synthetic_request_signer, respx_mock):
     route = respx_mock.post("https://xsts.auth.xboxlive.com").mock(
@@ -42,10 +43,10 @@ async def test_sending_signed(synthetic_request_signer, respx_mock):
 
     signed_session = SignedSession(synthetic_request_signer)
 
-    method="POST"
-    url="https://xsts.auth.xboxlive.com/xsts/authorize"
-    headers={"x-xbl-contract-version": "1"}
-    data={
+    method = "POST"
+    url = "https://xsts.auth.xboxlive.com/xsts/authorize"
+    headers = {"x-xbl-contract-version": "1"}
+    data = {
         "RelyingParty": "http://xboxlive.com",
         "TokenType": "JWT",
         "Properties": {
