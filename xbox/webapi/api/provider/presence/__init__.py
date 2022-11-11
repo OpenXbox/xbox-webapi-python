@@ -8,6 +8,7 @@ from xbox.webapi.api.provider.presence.models import (
     PresenceBatchResponse,
     PresenceItem,
     PresenceLevel,
+    PresenceState,
 )
 
 
@@ -91,3 +92,20 @@ class PresenceProvider(BaseProvider):
         )
         resp.raise_for_status()
         return PresenceItem(**resp.json())
+
+    async def set_presence_own(self, presence_state: PresenceState, **kwargs) -> bool:
+        """
+        Set presence of own profile
+
+        Args:
+            presence_state: State of presence
+
+        Returns:
+            `True` on success, `False` otherwise
+        """
+        url = self.PRESENCE_URL + f"/users/xuid({self.client.xuid})/state"
+        data = {"state": presence_state.value}
+        resp = await self.client.session.put(
+            url, json=data, headers=self.HEADERS_PRESENCE, **kwargs
+        )
+        return resp.status_code == 200

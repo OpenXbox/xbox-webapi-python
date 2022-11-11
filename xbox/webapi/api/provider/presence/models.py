@@ -11,6 +11,11 @@ class PresenceLevel(str, Enum):
     ALL = "all"
 
 
+class PresenceState(str, Enum):
+    ACTIVE = "Active"
+    CLOAKED = "Cloaked"
+
+
 class LastSeen(CamelCaseModel):
     device_type: str
     title_id: Optional[str]
