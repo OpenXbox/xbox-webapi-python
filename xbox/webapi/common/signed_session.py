@@ -36,9 +36,17 @@ class SignedSession(httpx.AsyncClient):
         request.headers["Signature"] = signature
         return request
 
-    async def send_signed(self, request: httpx.Request) -> httpx.Response:
+    async def send_request_signed(self, request: httpx.Request) -> httpx.Response:
         """
         Shorthand for prepare signed + send
         """
+        prepared = self._prepare_signed_request(request)
+        return await self.send(prepared)
+
+    async def send_signed(self, method: str, url: str, **kwargs):
+        """
+        Shorthand for creating request + prepare signed + send
+        """
+        request = httpx.Request(method, url, **kwargs)
         prepared = self._prepare_signed_request(request)
         return await self.send(prepared)
