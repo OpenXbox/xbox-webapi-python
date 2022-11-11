@@ -61,6 +61,24 @@ class TitlehubProvider(BaseProvider):
         resp.raise_for_status()
         return TitleHubResponse(**resp.json())
 
+    async def _get_title_info(
+        self, moniker: str, fields: Optional[List[TitleFields]] = None, **kwargs
+    ) -> TitleHubResponse:
+        if not fields:
+            fields = [
+                TitleFields.ACHIEVEMENT,
+                TitleFields.ALTERNATE_TITLE_ID,
+                TitleFields.DETAIL,
+                TitleFields.IMAGE,
+                TitleFields.SERVICE_CONFIG_ID,
+            ]
+        fields = self.SEPARATOR.join(fields)
+
+        url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/{moniker}/decoration/{fields}"
+        resp = await self.client.session.get(url, headers=self._headers, **kwargs)
+        resp.raise_for_status()
+        return TitleHubResponse(**resp.json())
+
     async def get_title_info(
         self, title_id: str, fields: Optional[List[TitleFields]] = None, **kwargs
     ) -> TitleHubResponse:
@@ -74,20 +92,22 @@ class TitlehubProvider(BaseProvider):
         Returns:
             :class:`TitleHubResponse`: Title Hub Response
         """
-        if not fields:
-            fields = [
-                TitleFields.ACHIEVEMENT,
-                TitleFields.ALTERNATE_TITLE_ID,
-                TitleFields.DETAIL,
-                TitleFields.IMAGE,
-                TitleFields.SERVICE_CONFIG_ID,
-            ]
-        fields = self.SEPARATOR.join(fields)
+        return await self._get_title_info(f"titleid({title_id})", fields, **kwargs)
 
-        url = f"{self.TITLEHUB_URL}/users/xuid({self.client.xuid})/titles/titleid({title_id})/decoration/{fields}"
-        resp = await self.client.session.get(url, headers=self._headers, **kwargs)
-        resp.raise_for_status()
-        return TitleHubResponse(**resp.json())
+    async def get_title_info_by_pfn(
+        self, pfn: str, fields: Optional[List[TitleFields]] = None, **kwargs
+    ) -> TitleHubResponse:
+        """
+        Get info for specific title by PFN
+
+        Args:
+            pfn: Package family name
+            fields: List of title fields
+
+        Returns:
+            :class:`TitleHubResponse`: Title Hub Response
+        """
+        return await self._get_title_info(f"pfn({pfn})", fields, **kwargs)
 
     async def get_titles_batch(
         self, pfns: List[str], fields: Optional[List[TitleFields]] = None, **kwargs
