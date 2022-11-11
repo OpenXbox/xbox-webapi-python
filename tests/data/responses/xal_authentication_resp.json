@@ -1,0 +1,4 @@
+{
+    "MsaOauthRedirect":"https://login.live.com/oauth20_authorize.srf?lw=1&fl=dob,easi2&xsup=1&display=android_phone&code_challenge=code_challenge_string&code_challenge_method=S256&state=state_string&client_id=000000004C20A908&response_type=code&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL&redirect_uri=ms-xal-public-beta-000000004c20a908%3A%2F%2Fauth&nopa=2",
+    "MsaRequestParameters":{}
+}

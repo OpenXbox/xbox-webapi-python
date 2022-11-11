@@ -1,4 +1,5 @@
 from datetime import datetime
+import uuid
 
 from ecdsa.keys import SigningKey, VerifyingKey
 import pytest
@@ -11,7 +12,11 @@ from xbox.webapi.authentication.models import (
     XAUResponse,
     XSTSResponse,
 )
-from xbox.webapi.authentication.xal import XALManager
+from xbox.webapi.authentication.xal import (
+    APP_PARAMS_GAMEPASS_BETA,
+    CLIENT_PARAMS_ANDROID,
+    XALManager,
+)
 from xbox.webapi.common.request_signer import RequestSigner
 from xbox.webapi.common.signed_session import SignedSession
 
@@ -34,7 +39,12 @@ async def auth_mgr(event_loop):
 @pytest_asyncio.fixture(scope="function")
 async def xal_mgr(event_loop):
     session = SignedSession()
-    mgr = XALManager(session)
+    mgr = XALManager(
+        session,
+        device_id=uuid.UUID("9c493431-5462-4a4a-a247-f6420396318d"),
+        app_params=APP_PARAMS_GAMEPASS_BETA,
+        client_params=CLIENT_PARAMS_ANDROID,
+    )
     yield mgr
     await session.aclose()
 

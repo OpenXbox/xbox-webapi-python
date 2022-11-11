@@ -90,15 +90,6 @@ async def test_refresh_tokens_user_still_valid(respx_mock, auth_mgr):
 
 
 @pytest.mark.asyncio
-async def test_get_title_endpoints(respx_mock, auth_mgr):
-    route = respx_mock.get("https://title.mgt.xboxlive.com").mock(
-        return_value=Response(200, json=get_response_json("auth_title_endpoints"))
-    )
-    await auth_mgr.get_title_endpoints()
-    assert route.called
-
-
-@pytest.mark.asyncio
 async def test_xsts_properties(auth_mgr):
     assert auth_mgr.xsts_token.xuid == "2669321029139235"
     assert auth_mgr.xsts_token.gamertag == "e"

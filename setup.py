@@ -65,6 +65,7 @@ setup(
     entry_points={
         "console_scripts": [
             "xbox-authenticate=xbox.webapi.scripts.authenticate:main",
+            "xbox-xal=xbox.webapi.scripts.xal:main",
             "xbox-searchlive=xbox.webapi.scripts.search:main",
             "xbox-change-gt=xbox.webapi.scripts.change_gamertag:main",
             "xbox-friends=xbox.webapi.scripts.friends:main",
