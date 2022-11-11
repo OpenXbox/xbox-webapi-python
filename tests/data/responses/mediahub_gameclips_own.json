@@ -1,0 +1,64 @@
+{
+    "values": [
+        {
+            "commentCount": 0,
+            "contentId": "62f47208-b873-479b-a9ee-6b16126c43b20",
+            "contentLocators": [
+                {
+                    "expiration": "2022-11-11T11:05:59.3087637Z",
+                    "fileSize": 18825622,
+                    "locatorType": "Download",
+                    "uri": "https://gameclipscontent-d3023.media.xboxlive.com/xuid-2669321029139235-private/62f47208-b873-479b-a9ee-6b16126c43b20.MP4?sv=2015-12-11&sr=b&si=DefaultAccess&sig=OQMDiPhvEw0%2BpitWhQLlpEME%2B1A4hW1OkDI4SZpKvpM%3D&__gda__=1668164759_b54098d230229feb0eb2e06890d2c9ea"
+                },
+                {
+                    "locatorType": "Thumbnail_Small",
+                    "uri": "https://gameclipscontent-t3023.media.xboxlive.com/xuid-2669321029139235-public/62f47208-b873-479b-a9ee-6b16126c43b20_Thumbnail.PNG"
+                },
+                {
+                    "locatorType": "Thumbnail_Large",
+                    "uri": "https://gameclipscontent-t3023.media.xboxlive.com/xuid-2669321029139235-public/62f47208-b873-479b-a9ee-6b16126c43b20_Thumbnail.PNG"
+                }
+            ],
+            "contentSegments": [
+                {
+                    "creationType": "UserGenerated",
+                    "creatorChannelId": null,
+                    "creatorXuid": 2669321029139235,
+                    "durationInSeconds": 27,
+                    "offset": 0,
+                    "recordDate": "2018-04-02T19:28:38Z",
+                    "secondaryTitleId": null,
+                    "segmentId": 1,
+                    "titleId": 1717113201
+                }
+            ],
+            "contentState": "Published",
+            "creationType": "UserGenerated",
+            "durationInSeconds": 27,
+            "enforcementState": "None",
+            "frameRate": 30,
+            "greatestMomentId": "",
+            "likeCount": 0,
+            "localId": "67fac079-f793-4ea8-a448-bd7096a9fac30",
+            "ownerXuid": 2669321029139235,
+            "resolutionHeight": 720,
+            "resolutionWidth": 1280,
+            "safetyThreshold": "None",
+            "sandboxId": "RETAIL",
+            "sessions": [],
+            "shareCount": 0,
+            "sharedTo": [],
+            "titleData": "",
+            "titleId": 1717113201,
+            "titleName": "Sea of Thieves",
+            "tournaments": [],
+            "uploadDate": "2018-04-02T19:46:26.1665177Z",
+            "uploadDeviceType": "Edmonton",
+            "uploadLanguage": "de-DE",
+            "uploadRegion": "DE",
+            "uploadTitleId": 49312658,
+            "userCaption": "",
+            "viewCount": 1
+        }
+    ]
+}

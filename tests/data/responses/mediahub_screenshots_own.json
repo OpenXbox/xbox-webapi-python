@@ -1,0 +1,51 @@
+{
+    "values": [
+        {
+            "captureDate": "2022-01-08T19:49:17Z",
+            "contentId": "0b2a0559-a246-911a-9a06-e01f3d38ec5b",
+            "contentLocators": [
+                {
+                    "fileSize": 17030676,
+                    "locatorType": "Download",
+                    "uri": "https://screenshotscontent-d4002.media.xboxlive.com/xuid-2669321029139235-private/0b2a0559-a246-911a-9a06-e01f3d38ec5b.PNG?sv=2015-12-11&sr=b&si=DefaultAccess"
+                },
+                {
+                    "locatorType": "Thumbnail_Small",
+                    "uri": "https://screenshotscontent-t4002.media.xboxlive.com/xuid-2669321029139235-public/0b2a0559-a246-911a-9a06-e01f3d38ec5b_Thumbnail.PNG"
+                },
+                {
+                    "locatorType": "Thumbnail_Large",
+                    "uri": "https://screenshotscontent-t4002.media.xboxlive.com/xuid-2669321029139235-public/0b2a0559-a246-911a-9a06-e01f3d38ec5b_Thumbnail.PNG"
+                },
+                {
+                    "fileSize": 14637915,
+                    "locatorType": "Download_HDR",
+                    "uri": "https://screenshotscontent-d4002.media.xboxlive.com/xuid-2669321029139235-private/0b2a0559-a246-911a-9a06-e01f3d38ec5b.JXR?sv=2015-12-11&sr=b&si=DefaultAccess"
+                }
+            ],
+            "CreationType": "UserGenerated",
+            "localId": "62f47208-b873-479b-a9ee-6b16126c43b20",
+            "ownerXuid": 2669321029139235,
+            "resolutionHeight": 2160,
+            "resolutionWidth": 3840,
+            "sandboxId": "RETAIL",
+            "sharedTo": [],
+            "titleId": 1777860928,
+            "titleName": "Microsoft Flight Simulator",
+            "dateUploaded": "2022-01-08T19:54:14.6516641Z",
+            "uploadLanguage": "de-DE",
+            "uploadRegion": "DE",
+            "uploadTitleId": 49312658,
+            "uploadDeviceType": "Scarlett",
+            "commentCount": 0,
+            "likeCount": 0,
+            "shareCount": 0,
+            "viewCount": 0,
+            "contentState": "Published",
+            "enforcementState": "None",
+            "safetyThreshold": "Unscanned",
+            "sessions": [],
+            "tournaments": []
+        }
+    ]
+}

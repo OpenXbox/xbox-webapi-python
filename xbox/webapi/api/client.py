@@ -17,6 +17,7 @@ from xbox.webapi.api.provider.catalog import CatalogProvider
 from xbox.webapi.api.provider.cqs import CQSProvider
 from xbox.webapi.api.provider.gameclips import GameclipProvider
 from xbox.webapi.api.provider.lists import ListsProvider
+from xbox.webapi.api.provider.mediahub import MediahubProvider
 from xbox.webapi.api.provider.message import MessageProvider
 from xbox.webapi.api.provider.people import PeopleProvider
 from xbox.webapi.api.provider.presence import PresenceProvider
@@ -121,6 +122,7 @@ class XboxLiveClient:
         self.gameclips = GameclipProvider(self)
         self.people = PeopleProvider(self)
         self.presence = PresenceProvider(self)
+        self.mediahub = MediahubProvider(self)
         self.message = MessageProvider(self)
         self.userstats = UserStatsProvider(self)
         self.screenshots = ScreenshotsProvider(self)
