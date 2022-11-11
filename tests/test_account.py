@@ -26,7 +26,6 @@ async def test_claim_gamertag_error(respx_mock, xbl_client):
     with pytest.raises(HTTPStatusError) as err:
         await xbl_client.account.claim_gamertag("2669321029139235", "PrettyPony")
 
-    print(err.value.request.__dict__)
     assert err.value.response.status_code == 500
     assert route.called
 

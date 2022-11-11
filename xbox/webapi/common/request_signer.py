@@ -135,7 +135,6 @@ class RequestSigner:
 
         # Calculate digest
         digest = self._hash(data)
-        print(digest)
 
         # Sign the hash
         signature = self.signing_key.sign_digest_deterministic(digest)
