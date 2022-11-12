@@ -287,6 +287,22 @@ class XALManager:
         resp.raise_for_status()
         return XSTSResponse(**resp.json())
 
+    async def refresh_sisu(
+        self, sisu_session_id: str, refresh_token_jwt: str
+    ) -> Tuple[OAuth2TokenResponse, SisuAuthorizationResponse]:
+        """
+        Refresh SISU tokens via sisu session id and refresh token
+
+        Returns:
+            Tuple of (live token data, sisu authorization response)
+        """
+        device_token = await self.request_device_token()
+        live_token = await self.refresh_token(refresh_token_jwt)
+        sisu_tokens = await self.do_sisu_authorization(
+            sisu_session_id, live_token.access_token, device_token.token
+        )
+        return live_token, sisu_tokens
+
     async def auth_flow(
         self, user_input_cb: Callable[[str], str]
     ) -> Tuple[str, OAuth2TokenResponse, SisuAuthorizationResponse]:

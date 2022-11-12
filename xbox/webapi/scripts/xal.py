@@ -75,10 +75,8 @@ async def do_auth(device_id: uuid.UUID, token_filepath: str):
             xal = XALManager(
                 session, store.device_id, store.app_params, store.client_params
             )
-            device_token = await xal.request_device_token()
-            live_token = await xal.refresh_token(store.live.refresh_token)
-            sisu = await xal.do_sisu_authorization(
-                store.session_id, live_token.access_token, device_token.token
+            live_token, sisu = await xal.refresh_sisu(
+                store.session_id, store.live.refresh_token
             )
 
             # Store new tokens

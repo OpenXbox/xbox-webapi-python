@@ -61,3 +61,21 @@ async def test_exchange_code_for_token(respx_mock, xal_mgr):
     await xal_mgr.exchange_code_for_token("abc", "xyz")
 
     assert route.called
+
+
+@pytest.mark.asyncio
+async def test_refresh_sisu(respx_mock, xal_mgr):
+    route1 = respx_mock.post(
+        "https://device.auth.xboxlive.com/device/authenticate"
+    ).mock(return_value=Response(200, json=get_response_json("auth_device_token")))
+    route2 = respx_mock.post("https://login.live.com").mock(
+        return_value=Response(200, json=get_response_json("auth_oauth2_token"))
+    )
+    route3 = respx_mock.post("https://sisu.xboxlive.com/authorize").mock(
+        return_value=Response(200, json=get_response_json("xal_authorization_resp"))
+    )
+
+    await xal_mgr.refresh_sisu("sisu-session-id", "refresh-token-jwt")
+    assert route1.called
+    assert route2.called
+    assert route3.called
