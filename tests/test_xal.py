@@ -71,11 +71,19 @@ async def test_refresh_sisu(respx_mock, xal_mgr):
     route2 = respx_mock.post("https://login.live.com").mock(
         return_value=Response(200, json=get_response_json("auth_oauth2_token"))
     )
-    route3 = respx_mock.post("https://sisu.xboxlive.com/authorize").mock(
+    route3 = respx_mock.post("https://sisu.xboxlive.com/authenticate").mock(
+        return_value=Response(
+            200,
+            json=get_response_json("xal_authentication_resp"),
+            headers={"X-SessionId": "abcsession-id"},
+        )
+    )
+    route4 = respx_mock.post("https://sisu.xboxlive.com/authorize").mock(
         return_value=Response(200, json=get_response_json("xal_authorization_resp"))
     )
 
-    await xal_mgr.refresh_sisu("sisu-session-id", "refresh-token-jwt")
+    await xal_mgr.refresh_sisu("refresh-token-jwt")
     assert route1.called
     assert route2.called
     assert route3.called
+    assert route4.called
