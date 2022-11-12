@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-import uuid
 
 from httpx import Response
 import pytest
@@ -88,26 +87,6 @@ async def test_refresh_tokens_user_still_valid(respx_mock, auth_mgr):
     await auth_mgr.refresh_tokens()
     assert route1.called
     assert route2.called
-
-
-@pytest.mark.asyncio
-async def test_get_title_endpoints(respx_mock, auth_mgr):
-    route = respx_mock.get("https://title.mgt.xboxlive.com").mock(
-        return_value=Response(200, json=get_response_json("auth_title_endpoints"))
-    )
-    await auth_mgr.get_title_endpoints()
-    assert route.called
-
-
-@pytest.mark.asyncio
-async def test_get_device_token(respx_mock, auth_mgr):
-    route = respx_mock.post(
-        "https://device.auth.xboxlive.com/device/authenticate"
-    ).mock(return_value=Response(200, json=get_response_json("auth_device_token")))
-    resp = await auth_mgr.request_device_token(
-        uuid.UUID("9c493431-5462-4a4a-a247-f6420396318d")
-    )
-    assert route.called
 
 
 @pytest.mark.asyncio

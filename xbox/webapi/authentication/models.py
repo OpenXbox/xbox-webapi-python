@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Optional
 
 from pydantic import BaseModel, Field
+from pydantic.dataclasses import dataclass
 
 from xbox.webapi.common.models import PascalCaseModel
 
@@ -92,6 +93,39 @@ class OAuth2TokenResponse(BaseModel):
 
     def is_valid(self) -> bool:
         return (self.issued + timedelta(seconds=self.expires_in)) > utc_now()
+
+
+"""XAL related models"""
+
+
+@dataclass
+class XalAppParameters:
+    app_id: str
+    title_id: str
+    redirect_uri: str
+
+
+@dataclass
+class XalClientParameters:
+    user_agent: str
+    device_type: str
+    client_version: str
+    query_display: str
+
+
+class SisuAuthenticationResponse(PascalCaseModel):
+    msa_oauth_redirect: str
+    msa_request_parameters: Dict[str, str]
+
+
+class SisuAuthorizationResponse(PascalCaseModel):
+    device_token: str
+    title_token: XATResponse
+    user_token: XAUResponse
+    authorization_token: XSTSResponse
+    web_page: str
+    sandbox: str
+    use_modern_gamertag: Optional[bool]
 
 
 """Signature related models"""

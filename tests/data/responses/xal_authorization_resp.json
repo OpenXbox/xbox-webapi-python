@@ -1,0 +1,44 @@
+{
+    "DeviceToken": "eyDeviceToken",
+    "TitleToken": {
+        "DisplayClaims": {
+            "xti": {
+                "tid": "1016898439"
+            }
+        },
+        "IssueInstant": "2022-11-11T21:11:43.9456623Z",
+        "NotAfter": "2099-11-25T21:11:43.9456623Z",
+        "Token": "eyTitletoken"
+    },
+    "UserToken": {
+        "DisplayClaims": {
+            "xui": [
+                {
+                    "uhs": "2034583485034500345"
+                }
+            ]
+        },
+        "IssueInstant": "2022-11-11T21:11:43.9422756Z",
+        "NotAfter": "2099-11-25T21:11:43.9422756Z",
+        "Token": "eyUserToken"
+    },
+    "AuthorizationToken": {
+        "DisplayClaims": {
+            "xui": [
+                {
+                    "gtg": "Pony",
+                    "xid": "24812480912094",
+                    "uhs": "2034583485034500345",
+                    "agg": "Adult",
+                    "usr": "195 229 243",
+                    "prv": "184 185 186 187 188 190 191 192 193 194 196 198 199 200 201 203 204 205 206 207 208 211 214 215 216 217 220 224 227 228 235 238 245 247 249 252 254 255"
+                }
+            ]
+        },
+        "IssueInstant": "2022-11-11T21:11:44.1945885Z",
+        "NotAfter": "2099-11-12T13:11:44.1945885Z",
+        "Token": "eyXSTSToken"
+    },
+    "WebPage": "https://sisu.xboxlive.com/client/v27/000000004c20a908/view/index.html",
+    "Sandbox": "RETAIL"
+}

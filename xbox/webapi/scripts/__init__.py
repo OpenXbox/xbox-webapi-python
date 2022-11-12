@@ -9,5 +9,7 @@ REDIRECT_URI = "http://localhost:8080/auth/callback"
 
 DATA_DIR = user_data_dir("xbox", "OpenXbox")
 TOKENS_FILE = os.path.join(DATA_DIR, "tokens.json")
+XAL_TOKENS_FILE = os.path.join(DATA_DIR, "xal_tokens.json")
+
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
