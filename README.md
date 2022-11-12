@@ -101,9 +101,11 @@ async def async_main():
                 tokens = f.read()
             # Assign gathered tokens
             auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
-        except FileNotFoundError:
-            print(f"File {tokens_file} isn`t found or it doesn`t contain tokens!")
-            exit(-1)
+        except FileNotFoundError as e:
+            print(
+                f"File {tokens_file} isn`t found or it doesn`t contain tokens! err={e}"
+            )
+            sys.exit(-1)
 
         """
         Refresh tokens, just in case
@@ -112,8 +114,8 @@ async def async_main():
         """
         try:
             await auth_mgr.refresh_tokens()
-        except HTTPStatusError:
-            print("Could not refresh tokens")
+        except HTTPStatusError as e:
+            print(f"Could not refresh tokens, err={e}")
             sys.exit(-1)
 
         # Save the refreshed/updated tokens
@@ -131,29 +133,21 @@ async def async_main():
         """
         # Get friendslist
         friendslist = await xbl_client.people.get_friends_own()
-        print("Your friends:")
-        print(friendslist)
-        print()
+        print(f"Your friends: {friendslist}\n")
 
         # Get presence status (by list of XUID)
         presence = await xbl_client.presence.get_presence_batch(
             ["2533274794093122", "2533274807551369"]
         )
-        print("Statuses of some random players by XUID:")
-        print(presence)
-        print()
+        print(f"Statuses of some random players by XUID: {presence}\n")
 
         # Get messages
         messages = await xbl_client.message.get_inbox()
-        print("Your messages:")
-        print(messages)
-        print()
+        print(f"Your messages: {messages}\n")
 
         # Get profile by GT
         profile = await xbl_client.profile.get_profile_by_gamertag("SomeGamertag")
-        print("Profile under SomeGamertag gamer tag:")
-        print(profile)
-        print()
+        print(f"Profile under SomeGamertag gamer tag: {profile}\n")
 
 
 asyncio.run(async_main())
