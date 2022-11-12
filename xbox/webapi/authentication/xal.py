@@ -288,20 +288,32 @@ class XALManager:
         return XSTSResponse(**resp.json())
 
     async def refresh_sisu(
-        self, sisu_session_id: str, refresh_token_jwt: str
-    ) -> Tuple[OAuth2TokenResponse, SisuAuthorizationResponse]:
+        self, refresh_token_jwt: str
+    ) -> Tuple[str, OAuth2TokenResponse, SisuAuthorizationResponse]:
         """
         Refresh SISU tokens via sisu session id and refresh token
 
         Returns:
-            Tuple of (live token data, sisu authorization response)
+            Tuple of (session_id, live token data, sisu authorization response)
         """
+        # Generate states for OAUTH
+        code_verifier = self._generate_code_verifier()
+        code_challenge = self._get_code_challenge_from_code_verifier(code_verifier)
+        state = self._generate_random_state()
+
+        # Refresh tokens
         device_token = await self.request_device_token()
         live_token = await self.refresh_token(refresh_token_jwt)
-        sisu_tokens = await self.do_sisu_authorization(
-            sisu_session_id, live_token.access_token, device_token.token
+
+        # Initializing new SISU auth session
+        _, session_id = await self.request_sisu_authentication(
+            device_token.token, code_challenge, state
         )
-        return live_token, sisu_tokens
+        # NOTE: We can skip the OAUTH Redirect flow here, we are already authenticated and got the live tokens
+        sisu_tokens = await self.do_sisu_authorization(
+            session_id, live_token.access_token, device_token.token
+        )
+        return session_id, live_token, sisu_tokens
 
     async def auth_flow(
         self, user_input_cb: Callable[[str], str]
