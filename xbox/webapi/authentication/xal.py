@@ -179,7 +179,7 @@ class XALManager:
         resp.raise_for_status()
         return OAuth2TokenResponse(**resp.json())
 
-    async def refresh_token(self, refresh_token_jwt: str) -> httpx.Response:
+    async def refresh_token(self, refresh_token_jwt: str) -> OAuth2TokenResponse:
         post_body = {
             "client_id": self.app_params.app_id,
             "refresh_token": refresh_token_jwt,
@@ -190,7 +190,7 @@ class XALManager:
 
         resp = await self.__oauth20_token_endpoint(post_body)
         resp.raise_for_status()
-        return resp
+        return OAuth2TokenResponse(**resp.json())
 
     async def request_sisu_authentication(
         self, device_token_jwt: str, code_challenge: str, state: str
@@ -289,7 +289,7 @@ class XALManager:
 
     async def auth_flow(
         self, user_input_cb: Callable[[str], str]
-    ) -> SisuAuthorizationResponse:
+    ) -> Tuple[str, OAuth2TokenResponse, SisuAuthorizationResponse]:
         """
         Does the whole XAL/Sisu authentication flow
 
@@ -298,7 +298,7 @@ class XALManager:
                 returns the redirect URL (str)
 
         Returns:
-            Sisu authorization response with all tokens
+            Tuple of (sisu session id, live token data, Sisu authorization response)
         """
 
         # Fetch device token
@@ -344,4 +344,4 @@ class XALManager:
             sisu_session_id, tokens.access_token, device_token_resp.token
         )
 
-        return sisu_authorization
+        return sisu_session_id, tokens, sisu_authorization

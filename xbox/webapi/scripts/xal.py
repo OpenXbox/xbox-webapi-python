@@ -5,12 +5,14 @@ import argparse
 import asyncio
 import json
 import os
+import sys
 import uuid
 
 from pydantic import BaseModel
 from pydantic.json import pydantic_encoder
 
 from xbox.webapi.authentication.models import (
+    OAuth2TokenResponse,
     SisuAuthorizationResponse,
     XalAppParameters,
     XalClientParameters,
@@ -20,6 +22,7 @@ from xbox.webapi.authentication.xal import (
     CLIENT_PARAMS_ANDROID,
     XALManager,
 )
+from xbox.webapi.common.request_signer import RequestSigner
 from xbox.webapi.common.signed_session import SignedSession
 from xbox.webapi.scripts import XAL_TOKENS_FILE
 
@@ -27,6 +30,9 @@ from xbox.webapi.scripts import XAL_TOKENS_FILE
 class XALStore(BaseModel):
     """Used to store/load authorization data"""
 
+    signing_key: str
+    session_id: str
+    live: OAuth2TokenResponse
     sisu: SisuAuthorizationResponse
     device_id: uuid.UUID
     app_params: XalAppParameters
@@ -64,16 +70,43 @@ async def do_auth(device_id: uuid.UUID, token_filepath: str):
             store = XALStore(**store)
 
         if store:
-            raise NotImplementedError("Token refreshing")
+            print(f"Refreshing XAL tokens @ {token_filepath}")
+            session.request_signer = RequestSigner.from_pem(store.signing_key)
+            xal = XALManager(
+                session, store.device_id, store.app_params, store.client_params
+            )
+            device_token = await xal.request_device_token()
+            live_token = await xal.refresh_token(store.live.refresh_token)
+            sisu = await xal.do_sisu_authorization(
+                store.session_id, live_token.access_token, device_token.token
+            )
+
+            # Store new tokens
+            store.live = live_token
+            store.sisu = sisu
+
+            # Save refreshed tokens to disk
+            with open(token_filepath, mode="w") as f:
+                print(f"Finished refreshing, updating tokens at {token_filepath}")
+                json.dump(store, f, default=pydantic_encoder)
+
+            sys.exit(0)
 
         # Do authentication
         xal = XALManager(session, device_id, app_params, client_params)
-        response = await xal.auth_flow(user_prompt_authentication)
-        print(f"Sisu auth finished:\n\n{response}")
+        session_id, live_response, sisu_response = await xal.auth_flow(
+            user_prompt_authentication
+        )
+        print(
+            f"Sisu auth finished:\n\nSESSION-ID={session_id}\n\nLIVE={live_response}\n\nSISU={sisu_response}"
+        )
 
         # Save authorization data
         store = XALStore(
-            sisu=response,
+            signing_key=session.request_signer.export_signing_key(),
+            session_id=session_id,
+            live=live_response,
+            sisu=sisu_response,
             device_id=device_id,
             app_params=app_params,
             client_params=client_params,
