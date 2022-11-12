@@ -115,7 +115,12 @@ async def async_main():
         try:
             await auth_mgr.refresh_tokens()
         except HTTPStatusError as e:
-            print(f"Could not refresh tokens, err={e}")
+            print(
+                f"""
+                Could not refresh tokens from {tokens_file}, err={e}\n
+                You might have to delete the tokens file if refresh token is expired
+            """
+            )
             sys.exit(-1)
 
         # Save the refreshed/updated tokens
