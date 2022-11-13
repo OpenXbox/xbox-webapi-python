@@ -3,8 +3,26 @@ from typing import Union
 
 from xbox.webapi.common.ratelimits.models import TimePeriod, LimitType, IncrementResult
 
+from abc import ABCMeta, abstractmethod
 
-class SingleRateLimit:
+
+class RateLimit(metaclass=ABCMeta):
+    @abstractmethod
+    def get_time_period(self) -> "TimePeriod":
+        pass
+
+    @abstractmethod
+    def get_reset_after(self) -> Union[datetime, None]:
+        pass
+
+    def is_exceeded(self) -> bool:
+        pass
+
+    def increment(self) -> IncrementResult:
+        pass
+
+
+class SingleRateLimit(RateLimit):
     def __init__(self, time_period: TimePeriod, type: LimitType, limit: int):
         self.__time_period = time_period
         self.__type = type
