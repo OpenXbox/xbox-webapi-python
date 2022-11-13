@@ -1,22 +1,7 @@
-from enum import Enum
 from datetime import datetime, timedelta
 from typing import Union
-from pydantic import BaseModel
 
-
-class TimePeriod(Enum):
-    BURST = 15
-    SUSTAIN = 300  # 5 minutes (300s)
-
-
-class LimitType(Enum):
-    WRITE = 0
-    READ = 1
-
-
-class IncrementResult(BaseModel):
-    counter: int
-    exceeded: bool
+from xbox.webapi.common.ratelimits.models import TimePeriod, LimitType, IncrementResult
 
 
 class RateLimit:
@@ -32,7 +17,7 @@ class RateLimit:
 
     def get_time_period(self) -> "TimePeriod":
         return self.__time_period
-    
+
     def get_limit_type(self) -> "LimitType":
         return self.__type
 
