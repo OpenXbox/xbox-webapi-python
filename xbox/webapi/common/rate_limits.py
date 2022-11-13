@@ -40,9 +40,20 @@ class RateLimit:
         return self.__exceeded
 
     def increment(self) -> IncrementResult:
+        # Call a function to check if the counter should be reset
         self.__reset_counter_if_required()
+
+        # Increment the counter
         self.__counter += 1
+
+        # If the counter is 1, (first request after a reset) set the reset_after value.
+        if self.__counter == 1:
+            self.__set_reset_after()
+
+        # Check to see if we have now exceeded the request limit
         self.__check_if_exceeded()
+
+        # Return an instance of IncrementResult
         return IncrementResult(counter=self.__counter, exceeded=self.__exceeded)
 
     # Should be called after every inc of the counter
@@ -50,13 +61,20 @@ class RateLimit:
         if not self.__exceeded:
             if self.__counter >= self.__limit:
                 self.__exceeded = True
-                self.__reset_after = datetime.now() + timedelta(
-                    seconds=self.get_time_period().value
-                )
+                # reset-after is now dependent on the time since the first request of this cycle.
+                # self.__set_reset_after()
 
     def __reset_counter_if_required(self):
-        if self.__reset_after is not None and self.__exceeded:
+        # Check to make sure reset_after is not None
+        # - This is the case if this function is called before the counter
+        #   is incremented after a reset / new instantiation
+        if self.__reset_after is not None:
             if self.__reset_after < datetime.now():
                 self.__exceeded = False
                 self.__counter = 0
                 self.__reset_after = None
+
+    def __set_reset_after(self):
+        self.__reset_after = datetime.now() + timedelta(
+            seconds=self.get_time_period().value
+        )
