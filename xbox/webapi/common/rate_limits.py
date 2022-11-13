@@ -20,8 +20,9 @@ class IncrementResult(BaseModel):
 
 
 class RateLimit:
-    def __init__(self, time_period: TimePeriod, limit: int):
+    def __init__(self, time_period: TimePeriod, type: LimitType, limit: int):
         self.__time_period = time_period
+        self.__type = type
         self.__limit = limit
 
         self.__exceeded: bool = False
@@ -31,6 +32,9 @@ class RateLimit:
 
     def get_time_period(self) -> "TimePeriod":
         return self.__time_period
+    
+    def get_limit_type(self) -> "LimitType":
+        return self.__type
 
     def get_reset_after(self) -> Union[datetime, None]:
         return self.__reset_after
