@@ -4,7 +4,7 @@ from typing import Union
 from xbox.webapi.common.ratelimits.models import TimePeriod, LimitType, IncrementResult
 
 
-class RateLimit:
+class SingleRateLimit:
     def __init__(self, time_period: TimePeriod, type: LimitType, limit: int):
         self.__time_period = time_period
         self.__type = type
