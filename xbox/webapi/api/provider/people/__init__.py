@@ -53,7 +53,9 @@ class PeopleProvider(RateLimitedProvider):
         decoration = self.SEPERATOR.join(decoration_fields)
 
         url = f"{self.PEOPLE_URL}/users/me/people/social/decoration/{decoration}"
-        resp = await self.client.session.get(url, headers=self._headers, **kwargs)
+        resp = await self.client.session.get(
+            url, headers=self._headers, rate_limits=self.rate_limit_read, **kwargs
+        )
         resp.raise_for_status()
         return PeopleResponse(**resp.json())
 
