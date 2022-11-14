@@ -88,9 +88,14 @@ class Session:
             if rate_limits.is_exceeded():
                 raise RateLimitExceededException("Rate limit exceeded", rate_limits)
 
-        return await self._auth_mgr.session.request(
+        response = await self._auth_mgr.session.request(
             method, url, **kwargs, headers=headers, params=params, data=data
         )
+
+        if rate_limits:
+            rate_limits.increment()
+
+        return response
 
     async def get(self, url: str, **kwargs: Any) -> Response:
         return await self.request("GET", url, **kwargs)
