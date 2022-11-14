@@ -154,3 +154,27 @@ class CombinedRateLimit:
 
         # Return True if any variable in list is True
         return True in is_exceeded_list
+
+    def increment(self) -> IncrementResult:
+        # Increment each limit
+        results: list[IncrementResult] = []
+        for limit in self.__limits:
+            result = limit.increment()
+            results.append(result)
+
+        # SPEC: Which counter should be picked here?
+        # For now, let's pick the *higher* counter
+        # (should incrementResult even include the counter?)
+        results[1].counter = 5
+
+        # By default, sorted() returns in ascending order, so let's set reverse=True
+        # This means that the result with the highest counter will be the first element.
+        results_sorted = sorted(results, key=lambda i: i.counter, reverse=True)
+
+        # Create an instance of IncrementResult and return it.
+        return IncrementResult(
+            counter=results_sorted[
+                0
+            ].counter,  # Use the highest counter (sorted in descending order)
+            exceeded=self.is_exceeded(),  # Call self.is_exceeded (True if any limit has been exceeded, a-la an OR gate.)
+        )
