@@ -6,7 +6,8 @@ Subclassed by providers with rate limit support
 
 from typing import Union
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-from xbox.webapi.common.ratelimits.models import ParsedRateLimit, TimePeriod
+from xbox.webapi.common.ratelimits.models import LimitType, ParsedRateLimit, TimePeriod
+from xbox.webapi.common.ratelimits import CombinedRateLimit
 
 
 class RateLimitedProvider(BaseProvider):
@@ -19,20 +20,21 @@ class RateLimitedProvider(BaseProvider):
         Args:
             client (:class:`XboxLiveClient`): Instance of XboxLiveClient
         """
-        # [commented out for testing] super().__init__(client)
-        print(self.RATE_LIMITS)
+        super().__init__(client)
 
-        # Parse the rate limit dict
+        # Retrieve burst and sustain from the dict
         burst_key = self.RATE_LIMITS["burst"]
         sustain_key = self.RATE_LIMITS["sustain"]
 
+        # Parse the rate limit dict values
         burst_rate_limits = self.__parse_rate_limit_key(burst_key, TimePeriod.BURST)
-        sustain_rate_liits = self.__parse_rate_limit_key(
+        sustain_rate_limits = self.__parse_rate_limit_key(
             sustain_key, TimePeriod.SUSTAIN
         )
 
-        print(burst_rate_limits)
-        print(sustain_rate_liits)
+        # Instanciate CombinedRateLimits for read and write respectively
+        CombinedRateLimit(burst_rate_limits, sustain_rate_limits, type=LimitType.READ)
+        CombinedRateLimit(burst_rate_limits, sustain_rate_limits, type=LimitType.WRITE)
 
     def __parse_rate_limit_key(
         self, key: Union[int, dict[str, int]], period: TimePeriod
