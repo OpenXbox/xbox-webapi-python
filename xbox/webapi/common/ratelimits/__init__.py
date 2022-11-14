@@ -20,9 +20,11 @@ class RateLimit(metaclass=ABCMeta):
     def get_reset_after(self) -> Union[datetime, None]:
         pass
 
+    @abstractmethod
     def is_exceeded(self) -> bool:
         pass
 
+    @abstractmethod
     def increment(self) -> IncrementResult:
         pass
 
