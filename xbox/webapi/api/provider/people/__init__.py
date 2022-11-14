@@ -21,7 +21,7 @@ class PeopleProvider(RateLimitedProvider):
     }
     SEPERATOR = ","
 
-    RATE_LIMITS = {"BURST": 10, "SUSTAIN": 30}
+    RATE_LIMITS = {"burst": 10, "sustain": 30}
 
     def __init__(self, client):
         """
