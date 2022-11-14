@@ -4,14 +4,15 @@ RateLimitedProvider
 Subclassed by providers with rate limit support
 """
 
-from typing import Union
+from typing import Union, Dict
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.common.ratelimits.models import LimitType, ParsedRateLimit, TimePeriod
 from xbox.webapi.common.ratelimits import CombinedRateLimit
 
 
 class RateLimitedProvider(BaseProvider):
-    RATE_LIMITS: dict[str, Union[int, dict[str, int]]]
+    # dict -> Dict (typing.dict) https://stackoverflow.com/a/63460173
+    RATE_LIMITS: Dict[str, Union[int, Dict[str, int]]]
 
     def __init__(self, client):
         """
@@ -41,7 +42,7 @@ class RateLimitedProvider(BaseProvider):
         )
 
     def __parse_rate_limit_key(
-        self, key: Union[int, dict[str, int]], period: TimePeriod
+        self, key: Union[int, Dict[str, int]], period: TimePeriod
     ) -> ParsedRateLimit:
         key_type = type(key)
         if key_type == int:
