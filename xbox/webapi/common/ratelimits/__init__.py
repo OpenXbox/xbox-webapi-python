@@ -1,7 +1,12 @@
 from datetime import datetime, timedelta
 from typing import Union
 
-from xbox.webapi.common.ratelimits.models import TimePeriod, LimitType, IncrementResult
+from xbox.webapi.common.ratelimits.models import (
+    ParsedRateLimit,
+    TimePeriod,
+    LimitType,
+    IncrementResult,
+)
 
 from abc import ABCMeta, abstractmethod
 
@@ -85,3 +90,25 @@ class SingleRateLimit(RateLimit):
         self.__reset_after = datetime.now() + timedelta(
             seconds=self.get_time_period().value
         )
+
+
+class CombinedRateLimit:
+    def __init__(self, *parsed_limits: ParsedRateLimit, type: LimitType):
+        # *parsed_limits is a tuple
+
+        # Create a SingleRateLimit instance for each limit
+        self.__limits: list[SingleRateLimit] = []
+
+        for limit in parsed_limits:
+            limit_num = limit.read if type == LimitType.READ else limit.write
+            print(
+                "Found %s limit of %i (%s)" % (limit.period.name, limit_num, type.name)
+            )
+            self.__limits.append(SingleRateLimit(limit.period, type, limit_num))
+
+        # DEBUG: print them
+        for i in self.__limits:
+            print(
+                "Added limit of type %s, limit %s, and limit %i"
+                % (i.get_limit_type(), i.get_time_period(), i._SingleRateLimit__limit)
+            )
