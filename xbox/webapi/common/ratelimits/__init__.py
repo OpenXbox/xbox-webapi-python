@@ -113,3 +113,44 @@ class CombinedRateLimit:
                 "Added limit of type %s, limit %s, and limit %i"
                 % (i.get_limit_type(), i.get_time_period(), i._SingleRateLimit__limit)
             )
+
+    def get_reset_after(self) -> Union[datetime, None]:
+        # Map self.__limits to (limit).get_reset_after()
+        dates_map = map(lambda limit: limit.get_reset_after(), self.__limits)
+
+        # Convert the map object to a list
+        dates = list(dates_map)
+
+        # Construct a new list with only elements of instance datetime
+        # (Effectively filtering out any None elements)
+        dates_valid = [elem for elem in dates if type(elem) == datetime]
+
+        # If dates_valid has any elements, return the one with the *later* timestamp.
+        if len(dates_valid) != 0:
+            dates_valid[0].isoformat
+            print(
+                "Valid dates BEFORE sorting: %s"
+                % list(map(lambda i: i.isoformat(), dates_valid))
+            )
+            # By default dates are sorted with the earliest date first.
+            # We will set reverse=True so that the first element is the later date.
+            dates_valid.sort(reverse=True)
+
+            print(
+                "Valid dates AFTER sorting:  %s"
+                % list(map(lambda i: i.isoformat(), dates_valid))
+            )
+
+            # Return the datetime object.
+            return dates_valid[0]
+
+        # dates_valid has no elements, return None
+        return None
+
+    def is_exceeded(self) -> bool:
+        # Map self.__limits to (limit).is_exceeded()
+        is_exceeded_map = map(lambda limit: limit.is_exceeded(), self.__limits)
+        is_exceeded_list = list(is_exceeded_map)
+
+        # Return True if any variable in list is True
+        return True in is_exceeded_list
