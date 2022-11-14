@@ -3,7 +3,7 @@ People - Access friendlist from own profiles and others
 """
 from typing import List
 
-from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.ratelimitedprovider import RateLimitedProvider
 from xbox.webapi.api.provider.people.models import (
     PeopleDecoration,
     PeopleResponse,
@@ -11,7 +11,7 @@ from xbox.webapi.api.provider.people.models import (
 )
 
 
-class PeopleProvider(BaseProvider):
+class PeopleProvider(RateLimitedProvider):
     SOCIAL_URL = "https://social.xboxlive.com"
     HEADERS_SOCIAL = {"x-xbl-contract-version": "2"}
     PEOPLE_URL = "https://peoplehub.xboxlive.com"
@@ -20,6 +20,8 @@ class PeopleProvider(BaseProvider):
         "Accept-Language": "overwrite in __init__",
     }
     SEPERATOR = ","
+
+    RATE_LIMITS = {"BURST": 10, "SUSTAIN": 30}
 
     def __init__(self, client):
         """
