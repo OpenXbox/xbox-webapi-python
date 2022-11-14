@@ -6,7 +6,7 @@ Subclassed by providers with rate limit support
 
 from typing import Union
 from xbox.webapi.api.provider.baseprovider import BaseProvider
-from xbox.webapi.common.ratelimits.models import ParsedRateLimit
+from xbox.webapi.common.ratelimits.models import ParsedRateLimit, TimePeriod
 
 
 class RateLimitedProvider(BaseProvider):
@@ -26,20 +26,22 @@ class RateLimitedProvider(BaseProvider):
         burst_key = self.RATE_LIMITS["burst"]
         sustain_key = self.RATE_LIMITS["sustain"]
 
-        burst_rate_limits = self.__parse_rate_limit_key(burst_key)
-        sustain_rate_liits = self.__parse_rate_limit_key(sustain_key)
+        burst_rate_limits = self.__parse_rate_limit_key(burst_key, TimePeriod.BURST)
+        sustain_rate_liits = self.__parse_rate_limit_key(
+            sustain_key, TimePeriod.SUSTAIN
+        )
 
         print(burst_rate_limits)
         print(sustain_rate_liits)
 
     def __parse_rate_limit_key(
-        self, key: Union[int, dict[str, int]]
+        self, key: Union[int, dict[str, int]], period: TimePeriod
     ) -> ParsedRateLimit:
         key_type = type(key)
         if key_type == int:
-            return ParsedRateLimit(read=key, write=key)
+            return ParsedRateLimit(read=key, write=key, period=period)
         elif key_type == dict:
             # TODO: schema here?
             # Since the key-value pairs match we can just pass the dict to the model
-            return ParsedRateLimit(**key)
+            return ParsedRateLimit(**key, period=period)
             # return ParsedRateLimit(read=key["read"], write=key["write"])
