@@ -33,8 +33,12 @@ class RateLimitedProvider(BaseProvider):
         )
 
         # Instanciate CombinedRateLimits for read and write respectively
-        CombinedRateLimit(burst_rate_limits, sustain_rate_limits, type=LimitType.READ)
-        CombinedRateLimit(burst_rate_limits, sustain_rate_limits, type=LimitType.WRITE)
+        self.rate_limit_read = CombinedRateLimit(
+            burst_rate_limits, sustain_rate_limits, type=LimitType.READ
+        )
+        self.rate_limit_write = CombinedRateLimit(
+            burst_rate_limits, sustain_rate_limits, type=LimitType.WRITE
+        )
 
     def __parse_rate_limit_key(
         self, key: Union[int, dict[str, int]], period: TimePeriod
