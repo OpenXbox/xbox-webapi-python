@@ -100,11 +100,12 @@ class CombinedRateLimit:
         self.__limits: list[SingleRateLimit] = []
 
         for limit in parsed_limits:
+            # Use the type param (enum LimitType) to determine which limit to select
             limit_num = limit.read if type == LimitType.READ else limit.write
-            print(
-                "Found %s limit of %i (%s)" % (limit.period.name, limit_num, type.name)
-            )
-            self.__limits.append(SingleRateLimit(limit.period, type, limit_num))
+
+            # Create a new instance of SingleRateLimit and append it to the limits array.
+            srl = SingleRateLimit(limit.period, type, limit_num)
+            self.__limits.append(srl)
 
         # DEBUG: print them
         for i in self.__limits:
