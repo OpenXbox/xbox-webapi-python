@@ -131,9 +131,14 @@ class CombinedRateLimit:
         # Return the highest value
         return counters[0]
 
+    # We don't want a datetime response for a limit that has not been exceeded.
+    # Otherwise eg. 10 burst requests -> 300s timeout (should be 30 (burst exceeded), 300s (not exceeded)
     def get_reset_after(self) -> Union[datetime, None]:
+        # Get a list of limits that *have been exceeded*
+        dates_exceeded_only = filter(lambda limit: limit.is_exceeded(), self.__limits)
+
         # Map self.__limits to (limit).get_reset_after()
-        dates_map = map(lambda limit: limit.get_reset_after(), self.__limits)
+        dates_map = map(lambda limit: limit.get_reset_after(), dates_exceeded_only)
 
         # Convert the map object to a list
         dates = list(dates_map)
@@ -143,6 +148,7 @@ class CombinedRateLimit:
         dates_valid = [elem for elem in dates if type(elem) == datetime]
 
         # If dates_valid has any elements, return the one with the *later* timestamp.
+        # This means that if two or more limits have been exceeded, we wait for both to have reset (by returning the later timestamp)
         if len(dates_valid) != 0:
             dates_valid[0].isoformat
             print(
