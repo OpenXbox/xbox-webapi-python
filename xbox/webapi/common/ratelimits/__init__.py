@@ -13,6 +13,10 @@ from abc import ABCMeta, abstractmethod
 
 class RateLimit(metaclass=ABCMeta):
     @abstractmethod
+    def get_counter(self) -> int:
+        pass
+
+    @abstractmethod
     def get_reset_after(self) -> Union[datetime, None]:
         pass
 
@@ -35,6 +39,9 @@ class SingleRateLimit(RateLimit):
         self.__counter = 0
         # No requests so far, so reset_after is None.
         self.__reset_after: Union[datetime, None] = None
+
+    def get_counter(self) -> int:
+        return self.__counter
 
     def get_time_period(self) -> "TimePeriod":
         return self.__time_period
@@ -111,6 +118,18 @@ class CombinedRateLimit:
                 "Added limit of type %s, limit %s, and limit %i"
                 % (i.get_limit_type(), i.get_time_period(), i._SingleRateLimit__limit)
             )
+
+    def get_counter(self) -> int:
+        # Map self.__limits to (limit).get_counter()
+        counter_map = map(lambda limit: limit.get_counter(), self.__limits)
+        counters = list(counter_map)
+
+        # Sort the counters list by value
+        # reverse=True to get highest first
+        counters.sort(reverse=True)
+
+        # Return the highest value
+        return counters[0]
 
     def get_reset_after(self) -> Union[datetime, None]:
         # Map self.__limits to (limit).get_reset_after()
