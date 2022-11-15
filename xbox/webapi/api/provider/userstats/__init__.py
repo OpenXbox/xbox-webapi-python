@@ -3,18 +3,23 @@ Userstats - Get game statistics
 """
 from typing import List, Optional
 
-from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.ratelimitedprovider import RateLimitedProvider
 from xbox.webapi.api.provider.userstats.models import (
     GeneralStatsField,
     UserStatsResponse,
 )
 
 
-class UserStatsProvider(BaseProvider):
+class UserStatsProvider(RateLimitedProvider):
     USERSTATS_URL = "https://userstats.xboxlive.com"
     HEADERS_USERSTATS = {"x-xbl-contract-version": "2"}
     HEADERS_USERSTATS_WITH_METADATA = {"x-xbl-contract-version": "3"}
     SEPERATOR = ","
+
+    # NOTE: Stats Read (userstats.xboxlive.com) and Stats Write (statswrite.xboxlive.com)
+    # Are mentioned as their own objects but their rate limits are the same and do not collide
+    # (Stats Read -> read rate limit, Stats Write -> write rate limit)
+    RATE_LIMITS = {"burst": 100, "sustain": 300}
 
     async def get_stats(
         self,
@@ -40,7 +45,10 @@ class UserStatsProvider(BaseProvider):
 
         url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
         resp = await self.client.session.get(
-            url, headers=self.HEADERS_USERSTATS, **kwargs
+            url,
+            headers=self.HEADERS_USERSTATS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return UserStatsResponse(**resp.json())
@@ -70,7 +78,11 @@ class UserStatsProvider(BaseProvider):
         url = f"{self.USERSTATS_URL}/users/xuid({xuid})/scids/{service_config_id}/stats/{stats}"
         params = {"include": "valuemetadata"}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_USERSTATS_WITH_METADATA, **kwargs
+            url,
+            params=params,
+            headers=self.HEADERS_USERSTATS_WITH_METADATA,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return UserStatsResponse(**resp.json())
@@ -104,7 +116,11 @@ class UserStatsProvider(BaseProvider):
             "xuids": xuids,
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_USERSTATS, **kwargs
+            url,
+            json=post_data,
+            headers=self.HEADERS_USERSTATS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return UserStatsResponse(**resp.json())
@@ -139,7 +155,11 @@ class UserStatsProvider(BaseProvider):
             "xuids": xuids,
         }
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_USERSTATS, **kwargs
+            url,
+            json=post_data,
+            headers=self.HEADERS_USERSTATS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return UserStatsResponse(**resp.json())
