@@ -46,6 +46,9 @@ class SingleRateLimit(RateLimit):
     def get_time_period(self) -> "TimePeriod":
         return self.__time_period
 
+    def get_limit(self) -> int:
+        return self.__limit
+
     def get_limit_type(self) -> "LimitType":
         return self.__type
 
