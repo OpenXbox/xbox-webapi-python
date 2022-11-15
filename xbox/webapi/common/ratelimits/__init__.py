@@ -170,6 +170,15 @@ class CombinedRateLimit(RateLimit):
         # dates_valid has no elements, return None
         return None
 
+    def get_limits(self) -> list[SingleRateLimit]:
+        return self.__limits
+
+    def get_limits_by_period(self, period: TimePeriod) -> list[SingleRateLimit]:
+        # Filter the list for the given LimitType
+        matches = filter(lambda limit: limit.get_time_period() == period, self.__limits)
+        # Convert the filter object to a list and return it
+        return list(matches)
+
     def is_exceeded(self) -> bool:
         # Map self.__limits to (limit).is_exceeded()
         is_exceeded_map = map(lambda limit: limit.is_exceeded(), self.__limits)
