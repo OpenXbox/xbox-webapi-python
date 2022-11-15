@@ -5,7 +5,7 @@ import pytest
 from tests.common import get_response_json
 from xbox.webapi.api.provider.ratelimitedprovider import RateLimitedProvider
 
-from xbox.webapi.common.exceptions import RateLimitExceededException
+from xbox.webapi.common.exceptions import RateLimitExceededException, XboxException
 from xbox.webapi.common.ratelimits import CombinedRateLimit
 from xbox.webapi.common.ratelimits.models import TimePeriod
 
@@ -69,6 +69,39 @@ def test_ratelimitedprovider_rate_limits_mixed(xbl_client):
     # Burst values are the same (second paramater)
     helper_test_combinedratelimit(sustain_diff_inst.rate_limit_read, 4, 5)
     helper_test_combinedratelimit(sustain_diff_inst.rate_limit_write, 4, 6)
+
+
+def test_ratelimitedprovider_rate_limits_missing_values_correct_type(xbl_client):
+    class child_class(RateLimitedProvider):
+        RATE_LIMITS = {"incorrect": "values"}
+
+    with pytest.raises(XboxException) as exception:
+        child_class(xbl_client)
+
+    ex: XboxException = exception.value
+    assert "RATE_LIMITS object missing required keys" in ex.args[0]
+
+
+def test_ratelimitedprovider_rate_limits_not_set(xbl_client):
+    class child_class(RateLimitedProvider):
+        pass
+
+    with pytest.raises(XboxException) as exception:
+        child_class(xbl_client)
+
+    ex: XboxException = exception.value
+    assert "RateLimitedProvider as parent class but RATE_LIMITS not set!" in ex.args[0]
+
+
+def test_ratelimitedprovider_rate_limits_incorrect_key_type(xbl_client):
+    class child_class(RateLimitedProvider):
+        RATE_LIMITS = {"burst": True, "sustain": False}
+
+    with pytest.raises(XboxException) as exception:
+        child_class(xbl_client)
+
+    ex: XboxException = exception.value
+    assert "RATE_LIMITS value types not recognised." in ex.args[0]
 
 
 @pytest.mark.asyncio
