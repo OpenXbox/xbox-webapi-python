@@ -97,7 +97,7 @@ class SingleRateLimit(RateLimit):
         )
 
 
-class CombinedRateLimit:
+class CombinedRateLimit(RateLimit):
     def __init__(self, *parsed_limits: ParsedRateLimit, type: LimitType):
         # *parsed_limits is a tuple
 
