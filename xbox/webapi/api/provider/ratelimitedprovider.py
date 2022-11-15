@@ -6,6 +6,7 @@ Subclassed by providers with rate limit support
 
 from typing import Union, Dict
 from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.common.exceptions import XboxException
 from xbox.webapi.common.ratelimits.models import LimitType, ParsedRateLimit, TimePeriod
 from xbox.webapi.common.ratelimits import CombinedRateLimit
 
@@ -23,6 +24,23 @@ class RateLimitedProvider(BaseProvider):
         """
         super().__init__(client)
 
+        # Check that RATE_LIMITS set defined in the child class
+        if hasattr(self, "RATE_LIMITS"):
+            # Note: we cannot check (type(self.RATE_LIMITS) == dict) as the type hints have already defined it as such
+            if "burst" and "sustain" in self.RATE_LIMITS:
+                # We have the required keys, attempt to parse.
+                # (type-checking for the values is performed in __parse_rate_limit_key)
+                self.__handle_rate_limit_setup()
+            else:
+                raise XboxException(
+                    "RATE_LIMITS object missing required keys 'burst', 'sustain'"
+                )
+        else:
+            raise XboxException(
+                "RateLimitedProvider as parent class but RATE_LIMITS not set!"
+            )
+
+    def __handle_rate_limit_setup(self):
         # Retrieve burst and sustain from the dict
         burst_key = self.RATE_LIMITS["burst"]
         sustain_key = self.RATE_LIMITS["sustain"]
@@ -52,3 +70,7 @@ class RateLimitedProvider(BaseProvider):
             # Since the key-value pairs match we can just pass the dict to the model
             return ParsedRateLimit(**key, period=period)
             # return ParsedRateLimit(read=key["read"], write=key["write"])
+        else:
+            raise XboxException(
+                "RATE_LIMITS value types not recognised. Must be one of 'int, 'dict'."
+            )
