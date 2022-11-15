@@ -107,12 +107,11 @@ def test_ratelimitedprovider_rate_limits_incorrect_key_type(xbl_client):
 @pytest.mark.asyncio
 async def test_ratelimits_exceeded_burst_only(respx_mock, xbl_client):
     async def make_request():
-        route = respx_mock.get("https://peoplehub.xboxlive.com").mock(
-            return_value=Response(200, json=get_response_json("people_friends_own"))
+        route = respx_mock.get("https://social.xboxlive.com").mock(
+            return_value=Response(200, json=get_response_json("people_summary_own"))
         )
-        ret = await xbl_client.people.get_friends_own()
+        ret = await xbl_client.people.get_friends_summary_own()
 
-        assert len(ret.people) == 2
         assert route.called
 
     # Record the start time to ensure that the timeouts are the correct length

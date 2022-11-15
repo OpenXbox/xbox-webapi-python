@@ -21,6 +21,7 @@ class PeopleProvider(RateLimitedProvider):
     }
     SEPERATOR = ","
 
+    # NOTE: Rate Limits are noted for social.xboxlive.com ONLY
     RATE_LIMITS = {"burst": 10, "sustain": 30}
 
     def __init__(self, client):
@@ -53,9 +54,7 @@ class PeopleProvider(RateLimitedProvider):
         decoration = self.SEPERATOR.join(decoration_fields)
 
         url = f"{self.PEOPLE_URL}/users/me/people/social/decoration/{decoration}"
-        resp = await self.client.session.get(
-            url, headers=self._headers, rate_limits=self.rate_limit_read, **kwargs
-        )
+        resp = await self.client.session.get(url, headers=self._headers, **kwargs)
         resp.raise_for_status()
         return PeopleResponse(**resp.json())
 
@@ -133,7 +132,9 @@ class PeopleProvider(RateLimitedProvider):
             :class:`PeopleSummaryResponse`: People Summary Response
         """
         url = self.SOCIAL_URL + "/users/me/summary"
-        resp = await self.client.session.get(url, headers=self.HEADERS_SOCIAL, **kwargs)
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_SOCIAL, rate_limits=self.rate_limit_read, **kwargs
+        )
         resp.raise_for_status()
         return PeopleSummaryResponse(**resp.json())
 
@@ -150,7 +151,9 @@ class PeopleProvider(RateLimitedProvider):
             :class:`PeopleSummaryResponse`: People Summary Response
         """
         url = self.SOCIAL_URL + f"/users/xuid({xuid})/summary"
-        resp = await self.client.session.get(url, headers=self.HEADERS_SOCIAL, **kwargs)
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_SOCIAL, rate_limits=self.rate_limit_read, **kwargs
+        )
         resp.raise_for_status()
         return PeopleSummaryResponse(**resp.json())
 
@@ -167,6 +170,8 @@ class PeopleProvider(RateLimitedProvider):
             :class:`PeopleSummaryResponse`: People Summary Response
         """
         url = self.SOCIAL_URL + f"/users/gt({gamertag})/summary"
-        resp = await self.client.session.get(url, headers=self.HEADERS_SOCIAL, **kwargs)
+        resp = await self.client.session.get(
+            url, headers=self.HEADERS_SOCIAL, rate_limits=self.rate_limit_read, **kwargs
+        )
         resp.raise_for_status()
         return PeopleSummaryResponse(**resp.json())
