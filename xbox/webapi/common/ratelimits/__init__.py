@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Union
+from typing import Union, List
 
 from xbox.webapi.common.ratelimits.models import (
     ParsedRateLimit,
@@ -173,10 +173,12 @@ class CombinedRateLimit(RateLimit):
         # dates_valid has no elements, return None
         return None
 
-    def get_limits(self) -> list[SingleRateLimit]:
+    # list -> List (typing.List) https://stackoverflow.com/a/63460173
+    def get_limits(self) -> List[SingleRateLimit]:
         return self.__limits
 
-    def get_limits_by_period(self, period: TimePeriod) -> list[SingleRateLimit]:
+    # list -> List (typing.List) https://stackoverflow.com/a/63460173
+    def get_limits_by_period(self, period: TimePeriod) -> List[SingleRateLimit]:
         # Filter the list for the given LimitType
         matches = filter(lambda limit: limit.get_time_period() == period, self.__limits)
         # Convert the filter object to a list and return it
