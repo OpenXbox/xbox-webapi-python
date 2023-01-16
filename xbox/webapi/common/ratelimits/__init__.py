@@ -12,24 +12,55 @@ from abc import ABCMeta, abstractmethod
 
 
 class RateLimit(metaclass=ABCMeta):
+    """
+    Abstract class for varying implementations/types of rate limits.
+    All methods in this class are overriden in every implementation.
+    However, different implementations may have additional functions not present in this parent abstract class.
+
+    A class implementing RateLimit functions without any external threads.
+    When the first increment request is recieved (after a counter reset or a new instaniciation)
+    a reset_after variable is set detailing when the rate limit(s) reset.
+
+    Upon each function invokation, the reset_after variable is checked and the timer is automatically reset if the reset_after time has passed.
+    """
+
     @abstractmethod
     def get_counter(self) -> int:
+        # Docstrings are defined in child classes due to their differing implementations.
         pass
 
     @abstractmethod
     def get_reset_after(self) -> Union[datetime, None]:
+        # Docstrings are defined in child classes due to their differing implementations.
         pass
 
     @abstractmethod
     def is_exceeded(self) -> bool:
+        # Docstrings are defined in child classes due to their differing implementations.
         pass
 
     @abstractmethod
     def increment(self) -> IncrementResult:
+        """
+        The increment function adds one to the rate limit request counter.
+
+        If the reset_after time has passed, the counter will first be reset before counting the request.
+
+        When the counter hits 1, the reset_after time is calculated and stored.
+
+        This function returns an `IncrementResult` object, containing the keys `counter: int` and `exceeded: bool`.
+        This can be used by the caller to determine the current state of the rate-limit object without making an additional function call.
+        """
+
         pass
 
 
 class SingleRateLimit(RateLimit):
+    """
+    A rate limit implementation for a single rate limit, such as a burst or sustain limit.
+    This class is mainly used by the CombinedRateLimit class.
+    """
+
     def __init__(self, time_period: TimePeriod, type: LimitType, limit: int):
         self.__time_period = time_period
         self.__type = type
@@ -41,6 +72,10 @@ class SingleRateLimit(RateLimit):
         self.__reset_after: Union[datetime, None] = None
 
     def get_counter(self) -> int:
+        """
+        This function returns the current request counter variable.
+        """
+
         return self.__counter
 
     def get_time_period(self) -> "TimePeriod":
@@ -53,9 +88,21 @@ class SingleRateLimit(RateLimit):
         return self.__type
 
     def get_reset_after(self) -> Union[datetime, None]:
+        """
+        This getter returns the current state of the reset_after counter.
+
+        If the counter in use, it's corresponding `datetime` object is returned.
+
+        If the counter is not in use, `None` is returned.
+        """
+
         return self.__reset_after
 
     def is_exceeded(self) -> bool:
+        """
+        This functions returns `True` if the rate limit has been exceeded.
+        """
+
         self.__reset_counter_if_required()
         return self.__exceeded
 
@@ -101,6 +148,11 @@ class SingleRateLimit(RateLimit):
 
 
 class CombinedRateLimit(RateLimit):
+    """
+    A rate limit implementation for multiple rate limits, such as burst and sustain.
+
+    """
+
     def __init__(self, *parsed_limits: ParsedRateLimit, type: LimitType):
         # *parsed_limits is a tuple
 
@@ -123,6 +175,12 @@ class CombinedRateLimit(RateLimit):
             )
 
     def get_counter(self) -> int:
+        """
+        This function returns the request counter with the **highest** value.
+
+        A `CombinedRateLimit` consists of multiple different rate limits, which may have differing counter values.
+        """
+
         # Map self.__limits to (limit).get_counter()
         counter_map = map(lambda limit: limit.get_counter(), self.__limits)
         counters = list(counter_map)
@@ -137,6 +195,16 @@ class CombinedRateLimit(RateLimit):
     # We don't want a datetime response for a limit that has not been exceeded.
     # Otherwise eg. 10 burst requests -> 300s timeout (should be 30 (burst exceeded), 300s (not exceeded)
     def get_reset_after(self) -> Union[datetime, None]:
+        """
+        This getter returns either a `datetime` object or `None` object depending on the status of the rate limit.
+
+        If the counter is in use, the rate limit with the **latest** reset_after is returned.
+
+        This is so that this function can reliably be used as a indicator of when all rate limits have been reset.
+
+        If the counter is not in use, `None` is returned.
+        """
+
         # Get a list of limits that *have been exceeded*
         dates_exceeded_only = filter(lambda limit: limit.is_exceeded(), self.__limits)
 
@@ -185,6 +253,10 @@ class CombinedRateLimit(RateLimit):
         return list(matches)
 
     def is_exceeded(self) -> bool:
+        """
+        This function returns `True` if **any** rate limit has been exceeded.
+        """
+
         # Map self.__limits to (limit).is_exceeded()
         is_exceeded_map = map(lambda limit: limit.is_exceeded(), self.__limits)
         is_exceeded_list = list(is_exceeded_map)
