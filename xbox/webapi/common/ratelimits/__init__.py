@@ -238,6 +238,8 @@ class CombinedRateLimit(RateLimit):
     def is_exceeded(self) -> bool:
         """
         This function returns `True` if **any** rate limit has been exceeded.
+        
+        It behaves like an OR logic gate.
         """
 
         # Map self.__limits to (limit).is_exceeded()
@@ -264,5 +266,5 @@ class CombinedRateLimit(RateLimit):
             counter=results_sorted[
                 0
             ].counter,  # Use the highest counter (sorted in descending order)
-            exceeded=self.is_exceeded(),  # Call self.is_exceeded (True if any limit has been exceeded, a-la an OR gate.)
+            exceeded=self.is_exceeded(),  # Call self.is_exceeded (True if any limit has been exceeded, like an OR gate.)
         )
