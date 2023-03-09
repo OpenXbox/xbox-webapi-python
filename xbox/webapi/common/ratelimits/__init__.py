@@ -271,11 +271,7 @@ class CombinedRateLimit(RateLimit):
             result = limit.increment()
             results.append(result)
 
-        # SPEC: Which counter should be picked here?
-        # For now, let's pick the *higher* counter
-        # (should incrementResult even include the counter?)
-        results[1].counter = 5
-
+        # SPEC: Let's pick the *higher* counter
         # By default, sorted() returns in ascending order, so let's set reverse=True
         # This means that the result with the highest counter will be the first element.
         results_sorted = sorted(results, key=lambda i: i.counter, reverse=True)
