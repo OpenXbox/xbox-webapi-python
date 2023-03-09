@@ -167,13 +167,6 @@ class CombinedRateLimit(RateLimit):
             srl = SingleRateLimit(limit.period, type, limit_num)
             self.__limits.append(srl)
 
-        # DEBUG: print them
-        for i in self.__limits:
-            print(
-                "Added limit of type %s, limit %s, and limit %i"
-                % (i.get_limit_type(), i.get_time_period(), i._SingleRateLimit__limit)
-            )
-
     def get_counter(self) -> int:
         """
         This function returns the request counter with the **highest** value.
@@ -221,19 +214,9 @@ class CombinedRateLimit(RateLimit):
         # If dates_valid has any elements, return the one with the *later* timestamp.
         # This means that if two or more limits have been exceeded, we wait for both to have reset (by returning the later timestamp)
         if len(dates_valid) != 0:
-            dates_valid[0].isoformat
-            print(
-                "Valid dates BEFORE sorting: %s"
-                % list(map(lambda i: i.isoformat(), dates_valid))
-            )
             # By default dates are sorted with the earliest date first.
             # We will set reverse=True so that the first element is the later date.
             dates_valid.sort(reverse=True)
-
-            print(
-                "Valid dates AFTER sorting:  %s"
-                % list(map(lambda i: i.isoformat(), dates_valid))
-            )
 
             # Return the datetime object.
             return dates_valid[0]
