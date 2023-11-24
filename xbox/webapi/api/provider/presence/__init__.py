@@ -70,8 +70,8 @@ class PresenceProvider(BaseProvider):
             url, json=post_data, headers=self.HEADERS_PRESENCE, **kwargs
         )
         resp.raise_for_status()
-        parsed = PresenceBatchResponse.parse_obj(resp.json())
-        return parsed.__root__
+        parsed = PresenceBatchResponse.model_validate(resp.json())
+        return parsed.root
 
     async def get_presence_own(
         self, presence_level: PresenceLevel = PresenceLevel.ALL, **kwargs

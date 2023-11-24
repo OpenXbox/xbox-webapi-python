@@ -7,7 +7,7 @@ from xbox.webapi.common.models import CamelCaseModel
 
 
 class PagingInfo(CamelCaseModel):
-    continuation_token: Optional[str]
+    continuation_token: Optional[str] = None
     total_records: int
 
 
@@ -62,7 +62,7 @@ class TitleAssociation(BaseModel):
 
 class Requirement(CamelCaseModel):
     id: str
-    current: Optional[str]
+    current: Optional[str] = None
     target: str
     operation_type: str
     value_type: str
@@ -81,11 +81,11 @@ class MediaAsset(BaseModel):
 
 
 class Reward(CamelCaseModel):
-    name: Any
-    description: Any
+    name: Any = None
+    description: Any = None
     value: str
     type: str
-    media_asset: Any
+    media_asset: Any = None
     value_type: str
 
 
@@ -104,10 +104,10 @@ class Achievement(CamelCaseModel):
     product_id: str
     achievement_type: str
     participation_type: str
-    time_window: Any
+    time_window: Any = None
     rewards: List[Reward]
     estimated_time: time
-    deeplink: Any
+    deeplink: Any = None
     is_revoked: bool
 
 

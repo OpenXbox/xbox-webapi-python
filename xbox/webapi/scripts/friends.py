@@ -50,7 +50,7 @@ async def async_main():
 
         with open(args.tokens) as f:
             tokens = f.read()
-        auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
+        auth_mgr.oauth = OAuth2TokenResponse.model_validate_json(tokens)
         try:
             await auth_mgr.refresh_tokens()
         except HTTPStatusError:

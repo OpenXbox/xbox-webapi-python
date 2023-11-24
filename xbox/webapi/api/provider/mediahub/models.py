@@ -6,18 +6,18 @@ from xbox.webapi.common.models import CamelCaseModel
 class ContentSegment(CamelCaseModel):
     segment_id: int
     creation_type: str
-    creator_channel_id: Optional[str]
+    creator_channel_id: Optional[str] = None
     creator_xuid: int
     record_date: str
     duration_in_seconds: int
     offset: int
-    secondary_title_id: Optional[int]
+    secondary_title_id: Optional[int] = None
     title_id: int
 
 
 class ContentLocator(CamelCaseModel):
-    expiration: Optional[str]
-    file_size: Optional[int]
+    expiration: Optional[str] = None
+    file_size: Optional[int] = None
     locator_type: str
     uri: str
 

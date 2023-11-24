@@ -6,10 +6,10 @@ from xbox.webapi.common.models import PascalCaseModel
 class Item(PascalCaseModel):
     item_id: str
     content_type: str
-    title: Optional[str]
+    title: Optional[str] = None
     device_type: str
-    provider: Optional[str]
-    provider_id: Optional[str]
+    provider: Optional[str] = None
+    provider_id: Optional[str] = None
 
 
 class ListItem(PascalCaseModel):

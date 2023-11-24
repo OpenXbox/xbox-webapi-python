@@ -7,9 +7,9 @@ from xbox.webapi.common.models import CamelCaseModel
 class Part(CamelCaseModel):
     content_type: str
     version: int
-    text: Optional[str]
-    unsuitable_for: Optional[List]
-    locator: Optional[str]
+    text: Optional[str] = None
+    unsuitable_for: Optional[List] = None
+    locator: Optional[str] = None
 
 
 class Content(CamelCaseModel):
@@ -21,14 +21,14 @@ class ContentPayload(CamelCaseModel):
 
 
 class Message(CamelCaseModel):
-    content_payload: Optional[ContentPayload]
+    content_payload: Optional[ContentPayload] = None
     timestamp: datetime
     last_update_timestamp: datetime
     type: str
     network_id: str
     conversation_type: str
     conversation_id: str
-    owner: Optional[int]
+    owner: Optional[int] = None
     sender: str
     message_id: str
     is_deleted: bool
@@ -79,16 +79,16 @@ class ConversationResponse(CamelCaseModel):
     network_id: str
     type: str
     conversation_id: str
-    participants: Optional[List[str]]
+    participants: Optional[List[str]] = None
     read_horizon: str
     delete_horizon: str
     is_read: bool
     muted: bool
     folder: str
-    messages: Optional[List[Message]]
-    continuation_token: Optional[str]
+    messages: Optional[List[Message]] = None
+    continuation_token: Optional[str] = None
     voice_id: str
-    voice_roster: Optional[List[Any]]
+    voice_roster: Optional[List[Any]] = None
 
 
 class SendMessageResponse(CamelCaseModel):

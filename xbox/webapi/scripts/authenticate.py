@@ -82,7 +82,7 @@ async def do_auth(
         if os.path.exists(token_filepath):
             with open(token_filepath) as f:
                 tokens = f.read()
-            auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
+            auth_mgr.oauth = OAuth2TokenResponse.model_validate_json(tokens)
             await auth_mgr.refresh_tokens()
 
         # Request new ones if they are not valid

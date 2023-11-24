@@ -31,16 +31,16 @@ class PeopleSummaryResponse(CamelCaseModel):
     has_caller_marked_target_as_favorite: bool
     has_caller_marked_target_as_identity_shared: bool
     legacy_friend_status: str
-    available_people_slots: Optional[int]
-    recent_change_count: Optional[int]
-    watermark: Optional[str]
+    available_people_slots: Optional[int] = None
+    recent_change_count: Optional[int] = None
+    watermark: Optional[str] = None
 
 
 class Suggestion(PascalCaseModel):
-    type: Optional[str]
+    type: Optional[str] = None
     priority: int
-    reasons: Optional[str]
-    title_id: Optional[str]
+    reasons: Optional[str] = None
+    title_id: Optional[str] = None
 
 
 class Recommendation(PascalCaseModel):
@@ -55,18 +55,18 @@ class MultiplayerSummary(PascalCaseModel):
 
 class RecentPlayer(CamelCaseModel):
     titles: List[str]
-    text: Optional[str]
+    text: Optional[str] = None
 
 
 class Follower(CamelCaseModel):
-    text: Optional[str]
-    followed_date_time: Optional[datetime]
+    text: Optional[str] = None
+    followed_date_time: Optional[datetime] = None
 
 
 class PreferredColor(CamelCaseModel):
-    primary_color: Optional[str]
-    secondary_color: Optional[str]
-    tertiary_color: Optional[str]
+    primary_color: Optional[str] = None
+    secondary_color: Optional[str] = None
+    tertiary_color: Optional[str] = None
 
 
 class PresenceDetail(PascalCaseModel):
@@ -75,25 +75,25 @@ class PresenceDetail(PascalCaseModel):
     presence_text: str
     state: str
     title_id: str
-    title_type: Optional[str]
+    title_type: Optional[str] = None
     is_primary: bool
     is_game: bool
-    rich_presence_text: Optional[str]
+    rich_presence_text: Optional[str] = None
 
 
 class TitlePresence(PascalCaseModel):
     is_currently_playing: bool
-    presence_text: Optional[str]
-    title_name: Optional[str]
-    title_id: Optional[str]
+    presence_text: Optional[str] = None
+    title_name: Optional[str] = None
+    title_id: Optional[str] = None
 
 
 class Detail(CamelCaseModel):
     account_tier: str
-    bio: Optional[str]
+    bio: Optional[str] = None
     is_verified: bool
-    location: Optional[str]
-    tenure: Optional[str]
+    location: Optional[str] = None
+    tenure: Optional[str] = None
     watermarks: List[str]
     blocked: bool
     mute: bool
@@ -108,16 +108,16 @@ class SocialManager(CamelCaseModel):
 
 
 class Avatar(CamelCaseModel):
-    update_time_offset: Optional[datetime]
-    spritesheet_metadata: Optional[Any]
+    update_time_offset: Optional[datetime] = None
+    spritesheet_metadata: Optional[Any] = None
 
 
 class LinkedAccount(CamelCaseModel):
     network_name: str
-    display_name: Optional[str]
+    display_name: Optional[str] = None
     show_on_profile: bool
     is_family_friendly: bool
-    deeplink: Optional[str]
+    deeplink: Optional[str] = None
 
 
 class Person(CamelCaseModel):
@@ -126,8 +126,8 @@ class Person(CamelCaseModel):
     is_following_caller: bool
     is_followed_by_caller: bool
     is_identity_shared: bool
-    added_date_time_utc: Optional[datetime]
-    display_name: Optional[str]
+    added_date_time_utc: Optional[datetime] = None
+    display_name: Optional[str] = None
     real_name: str
     display_pic_raw: str
     show_user_as_avatar: str
@@ -139,31 +139,31 @@ class Person(CamelCaseModel):
     xbox_one_rep: str
     presence_state: str
     presence_text: str
-    presence_devices: Optional[Any]
+    presence_devices: Optional[Any] = None
     is_broadcasting: bool
-    is_cloaked: Optional[bool]
+    is_cloaked: Optional[bool] = None
     is_quarantined: bool
     is_xbox_360_gamerpic: bool
-    last_seen_date_time_utc: Optional[datetime]
-    suggestion: Optional[Suggestion]
-    recommendation: Optional[Recommendation]
-    search: Optional[Any]
-    titleHistory: Optional[Any]
-    multiplayer_summary: Optional[MultiplayerSummary]
-    recent_player: Optional[RecentPlayer]
-    follower: Optional[Follower]
-    preferred_color: Optional[PreferredColor]
-    presence_details: Optional[List[PresenceDetail]]
-    title_presence: Optional[TitlePresence]
-    title_summaries: Optional[Any]
-    presence_title_ids: Optional[List[str]]
-    detail: Optional[Detail]
-    community_manager_titles: Optional[Any]
-    social_manager: Optional[SocialManager]
-    broadcast: Optional[List[Any]]
-    tournament_summary: Optional[Any]
-    avatar: Optional[Avatar]
-    linked_accounts: Optional[List[LinkedAccount]]
+    last_seen_date_time_utc: Optional[datetime] = None
+    suggestion: Optional[Suggestion] = None
+    recommendation: Optional[Recommendation] = None
+    search: Optional[Any] = None
+    titleHistory: Optional[Any] = None
+    multiplayer_summary: Optional[MultiplayerSummary] = None
+    recent_player: Optional[RecentPlayer] = None
+    follower: Optional[Follower] = None
+    preferred_color: Optional[PreferredColor] = None
+    presence_details: Optional[List[PresenceDetail]] = None
+    title_presence: Optional[TitlePresence] = None
+    title_summaries: Optional[Any] = None
+    presence_title_ids: Optional[List[str]] = None
+    detail: Optional[Detail] = None
+    community_manager_titles: Optional[Any] = None
+    social_manager: Optional[SocialManager] = None
+    broadcast: Optional[List[Any]] = None
+    tournament_summary: Optional[Any] = None
+    avatar: Optional[Avatar] = None
+    linked_accounts: Optional[List[LinkedAccount]] = None
     color_theme: str
     preferred_flag: str
     preferred_platforms: List[Any]
@@ -204,6 +204,6 @@ class FriendFinderState(CamelCaseModel):
 
 class PeopleResponse(CamelCaseModel):
     people: List[Person]
-    recommendation_summary: Optional[RecommendationSummary]
-    friend_finder_state: Optional[FriendFinderState]
-    account_link_details: Optional[List[LinkedAccount]]
+    recommendation_summary: Optional[RecommendationSummary] = None
+    friend_finder_state: Optional[FriendFinderState] = None
+    account_link_details: Optional[List[LinkedAccount]] = None

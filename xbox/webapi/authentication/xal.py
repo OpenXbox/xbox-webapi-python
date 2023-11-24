@@ -227,7 +227,7 @@ class XALManager:
         )
         resp.raise_for_status()
         return (
-            SisuAuthenticationResponse.parse_raw(resp.content),
+            SisuAuthenticationResponse.model_validate_json(resp.content),
             resp.headers["X-SessionId"],
         )
 

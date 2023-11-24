@@ -3,7 +3,7 @@ httpx
 appdirs
 ecdsa
 ms_cv
-pydantic
+pydantic==2.*
 
 # Dev
 pytest

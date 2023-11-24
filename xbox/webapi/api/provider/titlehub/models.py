@@ -47,9 +47,9 @@ class TitleHistory(CamelCaseModel):
 
 
 class Attribute(CamelCaseModel):
-    applicable_platforms: Optional[List[str]]
-    maximum: Optional[int]
-    minimum: Optional[int]
+    applicable_platforms: Optional[List[str]] = None
+    maximum: Optional[int] = None
+    minimum: Optional[int] = None
     name: str
 
 
@@ -66,41 +66,41 @@ class Detail(CamelCaseModel):
     capabilities: List[str]
     description: str
     developer_name: str
-    genres: Optional[List[str]]
+    genres: Optional[List[str]] = None
     publisher_name: str
     min_age: int
-    release_date: Optional[datetime]
-    short_description: Optional[str]
-    vui_display_name: Optional[str]
+    release_date: Optional[datetime] = None
+    short_description: Optional[str] = None
+    vui_display_name: Optional[str] = None
     xbox_live_gold_required: bool
 
 
 class Title(CamelCaseModel):
     title_id: str
-    pfn: Optional[str]
-    bing_id: Optional[str]
-    service_config_id: Optional[str]
-    windows_phone_product_id: Optional[str]
+    pfn: Optional[str] = None
+    bing_id: Optional[str] = None
+    service_config_id: Optional[str] = None
+    windows_phone_product_id: Optional[str] = None
     name: str
     type: str
     devices: List[str]
     display_image: str
     media_item_type: str
-    modern_title_id: Optional[str]
+    modern_title_id: Optional[str] = None
     is_bundle: bool
-    achievement: Optional[Achievement]
-    stats: Optional[Stats]
-    game_pass: Optional[GamePass]
-    images: Optional[List[Image]]
-    title_history: Optional[TitleHistory]
-    detail: Optional[Detail]
-    friends_who_played: Any
-    alternate_title_ids: Any
-    content_boards: Any
-    xbox_live_tier: Optional[str]
-    is_streamable: Optional[bool]
+    achievement: Optional[Achievement] = None
+    stats: Optional[Stats] = None
+    game_pass: Optional[GamePass] = None
+    images: Optional[List[Image]] = None
+    title_history: Optional[TitleHistory] = None
+    detail: Optional[Detail] = None
+    friends_who_played: Any = None
+    alternate_title_ids: Any = None
+    content_boards: Any = None
+    xbox_live_tier: Optional[str] = None
+    is_streamable: Optional[bool] = None
 
 
 class TitleHubResponse(CamelCaseModel):
-    xuid: Optional[str]
+    xuid: Optional[str] = None
     titles: List[Title]

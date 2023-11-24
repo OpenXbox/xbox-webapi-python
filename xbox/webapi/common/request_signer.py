@@ -4,7 +4,7 @@ Request Signer
 Employed for generating the "Signature" header in authentication requests.
 """
 import base64
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 import struct
 from typing import Optional
@@ -101,7 +101,7 @@ class RequestSigner:
         timestamp: datetime = None,
     ) -> str:
         if timestamp is None:
-            timestamp = datetime.utcnow()
+            timestamp = datetime.now(timezone.utc)
 
         signature = self._sign_raw(
             method, path_and_query, body, authorization, timestamp
