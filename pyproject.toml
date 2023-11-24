@@ -1,3 +1,75 @@
+[project]
+name = "xbox-webapi"
+version = "2.0.11"
+description = "A library to authenticate with Windows Live/Xbox Live and use their API"
+authors = [
+    {name = "OpenXbox"},
+]
+dependencies = [
+    "appdirs",
+    "ecdsa",
+    "httpx",
+    "ms_cv",
+    "pydantic",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "GPL"}
+keywords = ["xbox one live api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/OpenXbox/xbox-webapi-python"
+
+[project.optional-dependencies]
+dev = [
+    "bump2version",
+    "coverage",
+    "flake8",
+    "pip",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-runner",
+    "respx",
+    "tox",
+    "twine",
+    "watchdog",
+    "wheel",
+]
+docs = [
+    "Sphinx",
+    "sphinx-mdinclude",
+    "sphinx_rtd_theme",
+]
+
+[project.scripts]
+xbox-authenticate = "xbox.webapi.scripts.authenticate:main"
+xbox-change-gt = "xbox.webapi.scripts.change_gamertag:main"
+xbox-friends = "xbox.webapi.scripts.friends:main"
+xbox-searchlive = "xbox.webapi.scripts.search:main"
+xbox-xal = "xbox.webapi.scripts.xal:main"
+
 [tool.black]
 target-version = ["py37", "py38", "py39", "py310", "py311"]
 exclude = 'generated'
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["xbox.*"]
+
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
