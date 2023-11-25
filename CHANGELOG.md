@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.1.0 (2023-11-25)
+* ! Deprecate python 3.7 !
+* Deprecate flake8, use ruff for linting instead
+* Fixes for compatibility with v2 of json parsing library `pydantic`
+* Use python3.12 for CI and Docker
+* Migrate from setup.py to pyproject.toml
+* Remove requirements.txt
+* Use datetime functionality with higher compatibility
+
 ## 2.0.11 (2021-04-30)
 
 * Model validation fixes for optional properties (#41)
