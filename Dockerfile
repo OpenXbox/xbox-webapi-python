@@ -10,7 +10,7 @@ ENV LANG C.UTF-8
 COPY . /src/xbox-webapi
 
 # install the C compiler
-RUN apk add --no-cache jq gcc musl-dev libffi-dev openssl-dev
+RUN apk add --no-cache jq gcc musl-dev libffi-dev openssl-dev cargo
 
 # instead of installing, create a wheel
 RUN pip wheel --wheel-dir=/root/wheels /src/xbox-webapi
