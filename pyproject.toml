@@ -10,7 +10,7 @@ dependencies = [
     "ecdsa",
     "httpx",
     "ms_cv",
-    "pydantic",
+    "pydantic==2.*",
 ]
 requires-python = ">=3.8"
 readme = "README.md"
@@ -21,12 +21,11 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
@@ -35,19 +34,28 @@ Homepage = "https://github.com/OpenXbox/xbox-webapi-python"
 
 [project.optional-dependencies]
 dev = [
+# Tagging releases
     "bump2version",
+# Testing
     "coverage",
-    "flake8",
-    "pip",
     "pytest",
     "pytest-asyncio",
     "pytest-cov",
     "pytest-runner",
     "respx",
-    "tox",
+# Packaging
     "twine",
     "watchdog",
     "wheel",
+# Pre-commit / Linting
+    "ruff==0.1.6",
+    "pre-commit==3.5.0",
+    "pyupgrade==3.15.0",
+    "black==23.11.0",
+#   "flake8-docstrings==1.5.0",
+    "pydocstyle==6.1.1",
+    "bandit==1.7.5",
+    "isort==5.12.0",
 ]
 docs = [
     "Sphinx",
@@ -62,13 +70,83 @@ xbox-friends = "xbox.webapi.scripts.friends:main"
 xbox-searchlive = "xbox.webapi.scripts.search:main"
 xbox-xal = "xbox.webapi.scripts.xal:main"
 
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.8
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = []
+
+fixable = ["ALL"]
+unfixable = []
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+tests = [
+  "B108",
+  "B306",
+  "B307",
+  "B313",
+  "B314",
+  "B315",
+  "B316",
+  "B317",
+  "B318",
+  "B319",
+  "B320",
+  "B602",
+  "B604"
+]
+
 [tool.black]
 target-version = ["py37", "py38", "py39", "py310", "py311"]
 exclude = 'generated'
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["xbox.webapi"]
+include = ["xbox.webapi.*"]
 
 [build-system]
 requires = ["setuptools>=61", "wheel"]
