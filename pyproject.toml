@@ -68,7 +68,7 @@ exclude = 'generated'
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["xbox.*"]
+include = ["xbox.webapi"]
 
 [build-system]
 requires = ["setuptools>=61", "wheel"]
