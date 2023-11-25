@@ -19,7 +19,7 @@ Authentication is supported via OAuth2.
 
 ## Dependencies
 
-- Python >= 3.7
+- Python >= 3.8
 
 ## How to use
 
