@@ -1,4 +1,4 @@
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 import uuid
 
 from ecdsa.keys import SigningKey, VerifyingKey
@@ -29,7 +29,9 @@ collect_ignore = ["setup.py"]
 async def auth_mgr(event_loop):
     session = SignedSession()
     mgr = AuthenticationManager(session, "abc", "123", "http://localhost")
-    mgr.oauth = OAuth2TokenResponse.model_validate_json(get_response("auth_oauth2_token"))
+    mgr.oauth = OAuth2TokenResponse.model_validate_json(
+        get_response("auth_oauth2_token")
+    )
     mgr.user_token = XAUResponse.model_validate_json(get_response("auth_user_token"))
     mgr.xsts_token = XSTSResponse.model_validate_json(get_response("auth_xsts_token"))
     yield mgr
@@ -77,4 +79,4 @@ def synthetic_request_signer(ecdsa_signing_key) -> RequestSigner:
 
 @pytest.fixture(scope="session")
 def synthetic_timestamp() -> datetime:
-    return datetime.fromtimestamp(1586999965, UTC)
+    return datetime.fromtimestamp(1586999965, timezone.utc)
