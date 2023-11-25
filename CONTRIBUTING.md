@@ -63,7 +63,7 @@ cd xbox-webapi-python
 python -m venv venv
 source venv/bin/activate
 pip install -e .[dev]
-python setup.py develop
+pre-commit install
 ```
 
 4. Create a branch for local development::

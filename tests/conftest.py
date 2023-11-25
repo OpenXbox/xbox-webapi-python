@@ -22,8 +22,6 @@ from xbox.webapi.common.signed_session import SignedSession
 
 from tests.common import get_response
 
-collect_ignore = ["setup.py"]
-
 
 @pytest_asyncio.fixture(scope="function")
 async def auth_mgr(event_loop):

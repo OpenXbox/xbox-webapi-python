@@ -91,6 +91,7 @@ exclude = [
     "_build",
     "buck-out",
     "build",
+    "docs",
     "dist",
     "node_modules",
     "venv",
