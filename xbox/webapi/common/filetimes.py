@@ -25,7 +25,7 @@
 """Tools to convert between Python datetime instances and Microsoft times.
 """
 from calendar import timegm
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime, timezone, tzinfo, timedelta
 
 # http://support.microsoft.com/kb/167296
 # How To Convert a UNIX time_t to a Win32 FILETIME or SYSTEMTIME
@@ -40,20 +40,20 @@ HOUR = timedelta(hours=1)
 class UTC(tzinfo):
     """UTC"""
 
-    def utcoffset(self, dt):
+    def utcoffset(self, dt: datetime) -> timedelta:
         return ZERO
 
-    def tzname(self, dt):
+    def tzname(self, dt: datetime) -> str:
         return "UTC"
 
-    def dst(self, dt):
+    def dst(self, dt: datetime) -> timedelta:
         return ZERO
 
 
 utc = UTC()
 
 
-def dt_to_filetime(dt):
+def dt_to_filetime(dt: datetime) -> int:
     """Converts a datetime to Microsoft filetime format. If the object is
     time zone-naive, it is forced to UTC before conversion.
 
@@ -75,7 +75,7 @@ def dt_to_filetime(dt):
     return ft + (dt.microsecond * 10)
 
 
-def filetime_to_dt(ft):
+def filetime_to_dt(ft: int) -> datetime:
     """Converts a Microsoft filetime number to a Python datetime. The new
     datetime object is time zone-naive but is equivalent to tzinfo=utc.
 
@@ -91,7 +91,7 @@ def filetime_to_dt(ft):
     # Get seconds and remainder in terms of Unix epoch
     (s, ns100) = divmod(ft - EPOCH_AS_FILETIME, HUNDREDS_OF_NANOSECONDS)
     # Convert to datetime object
-    dt = datetime.utcfromtimestamp(s)
+    dt = datetime.fromtimestamp(s, timezone.utc)
     # Add remainder in as microseconds. Python 3.2 requires an integer
     dt = dt.replace(microsecond=(ns100 // 10))
     return dt

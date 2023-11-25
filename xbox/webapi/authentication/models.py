@@ -87,7 +87,7 @@ class OAuth2TokenResponse(BaseModel):
     expires_in: int
     scope: str
     access_token: str
-    refresh_token: Optional[str]
+    refresh_token: Optional[str] = None
     user_id: str
     issued: datetime = Field(default_factory=utc_now)
 
@@ -125,7 +125,7 @@ class SisuAuthorizationResponse(PascalCaseModel):
     authorization_token: XSTSResponse
     web_page: str
     sandbox: str
-    use_modern_gamertag: Optional[bool]
+    use_modern_gamertag: Optional[bool] = None
 
 
 """Signature related models"""
@@ -135,12 +135,12 @@ class TitleEndpoint(PascalCaseModel):
     protocol: str
     host: str
     host_type: str
-    path: Optional[str]
-    relying_party: Optional[str]
-    sub_relying_party: Optional[str]
-    token_type: Optional[str]
-    signature_policy_index: Optional[int]
-    server_cert_index: Optional[List[int]]
+    path: Optional[str] = None
+    relying_party: Optional[str] = None
+    sub_relying_party: Optional[str] = None
+    token_type: Optional[str] = None
+    signature_policy_index: Optional[int] = None
+    server_cert_index: Optional[List[int]] = None
 
 
 class SignaturePolicy(PascalCaseModel):
@@ -151,7 +151,7 @@ class SignaturePolicy(PascalCaseModel):
 
 class TitleEndpointCertificate(PascalCaseModel):
     thumbprint: str
-    is_issuer: Optional[bool]
+    is_issuer: Optional[bool] = None
     root_cert_index: int
 
 

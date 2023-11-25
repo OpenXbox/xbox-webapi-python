@@ -19,7 +19,7 @@ Authentication is supported via OAuth2.
 
 ## Dependencies
 
-- Python >= 3.7
+- Python >= 3.8
 
 ## How to use
 
@@ -100,12 +100,17 @@ async def async_main():
             with open(tokens_file) as f:
                 tokens = f.read()
             # Assign gathered tokens
-            auth_mgr.oauth = OAuth2TokenResponse.parse_raw(tokens)
+            auth_mgr.oauth = OAuth2TokenResponse.model_validate_json(tokens)
         except FileNotFoundError as e:
             print(
                 f"File {tokens_file} isn`t found or it doesn`t contain tokens! err={e}"
             )
-            sys.exit(-1)
+            print("Authorizing via OAUTH")
+            url = auth_mgr.generate_authorization_url()
+            print(f"Auth via URL: {url}")
+            authorization_code = input("Enter authorization code> ")
+            tokens = await auth_mgr.request_oauth_token(authorization_code)
+            auth_mgr.oauth = tokens
 
         """
         Refresh tokens, just in case

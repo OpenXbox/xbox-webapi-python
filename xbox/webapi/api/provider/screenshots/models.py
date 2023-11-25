@@ -36,7 +36,7 @@ class Screenshot(CamelCaseModel):
     system_properties: str
     saved_by_user: bool
     achievement_id: str
-    greatest_moment_id: Any
+    greatest_moment_id: Any = None
     thumbnails: List[Thumbnail]
     screenshot_uris: List[ScreenshotUri]
     xuid: str
@@ -48,7 +48,7 @@ class Screenshot(CamelCaseModel):
 
 
 class PagingInfo(CamelCaseModel):
-    continuation_token: Optional[str]
+    continuation_token: Optional[str] = None
 
 
 class ScreenshotResponse(CamelCaseModel):

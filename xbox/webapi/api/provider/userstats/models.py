@@ -8,19 +8,19 @@ class GeneralStatsField:
 
 
 class GroupProperties(PascalCaseModel):
-    ordinal: Optional[str]
-    sort_order: Optional[str]
-    display_name: Optional[str]
-    display_format: Optional[str]
-    display_semantic: Optional[str]
+    ordinal: Optional[str] = None
+    sort_order: Optional[str] = None
+    display_name: Optional[str] = None
+    display_format: Optional[str] = None
+    display_semantic: Optional[str] = None
 
 
 class Properties(PascalCaseModel):
-    display_name: Optional[str]
+    display_name: Optional[str] = None
 
 
 class Stat(LowerCaseModel):
-    group_properties: Optional[GroupProperties]
+    group_properties: Optional[GroupProperties] = None
     xuid: str
     scid: str
     name: str
@@ -37,10 +37,10 @@ class StatListsCollectionItem(LowerCaseModel):
 
 class Group(LowerCaseModel):
     name: str
-    title_id: Optional[str]
+    title_id: Optional[str] = None
     statlistscollection: List[StatListsCollectionItem]
 
 
 class UserStatsResponse(LowerCaseModel):
-    groups: Optional[List[Group]]
+    groups: Optional[List[Group]] = None
     statlistscollection: List[StatListsCollectionItem]

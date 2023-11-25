@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List, Optional
+from pydantic import RootModel
 
 from xbox.webapi.common.models import CamelCaseModel
 
@@ -18,36 +19,36 @@ class PresenceState(str, Enum):
 
 class LastSeen(CamelCaseModel):
     device_type: str
-    title_id: Optional[str]
+    title_id: Optional[str] = None
     title_name: str
     timestamp: str
 
 
 class ActivityRecord(CamelCaseModel):
-    richPresence: Optional[str]
-    media: Optional[str]
+    richPresence: Optional[str] = None
+    media: Optional[str] = None
 
 
 class TitleRecord(CamelCaseModel):
-    id: Optional[str]
-    name: Optional[str]
-    activity: Optional[List[ActivityRecord]]
-    lastModified: Optional[str]
-    placement: Optional[str]
-    state: Optional[str]
+    id: Optional[str] = None
+    name: Optional[str] = None
+    activity: Optional[List[ActivityRecord]] = None
+    lastModified: Optional[str] = None
+    placement: Optional[str] = None
+    state: Optional[str] = None
 
 
 class DeviceRecord(CamelCaseModel):
-    titles: Optional[List[TitleRecord]]
-    type: Optional[str]
+    titles: Optional[List[TitleRecord]] = None
+    type: Optional[str] = None
 
 
 class PresenceItem(CamelCaseModel):
     xuid: str
     state: str
-    last_seen: Optional[LastSeen]
-    devices: Optional[List[DeviceRecord]]
+    last_seen: Optional[LastSeen] = None
+    devices: Optional[List[DeviceRecord]] = None
 
 
-class PresenceBatchResponse(CamelCaseModel):
-    __root__: List[PresenceItem]
+class PresenceBatchResponse(RootModel[List[PresenceItem]], CamelCaseModel):
+    root: List[PresenceItem]

@@ -1,5 +1,3 @@
-import uuid
-
 from httpx import AsyncClient, Response
 import pytest
 

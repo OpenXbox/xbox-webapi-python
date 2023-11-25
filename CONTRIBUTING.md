@@ -63,7 +63,7 @@ cd xbox-webapi-python
 python -m venv venv
 source venv/bin/activate
 pip install -e .[dev]
-python setup.py develop
+pre-commit install
 ```
 
 4. Create a branch for local development::
@@ -98,6 +98,6 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.md.
-3. The pull request should work for Python 3.7+. Check
+3. The pull request should work for Python 3.8+. Check
    <https://github.com/OpenXbox/xbox-webapi-python/actions?query=workflow%3Abuild>
    and make sure that the tests pass for all supported Python versions.

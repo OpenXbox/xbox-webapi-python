@@ -50,7 +50,7 @@ class GameClip(CamelCaseModel):
 
 
 class PagingInfo(CamelCaseModel):
-    continuation_token: Optional[str]
+    continuation_token: Optional[str] = None
 
 
 class GameclipsResponse(CamelCaseModel):

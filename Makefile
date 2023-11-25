@@ -45,18 +45,15 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-test: ## remove test and coverage artifacts
-	rm -fr .tox/
 	rm -f .coverage
 	rm -fr htmlcov/
 
-lint: ## check style with flake8
-	flake8 xbox tests
+lint: ## check style with ruff
+	ruff check --fix xbox
+	ruff check --fix tests
 
 test: ## run tests quickly with the default Python
 	py.test
-
-test-all: ## run tests on every Python version with tox
-	tox
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source xbox -m pytest
@@ -79,11 +76,9 @@ release: clean ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python -m build
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	pip install -r requirements.txt
 	pre-commit install
 	pip install -e .

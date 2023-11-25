@@ -40,7 +40,7 @@ class Program(PascalCaseModel):
     end_date: str
     name: str
     is_repeat: bool
-    parental_control: Optional[Dict[str, Any]]
+    parental_control: Optional[Dict[str, Any]] = None
     genres: List[Genre]
     category_id: int
     description: Optional[str] = None

@@ -2,7 +2,7 @@
 
 #########################################
 # Image WITH C compiler, building wheels for next stage
-FROM python:3.10-alpine as bigimage
+FROM python:3.12-alpine as bigimage
 
 ENV LANG C.UTF-8
 
@@ -10,14 +10,14 @@ ENV LANG C.UTF-8
 COPY . /src/xbox-webapi
 
 # install the C compiler
-RUN apk add --no-cache jq gcc musl-dev libffi-dev openssl-dev
+RUN apk add --no-cache jq gcc musl-dev libffi-dev openssl-dev cargo
 
 # instead of installing, create a wheel
 RUN pip wheel --wheel-dir=/root/wheels /src/xbox-webapi
 
 #########################################
 # Image WITHOUT C compiler, installing the component from wheel
-FROM python:3.10-alpine as smallimage
+FROM python:3.12-alpine as smallimage
 
 RUN apk add --no-cache openssl
 

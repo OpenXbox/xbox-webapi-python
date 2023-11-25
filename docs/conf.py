@@ -29,7 +29,7 @@ author = 'OpenXbox'
 # The short X.Y version
 version = '1.0'
 # The full version, including alpha/beta/rc tags
-release = '2.0.11'
+release = '2.1.0'
 
 
 # -- General configuration ---------------------------------------------------
