@@ -83,16 +83,29 @@ class XSTSResponse(XTokenResponse):
 
 
 class OAuth2TokenResponse(BaseModel):
-    token_type: str
-    expires_in: int
-    scope: str
-    access_token: str
+    token_type: Optional[str] = None
+    expires_in: Optional[int] = None
+    scope: Optional[str] = None
+    access_token: Optional[str] = None
     refresh_token: Optional[str] = None
-    user_id: str
-    issued: datetime = Field(default_factory=utc_now)
+    user_id: Optional[str] = None
+    issued: Optional[datetime] = Field(default_factory=utc_now)
+
+    # Error type
+    error: Optional[str] = None
+    error_description: Optional[str] = None
+    correlation_id: Optional[str] = None
 
     def is_valid(self) -> bool:
         return (self.issued + timedelta(seconds=self.expires_in)) > utc_now()
+
+
+class OAuth2DeviceCodeResponse(BaseModel):
+    user_code: str
+    device_code: str
+    verification_uri: str
+    interval: int
+    expires_in: int
 
 
 """XAL related models"""

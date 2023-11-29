@@ -3,12 +3,15 @@ Authentication Manager
 
 Authenticate with Windows Live Server and Xbox Live.
 """
+import asyncio
 import logging
-from typing import List, Optional
+import time
+from typing import Callable, List, Optional
 
 import httpx
 
 from xbox.webapi.authentication.models import (
+    OAuth2DeviceCodeResponse,
     OAuth2TokenResponse,
     XAUResponse,
     XSTSResponse,
@@ -101,7 +104,9 @@ class AuthenticationManager:
             }
         )
 
-    async def _oauth2_token_request(self, data: dict) -> OAuth2TokenResponse:
+    async def _oauth2_token_request(
+        self, data: dict, raise_error: bool = True
+    ) -> OAuth2TokenResponse:
         """Execute token requests."""
         data["client_id"] = self._client_id
         if self._client_secret:
@@ -109,8 +114,51 @@ class AuthenticationManager:
         resp = await self.session.post(
             "https://login.live.com/oauth20_token.srf", data=data
         )
-        resp.raise_for_status()
+
+        if raise_error:
+            resp.raise_for_status()
         return OAuth2TokenResponse(**resp.json())
+
+    async def device_code_auth(
+        self, cb: Callable[[OAuth2DeviceCodeResponse], None]
+    ) -> OAuth2TokenResponse:
+        # HACK: Do not hardcode client id..
+        self._client_id = "000000004C12AE6F"
+        data = {
+            "client_id": self._client_id,
+            "response_type": "device_code",
+            "scope": "service::user.auth.xboxlive.com::MBI_SSL",
+        }
+        resp = await self.session.post(
+            "https://login.live.com/oauth20_connect.srf", data=data
+        )
+        resp.raise_for_status()
+        resp_model = OAuth2DeviceCodeResponse(**resp.json())
+
+        # Pass back device code response to the caller
+        cb(resp_model)
+
+        polling_start = time.time()
+        authorization_resp = None
+        poll_data = {
+            "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
+            "device_code": resp_model.device_code,
+        }
+
+        log.info(f"Waiting {resp_model.expires_in} seconds for user authorization")
+        while time.time() - polling_start < resp_model.expires_in:
+            resp = await self._oauth2_token_request(poll_data, raise_error=False)
+            # Check if response body contains token aka. user has authorized
+            # Then this polling-loop can be exited
+            if resp.access_token:
+                authorization_resp = resp
+                break
+            await asyncio.sleep(resp_model.interval)
+
+        if not authorization_resp:
+            raise Exception("Waiting time for user authorization expired")
+
+        return authorization_resp
 
     async def request_user_token(
         self,
@@ -153,7 +201,7 @@ class AuthenticationManager:
 
         resp = await self.session.post(url, json=data, headers=headers)
         if resp.status_code == 401:  # if unauthorized
-            print(
+            log.error(
                 "Failed to authorize you! Your password or username may be wrong or you are trying to use child account (< 18 years old)"
             )
             raise AuthenticationException()

@@ -12,7 +12,10 @@ from urllib.parse import parse_qs, urlparse
 import webbrowser
 
 from xbox.webapi.authentication.manager import AuthenticationManager
-from xbox.webapi.authentication.models import OAuth2TokenResponse
+from xbox.webapi.authentication.models import (
+    OAuth2DeviceCodeResponse,
+    OAuth2TokenResponse,
+)
 from xbox.webapi.common.signed_session import SignedSession
 from xbox.webapi.scripts import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, TOKENS_FILE
 
@@ -77,6 +80,15 @@ async def do_auth(
         auth_mgr = AuthenticationManager(
             session, client_id, client_secret, redirect_uri
         )
+
+        def print_verification(resp: OAuth2DeviceCodeResponse):
+            print(
+                f"Navigate to URL: {resp.verification_uri}\nEnter following CODE: {resp.user_code}"
+            )
+
+        resp = await auth_mgr.device_code_auth(print_verification)
+        print(resp)
+        return
 
         # Refresh tokens if we have them
         if os.path.exists(token_filepath):
