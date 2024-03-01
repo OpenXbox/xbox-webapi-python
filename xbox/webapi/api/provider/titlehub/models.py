@@ -68,7 +68,7 @@ class Detail(CamelCaseModel):
     developer_name: str
     genres: Optional[List[str]] = None
     publisher_name: str
-    min_age: int
+    min_age: Optional[int] = None
     release_date: Optional[datetime] = None
     short_description: Optional[str] = None
     vui_display_name: Optional[str] = None
