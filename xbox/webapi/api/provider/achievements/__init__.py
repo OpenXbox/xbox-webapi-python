@@ -9,13 +9,15 @@ from xbox.webapi.api.provider.achievements.models import (
     AchievementResponse,
     RecentProgressResponse,
 )
-from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.ratelimitedprovider import RateLimitedProvider
 
 
-class AchievementsProvider(BaseProvider):
+class AchievementsProvider(RateLimitedProvider):
     ACHIEVEMENTS_URL = "https://achievements.xboxlive.com"
     HEADERS_GAME_360_PROGRESS = {"x-xbl-contract-version": "1"}
     HEADERS_GAME_PROGRESS = {"x-xbl-contract-version": "2"}
+
+    RATE_LIMITS = {"burst": 100, "sustain": 300}
 
     async def get_achievements_detail_item(
         self, xuid, service_config_id, achievement_id, **kwargs
@@ -33,7 +35,10 @@ class AchievementsProvider(BaseProvider):
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements/{service_config_id}/{achievement_id}"
         resp = await self.client.session.get(
-            url, headers=self.HEADERS_GAME_PROGRESS, **kwargs
+            url,
+            headers=self.HEADERS_GAME_PROGRESS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return AchievementResponse(**resp.json())
@@ -54,7 +59,11 @@ class AchievementsProvider(BaseProvider):
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/titleachievements?"
         params = {"titleId": title_id}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_GAME_360_PROGRESS, **kwargs
+            url,
+            params=params,
+            headers=self.HEADERS_GAME_360_PROGRESS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return Achievement360Response(**resp.json())
@@ -75,7 +84,11 @@ class AchievementsProvider(BaseProvider):
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements?"
         params = {"titleId": title_id}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_GAME_360_PROGRESS, **kwargs
+            url,
+            params=params,
+            headers=self.HEADERS_GAME_360_PROGRESS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return Achievement360Response(**resp.json())
@@ -94,7 +107,10 @@ class AchievementsProvider(BaseProvider):
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/history/titles"
         resp = await self.client.session.get(
-            url, headers=self.HEADERS_GAME_360_PROGRESS, **kwargs
+            url,
+            headers=self.HEADERS_GAME_360_PROGRESS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return Achievement360ProgressResponse(**resp.json())
@@ -115,7 +131,11 @@ class AchievementsProvider(BaseProvider):
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/achievements?"
         params = {"titleId": title_id}
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_GAME_PROGRESS, **kwargs
+            url,
+            params=params,
+            headers=self.HEADERS_GAME_PROGRESS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return AchievementResponse(**resp.json())
@@ -134,7 +154,10 @@ class AchievementsProvider(BaseProvider):
         """
         url = f"{self.ACHIEVEMENTS_URL}/users/xuid({xuid})/history/titles"
         resp = await self.client.session.get(
-            url, headers=self.HEADERS_GAME_PROGRESS, **kwargs
+            url,
+            headers=self.HEADERS_GAME_PROGRESS,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return RecentProgressResponse(**resp.json())
