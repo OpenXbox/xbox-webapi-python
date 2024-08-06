@@ -180,6 +180,7 @@ class InputKeyType(str, Enum):
     Down = "Down"
     Left = "Left"
     Right = "Right"
+    Nexus = "Nexus"
 
 
 class GuideTab(str, Enum):
