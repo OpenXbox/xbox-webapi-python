@@ -28,6 +28,8 @@ from xbox.webapi.api.provider.titlehub import TitlehubProvider
 from xbox.webapi.api.provider.usersearch import UserSearchProvider
 from xbox.webapi.api.provider.userstats import UserStatsProvider
 from xbox.webapi.authentication.manager import AuthenticationManager
+from xbox.webapi.common.exceptions import RateLimitExceededException
+from xbox.webapi.common.ratelimits import RateLimit
 
 log = logging.getLogger("xbox.api")
 
@@ -55,6 +57,9 @@ class Session:
         extra_params = kwargs.pop("extra_params", None)
         extra_data = kwargs.pop("extra_data", None)
 
+        # Rate limit object
+        rate_limits: RateLimit = kwargs.pop("rate_limits", None)
+
         if include_auth:
             # Ensure tokens valid
             await self._auth_mgr.refresh_tokens()
@@ -78,9 +83,19 @@ class Session:
             data = data or {}
             data.update(extra_data)
 
-        return await self._auth_mgr.session.request(
+        if rate_limits:
+            # Check if rate limits have been exceeded for this endpoint
+            if rate_limits.is_exceeded():
+                raise RateLimitExceededException("Rate limit exceeded", rate_limits)
+
+        response = await self._auth_mgr.session.request(
             method, url, **kwargs, headers=headers, params=params, data=data
         )
+
+        if rate_limits:
+            rate_limits.increment()
+
+        return response
 
     async def get(self, url: str, **kwargs: Any) -> Response:
         return await self.request("GET", url, **kwargs)

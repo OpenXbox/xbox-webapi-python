@@ -5,14 +5,16 @@ Get Userprofiles by XUID or Gamertag
 """
 from typing import List
 
-from xbox.webapi.api.provider.baseprovider import BaseProvider
+from xbox.webapi.api.provider.ratelimitedprovider import RateLimitedProvider
 from xbox.webapi.api.provider.profile.models import ProfileResponse, ProfileSettings
 
 
-class ProfileProvider(BaseProvider):
+class ProfileProvider(RateLimitedProvider):
     PROFILE_URL = "https://profile.xboxlive.com"
     HEADERS_PROFILE = {"x-xbl-contract-version": "3"}
     SEPARATOR = ","
+
+    RATE_LIMITS = {"burst": 10, "sustain": 30}
 
     async def get_profiles(self, xuid_list: List[str], **kwargs) -> ProfileResponse:
         """
@@ -45,7 +47,11 @@ class ProfileProvider(BaseProvider):
         }
         url = self.PROFILE_URL + "/users/batch/profile/settings"
         resp = await self.client.session.post(
-            url, json=post_data, headers=self.HEADERS_PROFILE, **kwargs
+            url,
+            json=post_data,
+            headers=self.HEADERS_PROFILE,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return ProfileResponse(**resp.json())
@@ -83,7 +89,11 @@ class ProfileProvider(BaseProvider):
             )
         }
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_PROFILE, **kwargs
+            url,
+            params=params,
+            headers=self.HEADERS_PROFILE,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return ProfileResponse(**resp.json())
@@ -121,7 +131,11 @@ class ProfileProvider(BaseProvider):
             )
         }
         resp = await self.client.session.get(
-            url, params=params, headers=self.HEADERS_PROFILE, **kwargs
+            url,
+            params=params,
+            headers=self.HEADERS_PROFILE,
+            rate_limits=self.rate_limit_read,
+            **kwargs,
         )
         resp.raise_for_status()
         return ProfileResponse(**resp.json())

@@ -3,6 +3,9 @@ Special Exception subclasses
 """
 
 
+from xbox.webapi.common.ratelimits import RateLimit
+
+
 class XboxException(Exception):
     """Base exception for all Xbox exceptions to subclass"""
 
@@ -46,3 +49,10 @@ class NotFoundException(XboxException):
     """Any exception raised due to a resource being missing will subclass this"""
 
     pass
+
+
+class RateLimitExceededException(XboxException):
+    def __init__(self, message, rate_limit: RateLimit):
+        self.message = message
+        self.rate_limit = rate_limit
+        self.try_again_in = rate_limit.get_reset_after()
