@@ -3,9 +3,9 @@ Signed Session
 A wrapper around httpx' AsyncClient which transparently calculates the "Signature" header.
 """
 
-from ssl import SSLContext
 import httpx
 
+from ssl import SSLContext
 from xbox.webapi.common.request_signer import RequestSigner
 
 
