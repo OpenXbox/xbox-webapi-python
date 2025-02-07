@@ -1,14 +1,15 @@
+import asyncio
 from datetime import datetime, timedelta
+
 from httpx import Response
 import pytest
-import asyncio
 
-from tests.common import get_response_json
 from xbox.webapi.api.provider.ratelimitedprovider import RateLimitedProvider
-
 from xbox.webapi.common.exceptions import RateLimitExceededException, XboxException
 from xbox.webapi.common.ratelimits import CombinedRateLimit
 from xbox.webapi.common.ratelimits.models import TimePeriod
+
+from tests.common import get_response_json
 
 
 def helper_test_combinedratelimit(
@@ -18,8 +19,8 @@ def helper_test_combinedratelimit(
     sustain = crl.get_limits_by_period(TimePeriod.SUSTAIN)
 
     # These functions should return a list with one element
-    assert type(burst) == list
-    assert type(sustain) == list
+    assert isinstance(burst, list)
+    assert isinstance(sustain, list)
 
     assert len(burst) == 1
     assert len(sustain) == 1
@@ -111,7 +112,7 @@ async def test_ratelimits_exceeded_burst_only(respx_mock, xbl_client):
         route = respx_mock.get("https://social.xboxlive.com").mock(
             return_value=Response(200, json=get_response_json("people_summary_own"))
         )
-        ret = await xbl_client.people.get_friends_summary_own()
+        await xbl_client.people.get_friends_summary_own()
 
         assert route.called
 
@@ -145,7 +146,7 @@ async def helper_reach_and_wait_for_burst(
     make_request, start_time, burst_limit: int, expected_counter: int
 ):
     # Make as many requests as possible without exceeding the BURST limit.
-    for i in range(burst_limit):
+    for _ in range(burst_limit):
         await make_request()
 
     # Make another request, ensure that it raises the exception.
@@ -175,7 +176,7 @@ async def test_ratelimits_exceeded_sustain_only(respx_mock, xbl_client):
         route = respx_mock.get("https://social.xboxlive.com").mock(
             return_value=Response(200, json=get_response_json("people_summary_own"))
         )
-        ret = await xbl_client.people.get_friends_summary_own()
+        await xbl_client.people.get_friends_summary_own()
 
         assert route.called
 
@@ -201,7 +202,7 @@ async def test_ratelimits_exceeded_sustain_only(respx_mock, xbl_client):
     )
 
     # Now, make the rest of the requests (10 left, 20/30 done!)
-    for i in range(10):
+    for _ in range(10):
         await make_request()
 
     # Wait for the burst limit to 'reset'.

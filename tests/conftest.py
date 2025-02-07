@@ -24,7 +24,7 @@ from tests.common import get_response
 
 
 @pytest_asyncio.fixture(scope="function")
-async def auth_mgr(event_loop):
+async def auth_mgr():
     session = SignedSession()
     mgr = AuthenticationManager(session, "abc", "123", "http://localhost")
     mgr.oauth = OAuth2TokenResponse.model_validate_json(
@@ -37,7 +37,7 @@ async def auth_mgr(event_loop):
 
 
 @pytest_asyncio.fixture(scope="function")
-async def xal_mgr(event_loop):
+async def xal_mgr():
     session = SignedSession()
     mgr = XALManager(
         session,

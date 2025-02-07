@@ -4,11 +4,12 @@ RateLimitedProvider
 Subclassed by providers with rate limit support
 """
 
-from typing import Union, Dict
+from typing import Dict, Union
+
 from xbox.webapi.api.provider.baseprovider import BaseProvider
 from xbox.webapi.common.exceptions import XboxException
-from xbox.webapi.common.ratelimits.models import LimitType, ParsedRateLimit, TimePeriod
 from xbox.webapi.common.ratelimits import CombinedRateLimit
+from xbox.webapi.common.ratelimits.models import LimitType, ParsedRateLimit, TimePeriod
 
 
 class RateLimitedProvider(BaseProvider):
@@ -62,10 +63,10 @@ class RateLimitedProvider(BaseProvider):
     def __parse_rate_limit_key(
         self, key: Union[int, Dict[str, int]], period: TimePeriod
     ) -> ParsedRateLimit:
-        key_type = type(key)
-        if key_type == int:
+        if isinstance(key, int) and not isinstance(key, bool):
+            # bool is a subclass of int, hence the explicit check
             return ParsedRateLimit(read=key, write=key, period=period)
-        elif key_type == dict:
+        elif isinstance(key, dict):
             # TODO: schema here?
             # Since the key-value pairs match we can just pass the dict to the model
             return ParsedRateLimit(**key, period=period)
