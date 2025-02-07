@@ -1,14 +1,13 @@
+from abc import ABCMeta, abstractmethod
 from datetime import datetime, timedelta
-from typing import Union, List
+from typing import List, Union
 
 from xbox.webapi.common.ratelimits.models import (
+    IncrementResult,
+    LimitType,
     ParsedRateLimit,
     TimePeriod,
-    LimitType,
-    IncrementResult,
 )
-
-from abc import ABCMeta, abstractmethod
 
 
 class RateLimit(metaclass=ABCMeta):
@@ -209,7 +208,7 @@ class CombinedRateLimit(RateLimit):
 
         # Construct a new list with only elements of instance datetime
         # (Effectively filtering out any None elements)
-        dates_valid = [elem for elem in dates if type(elem) == datetime]
+        dates_valid = [elem for elem in dates if isinstance(elem, datetime)]
 
         # If dates_valid has any elements, return the one with the *later* timestamp.
         # This means that if two or more limits have been exceeded, we wait for both to have reset (by returning the later timestamp)
@@ -238,7 +237,7 @@ class CombinedRateLimit(RateLimit):
     def is_exceeded(self) -> bool:
         """
         This function returns `True` if **any** rate limit has been exceeded.
-        
+
         It behaves like an OR logic gate.
         """
 
