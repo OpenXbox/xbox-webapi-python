@@ -146,7 +146,7 @@ async def helper_reach_and_wait_for_burst(
     make_request, start_time, burst_limit: int, expected_counter: int
 ):
     # Make as many requests as possible without exceeding the BURST limit.
-    for i in range(burst_limit):
+    for _ in range(burst_limit):
         await make_request()
 
     # Make another request, ensure that it raises the exception.
@@ -202,7 +202,7 @@ async def test_ratelimits_exceeded_sustain_only(respx_mock, xbl_client):
     )
 
     # Now, make the rest of the requests (10 left, 20/30 done!)
-    for i in range(10):
+    for _ in range(10):
         await make_request()
 
     # Wait for the burst limit to 'reset'.
