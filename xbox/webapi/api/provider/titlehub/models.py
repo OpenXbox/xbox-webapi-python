@@ -65,10 +65,10 @@ class Detail(CamelCaseModel):
     availabilities: List[Availability]
     capabilities: List[str]
     description: str
-    developer_name: str
+    developer_name: str | None = None
     genres: Optional[List[str]] = None
     publisher_name: str
-    min_age: Optional[int] = None
+    min_age: int | None = None
     release_date: Optional[datetime] = None
     short_description: Optional[str] = None
     vui_display_name: Optional[str] = None

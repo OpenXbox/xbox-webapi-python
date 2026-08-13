@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from xbox.webapi.common.models import CamelCaseModel
@@ -6,24 +7,24 @@ from xbox.webapi.common.models import CamelCaseModel
 class Thumbnail(CamelCaseModel):
     uri: str
     file_size: int
-    thumbnail_type: str
+    thumbnail_type: int
 
 
 class GameClipUri(CamelCaseModel):
     uri: str
     file_size: int
-    uri_type: str
+    uri_type: int
     expiration: str
 
 
 class GameClip(CamelCaseModel):
     game_clip_id: str
-    state: str
-    date_published: str
-    date_recorded: str
-    last_modified: str
+    state: int
+    date_published: datetime
+    date_recorded: datetime
+    last_modified: datetime
     user_caption: str
-    type: str
+    type: int
     duration_in_seconds: int
     scid: str
     title_id: int
@@ -41,7 +42,7 @@ class GameClip(CamelCaseModel):
     clip_name: str
     title_name: str
     game_clip_locale: str
-    clip_content_attributes: str
+    clip_content_attributes: int
     device_type: str
     comment_count: int
     like_count: int

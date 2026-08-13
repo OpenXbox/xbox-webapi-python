@@ -7,13 +7,13 @@ from xbox.webapi.common.models import CamelCaseModel
 class Thumbnail(CamelCaseModel):
     uri: str
     file_size: int
-    thumbnail_type: str
+    thumbnail_type: int
 
 
 class ScreenshotUri(CamelCaseModel):
     uri: str
     file_size: int
-    uri_type: str
+    uri_type: int
     expiration: datetime
 
 
@@ -21,12 +21,12 @@ class Screenshot(CamelCaseModel):
     screenshot_id: str
     resolution_height: int
     resolution_width: int
-    state: str
+    state: int
     date_published: datetime
     date_taken: datetime
     last_modified: datetime
     user_caption: str
-    type: str
+    type: int
     scid: str
     title_id: int
     rating: float
@@ -43,7 +43,7 @@ class Screenshot(CamelCaseModel):
     screenshot_name: str
     title_name: str
     screenshot_locale: str
-    screenshot_content_attributes: str
+    screenshot_content_attributes: int
     device_type: str
 
 
