@@ -20,6 +20,9 @@
       "presenceState": "Offline",
       "presenceText": "Offline",
       "presenceDevices": null,
+      "isFriend": true,
+      "isFriendRequestReceived": false,
+      "isFriendRequestSent": false,
       "isBroadcasting": false,
       "isCloaked": null,
       "isQuarantined": false,
@@ -30,8 +33,8 @@
       "search": null,
       "titleHistory": null,
       "multiplayerSummary": {
-        "InMultiplayerSession": 0,
-        "InParty": 0
+        "inMultiplayerSession": 0,
+        "inParty": 0
       },
       "recentPlayer": null,
       "follower": null,
@@ -55,7 +58,17 @@
         "mute": false,
         "followerCount": 50,
         "followingCount": 34,
-        "hasGamePass": false
+        "hasGamePass": false,
+        "isFriend": true,
+        "canBeFriended": true,
+        "canBeFollowed": true,
+        "friendCount": 150,
+        "isFriendRequestReceived": false,
+        "isFriendRequestSent": false,
+        "isFriendListShared": true,
+        "isFollowingCaller": false,
+        "isFollowedByCaller": false,
+        "isFavorite": true
       },
       "communityManagerTitles": null,
       "socialManager": null,
@@ -87,6 +100,9 @@
       "presenceState": "Online",
       "presenceText": "YouTube",
       "presenceDevices": null,
+      "isFriend": true,
+      "isFriendRequestReceived": false,
+      "isFriendRequestSent": false,
       "isBroadcasting": false,
       "isCloaked": null,
       "isQuarantined": false,
@@ -97,8 +113,8 @@
       "search": null,
       "titleHistory": null,
       "multiplayerSummary": {
-        "InMultiplayerSession": 0,
-        "InParty": 0
+        "inMultiplayerSession": 0,
+        "inParty": 0
       },
       "recentPlayer": null,
       "follower": null,
@@ -145,7 +161,17 @@
         "mute": false,
         "followerCount": 38,
         "followingCount": 48,
-        "hasGamePass": false
+        "hasGamePass": false,
+        "isFriend": true,
+        "canBeFriended": true,
+        "canBeFollowed": true,
+        "friendCount": 150,
+        "isFriendRequestReceived": false,
+        "isFriendRequestSent": false,
+        "isFriendListShared": true,
+        "isFollowingCaller": false,
+        "isFollowedByCaller": false,
+        "isFavorite": true
       },
       "communityManagerTitles": null,
       "socialManager": null,
