@@ -125,6 +125,7 @@ class SisuAuthorizationResponse(PascalCaseModel):
     authorization_token: XSTSResponse
     web_page: str
     sandbox: str
+    refresh_token: Optional[str] = None
     use_modern_gamertag: Optional[bool] = None
 
 

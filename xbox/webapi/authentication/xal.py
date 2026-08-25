@@ -10,7 +10,7 @@ import os
 from typing import Callable, Tuple
 from urllib import parse
 import uuid
-
+from typing import Optional
 import httpx
 from ms_cv import CorrelationVector
 
@@ -231,8 +231,8 @@ class XALManager:
             resp.headers["X-SessionId"],
         )
 
-    async def do_sisu_authorization(
-        self, sisu_session_id: str, access_token_jwt: str, device_token_jwt: str
+       async def do_sisu_authorization(
+        self, sisu_session_id: str, access_token_jwt: str, device_token_jwt: str, refresh_sisu: Optional[str]
     ) -> SisuAuthorizationResponse:
         """
         Sisu authorization
@@ -250,6 +250,7 @@ class XALManager:
             "SiteName": "user.auth.xboxlive.com",
             "SessionId": sisu_session_id,
             "ProofKey": self.session.request_signer.proof_field,
+            "refresh_sisu": Optional[str] = None
         }
 
         resp = await self.session.send_signed(
@@ -257,7 +258,7 @@ class XALManager:
         )
         resp.raise_for_status()
         return SisuAuthorizationResponse(**resp.json())
-
+        
     async def xsts_authorization(
         self,
         device_token_jwt: str,
